@@ -129,7 +129,7 @@ function copyDir(srcDir, destDir) {
 /**
  * Wire hook into settings.json
  */
-function wireHook(claudeDir, hookPath, cleanupHookPath) {
+function wireHook(claudeDir, hookPath) {
   const settingsPath = path.join(claudeDir, 'settings.json');
   let settings = {};
 
@@ -149,15 +149,10 @@ function wireHook(claudeDir, hookPath, cleanupHookPath) {
   if (!settings.hooks.UserPromptSubmit) {
     settings.hooks.UserPromptSubmit = [];
   }
-  if (!settings.hooks.Stop) {
-    settings.hooks.Stop = [];
-  }
 
-  // Normalize paths to use forward slashes (works on all platforms)
+  // Normalize path to use forward slashes (works on all platforms)
   const normalizedPath = hookPath.replace(/\\/g, '/');
   const hookCommand = `python3 ${normalizedPath}`;
-  const normalizedCleanupPath = cleanupHookPath.replace(/\\/g, '/');
-  const cleanupCommand = `python3 ${normalizedCleanupPath}`;
 
   // Check if CARL hook already exists (check both structures: {type,command} and {hooks:[...]})
   const existingIndex = settings.hooks.UserPromptSubmit.findIndex(h => {
@@ -184,30 +179,6 @@ function wireHook(claudeDir, hookPath, cleanupHookPath) {
   } else {
     settings.hooks.UserPromptSubmit.push(newHookEntry);
     console.log(`  ${green}✓${reset} Added hook to settings.json`);
-  }
-
-  // Wire cleanup hook to Stop event
-  const existingCleanupIndex = settings.hooks.Stop.findIndex(h => {
-    if (h.command && h.command.includes('cleanup-hook-contexts.py')) return true;
-    if (h.hooks && h.hooks.some(inner => inner.command && inner.command.includes('cleanup-hook-contexts.py'))) return true;
-    return false;
-  });
-
-  const cleanupHookEntry = {
-    hooks: [
-      {
-        type: 'command',
-        command: cleanupCommand
-      }
-    ]
-  };
-
-  if (existingCleanupIndex !== -1) {
-    settings.hooks.Stop[existingCleanupIndex] = cleanupHookEntry;
-    console.log(`  ${green}✓${reset} Updated cleanup hook in settings.json`);
-  } else {
-    settings.hooks.Stop.push(cleanupHookEntry);
-    console.log(`  ${green}✓${reset} Added cleanup hook to settings.json`);
   }
 
   fs.writeFileSync(settingsPath, JSON.stringify(settings, null, 2));
@@ -294,23 +265,14 @@ function install(isGlobal, addToClaudeMd = true) {
 
   console.log(`  Installing to ${amber}${locationLabel}${reset} and ${amber}${carlLabel}${reset}\n`);
 
-  // 1. Copy hook scripts
+  // 1. Copy hook script
   const hooksDir = path.join(claudeDir, 'hooks');
   fs.mkdirSync(hooksDir, { recursive: true });
-
-  // Main CARL hook
   const hookSrc = path.join(src, 'hooks', 'carl-hook.py');
   const hookDest = path.join(hooksDir, 'carl-hook.py');
   fs.copyFileSync(hookSrc, hookDest);
   fs.chmodSync(hookDest, '755');
   console.log(`  ${green}✓${reset} Installed hooks/carl-hook.py`);
-
-  // Cleanup hook (prevents session bloat)
-  const cleanupSrc = path.join(src, 'hooks', 'cleanup-hook-contexts.py');
-  const cleanupDest = path.join(hooksDir, 'cleanup-hook-contexts.py');
-  fs.copyFileSync(cleanupSrc, cleanupDest);
-  fs.chmodSync(cleanupDest, '755');
-  console.log(`  ${green}✓${reset} Installed hooks/cleanup-hook-contexts.py`);
 
   // 2. Copy commands
   const commandsDir = path.join(claudeDir, 'commands');
@@ -342,8 +304,8 @@ function install(isGlobal, addToClaudeMd = true) {
     console.log(`  ${dim}${carlLabel} already exists, skipping${reset}`);
   }
 
-  // 5. Wire hooks into settings.json
-  wireHook(claudeDir, hookDest, cleanupDest);
+  // 5. Wire hook into settings.json
+  wireHook(claudeDir, hookDest);
 
   // 6. Add CARL block to CLAUDE.md (if requested)
   if (addToClaudeMd && !skipClaudeMd) {
