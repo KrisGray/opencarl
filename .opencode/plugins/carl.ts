@@ -1,7 +1,6 @@
 import fs from "fs";
 import os from "os";
 import path from "path";
-import { definePlugin } from "@opencode-ai/plugin";
 import { loadCarlRules } from "../../src/carl/loader";
 
 const PROJECT_PLUGIN_PATH = path.resolve(process.cwd(), ".opencode/plugins/carl.ts");
@@ -39,11 +38,8 @@ function logDiscoverySummary() {
   }
 }
 
-export default definePlugin({
-  name: "carl",
-  setup() {
-    warnIfDuplicatePluginPlacement();
-    logDiscoverySummary();
-    return {};
-  },
-});
+export default function carlPlugin(input: unknown) {
+  warnIfDuplicatePluginPlacement();
+  logDiscoverySummary();
+  return input;
+}

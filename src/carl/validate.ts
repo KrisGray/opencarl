@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { z } from "zod";
+import { createRequire } from "module";
 import type { CarlRuleDiscoveryWarning } from "./types";
 
 export interface ManifestDomainConfig {
@@ -22,6 +22,18 @@ export interface ParsedManifest {
 export interface ParsedDomainRules {
   rules: string[];
   warnings: CarlRuleDiscoveryWarning[];
+}
+
+let z: typeof import("zod").z;
+
+try {
+  const pluginRequire = createRequire(
+    path.join(process.cwd(), ".opencode", "package.json")
+  );
+  ({ z } = pluginRequire("zod"));
+} catch (error) {
+  const fallbackRequire = createRequire(path.join(process.cwd(), "package.json"));
+  ({ z } = fallbackRequire("zod"));
 }
 
 const keyValueSchema = z.object({
