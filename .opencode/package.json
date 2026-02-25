@@ -1,0 +1,10 @@
+{
+  "name": "carl-opencode-plugin",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "@opencode-ai/plugin": "1.2.14",
+    "@opencode-ai/sdk": "1.2.14",
+    "zod": "4.1.8"
+  }
+}
