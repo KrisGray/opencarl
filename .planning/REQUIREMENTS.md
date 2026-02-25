@@ -9,7 +9,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Installation & Distribution
 
-- [ ] **INST-01**: User can load CARL as a local OpenCode plugin from `.opencode/plugins/` and `~/.config/opencode/plugins/`
+- [x] **INST-01**: User can load CARL as a local OpenCode plugin from `.opencode/plugins/` and `~/.config/opencode/plugins/`
 - [ ] **INST-02**: Setup flow copies the plugin and seeds `.carl/` templates when missing
 - [ ] **INST-03**: Setup flow updates `opencode.json` and/or `AGENTS.md` with CARL integration when requested
 - [ ] **INST-04**: Plugin detects duplicate loads and warns once per session
@@ -86,7 +86,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| INST-01 | Phase 1 | Pending |
+| INST-01 | Phase 1 | Complete |
 | INST-02 | Phase 4 | Pending |
 | INST-03 | Phase 5 | Pending |
 | INST-04 | Phase 4 | Pending |

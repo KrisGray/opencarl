@@ -29,10 +29,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Global and project `.carl/` rules are discovered with project-over-global precedence and manifest fields parsed.
   3. When `.carl/` locations are absent, rules load from `.opencode/carl/` without failure.
   4. Invalid manifests/domains are skipped with a warning and do not crash the plugin.
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] TBD during planning
+- [ ] 01-plugin-foundation-rule-discovery/01-01-PLAN.md — OpenCode plugin entrypoint and local deps
+- [ ] 01-plugin-foundation-rule-discovery/01-02-PLAN.md — Rule discovery loader, validation, and fallback
 
 ### Phase 2: Matching, Injection & Command Parity
 **Goal**: Matched CARL rules are injected before model turns, with command modes preserved.
