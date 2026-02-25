@@ -86,43 +86,43 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| INST-01 | Phase TBD | Pending |
-| INST-02 | Phase TBD | Pending |
-| INST-03 | Phase TBD | Pending |
-| INST-04 | Phase TBD | Pending |
-| INST-05 | Phase TBD | Pending |
-| RULE-01 | Phase TBD | Pending |
-| RULE-02 | Phase TBD | Pending |
-| RULE-03 | Phase TBD | Pending |
-| RULE-04 | Phase TBD | Pending |
-| RULE-05 | Phase TBD | Pending |
-| RULE-06 | Phase TBD | Pending |
-| MATCH-01 | Phase TBD | Pending |
-| MATCH-02 | Phase TBD | Pending |
-| MATCH-03 | Phase TBD | Pending |
-| MATCH-04 | Phase TBD | Pending |
-| MATCH-05 | Phase TBD | Pending |
-| CMD-01 | Phase TBD | Pending |
-| CMD-02 | Phase TBD | Pending |
-| CMD-03 | Phase TBD | Pending |
-| CMD-04 | Phase TBD | Pending |
-| CTXT-01 | Phase TBD | Pending |
-| CTXT-02 | Phase TBD | Pending |
-| CTXT-03 | Phase TBD | Pending |
-| SAFE-01 | Phase TBD | Pending |
-| SAFE-02 | Phase TBD | Pending |
-| INTE-01 | Phase TBD | Pending |
-| INTE-02 | Phase TBD | Pending |
-| INTE-03 | Phase TBD | Pending |
-| TEMP-01 | Phase TBD | Pending |
-| TEMP-02 | Phase TBD | Pending |
-| ENHN-01 | Phase TBD | Pending |
-| ENHN-02 | Phase TBD | Pending |
+| INST-01 | Phase 1 | Pending |
+| INST-02 | Phase 4 | Pending |
+| INST-03 | Phase 5 | Pending |
+| INST-04 | Phase 4 | Pending |
+| INST-05 | Phase 5 | Pending |
+| RULE-01 | Phase 1 | Pending |
+| RULE-02 | Phase 1 | Pending |
+| RULE-03 | Phase 1 | Pending |
+| RULE-04 | Phase 3 | Pending |
+| RULE-05 | Phase 3 | Pending |
+| RULE-06 | Phase 1 | Pending |
+| MATCH-01 | Phase 2 | Pending |
+| MATCH-02 | Phase 2 | Pending |
+| MATCH-03 | Phase 2 | Pending |
+| MATCH-04 | Phase 2 | Pending |
+| MATCH-05 | Phase 2 | Pending |
+| CMD-01 | Phase 2 | Pending |
+| CMD-02 | Phase 2 | Pending |
+| CMD-03 | Phase 2 | Pending |
+| CMD-04 | Phase 2 | Pending |
+| CTXT-01 | Phase 2 | Pending |
+| CTXT-02 | Phase 3 | Pending |
+| CTXT-03 | Phase 3 | Pending |
+| SAFE-01 | Phase 2 | Pending |
+| SAFE-02 | Phase 1 | Pending |
+| INTE-01 | Phase 5 | Pending |
+| INTE-02 | Phase 5 | Pending |
+| INTE-03 | Phase 5 | Pending |
+| TEMP-01 | Phase 4 | Pending |
+| TEMP-02 | Phase 4 | Pending |
+| ENHN-01 | v2 | Deferred |
+| ENHN-02 | v2 | Deferred |
 
 **Coverage:**
-- v1 requirements: 29 total
-- Mapped to phases: 0
-- Unmapped: 29 ⚠️
+- v1 requirements: 30 total
+- Mapped to phases: 30
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-02-25*
