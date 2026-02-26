@@ -42,8 +42,8 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Context & Compaction
 
 - [x] **CTXT-01**: Capture prompt text and tool usage for matching decisions
-- [ ] **CTXT-02**: Apply context brackets (fresh/moderate/depleted) to select rules
-- [ ] **CTXT-03**: Persist minimal state across compaction so rules stay consistent
+- [x] **CTXT-02**: Apply context brackets (fresh/moderate/depleted) to select rules
+- [x] **CTXT-03**: Persist minimal state across compaction so rules stay consistent
 
 ### Safety & Validation
 
@@ -107,8 +107,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CMD-03 | Phase 2 | Complete |
 | CMD-04 | Phase 2 | Complete |
 | CTXT-01 | Phase 2 | Complete |
-| CTXT-02 | Phase 3 | Pending |
-| CTXT-03 | Phase 3 | Pending |
+| CTXT-02 | Phase 3 | Complete |
+| CTXT-03 | Phase 3 | Complete |
 | SAFE-01 | Phase 2 | Complete |
 | SAFE-02 | Phase 1 | Complete |
 | INTE-01 | Phase 5 | Pending |
