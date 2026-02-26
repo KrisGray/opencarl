@@ -2,6 +2,7 @@ import fs from "fs";
 import os from "os";
 import path from "path";
 import { loadCarlRules } from "../../src/carl/loader";
+import { createCarlPluginHooks } from "../../src/integration/plugin-hooks";
 
 const PROJECT_PLUGIN_PATH = path.resolve(process.cwd(), ".opencode/plugins/carl.ts");
 const GLOBAL_PLUGIN_PATH = path.join(
@@ -41,5 +42,5 @@ function logDiscoverySummary() {
 export default function carlPlugin(input: unknown) {
   warnIfDuplicatePluginPlacement();
   logDiscoverySummary();
-  return input;
+  return createCarlPluginHooks();
 }

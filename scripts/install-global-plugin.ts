@@ -10,7 +10,7 @@ const GLOBAL_PLUGIN_PATH = path.join(
   "carl.ts"
 );
 
-function buildPluginEntrypoint(loaderImportPath) {
+function buildPluginEntrypoint(loaderImportPath, pluginHooksImportPath) {
   const summaryTemplate =
     "`[carl] Discovery summary: ${result.sources.length} sources, ${result.domains.length} domains, ${result.warnings.length} warnings.`";
   const domainTemplate = "` domain=${warning.domain}`";
@@ -22,6 +22,7 @@ function buildPluginEntrypoint(loaderImportPath) {
 import os from "os";
 import path from "path";
 import { loadCarlRules } from "${loaderImportPath}";
+import { createCarlPluginHooks } from "${pluginHooksImportPath}";
 
 const PROJECT_PLUGIN_PATH = path.resolve(process.cwd(), ".opencode/plugins/carl.ts");
 const GLOBAL_PLUGIN_PATH = path.join(
@@ -59,7 +60,7 @@ function logDiscoverySummary() {
 export default function carlPlugin(input) {
   warnIfDuplicatePluginPlacement();
   logDiscoverySummary();
-  return input;
+  return createCarlPluginHooks();
 }
 `;
 }
@@ -80,7 +81,13 @@ function writeFileIfChanged(targetPath, content) {
 
 function installGlobalPlugin() {
   const loaderPath = path.resolve(process.cwd(), "src", "carl", "loader");
-  const entrypoint = buildPluginEntrypoint(loaderPath);
+  const pluginHooksPath = path.resolve(
+    process.cwd(),
+    "src",
+    "integration",
+    "plugin-hooks"
+  );
+  const entrypoint = buildPluginEntrypoint(loaderPath, pluginHooksPath);
   return writeFileIfChanged(GLOBAL_PLUGIN_PATH, entrypoint);
 }
 
