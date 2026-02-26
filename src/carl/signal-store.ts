@@ -7,6 +7,8 @@ interface SessionSignalStore {
   promptEntries: string[][];
   toolEntries: string[][];
   pathEntries: string[][];
+  commandEntries: string[][];
+  lastPromptText: string | null;
 }
 
 const sessionSignals = new Map<string, SessionSignalStore>();
@@ -21,6 +23,8 @@ function ensureSession(sessionId: string): SessionSignalStore {
     promptEntries: [],
     toolEntries: [],
     pathEntries: [],
+    commandEntries: [],
+    lastPromptText: null,
   };
   sessionSignals.set(sessionId, created);
   return created;
@@ -113,7 +117,36 @@ export function recordPromptSignals(sessionId: string, promptText: string): void
 
   const tokens = tokenizeText(promptText);
   const store = ensureSession(sessionId);
+  store.lastPromptText = promptText;
   pushBounded(store.promptEntries, tokens);
+}
+
+export function getSessionPromptText(sessionId: string): string {
+  if (!sessionId) {
+    return "";
+  }
+
+  const store = ensureSession(sessionId);
+  return store.lastPromptText ?? "";
+}
+
+export function recordCommandSignals(sessionId: string, commands: string[]): void {
+  if (!sessionId) {
+    return;
+  }
+
+  const store = ensureSession(sessionId);
+  pushBounded(store.commandEntries, commands);
+}
+
+export function consumeCommandSignals(sessionId: string): string[] {
+  if (!sessionId) {
+    return [];
+  }
+
+  const store = ensureSession(sessionId);
+  const entry = store.commandEntries.pop();
+  return entry ?? [];
 }
 
 export function recordToolSignals(

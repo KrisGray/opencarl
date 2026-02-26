@@ -1,9 +1,14 @@
 import type { Hooks } from "@opencode-ai/plugin";
+import { resolveCarlCommandSignals } from "../carl/command-parity";
+import { buildCarlHelpGuidance } from "../carl/help-text";
 import { buildCarlInjection } from "../carl/injector";
 import { loadCarlRules } from "../carl/loader";
 import { matchDomainsForTurn } from "../carl/matcher";
 import {
+  consumeCommandSignals,
   getSessionSignals,
+  getSessionPromptText,
+  recordCommandSignals,
   recordPromptSignals,
   recordToolSignals,
 } from "../carl/signal-store";
@@ -97,12 +102,27 @@ export function createCarlPluginHooks(): Hooks {
     "tool.execute.before": async (input, output) => {
       recordToolSignals(input.sessionID, input.tool, output.args);
     },
+    "command.execute.before": async (input) => {
+      const commandName = (input.command ?? "").replace(/^\//, "").toLowerCase();
+      if (commandName === "carl") {
+        // /carl fallback should mirror *carl command-mode guidance
+        recordCommandSignals(input.sessionID, ["carl"]);
+      }
+    },
     "experimental.chat.system.transform": async (input, output) => {
       const sessionId = input.sessionID ?? "";
       const discovery = loadCarlRules();
       const domainConfigs = buildMatchDomains(discovery.domainPayloads);
       const signals = getSessionSignals(sessionId);
-      const promptText = signals.promptTokens.join(" ");
+      const promptText = getSessionPromptText(sessionId);
+      const commandOverrides = consumeCommandSignals(sessionId);
+
+      const commandResolution = resolveCarlCommandSignals({
+        promptText,
+        commandOverrides,
+        commandsPayload: discovery.domainPayloads.COMMANDS,
+        getHelpGuidance: () => buildCarlHelpGuidance().combined,
+      });
 
       const matchResult = matchDomainsForTurn({
         promptText,
@@ -112,9 +132,12 @@ export function createCarlPluginHooks(): Hooks {
       });
 
       const injection = buildCarlInjection({
-        domainPayloads: discovery.domainPayloads,
+        domainPayloads: {
+          ...discovery.domainPayloads,
+          ...commandResolution.commandPayloads,
+        },
         matchedDomains: matchResult.matchedDomains,
-        commandDomains: [],
+        commandDomains: commandResolution.commandDomains,
       });
 
       if (injection) {
