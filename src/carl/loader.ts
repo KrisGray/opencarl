@@ -15,6 +15,7 @@ import {
 import type {
   CarlRuleDiscoveryResult,
   CarlRuleDiscoveryWarning,
+  CarlRuleDomainPayload,
   CarlRuleSource,
 } from "./types";
 
@@ -75,12 +76,12 @@ function getActiveDomains(manifest: ParsedManifest): string[] {
     .map((domain) => domain.name);
 }
 
-function loadDomainWarnings(
+function loadDomainPayloads(
   source: ResolvedSource,
   domains: string[],
   warnings: CarlRuleDiscoveryWarning[]
-): string[] {
-  const loaded: string[] = [];
+): CarlRuleDomainPayload[] {
+  const payloads: CarlRuleDomainPayload[] = [];
 
   for (const domain of domains) {
     const domainPath = resolveDomainFile(source.path.carlDir, domain, warnings);
@@ -90,10 +91,22 @@ function loadDomainWarnings(
 
     const parsed = parseDomainRules(domainPath, domain);
     warnings.push(...parsed.warnings);
-    loaded.push(domain);
+
+    const manifestConfig = source.manifest.domains[domain];
+
+    payloads.push({
+      domain,
+      scope: source.scope,
+      sourcePath: source.path.carlDir,
+      rules: parsed.rules,
+      state: manifestConfig?.state ?? false,
+      alwaysOn: manifestConfig?.alwaysOn ?? false,
+      recall: manifestConfig?.recall ?? [],
+      exclude: manifestConfig?.exclude ?? [],
+    });
   }
 
-  return loaded;
+  return payloads;
 }
 
 function toSourceEntry(
@@ -131,26 +144,31 @@ export function loadCarlRules(
 
   const sources: CarlRuleSource[] = [];
   const finalDomains = new Map<string, CarlRuleSource["scope"]>();
+  const domainPayloads = new Map<string, CarlRuleDomainPayload>();
 
   let loadedGlobalDomains: string[] | null = null;
   let loadedProjectDomains: string[] | null = null;
+  let loadedGlobalPayloads: CarlRuleDomainPayload[] | null = null;
+  let loadedProjectPayloads: CarlRuleDomainPayload[] | null = null;
 
   if (globalSource) {
     const globalDomains = getActiveDomains(globalSource.manifest);
-    loadedGlobalDomains = loadDomainWarnings(
+    loadedGlobalPayloads = loadDomainPayloads(
       globalSource,
       globalDomains,
       warnings
     );
+    loadedGlobalDomains = loadedGlobalPayloads.map((payload) => payload.domain);
   }
 
   if (projectSource) {
     const projectDomains = getActiveDomains(projectSource.manifest);
-    loadedProjectDomains = loadDomainWarnings(
+    loadedProjectPayloads = loadDomainPayloads(
       projectSource,
       projectDomains,
       warnings
     );
+    loadedProjectDomains = loadedProjectPayloads.map((payload) => payload.domain);
   }
 
   if (loadedGlobalDomains) {
@@ -158,9 +176,16 @@ export function loadCarlRules(
     const filteredGlobal = loadedGlobalDomains.filter(
       (domain) => !projectOverrides.has(domain)
     );
+    const filteredGlobalPayloads = (loadedGlobalPayloads ?? []).filter(
+      (payload) => !projectOverrides.has(payload.domain)
+    );
 
     for (const domain of filteredGlobal) {
       finalDomains.set(domain, "global");
+    }
+
+    for (const payload of filteredGlobalPayloads) {
+      domainPayloads.set(payload.domain, payload);
     }
 
     sources.push(toSourceEntry(globalSource as ResolvedSource, filteredGlobal));
@@ -171,23 +196,34 @@ export function loadCarlRules(
       finalDomains.set(domain, "project");
     }
 
+    for (const payload of loadedProjectPayloads ?? []) {
+      domainPayloads.set(payload.domain, payload);
+    }
+
     sources.push(
       toSourceEntry(projectSource as ResolvedSource, loadedProjectDomains)
     );
   }
 
+  let fallbackSource: ResolvedSource | null = null;
+
   if (!projectSource && !globalSource && fallbackPath) {
-    const fallbackSource = resolveManifest("fallback", fallbackPath, warnings);
+    fallbackSource = resolveManifest("fallback", fallbackPath, warnings);
     if (fallbackSource) {
       const fallbackDomains = getActiveDomains(fallbackSource.manifest);
-      const loadedDomains = loadDomainWarnings(
+      const loadedPayloads = loadDomainPayloads(
         fallbackSource,
         fallbackDomains,
         warnings
       );
+      const loadedDomains = loadedPayloads.map((payload) => payload.domain);
 
       for (const domain of loadedDomains) {
         finalDomains.set(domain, "fallback");
+      }
+
+      for (const payload of loadedPayloads) {
+        domainPayloads.set(payload.domain, payload);
       }
 
       sources.push(toSourceEntry(fallbackSource, loadedDomains));
@@ -195,10 +231,17 @@ export function loadCarlRules(
   }
 
   const domains = Array.from(finalDomains.keys()).sort();
+  const effectiveManifest =
+    projectSource?.manifest ?? globalSource?.manifest ?? fallbackSource?.manifest;
+  const globalExclude = effectiveManifest?.globalExclude ?? [];
+  const devmode = effectiveManifest?.devmode ?? false;
 
   return {
     sources,
     domains,
     warnings,
+    domainPayloads: Object.fromEntries(domainPayloads.entries()),
+    globalExclude,
+    devmode,
   };
 }

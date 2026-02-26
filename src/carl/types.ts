@@ -16,6 +16,20 @@ export interface CarlRuleDiscoveryResult {
   sources: CarlRuleSource[];
   domains: string[];
   warnings: CarlRuleDiscoveryWarning[];
+  domainPayloads: Record<string, CarlRuleDomainPayload>;
+  globalExclude: string[];
+  devmode: boolean;
+}
+
+export interface CarlRuleDomainPayload {
+  domain: string;
+  scope: CarlRuleSourceScope;
+  sourcePath: string;
+  rules: string[];
+  state: boolean;
+  alwaysOn: boolean;
+  recall: string[];
+  exclude: string[];
 }
 
 export type CarlSignalSource = "prompt" | "tool" | "path";
