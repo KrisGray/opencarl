@@ -2,7 +2,7 @@ import type { Hooks } from "@opencode-ai/plugin";
 import { resolveCarlCommandSignals } from "../carl/command-parity";
 import { buildCarlHelpGuidance } from "../carl/help-text";
 import { buildCarlInjection } from "../carl/injector";
-import { loadCarlRules } from "../carl/loader";
+import { getCachedRules, isCarlPath, markRulesDirty } from "../carl/rule-cache";
 import { matchDomainsForTurn } from "../carl/matcher";
 import {
   consumeCommandSignals,
@@ -111,7 +111,7 @@ export function createCarlPluginHooks(): Hooks {
     },
     "experimental.chat.system.transform": async (input, output) => {
       const sessionId = input.sessionID ?? "";
-      const discovery = loadCarlRules();
+      const discovery = getCachedRules();
       const domainConfigs = buildMatchDomains(discovery.domainPayloads);
       const signals = getSessionSignals(sessionId);
       const promptText = getSessionPromptText(sessionId);
@@ -140,8 +140,31 @@ export function createCarlPluginHooks(): Hooks {
         commandDomains: commandResolution.commandDomains,
       });
 
+      if (discovery.devmode) {
+        const alwaysOnDomains = Object.values(discovery.domainPayloads)
+          .filter((payload) => payload.state)
+          .filter((payload) => payload.alwaysOn || payload.domain === "GLOBAL")
+          .map((payload) => payload.domain)
+          .sort();
+
+        console.log("[carl] devmode", {
+          matchedDomains: matchResult.matchedDomains,
+          commandDomains: commandResolution.commandDomains,
+          alwaysOnDomains,
+          injected: Boolean(injection),
+          injectionLength: injection ? injection.length : 0,
+        });
+      }
+
       if (injection) {
         output.system.push(injection);
+      }
+    },
+    "file.watcher.updated": async (input) => {
+      // Mark rule cache dirty when .carl/ files change
+      const filePath = input.path ?? "";
+      if (isCarlPath(filePath)) {
+        markRulesDirty();
       }
     },
   };
