@@ -17,6 +17,7 @@ import type {
   CarlRuleDiscoveryWarning,
   CarlRuleDomainPayload,
   CarlRuleSource,
+  CarlProjectStatus,
 } from "./types";
 
 export interface CarlRuleDiscoveryOverrides {
@@ -30,12 +31,22 @@ export interface CarlRuleDiscoveryOptions {
   homeDir?: string;
   projectRoot?: string;
   overrides?: CarlRuleDiscoveryOverrides;
+  /** When false, project rules are skipped even if .carl/ exists */
+  projectOptIn?: boolean;
 }
 
 interface ResolvedSource {
   scope: CarlRuleSource["scope"];
   path: CarlSourcePath;
   manifest: ParsedManifest;
+}
+
+interface ProjectLoadResult {
+  source: ResolvedSource | null;
+  domains: string[];
+  payloads: CarlRuleDomainPayload[];
+  warnings: CarlRuleDiscoveryWarning[];
+  isValid: boolean;
 }
 
 function resolveSourceFromOverride(carlDir?: string): CarlSourcePath | null {
@@ -61,6 +72,11 @@ function resolveManifest(
   }
 
   const manifest = parseManifest(sourcePath.manifestPath);
+
+  // Add scope to manifest warnings
+  for (const w of manifest.warnings) {
+    w.scope = scope;
+  }
   warnings.push(...manifest.warnings);
 
   if (!manifest.isValid) {
@@ -90,6 +106,11 @@ function loadDomainPayloads(
     }
 
     const parsed = parseDomainRules(domainPath, domain);
+
+    // Add scope to domain warnings
+    for (const w of parsed.warnings) {
+      w.scope = source.scope;
+    }
     warnings.push(...parsed.warnings);
 
     const manifestConfig = source.manifest.domains[domain];
@@ -120,6 +141,83 @@ function toSourceEntry(
   };
 }
 
+/**
+ * Load project rules with validation tracking.
+ * Returns all warnings scoped to "project" for invalid detection.
+ */
+function loadProjectRules(
+  projectPath: CarlSourcePath | null,
+  allWarnings: CarlRuleDiscoveryWarning[]
+): ProjectLoadResult {
+  const projectWarnings: CarlRuleDiscoveryWarning[] = [];
+
+  if (!projectPath) {
+    return {
+      source: null,
+      domains: [],
+      payloads: [],
+      warnings: projectWarnings,
+      isValid: true, // No project is valid (not invalid)
+    };
+  }
+
+  // Check if manifest exists
+  const manifest = parseManifest(projectPath.manifestPath);
+
+  // Add scope to manifest warnings
+  for (const w of manifest.warnings) {
+    w.scope = "project";
+  }
+  projectWarnings.push(...manifest.warnings);
+  allWarnings.push(...manifest.warnings);
+
+  // Manifest parse failure = invalid
+  if (!manifest.isValid) {
+    return {
+      source: null,
+      domains: [],
+      payloads: [],
+      warnings: projectWarnings,
+      isValid: false,
+    };
+  }
+
+  const source: ResolvedSource = {
+    scope: "project",
+    path: projectPath,
+    manifest,
+  };
+
+  const projectDomains = getActiveDomains(manifest);
+  const payloads = loadDomainPayloads(source, projectDomains, allWarnings);
+
+  // Collect domain warnings scoped to project
+  for (const w of allWarnings) {
+    if (w.scope === "project" && !projectWarnings.includes(w)) {
+      projectWarnings.push(w);
+    }
+  }
+
+  // Check for invalid domain rules (malformed, missing files)
+  const hasInvalidDomainWarnings = projectWarnings.some(
+    (w) =>
+      w.domain &&
+      (w.message.includes("Malformed") ||
+        w.message.includes("Invalid") ||
+        w.message.includes("Missing"))
+  );
+
+  const loadedDomains = payloads.map((p) => p.domain);
+
+  return {
+    source,
+    domains: loadedDomains,
+    payloads,
+    warnings: projectWarnings,
+    isValid: !hasInvalidDomainWarnings,
+  };
+}
+
 export function loadCarlRules(
   options: CarlRuleDiscoveryOptions = {}
 ): CarlRuleDiscoveryResult {
@@ -128,6 +226,7 @@ export function loadCarlRules(
   const homeDir = options.homeDir ?? os.homedir();
   const projectRoot = options.projectRoot ?? cwd;
   const overrides = options.overrides ?? {};
+  const projectOptIn = options.projectOptIn ?? true;
 
   const projectPath =
     resolveSourceFromOverride(overrides.projectCarlDir) ??
@@ -139,17 +238,37 @@ export function loadCarlRules(
     resolveSourceFromOverride(overrides.fallbackCarlDir) ??
     findFallbackCarl(projectRoot);
 
-  const projectSource = resolveManifest("project", projectPath, warnings);
   const globalSource = resolveManifest("global", globalPath, warnings);
 
   const sources: CarlRuleSource[] = [];
   const finalDomains = new Map<string, CarlRuleSource["scope"]>();
   const domainPayloads = new Map<string, CarlRuleDomainPayload>();
 
+  // Determine project status
+  let projectStatus: CarlProjectStatus = "none";
+  let projectWarnings: CarlRuleDiscoveryWarning[] = [];
+
+  // Load project rules with opt-in check
+  const projectResult = loadProjectRules(
+    projectOptIn ? projectPath : null,
+    warnings
+  );
+
+  if (!projectOptIn && projectPath) {
+    // Opt-in disabled but project exists - treat as "none" (not loaded)
+    projectStatus = "none";
+  } else if (projectResult.source) {
+    if (projectResult.isValid) {
+      projectStatus = "valid";
+    } else {
+      projectStatus = "invalid";
+      projectWarnings = projectResult.warnings;
+    }
+  }
+
+  // Load global rules
   let loadedGlobalDomains: string[] | null = null;
-  let loadedProjectDomains: string[] | null = null;
   let loadedGlobalPayloads: CarlRuleDomainPayload[] | null = null;
-  let loadedProjectPayloads: CarlRuleDomainPayload[] | null = null;
 
   if (globalSource) {
     const globalDomains = getActiveDomains(globalSource.manifest);
@@ -161,18 +280,12 @@ export function loadCarlRules(
     loadedGlobalDomains = loadedGlobalPayloads.map((payload) => payload.domain);
   }
 
-  if (projectSource) {
-    const projectDomains = getActiveDomains(projectSource.manifest);
-    loadedProjectPayloads = loadDomainPayloads(
-      projectSource,
-      projectDomains,
-      warnings
-    );
-    loadedProjectDomains = loadedProjectPayloads.map((payload) => payload.domain);
-  }
+  // Apply global rules (filtered by project overrides if project is valid)
+  const projectOverrides = new Set(
+    projectStatus === "valid" ? projectResult.domains : []
+  );
 
   if (loadedGlobalDomains) {
-    const projectOverrides = new Set(loadedProjectDomains ?? []);
     const filteredGlobal = loadedGlobalDomains.filter(
       (domain) => !projectOverrides.has(domain)
     );
@@ -191,23 +304,25 @@ export function loadCarlRules(
     sources.push(toSourceEntry(globalSource as ResolvedSource, filteredGlobal));
   }
 
-  if (loadedProjectDomains) {
-    for (const domain of loadedProjectDomains) {
+  // Apply project rules only if valid
+  if (projectStatus === "valid" && projectResult.domains.length > 0) {
+    for (const domain of projectResult.domains) {
       finalDomains.set(domain, "project");
     }
 
-    for (const payload of loadedProjectPayloads ?? []) {
+    for (const payload of projectResult.payloads) {
       domainPayloads.set(payload.domain, payload);
     }
 
     sources.push(
-      toSourceEntry(projectSource as ResolvedSource, loadedProjectDomains)
+      toSourceEntry(projectResult.source as ResolvedSource, projectResult.domains)
     );
   }
 
+  // Fallback rules only if no project and no global
   let fallbackSource: ResolvedSource | null = null;
 
-  if (!projectSource && !globalSource && fallbackPath) {
+  if (!projectResult.source && !globalSource && fallbackPath) {
     fallbackSource = resolveManifest("fallback", fallbackPath, warnings);
     if (fallbackSource) {
       const fallbackDomains = getActiveDomains(fallbackSource.manifest);
@@ -232,7 +347,9 @@ export function loadCarlRules(
 
   const domains = Array.from(finalDomains.keys()).sort();
   const effectiveManifest =
-    projectSource?.manifest ?? globalSource?.manifest ?? fallbackSource?.manifest;
+    projectStatus === "valid"
+      ? projectResult.source?.manifest
+      : globalSource?.manifest ?? fallbackSource?.manifest;
   const globalExclude = effectiveManifest?.globalExclude ?? [];
   const devmode = effectiveManifest?.devmode ?? false;
 
@@ -243,5 +360,7 @@ export function loadCarlRules(
     domainPayloads: Object.fromEntries(domainPayloads.entries()),
     globalExclude,
     devmode,
+    projectStatus,
+    projectWarnings,
   };
 }

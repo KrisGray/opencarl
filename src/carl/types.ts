@@ -10,7 +10,10 @@ export interface CarlRuleDiscoveryWarning {
   message: string;
   path?: string;
   domain?: string;
+  scope?: CarlRuleSourceScope;
 }
+
+export type CarlProjectStatus = "valid" | "invalid" | "none";
 
 export interface CarlRuleDiscoveryResult {
   sources: CarlRuleSource[];
@@ -19,6 +22,8 @@ export interface CarlRuleDiscoveryResult {
   domainPayloads: Record<string, CarlRuleDomainPayload>;
   globalExclude: string[];
   devmode: boolean;
+  projectStatus: CarlProjectStatus;
+  projectWarnings: CarlRuleDiscoveryWarning[];
 }
 
 export interface CarlRuleDomainPayload {

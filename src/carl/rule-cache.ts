@@ -1,7 +1,6 @@
 import os from "os";
-import path from "path";
 import { loadCarlRules, type CarlRuleDiscoveryOptions } from "./loader";
-import type { CarlRuleDiscoveryResult } from "./types";
+import type { CarlRuleDiscoveryResult, CarlRuleSourceScope } from "./types";
 
 /**
  * Session-scoped rule cache with dirty tracking for live reload support.
@@ -22,6 +21,12 @@ let isDirty = false;
 
 // Track which paths are under .carl/ for dirty detection
 const CARL_DIR_NAMES = [".carl", ".opencode/carl"];
+
+// Per-session warning guard: tracks which sessions have been warned about invalid project rules
+const sessionWarningGuard = new Set<string>();
+
+// Per-session project opt-in: stores whether project rules are enabled for each session
+const sessionProjectOptIn = new Map<string, boolean>();
 
 /**
  * Check if a file path is inside a .carl/ directory.
@@ -56,6 +61,41 @@ export function isCacheDirty(): boolean {
 }
 
 /**
+ * Set project opt-in for a session.
+ */
+export function setSessionProjectOptIn(sessionId: string, optIn: boolean): void {
+  sessionProjectOptIn.set(sessionId, optIn);
+}
+
+/**
+ * Get project opt-in for a session.
+ */
+export function getSessionProjectOptIn(sessionId: string): boolean {
+  return sessionProjectOptIn.get(sessionId) ?? true; // Default to true
+}
+
+/**
+ * Check if a session has been warned about invalid project rules.
+ */
+export function hasSessionWarned(sessionId: string): boolean {
+  return sessionWarningGuard.has(sessionId);
+}
+
+/**
+ * Mark a session as warned about invalid project rules.
+ */
+export function markSessionWarned(sessionId: string): void {
+  sessionWarningGuard.add(sessionId);
+}
+
+/**
+ * Clear warning guard for a session (when project rules become valid again).
+ */
+export function clearSessionWarning(sessionId: string): void {
+  sessionWarningGuard.delete(sessionId);
+}
+
+/**
  * Get cached rules, reloading only if dirty or cache is empty.
  */
 export function getCachedRules(
@@ -65,6 +105,7 @@ export function getCachedRules(
   const homeDir = options.homeDir ?? os.homedir();
   const cwd = options.cwd ?? process.cwd();
   const projectRoot = options.projectRoot ?? cwd;
+  const projectOptIn = options.projectOptIn ?? true;
 
   // Check if we need to reload
   const needsReload =
@@ -86,6 +127,7 @@ export function getCachedRules(
       homeDir,
       projectRoot,
       overrides: options.overrides,
+      projectOptIn,
     },
   };
   isDirty = false;
@@ -128,6 +170,11 @@ function cacheOptionsDiffer(
   if (cached.cwd !== fresh.cwd && fresh.cwd) return true;
   if (cached.projectRoot !== fresh.projectRoot && fresh.projectRoot) return true;
   if (cached.homeDir !== fresh.homeDir && fresh.homeDir) return true;
+
+  // Check opt-in flag
+  const cachedOptIn = cached.projectOptIn ?? true;
+  const freshOptIn = fresh.projectOptIn ?? true;
+  if (cachedOptIn !== freshOptIn) return true;
 
   // Check overrides
   const cachedOverrides = cached.overrides ?? {};

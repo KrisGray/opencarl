@@ -2,7 +2,14 @@ import type { Hooks } from "@opencode-ai/plugin";
 import { resolveCarlCommandSignals } from "../carl/command-parity";
 import { buildCarlHelpGuidance } from "../carl/help-text";
 import { buildCarlInjection } from "../carl/injector";
-import { getCachedRules, isCarlPath, markRulesDirty } from "../carl/rule-cache";
+import {
+  getCachedRules,
+  hasSessionWarned,
+  isCarlPath,
+  markRulesDirty,
+  markSessionWarned,
+  clearSessionWarning,
+} from "../carl/rule-cache";
 import { matchDomainsForTurn } from "../carl/matcher";
 import {
   consumeCommandSignals,
@@ -112,6 +119,23 @@ export function createCarlPluginHooks(): Hooks {
     "experimental.chat.system.transform": async (input, output) => {
       const sessionId = input.sessionID ?? "";
       const discovery = getCachedRules();
+
+      // Handle invalid project rules: warn once per session
+      if (discovery.projectStatus === "invalid") {
+        if (!hasSessionWarned(sessionId)) {
+          const warningMessages = discovery.projectWarnings
+            .map((w) => w.message)
+            .join("; ");
+          console.warn(
+            `[carl] Invalid project rules detected - project rules disabled: ${warningMessages}`
+          );
+          markSessionWarned(sessionId);
+        }
+      } else if (discovery.projectStatus === "valid") {
+        // Clear warning guard when project rules become valid again
+        clearSessionWarning(sessionId);
+      }
+
       const domainConfigs = buildMatchDomains(discovery.domainPayloads);
       const signals = getSessionSignals(sessionId);
       const promptText = getSessionPromptText(sessionId);
