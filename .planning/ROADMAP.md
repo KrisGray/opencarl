@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [ ] **Phase 1: Plugin Foundation & Rule Discovery** - OpenCode loads CARL locally and discovers rules with correct precedence.
 - [x] **Phase 2: Matching, Injection & Command Parity** - Rules are matched/injected deterministically with command modes preserved. (completed 2026-02-26)
-- [ ] **Phase 3: Session Stability & Live Updates** - Opt-in, reload, brackets, and compaction keep rule behavior stable.
+- [x] **Phase 3: Session Stability & Live Updates** - Opt-in, reload, brackets, and compaction keep rule behavior stable. (completed 2026-02-26)
 - [ ] **Phase 4: Setup Flow & Templates** - Users get a smooth install flow with seeded templates and docs access.
 - [ ] **Phase 5: OpenCode Rules Integration & Distribution** - Optional rules integration and npm distribution are available.
 
@@ -66,7 +66,7 @@ Plans:
 
 Plans:
 - [x] 03-session-stability-live-updates/03-01-PLAN.md — Project opt-in gating and live reload caching
-- [ ] 03-session-stability-live-updates/03-02-PLAN.md — Context brackets and compaction continuity
+- [x] 03-session-stability-live-updates/03-02-PLAN.md — Context brackets and compaction continuity
 
 ### Phase 4: Setup Flow & Templates
 **Goal**: Users can install CARL with seeded templates and accessible docs.
@@ -103,6 +103,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 |-------|----------------|--------|-----------|
 | 1. Plugin Foundation & Rule Discovery | 0/TBD | Not started | - |
 | 2. Matching, Injection & Command Parity | 0/TBD | Complete    | 2026-02-26 |
-| 3. Session Stability & Live Updates | 1/2 | In Progress | - |
+| 3. Session Stability & Live Updates | 2/2 | Complete | 2026-02-26 |
 | 4. Setup Flow & Templates | 0/TBD | Not started | - |
 | 5. OpenCode Rules Integration & Distribution | 0/TBD | Not started | - |
