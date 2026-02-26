@@ -17,3 +17,48 @@ export interface CarlRuleDiscoveryResult {
   domains: string[];
   warnings: CarlRuleDiscoveryWarning[];
 }
+
+export type CarlSignalSource = "prompt" | "tool" | "path";
+
+export interface CarlSessionSignals {
+  promptTokens: string[];
+  promptHistory: string[];
+  toolTokens: string[];
+  pathTokens: string[];
+}
+
+export interface CarlMatchDomainConfig {
+  name: string;
+  state: boolean;
+  recall: string[];
+  exclude: string[];
+  alwaysOn: boolean;
+}
+
+export interface CarlMatchRequest {
+  promptText: string;
+  signals: CarlSessionSignals;
+  domains: Record<string, CarlMatchDomainConfig>;
+  globalExclude: string[];
+}
+
+export type CarlExclusionSource = "global" | "domain";
+
+export interface CarlDomainMatchResult {
+  domain: string;
+  matchedKeywords: string[];
+  excludedKeywords: string[];
+  exclusionSource?: CarlExclusionSource;
+}
+
+export interface CarlGlobalExcludeResult {
+  matchedKeywords: string[];
+  triggered: boolean;
+}
+
+export interface CarlMatchResult {
+  globalExclude: CarlGlobalExcludeResult;
+  matchedDomains: string[];
+  excludedDomains: string[];
+  domainResults: CarlDomainMatchResult[];
+}
