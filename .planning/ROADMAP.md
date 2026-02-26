@@ -13,7 +13,7 @@ Deliver CARL parity inside OpenCode by first establishing reliable plugin loadin
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [ ] **Phase 1: Plugin Foundation & Rule Discovery** - OpenCode loads CARL locally and discovers rules with correct precedence.
-- [ ] **Phase 2: Matching, Injection & Command Parity** - Rules are matched/injected deterministically with command modes preserved.
+- [x] **Phase 2: Matching, Injection & Command Parity** - Rules are matched/injected deterministically with command modes preserved. (completed 2026-02-26)
 - [ ] **Phase 3: Session Stability & Live Updates** - Opt-in, reload, brackets, and compaction keep rule behavior stable.
 - [ ] **Phase 4: Setup Flow & Templates** - Users get a smooth install flow with seeded templates and docs access.
 - [ ] **Phase 5: OpenCode Rules Integration & Distribution** - Optional rules integration and npm distribution are available.
@@ -101,7 +101,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Plugin Foundation & Rule Discovery | 0/TBD | Not started | - |
-| 2. Matching, Injection & Command Parity | 0/TBD | Not started | - |
+| 2. Matching, Injection & Command Parity | 0/TBD | Complete    | 2026-02-26 |
 | 3. Session Stability & Live Updates | 0/TBD | Not started | - |
 | 4. Setup Flow & Templates | 0/TBD | Not started | - |
 | 5. OpenCode Rules Integration & Distribution | 0/TBD | Not started | - |
