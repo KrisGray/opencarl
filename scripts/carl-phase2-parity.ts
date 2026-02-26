@@ -565,6 +565,10 @@ function runCriticalLinks(): void {
     }
   }
 
+  const failed = results.filter((result) => !result.ok).length;
+  const passed = results.length - failed;
+  console.log(`CRITICAL LINKS SUMMARY: ${passed} passed, ${failed} failed`);
+
   if (results.some((result) => !result.ok)) {
     process.exit(1);
   }
