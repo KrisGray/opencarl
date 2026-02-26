@@ -1,0 +1,151 @@
+{
+  "domainSets": {
+    "base": [
+      {
+        "name": "ALPHA",
+        "state": true,
+        "recall": ["alpha"],
+        "exclude": [],
+        "alwaysOn": false
+      },
+      {
+        "name": "BETA",
+        "state": true,
+        "recall": ["beta"],
+        "exclude": ["skip"],
+        "alwaysOn": false
+      },
+      {
+        "name": "PATH",
+        "state": true,
+        "recall": ["matcher.ts"],
+        "exclude": [],
+        "alwaysOn": false
+      },
+      {
+        "name": "TOOL",
+        "state": true,
+        "recall": ["bash"],
+        "exclude": [],
+        "alwaysOn": false
+      },
+      {
+        "name": "ALWAYS",
+        "state": true,
+        "recall": ["always"],
+        "exclude": [],
+        "alwaysOn": true
+      }
+    ]
+  },
+  "cases": [
+    {
+      "id": "match-01-recall",
+      "description": "recall keyword matches respect alphabetical domain ordering",
+      "domainSet": "base",
+      "input": {
+        "promptText": "alpha and beta",
+        "signals": {
+          "promptTokens": ["alpha", "beta"],
+          "promptHistory": ["alpha", "beta"],
+          "toolTokens": [],
+          "pathTokens": []
+        },
+        "globalExclude": []
+      },
+      "expected": {
+        "globalExcludeTriggered": false,
+        "matchedDomains": ["ALPHA", "BETA"],
+        "excludedDomains": []
+      }
+    },
+    {
+      "id": "match-02-domain-exclude",
+      "description": "domain-level exclusion blocks recall match",
+      "domainSet": "base",
+      "input": {
+        "promptText": "beta skip",
+        "signals": {
+          "promptTokens": ["beta", "skip"],
+          "promptHistory": ["beta", "skip"],
+          "toolTokens": [],
+          "pathTokens": []
+        },
+        "globalExclude": []
+      },
+      "expected": {
+        "globalExcludeTriggered": false,
+        "matchedDomains": [],
+        "excludedDomains": ["BETA"],
+        "domainResults": [
+          {
+            "domain": "BETA",
+            "excludedKeywords": ["skip"],
+            "exclusionSource": "domain"
+          }
+        ]
+      }
+    },
+    {
+      "id": "match-03-global-exclude",
+      "description": "global exclude short-circuits all matching",
+      "domainSet": "base",
+      "input": {
+        "promptText": "block alpha",
+        "signals": {
+          "promptTokens": ["block", "alpha"],
+          "promptHistory": ["block", "alpha"],
+          "toolTokens": [],
+          "pathTokens": []
+        },
+        "globalExclude": ["block"]
+      },
+      "expected": {
+        "globalExcludeTriggered": true,
+        "globalExcludeKeywords": ["block"],
+        "matchedDomains": [],
+        "excludedDomains": []
+      }
+    },
+    {
+      "id": "match-04-tool-path",
+      "description": "tool and path tokens can trigger matches",
+      "domainSet": "base",
+      "input": {
+        "promptText": "no keyword",
+        "signals": {
+          "promptTokens": ["no", "keyword"],
+          "promptHistory": ["no", "keyword"],
+          "toolTokens": ["bash"],
+          "pathTokens": ["/Users/kris/Repos/carl/src/carl/matcher.ts", "matcher.ts"]
+        },
+        "globalExclude": []
+      },
+      "expected": {
+        "globalExcludeTriggered": false,
+        "matchedDomains": ["PATH", "TOOL"],
+        "excludedDomains": []
+      }
+    },
+    {
+      "id": "match-05-always-on-skip",
+      "description": "always-on domains are excluded from recall matching",
+      "domainSet": "base",
+      "input": {
+        "promptText": "always",
+        "signals": {
+          "promptTokens": ["always"],
+          "promptHistory": ["always"],
+          "toolTokens": [],
+          "pathTokens": []
+        },
+        "globalExclude": []
+      },
+      "expected": {
+        "globalExcludeTriggered": false,
+        "matchedDomains": [],
+        "excludedDomains": []
+      }
+    }
+  ]
+}

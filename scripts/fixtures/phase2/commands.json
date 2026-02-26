@@ -1,0 +1,70 @@
+{
+  "commandFiles": {
+    "default": [
+      "CARL_RULE_1=Open the CARL manager UI",
+      "BRIEF_RULE_1=Bullet points only - no prose paragraphs",
+      "DEV_RULE_1=Include debug steps in your response"
+    ]
+  },
+  "cases": [
+    {
+      "id": "cmd-01-carl-help",
+      "description": "*carl resolves help guidance",
+      "commandFile": "default",
+      "input": {
+        "promptText": "*carl show me help"
+      },
+      "expected": {
+        "commandDomains": ["CARL"],
+        "payloadContains": "Context Augmentation & Reinforcement Layer"
+      }
+    },
+    {
+      "id": "cmd-02-brief",
+      "description": "*brief resolves command rules",
+      "commandFile": "default",
+      "input": {
+        "promptText": "*brief response only"
+      },
+      "expected": {
+        "commandDomains": ["BRIEF"],
+        "payloadContains": "Bullet points only - no prose paragraphs"
+      }
+    },
+    {
+      "id": "cmd-03-multi-order",
+      "description": "command ordering follows prompt order",
+      "commandFile": "default",
+      "input": {
+        "promptText": "*brief and *dev please"
+      },
+      "expected": {
+        "commandDomains": ["BRIEF", "DEV"]
+      }
+    },
+    {
+      "id": "cmd-04-slash-parity",
+      "description": "/carl fallback matches *carl command domains",
+      "commandFile": "default",
+      "input": {
+        "promptText": "",
+        "commandOverrides": ["carl"]
+      },
+      "expected": {
+        "parityWithStarPrompt": "*carl"
+      }
+    },
+    {
+      "id": "cmd-05-unresolved",
+      "description": "unknown commands are surfaced as unresolved",
+      "commandFile": "default",
+      "input": {
+        "promptText": "*ghost"
+      },
+      "expected": {
+        "commandDomains": [],
+        "unresolvedTokens": ["GHOST"]
+      }
+    }
+  ]
+}

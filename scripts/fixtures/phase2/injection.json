@@ -1,0 +1,94 @@
+{
+  "payloadSets": {
+    "base": {
+      "GLOBAL": {
+        "domain": "GLOBAL",
+        "scope": "global",
+        "sourcePath": "/tmp/.carl",
+        "rules": ["Global rule"],
+        "state": true,
+        "alwaysOn": true,
+        "recall": ["global"],
+        "exclude": []
+      },
+      "OPS": {
+        "domain": "OPS",
+        "scope": "global",
+        "sourcePath": "/tmp/.carl",
+        "rules": ["Ops rule"],
+        "state": true,
+        "alwaysOn": true,
+        "recall": ["ops"],
+        "exclude": []
+      },
+      "DEV": {
+        "domain": "DEV",
+        "scope": "project",
+        "sourcePath": "/tmp/.carl",
+        "rules": ["Dev rule"],
+        "state": true,
+        "alwaysOn": false,
+        "recall": ["dev"],
+        "exclude": []
+      },
+      "COMMANDS": {
+        "domain": "COMMANDS",
+        "scope": "project",
+        "sourcePath": "/tmp/.carl",
+        "rules": ["Command rule"],
+        "state": true,
+        "alwaysOn": false,
+        "recall": [],
+        "exclude": []
+      }
+    }
+  },
+  "cases": [
+    {
+      "id": "inject-01-ordering",
+      "description": "command, always-on, matched ordering with sorted domains",
+      "payloadSet": "base",
+      "input": {
+        "matchedDomains": ["DEV", "OPS"],
+        "commandDomains": ["COMMANDS"]
+      },
+      "expected": {
+        "sectionsOrder": [
+          "COMMAND DOMAINS (explicit)",
+          "ALWAYS-ON DOMAINS",
+          "MATCHED DOMAINS"
+        ],
+        "domainOrder": {
+          "COMMAND DOMAINS (explicit)": ["COMMANDS"],
+          "ALWAYS-ON DOMAINS": ["GLOBAL", "OPS"],
+          "MATCHED DOMAINS": ["DEV"]
+        },
+        "includes": [
+          "[COMMANDS] RULES:",
+          "[GLOBAL] RULES:",
+          "[OPS] RULES:",
+          "[DEV] RULES:"
+        ]
+      }
+    },
+    {
+      "id": "inject-02-dedupe-command",
+      "description": "command domains do not duplicate into matched sections",
+      "payloadSet": "base",
+      "input": {
+        "matchedDomains": ["COMMANDS", "DEV"],
+        "commandDomains": ["COMMANDS"]
+      },
+      "expected": {
+        "domainOrder": {
+          "COMMAND DOMAINS (explicit)": ["COMMANDS"],
+          "MATCHED DOMAINS": ["DEV"]
+        },
+        "includes": [
+          "[COMMANDS] RULES:",
+          "[DEV] RULES:"
+        ]
+      }
+    }
+  ]
+}
