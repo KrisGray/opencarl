@@ -7,6 +7,11 @@ import {
   type CarlSourcePath,
 } from "../integration/paths";
 import {
+  loadSessionOverrides,
+  applySessionOverrides,
+  type SessionOverrides,
+} from "./session-overrides";
+import {
   parseDomainRules,
   parseManifest,
   resolveDomainFile,
@@ -33,6 +38,8 @@ export interface CarlRuleDiscoveryOptions {
   overrides?: CarlRuleDiscoveryOverrides;
   /** When false, project rules are skipped even if .carl/ exists */
   projectOptIn?: boolean;
+  /** Session ID for per-session domain overrides */
+  sessionId?: string;
 }
 
 interface ResolvedSource {
@@ -345,7 +352,45 @@ export function loadCarlRules(
     }
   }
 
-  const domains = Array.from(finalDomains.keys()).sort();
+  // Determine which .carl/ directory to use for session overrides
+  const sessionCarlDir =
+    (projectStatus === "valid" ? projectResult.source?.path.carlDir : null) ??
+    globalSource?.path.carlDir ??
+    fallbackSource?.path.carlDir;
+
+  // Load and apply session overrides
+  let sessionOverrides: SessionOverrides | null = null;
+  if (options.sessionId && sessionCarlDir) {
+    sessionOverrides = loadSessionOverrides(sessionCarlDir, options.sessionId);
+  }
+
+  // Apply session overrides to filter domains
+  let domains = Array.from(finalDomains.keys()).sort();
+  let filteredDomainPayloads = new Map(domainPayloads);
+
+  if (sessionOverrides) {
+    const activeDomains = applySessionOverrides(domains, sessionOverrides);
+    const disabledDomains = new Set(
+      domains.filter((d) => !activeDomains.includes(d))
+    );
+
+    // Update domains list
+    domains = activeDomains;
+
+    // Filter payloads for disabled domains
+    for (const disabledDomain of disabledDomains) {
+      filteredDomainPayloads.delete(disabledDomain);
+      finalDomains.delete(disabledDomain);
+    }
+
+    // Update sources to reflect filtered domains
+    for (const source of sources) {
+      source.domains = source.domains.filter(
+        (d) => !disabledDomains.has(d)
+      );
+    }
+  }
+
   const effectiveManifest =
     projectStatus === "valid"
       ? projectResult.source?.manifest
@@ -357,7 +402,7 @@ export function loadCarlRules(
     sources,
     domains,
     warnings,
-    domainPayloads: Object.fromEntries(domainPayloads.entries()),
+    domainPayloads: Object.fromEntries(filteredDomainPayloads.entries()),
     globalExclude,
     devmode,
     projectStatus,

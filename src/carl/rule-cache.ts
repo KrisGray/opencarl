@@ -106,6 +106,7 @@ export function getCachedRules(
   const cwd = options.cwd ?? process.cwd();
   const projectRoot = options.projectRoot ?? cwd;
   const projectOptIn = options.projectOptIn ?? true;
+  const sessionId = options.sessionId;
 
   // Check if we need to reload
   const needsReload =
@@ -128,6 +129,7 @@ export function getCachedRules(
       projectRoot,
       overrides: options.overrides,
       projectOptIn,
+      sessionId,
     },
   };
   isDirty = false;
@@ -175,6 +177,9 @@ function cacheOptionsDiffer(
   const cachedOptIn = cached.projectOptIn ?? true;
   const freshOptIn = fresh.projectOptIn ?? true;
   if (cachedOptIn !== freshOptIn) return true;
+
+  // Check session ID (affects per-session overrides)
+  if (cached.sessionId !== fresh.sessionId) return true;
 
   // Check overrides
   const cachedOverrides = cached.overrides ?? {};
