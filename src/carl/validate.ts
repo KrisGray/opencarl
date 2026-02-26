@@ -22,6 +22,10 @@ export interface ParsedManifest {
 export interface ParsedDomainRules {
   rules: string[];
   warnings: CarlRuleDiscoveryWarning[];
+  /** CONTEXT domain: bracket enable/disable flags */
+  bracketFlags?: Record<string, boolean>;
+  /** CONTEXT domain: rules organized by bracket */
+  bracketRules?: Record<string, string[]>;
 }
 
 let z: typeof import("zod").z;
@@ -241,6 +245,8 @@ function isValidDomainRuleKey(domain: string, key: string): boolean {
 export function parseDomainRules(domainPath: string, domain: string): ParsedDomainRules {
   const warnings: CarlRuleDiscoveryWarning[] = [];
   const rules: string[] = [];
+  let bracketFlags: Record<string, boolean> | undefined;
+  let bracketRules: Record<string, string[]> | undefined;
 
   if (!fs.existsSync(domainPath)) {
     return { rules, warnings };
@@ -281,10 +287,48 @@ export function parseDomainRules(domainPath: string, domain: string): ParsedDoma
       continue;
     }
 
+    // For CONTEXT domain, parse bracket-specific entries
+    if (domain === "CONTEXT") {
+      // Detect bracket flags: {BRACKET}_RULES = true/false
+      const flagMatch = key.match(/^(FRESH|MODERATE|DEPLETED|CRITICAL)_RULES$/);
+      if (flagMatch) {
+        const bracketName = flagMatch[1];
+        if (!bracketFlags) {
+          bracketFlags = {};
+        }
+        const normalized = value.toLowerCase();
+        bracketFlags[bracketName] = ["true", "yes", "1"].includes(normalized);
+        continue;
+      }
+
+      // Detect bracket rules: {BRACKET}_RULE_{N} = rule text
+      const ruleMatch = key.match(/^(FRESH|MODERATE|DEPLETED|CRITICAL)_RULE_\d+$/);
+      if (ruleMatch) {
+        const bracketName = ruleMatch[1];
+        if (!bracketRules) {
+          bracketRules = {};
+        }
+        if (!bracketRules[bracketName]) {
+          bracketRules[bracketName] = [];
+        }
+        bracketRules[bracketName].push(value);
+        // Also add to flat rules list for backward compatibility
+        rules.push(value);
+        continue;
+      }
+    }
+
     rules.push(value);
   }
 
-  return { rules, warnings };
+  const result: ParsedDomainRules = { rules, warnings };
+  
+  if (domain === "CONTEXT") {
+    result.bracketFlags = bracketFlags;
+    result.bracketRules = bracketRules;
+  }
+
+  return result;
 }
 
 export function resolveDomainFile(
