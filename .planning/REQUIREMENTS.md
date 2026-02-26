@@ -20,8 +20,8 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **RULE-01**: Load global rules from `~/.carl/` (manifest + domain files)
 - [x] **RULE-02**: Load project rules from `./.carl/` and apply project-over-global precedence
 - [x] **RULE-03**: Support CARL manifest fields: `STATE`, `RECALL`, `EXCLUDE`, `ALWAYS_ON`
-- [ ] **RULE-04**: Respect explicit opt-in for project rules before applying them
-- [ ] **RULE-05**: Reload rules on `.carl/` changes without restarting OpenCode
+- [x] **RULE-04**: Respect explicit opt-in for project rules before applying them
+- [x] **RULE-05**: Reload rules on `.carl/` changes without restarting OpenCode
 - [x] **RULE-06**: Fall back to `.opencode/carl/` when `.carl/` locations are absent
 
 ### Matching & Injection
@@ -94,8 +94,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | RULE-01 | Phase 1 | Complete |
 | RULE-02 | Phase 1 | Complete |
 | RULE-03 | Phase 1 | Complete |
-| RULE-04 | Phase 3 | Pending |
-| RULE-05 | Phase 3 | Pending |
+| RULE-04 | Phase 3 | Complete |
+| RULE-05 | Phase 3 | Complete |
 | RULE-06 | Phase 1 | Complete |
 | MATCH-01 | Phase 2 | Complete |
 | MATCH-02 | Phase 2 | Complete |

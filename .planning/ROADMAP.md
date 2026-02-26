@@ -62,10 +62,11 @@ Plans:
   2. Updating `.carl/` files refreshes rule behavior without restarting OpenCode.
   3. Context brackets (fresh/moderate/depleted) influence which rules are selected in long sessions.
   4. After compaction, rule selection remains consistent with prior context state.
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] TBD during planning
+- [x] 03-session-stability-live-updates/03-01-PLAN.md — Project opt-in gating and live reload caching
+- [ ] 03-session-stability-live-updates/03-02-PLAN.md — Context brackets and compaction continuity
 
 ### Phase 4: Setup Flow & Templates
 **Goal**: Users can install CARL with seeded templates and accessible docs.
@@ -102,6 +103,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 |-------|----------------|--------|-----------|
 | 1. Plugin Foundation & Rule Discovery | 0/TBD | Not started | - |
 | 2. Matching, Injection & Command Parity | 0/TBD | Complete    | 2026-02-26 |
-| 3. Session Stability & Live Updates | 0/TBD | Not started | - |
+| 3. Session Stability & Live Updates | 1/2 | In Progress | - |
 | 4. Setup Flow & Templates | 0/TBD | Not started | - |
 | 5. OpenCode Rules Integration & Distribution | 0/TBD | Not started | - |

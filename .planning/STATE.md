@@ -1,21 +1,21 @@
 # Project State
 
-**Current Phase:** 2
-**Current Phase Name:** Matching, Injection & Command Parity
+**Current Phase:** 3
+**Current Phase Name:** Session Stability & Live Updates
 **Total Phases:** 5
-**Current Plan:** Not started
-**Total Plans in Phase:** 4
-**Status:** Milestone complete
-**Progress:** [██████████] 100%
+**Current Plan:** 1
+**Total Plans in Phase:** 2
+**Status:** In Progress
+**Progress:** [████████░░] 83%
 **Last Activity:** 2026-02-26
-**Last Activity Description:** Phase 2 complete
+**Last Activity Description:** Completed 03-01 plan
 
 ## Project Reference
 
 See: .planning/PROJECT.md (updated 2026-02-25)
 
 **Core value:** Keep CARL's dynamic rule injection working seamlessly inside OpenCode with full parity and minimal user friction.
-**Current focus:** Phase 2 — Matching, Injection & Command Parity
+**Current focus:** Phase 3 — Session Stability & Live Updates
 
 ## Performance Metrics
 
@@ -27,11 +27,13 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 | Phase 02 P02 | 11 min | 3 tasks | 7 files |
 | Phase 02 P03 | 0 min | 3 tasks | 5 files |
 | Phase 02 P04 | 5 min | 3 tasks | 4 files |
+| Phase 03 P01 | 10 min | 3 tasks | 5 files |
 
 ## Decisions Made
 
 
 - [Phase 01]: Global plugin entrypoint imports the loader via absolute path derived at install time to ensure shared loader usage.
+- [Phase 03]: Rule cache is global but checks dirty flag before returning cached result; session overrides stored in .carl/sessions/{session_id}.json; invalid project rules emit warning once per session.
 
 ## Blockers/Concerns
 
@@ -40,6 +42,6 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 
 ## Session Continuity
 
-**Last session:** 2026-02-26T15:27:26.598Z
-**Stopped at:** Phase 3 context gathered
-**Resume file:** .planning/phases/03-session-stability-live-updates/03-CONTEXT.md
+**Last session:** 2026-02-26T16:39:22Z
+**Stopped at:** Completed 03-01-PLAN.md
+**Resume file:** None
