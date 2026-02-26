@@ -28,9 +28,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [x] **MATCH-01**: Match rules by recall keywords with exclude handling
 - [x] **MATCH-02**: Match rules using tool usage and file path context
-- [ ] **MATCH-03**: Inject matched rules into the system prompt before the model turn
-- [ ] **MATCH-04**: Maintain deterministic rule ordering in injected output
-- [ ] **MATCH-05**: Apply always-on domains consistently alongside matched domains
+- [x] **MATCH-03**: Inject matched rules into the system prompt before the model turn
+- [x] **MATCH-04**: Maintain deterministic rule ordering in injected output
+- [x] **MATCH-05**: Apply always-on domains consistently alongside matched domains
 
 ### Commands & Modes
 
@@ -99,9 +99,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | RULE-06 | Phase 1 | Complete |
 | MATCH-01 | Phase 2 | Complete |
 | MATCH-02 | Phase 2 | Complete |
-| MATCH-03 | Phase 2 | Pending |
-| MATCH-04 | Phase 2 | Pending |
-| MATCH-05 | Phase 2 | Pending |
+| MATCH-03 | Phase 2 | Complete |
+| MATCH-04 | Phase 2 | Complete |
+| MATCH-05 | Phase 2 | Complete |
 | CMD-01 | Phase 2 | Pending |
 | CMD-02 | Phase 2 | Pending |
 | CMD-03 | Phase 2 | Pending |
