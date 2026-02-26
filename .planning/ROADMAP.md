@@ -45,10 +45,13 @@ Plans:
   3. Always-on domains are injected alongside matched domains in deterministic order.
   4. Users can trigger `*carl` (or `/carl` fallback) to access help/manager mode and `*domain` star-commands for custom modes.
   5. Rule matching incorporates tool usage and file path context signals.
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
-- [ ] TBD during planning
+- [ ] 02-matching-injection-command-parity/02-01-PLAN.md — Parity matcher and session signal capture
+- [ ] 02-matching-injection-command-parity/02-02-PLAN.md — Deterministic pre-turn system injection wiring
+- [ ] 02-matching-injection-command-parity/02-03-PLAN.md — Star/slash command parity and help guidance
+- [ ] 02-matching-injection-command-parity/02-04-PLAN.md — End-to-end Phase 2 parity fixture runner
 
 ### Phase 3: Session Stability & Live Updates
 **Goal**: Rule behavior stays stable across sessions, reloads, and compaction.

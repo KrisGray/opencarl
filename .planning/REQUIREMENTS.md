@@ -26,8 +26,8 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Matching & Injection
 
-- [ ] **MATCH-01**: Match rules by recall keywords with exclude handling
-- [ ] **MATCH-02**: Match rules using tool usage and file path context
+- [x] **MATCH-01**: Match rules by recall keywords with exclude handling
+- [x] **MATCH-02**: Match rules using tool usage and file path context
 - [ ] **MATCH-03**: Inject matched rules into the system prompt before the model turn
 - [ ] **MATCH-04**: Maintain deterministic rule ordering in injected output
 - [ ] **MATCH-05**: Apply always-on domains consistently alongside matched domains
@@ -41,13 +41,13 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Context & Compaction
 
-- [ ] **CTXT-01**: Capture prompt text and tool usage for matching decisions
+- [x] **CTXT-01**: Capture prompt text and tool usage for matching decisions
 - [ ] **CTXT-02**: Apply context brackets (fresh/moderate/depleted) to select rules
 - [ ] **CTXT-03**: Persist minimal state across compaction so rules stay consistent
 
 ### Safety & Validation
 
-- [ ] **SAFE-01**: Enforce `EXCLUDE` keywords to prevent unintended rule loads
+- [x] **SAFE-01**: Enforce `EXCLUDE` keywords to prevent unintended rule loads
 - [x] **SAFE-02**: Validate manifest/domain format and skip invalid entries with warnings
 
 ### OpenCode Rules Integration
@@ -97,8 +97,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | RULE-04 | Phase 3 | Pending |
 | RULE-05 | Phase 3 | Pending |
 | RULE-06 | Phase 1 | Complete |
-| MATCH-01 | Phase 2 | Pending |
-| MATCH-02 | Phase 2 | Pending |
+| MATCH-01 | Phase 2 | Complete |
+| MATCH-02 | Phase 2 | Complete |
 | MATCH-03 | Phase 2 | Pending |
 | MATCH-04 | Phase 2 | Pending |
 | MATCH-05 | Phase 2 | Pending |
@@ -106,10 +106,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CMD-02 | Phase 2 | Pending |
 | CMD-03 | Phase 2 | Pending |
 | CMD-04 | Phase 2 | Pending |
-| CTXT-01 | Phase 2 | Pending |
+| CTXT-01 | Phase 2 | Complete |
 | CTXT-02 | Phase 3 | Pending |
 | CTXT-03 | Phase 3 | Pending |
-| SAFE-01 | Phase 2 | Pending |
+| SAFE-01 | Phase 2 | Complete |
 | SAFE-02 | Phase 1 | Complete |
 | INTE-01 | Phase 5 | Pending |
 | INTE-02 | Phase 5 | Pending |
