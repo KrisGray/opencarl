@@ -34,10 +34,10 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Commands & Modes
 
-- [ ] **CMD-01**: Preserve `*carl` trigger for help/manager mode when supported
-- [ ] **CMD-02**: Provide `/carl` fallback when `*` triggers cannot be intercepted
-- [ ] **CMD-03**: Support star-command modes for custom domains (e.g., `*brief`)
-- [ ] **CMD-04**: Display CARL help/manager guidance consistent with existing docs
+- [x] **CMD-01**: Preserve `*carl` trigger for help/manager mode when supported
+- [x] **CMD-02**: Provide `/carl` fallback when `*` triggers cannot be intercepted
+- [x] **CMD-03**: Support star-command modes for custom domains (e.g., `*brief`)
+- [x] **CMD-04**: Display CARL help/manager guidance consistent with existing docs
 
 ### Context & Compaction
 
@@ -102,10 +102,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | MATCH-03 | Phase 2 | Complete |
 | MATCH-04 | Phase 2 | Complete |
 | MATCH-05 | Phase 2 | Complete |
-| CMD-01 | Phase 2 | Pending |
-| CMD-02 | Phase 2 | Pending |
-| CMD-03 | Phase 2 | Pending |
-| CMD-04 | Phase 2 | Pending |
+| CMD-01 | Phase 2 | Complete |
+| CMD-02 | Phase 2 | Complete |
+| CMD-03 | Phase 2 | Complete |
+| CMD-04 | Phase 2 | Complete |
 | CTXT-01 | Phase 2 | Complete |
 | CTXT-02 | Phase 3 | Pending |
 | CTXT-03 | Phase 3 | Pending |
