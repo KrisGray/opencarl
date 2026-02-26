@@ -122,7 +122,7 @@ function loadDomainPayloads(
 
     const manifestConfig = source.manifest.domains[domain];
 
-    payloads.push({
+    const payload: CarlRuleDomainPayload = {
       domain,
       scope: source.scope,
       sourcePath: source.path.carlDir,
@@ -131,7 +131,15 @@ function loadDomainPayloads(
       alwaysOn: manifestConfig?.alwaysOn ?? false,
       recall: manifestConfig?.recall ?? [],
       exclude: manifestConfig?.exclude ?? [],
-    });
+    };
+
+    // Include bracket data for CONTEXT domain
+    if (domain === "CONTEXT") {
+      payload.bracketFlags = parsed.bracketFlags;
+      payload.bracketRules = parsed.bracketRules;
+    }
+
+    payloads.push(payload);
   }
 
   return payloads;

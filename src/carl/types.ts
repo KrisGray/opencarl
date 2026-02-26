@@ -35,6 +35,10 @@ export interface CarlRuleDomainPayload {
   alwaysOn: boolean;
   recall: string[];
   exclude: string[];
+  /** CONTEXT domain: bracket enable/disable flags (e.g., { FRESH: true, DEPLETED: false }) */
+  bracketFlags?: Record<string, boolean>;
+  /** CONTEXT domain: rules organized by bracket (e.g., { FRESH: ["rule1"], DEPLETED: ["rule2"] }) */
+  bracketRules?: Record<string, string[]>;
 }
 
 export type CarlSignalSource = "prompt" | "tool" | "path";

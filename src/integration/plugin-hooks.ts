@@ -20,6 +20,10 @@ import {
   recordToolSignals,
 } from "../carl/signal-store";
 import type { CarlMatchDomainConfig, CarlRuleDomainPayload } from "../carl/types";
+import {
+  computeContextBracketData,
+  type ContextBracketData,
+} from "../carl/context-brackets";
 
 type PartLike = {
   type?: string;
@@ -31,6 +35,18 @@ type PartLike = {
 type MessageLike = {
   role?: string;
   content?: string | Array<string | { type?: string; text?: string }>;
+};
+
+type TokenInfoLike = {
+  input_tokens?: number;
+  cache_read_input_tokens?: number;
+  output_tokens?: number;
+};
+
+type MessageDataLike = {
+  info?: {
+    tokens?: TokenInfoLike;
+  };
 };
 
 function extractPromptText(message?: MessageLike, parts?: PartLike[]): string {
@@ -88,6 +104,63 @@ function buildMatchDomains(
   }
 
   return configs;
+}
+
+/**
+ * Compute token usage from session messages.
+ * Returns total input + cache tokens, or null if unavailable.
+ */
+function computeTokenUsage(messages: MessageDataLike[] | undefined): number | null {
+  if (!messages || messages.length === 0) {
+    return null;
+  }
+
+  let latestTokens = 0;
+
+  // Find the most recent message with token info
+  for (let i = messages.length - 1; i >= 0; i--) {
+    const msg = messages[i];
+    const tokens = msg?.info?.tokens;
+    if (tokens) {
+      const inputTokens = tokens.input_tokens ?? 0;
+      const cacheTokens = tokens.cache_read_input_tokens ?? 0;
+      const total = inputTokens + cacheTokens;
+      if (total > 0) {
+        latestTokens = total;
+        break;
+      }
+    }
+  }
+
+  return latestTokens > 0 ? latestTokens : null;
+}
+
+/**
+ * Get context bracket data from OpenCode client session.
+ * Falls back to fresh session if token telemetry unavailable.
+ */
+async function getContextBracketFromSession(
+  client: { session?: { messages?: (input: { path: { id: string } }) => Promise<unknown> } },
+  sessionId: string
+): Promise<ContextBracketData> {
+  try {
+    if (!client.session?.messages) {
+      return computeContextBracketData(null);
+    }
+
+    const response = await client.session.messages({ path: { id: sessionId } });
+    const messages = (response as any)?.data ?? response ?? [];
+
+    if (!Array.isArray(messages)) {
+      return computeContextBracketData(null);
+    }
+
+    const tokensUsed = computeTokenUsage(messages);
+    return computeContextBracketData(tokensUsed);
+  } catch {
+    // Session messages unavailable, default to fresh
+    return computeContextBracketData(null);
+  }
 }
 
 export function createCarlPluginHooks(): Hooks {
@@ -155,6 +228,12 @@ export function createCarlPluginHooks(): Hooks {
         globalExclude: discovery.globalExclude,
       });
 
+      // Compute context bracket from session token telemetry
+      const contextBracket = await getContextBracketFromSession(
+        (input as any).client,
+        sessionId
+      );
+
       const injection = buildCarlInjection({
         domainPayloads: {
           ...discovery.domainPayloads,
@@ -162,6 +241,7 @@ export function createCarlPluginHooks(): Hooks {
         },
         matchedDomains: matchResult.matchedDomains,
         commandDomains: commandResolution.commandDomains,
+        contextBracket,
       });
 
       if (discovery.devmode) {
@@ -177,6 +257,11 @@ export function createCarlPluginHooks(): Hooks {
           alwaysOnDomains,
           injected: Boolean(injection),
           injectionLength: injection ? injection.length : 0,
+          contextBracket: {
+            bracket: contextBracket.bracket,
+            contextRemaining: contextBracket.contextRemaining,
+            isCritical: contextBracket.isCritical,
+          },
         });
       }
 
