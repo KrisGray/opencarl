@@ -118,7 +118,7 @@ export function createCarlPluginHooks(): Hooks {
     },
     "experimental.chat.system.transform": async (input, output) => {
       const sessionId = input.sessionID ?? "";
-      const discovery = getCachedRules();
+      const discovery = getCachedRules({ sessionId });
 
       // Handle invalid project rules: warn once per session
       if (discovery.projectStatus === "invalid") {
