@@ -10,9 +10,9 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Installation & Distribution
 
 - [x] **INST-01**: User can load CARL as a local OpenCode plugin from `.opencode/plugins/` and `~/.config/opencode/plugins/`
-- [ ] **INST-02**: Setup flow copies the plugin and seeds `.carl/` templates when missing
+- [x] **INST-02**: Setup flow copies the plugin and seeds `.carl/` templates when missing
 - [ ] **INST-03**: Setup flow updates `opencode.json` and/or `AGENTS.md` with CARL integration when requested
-- [ ] **INST-04**: Plugin detects duplicate loads and warns once per session
+- [x] **INST-04**: Plugin detects duplicate loads and warns once per session
 - [ ] **INST-05**: Plugin can be distributed via npm and loaded from `opencode.json` plugin list
 
 ### Rule Discovery & Scoping
@@ -58,8 +58,8 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Templates & Resources
 
-- [ ] **TEMP-01**: Copy `.carl-template/` into `.carl/` on install if missing
-- [ ] **TEMP-02**: Make CARL command/skill docs available in OpenCode workflows
+- [x] **TEMP-01**: Copy `.carl-template/` into `.carl/` on install if missing
+- [x] **TEMP-02**: Make CARL command/skill docs available in OpenCode workflows
 
 ## v2 Requirements
 
@@ -87,9 +87,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | INST-01 | Phase 1 | Complete |
-| INST-02 | Phase 4 | Pending |
+| INST-02 | Phase 4 | Complete |
 | INST-03 | Phase 5 | Pending |
-| INST-04 | Phase 4 | Pending |
+| INST-04 | Phase 4 | Complete |
 | INST-05 | Phase 5 | Pending |
 | RULE-01 | Phase 1 | Complete |
 | RULE-02 | Phase 1 | Complete |
@@ -114,8 +114,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | INTE-01 | Phase 5 | Pending |
 | INTE-02 | Phase 5 | Pending |
 | INTE-03 | Phase 5 | Pending |
-| TEMP-01 | Phase 4 | Pending |
-| TEMP-02 | Phase 4 | Pending |
+| TEMP-01 | Phase 4 | Complete |
+| TEMP-02 | Phase 4 | Complete |
 | ENHN-01 | v2 | Deferred |
 | ENHN-02 | v2 | Deferred |
 
