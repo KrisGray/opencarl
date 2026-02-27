@@ -55,3 +55,36 @@ export function buildCarlHelpGuidance(options?: {
     combined,
   };
 }
+
+export interface CarlDocsGuidance {
+  quickReference: string;
+  fullGuide: string;
+  combined: string;
+}
+
+export function buildCarlDocsGuidance(options?: {
+  docsPath?: string;
+}): CarlDocsGuidance {
+  const docsPath =
+    options?.docsPath ??
+    path.resolve(
+      process.cwd(),
+      "resources",
+      "docs",
+      "CARL-DOCS.md"
+    );
+
+  const fullContent = readFileSafe(docsPath);
+
+  // Extract quick reference (before --- separator)
+  const separatorIndex = fullContent.indexOf("\n---");
+  const quickReference = separatorIndex > 0
+    ? fullContent.slice(0, separatorIndex).trim()
+    : fullContent.slice(0, 2000); // Fallback: first 2000 chars
+
+  return {
+    quickReference,
+    fullGuide: fullContent,
+    combined: fullContent,
+  };
+}
