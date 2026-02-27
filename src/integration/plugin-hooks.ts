@@ -1,5 +1,14 @@
+import os from "os";
+import path from "path";
+import { fileURLToPath } from "url";
 import type { Hooks } from "@opencode-ai/plugin";
 import { resolveCarlCommandSignals } from "../carl/command-parity";
+import { checkSetupNeeded, buildSetupPrompt } from "../carl/setup";
+import {
+  registerPluginLoad,
+  checkDuplicateLoad,
+  getDuplicateWarning,
+} from "../carl/duplicate-detector";
 import { buildCarlHelpGuidance } from "../carl/help-text";
 import { buildCarlInjection } from "../carl/injector";
 import {
@@ -11,19 +20,17 @@ import {
   clearSessionWarning,
 } from "../carl/rule-cache";
 import { matchDomainsForTurn } from "../carl/matcher";
-import {
-  consumeCommandSignals,
-  getSessionSignals,
-  getSessionPromptText,
-  recordCommandSignals,
-  recordPromptSignals,
-  recordToolSignals,
-} from "../carl/signal-store";
-import type { CarlMatchDomainConfig, CarlRuleDomainPayload } from "../carl/types";
-import {
-  computeContextBracketData,
-  type ContextBracketData,
-} from "../carl/context-brackets";
+
+// Resolve plugin path at module initialization for duplicate detection
+const PLUGIN_PATH = typeof __dirname !== "undefined"
+  ? __dirname
+  : path.dirname(fileURLToPath(import.meta.url));
+
+// Register this plugin load
+registerPluginLoad(PLUGIN_PATH);
+
+// Setup detection state (check once per process)
+let setupChecked = false;
 
 type PartLike = {
   type?: string;
@@ -191,6 +198,27 @@ export function createCarlPluginHooks(): Hooks {
     },
     "experimental.chat.system.transform": async (input, output) => {
       const sessionId = input.sessionID ?? "";
+
+      // Check setup on first invocation
+      if (!setupChecked) {
+        setupChecked = true;
+        const setupCheck = checkSetupNeeded({
+          cwd: process.cwd(),
+          homeDir: os.homedir(),
+        });
+
+        if (setupCheck.needed && setupCheck.targetDir) {
+          output.system.push(buildSetupPrompt());
+        }
+      }
+
+      // Check for duplicate plugin loads (warn once per session)
+      const duplicateCheck = checkDuplicateLoad(PLUGIN_PATH, sessionId);
+      if (duplicateCheck.isDuplicate && duplicateCheck.existingPath && !duplicateCheck.warningEmitted) {
+        const warning = getDuplicateWarning(PLUGIN_PATH, duplicateCheck.existingPath);
+        console.warn(warning);
+      }
+
       const discovery = getCachedRules({ sessionId });
 
       // Handle invalid project rules: warn once per session
