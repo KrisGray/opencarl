@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [ ] **Phase 1: Plugin Foundation & Rule Discovery** - OpenCode loads CARL locally and discovers rules with correct precedence.
 - [x] **Phase 2: Matching, Injection & Command Parity** - Rules are matched/injected deterministically with command modes preserved. (completed 2026-02-26)
 - [x] **Phase 3: Session Stability & Live Updates** - Opt-in, reload, brackets, and compaction keep rule behavior stable. (completed 2026-02-26)
-- [ ] **Phase 4: Setup Flow & Templates** - Users get a smooth install flow with seeded templates and docs access.
+- [x] **Phase 4: Setup Flow & Templates** - Users get a smooth install flow with seeded templates and docs access. (completed 2026-02-27)
 - [ ] **Phase 5: OpenCode Rules Integration & Distribution** - Optional rules integration and npm distribution are available.
 
 ## Phase Details
@@ -79,9 +79,9 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 04-setup-flow-templates/04-01-PLAN.md — Setup detection and template seeding
-- [ ] 04-setup-flow-templates/04-02-PLAN.md — Duplicate plugin detection
-- [ ] 04-setup-flow-templates/04-03-PLAN.md — Documentation access via /carl docs
+- [x] 04-setup-flow-templates/04-01-PLAN.md — Setup detection and template seeding
+- [x] 04-setup-flow-templates/04-02-PLAN.md — Duplicate plugin detection
+- [x] 04-setup-flow-templates/04-03-PLAN.md — Documentation access via /carl docs
 
 ### Phase 5: OpenCode Rules Integration & Distribution
 **Goal**: Optional rules integration and npm-based distribution are available for users who want them.
@@ -106,5 +106,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 1. Plugin Foundation & Rule Discovery | 0/TBD | Not started | - |
 | 2. Matching, Injection & Command Parity | 0/TBD | Complete    | 2026-02-26 |
 | 3. Session Stability & Live Updates | 2/2 | Complete | 2026-02-26 |
-| 4. Setup Flow & Templates | 0/3 | Not started | - |
+| 4. Setup Flow & Templates | 3/3 | Complete | 2026-02-27 |
 | 5. OpenCode Rules Integration & Distribution | 0/TBD | Not started | - |
