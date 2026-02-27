@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import type { CarlRuleDomainPayload } from "./types";
+import { buildCarlDocsGuidance } from "./help-text";
 
 export interface CarlCommandResolutionInput {
   promptText?: string;
@@ -169,10 +170,22 @@ export function resolveCarlCommandSignals(
 
     const payloadRules = [...rules];
     if (token === "CARL") {
-      const guidance =
-        input.helpGuidance ?? input.getHelpGuidance?.() ?? "";
-      if (guidance) {
-        payloadRules.push(guidance);
+      // Check for docs subcommand in prompt text
+      const isDocsRequest = promptText.toLowerCase().includes('docs');
+
+      if (isDocsRequest) {
+        const docsGuidance = buildCarlDocsGuidance();
+        // Use quick reference for initial response
+        payloadRules.push(docsGuidance.quickReference);
+        // Note about full docs available
+        payloadRules.push("\n\n*For the full guide, see the resources/docs/CARL-DOCS.md file or visit the online documentation.*");
+      } else {
+        // Existing help guidance logic
+        const guidance =
+          input.helpGuidance ?? input.getHelpGuidance?.() ?? "";
+        if (guidance) {
+          payloadRules.push(guidance);
+        }
       }
     }
 
