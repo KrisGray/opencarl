@@ -1,21 +1,21 @@
 # Project State
 
-**Current Phase:** 03
-**Current Phase Name:** Session Stability & Live Updates
+**Current Phase:** 04
+**Current Phase Name:** Setup Flow & Templates
 **Total Phases:** 5
-**Current Plan:** Not started
-**Total Plans in Phase:** 2
-**Status:** Milestone complete
-**Progress:** [██████████] 100%
-**Last Activity:** 2026-02-26
-**Last Activity Description:** Phase 03 complete
+**Current Plan:** 03
+**Total Plans in Phase:** 3
+**Status:** In progress
+**Progress:** [███████░░░] 70%
+**Last Activity:** 2026-02-27
+**Last Activity Description:** Completed 04-03-PLAN.md - Documentation access
 
 ## Project Reference
 
 See: .planning/PROJECT.md (updated 2026-02-25)
 
 **Core value:** Keep CARL's dynamic rule injection working seamlessly inside OpenCode with full parity and minimal user friction.
-**Current focus:** Phase 3 — Session Stability & Live Updates
+**Current focus:** Phase 4 — Setup Flow & Templates
 
 ## Performance Metrics
 
@@ -29,6 +29,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 | Phase 02 P04 | 5 min | 3 tasks | 4 files |
 | Phase 03 P01 | 10 min | 3 tasks | 5 files |
 | Phase 03 P02 | 10 min | 1 tasks | 7 files |
+| Phase 04 P03 | 3 min | 3 tasks | 3 files |
 
 ## Decisions Made
 
@@ -36,6 +37,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 - [Phase 01]: Global plugin entrypoint imports the loader via absolute path derived at install time to ensure shared loader usage.
 - [Phase 03]: Rule cache is global but checks dirty flag before returning cached result; session overrides stored in .carl/sessions/{session_id}.json; invalid project rules emit warning once per session.
 - [Phase 03]: CRITICAL context bracket uses DEPLETED rules with explicit warning — Maintains rule consistency while alerting user to compact session
+- [Phase 04 P03]: Quick reference extracted from docs before --- separator; fallback to first 2000 chars if no separator; regular *carl unchanged (only *carl docs triggers docs)
 
 ## Blockers/Concerns
 
@@ -44,6 +46,6 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 
 ## Session Continuity
 
-**Last session:** 2026-02-26T16:55:14.589Z
-**Stopped at:** Completed 03-02-PLAN.md
+**Last session:** 2026-02-27T15:50:18Z
+**Stopped at:** Completed 04-03-PLAN.md
 **Resume file:** None
