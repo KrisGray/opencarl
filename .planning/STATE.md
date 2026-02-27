@@ -3,19 +3,19 @@
 **Current Phase:** 04
 **Current Phase Name:** Setup Flow & Templates
 **Total Phases:** 5
-**Current Plan:** 03 complete (04-01 pending)
+**Current Plan:** Complete
 **Total Plans in Phase:** 3
-**Status:** In progress
-**Progress:** [█████████░] 91%
+**Status:** Phase complete
+**Progress:** [██████████] 100%
 **Last Activity:** 2026-02-27
-**Last Activity Description:** Completed 04-02 and 04-03 (04-01 pending)
+**Last Activity Description:** Phase 04 complete
 
 ## Project Reference
 
 See: .planning/PROJECT.md (updated 2026-02-25)
 
 **Core value:** Keep CARL's dynamic rule injection working seamlessly inside OpenCode with full parity and minimal user friction.
-**Current focus:** Phase 4 — Setup Flow & Templates
+**Current focus:** Phase 5 — OpenCode Rules Integration & Distribution
 
 ## Performance Metrics
 
@@ -29,6 +29,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 | Phase 02 P04 | 5 min | 3 tasks | 4 files |
 | Phase 03 P01 | 10 min | 3 tasks | 5 files |
 | Phase 03 P02 | 10 min | 1 tasks | 7 files |
+| Phase 04 P01 | 5 min | 3 tasks | 2 files |
 | Phase 04 P02 | 3 min | 2 tasks | 2 files |
 | Phase 04 P03 | 3 min | 3 tasks | 3 files |
 
@@ -38,6 +39,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 - [Phase 01]: Global plugin entrypoint imports the loader via absolute path derived at install time to ensure shared loader usage.
 - [Phase 03]: Rule cache is global but checks dirty flag before returning cached result; session overrides stored in .carl/sessions/{session_id}.json; invalid project rules emit warning once per session.
 - [Phase 03]: CRITICAL context bracket uses DEPLETED rules with explicit warning — Maintains rule consistency while alerting user to compact session
+- [Phase 04 P01]: Setup detection uses process-level guard; idempotent seeding skips existing files; project-first with global fallback
 - [Phase 04 P02]: Duplicate plugin detection uses session-scoped warning guard; first load wins; console.warn for visibility
 - [Phase 04 P03]: Quick reference extracted from docs before --- separator; fallback to first 2000 chars if no separator; regular *carl unchanged (only *carl docs triggers docs)
 
@@ -45,10 +47,9 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 
 
 - REQUIREMENTS.md missing Phase 2 requirement IDs (MATCH-01, MATCH-03, MATCH-04, CMD-01, CMD-04, SAFE-01); mark-complete failed.
-- 04-01-PLAN.md not yet executed (setup detection and template seeding)
 
 ## Session Continuity
 
-**Last session:** 2026-02-27T15:50:18Z
-**Stopped at:** Completed 04-03-PLAN.md
+**Last session:** 2026-02-27T15:47:22Z
+**Stopped at:** Completed 04-01-PLAN.md
 **Resume file:** None
