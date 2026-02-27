@@ -76,10 +76,12 @@ Plans:
   1. Running setup copies the plugin and seeds `.carl/` templates when missing.
   2. Duplicate plugin loads are detected and the user sees a single warning per session.
   3. CARL command/skill documentation is accessible from OpenCode workflows.
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] TBD during planning
+- [ ] 04-setup-flow-templates/04-01-PLAN.md — Setup detection and template seeding
+- [ ] 04-setup-flow-templates/04-02-PLAN.md — Duplicate plugin detection
+- [ ] 04-setup-flow-templates/04-03-PLAN.md — Documentation access via /carl docs
 
 ### Phase 5: OpenCode Rules Integration & Distribution
 **Goal**: Optional rules integration and npm-based distribution are available for users who want them.
@@ -104,5 +106,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 1. Plugin Foundation & Rule Discovery | 0/TBD | Not started | - |
 | 2. Matching, Injection & Command Parity | 0/TBD | Complete    | 2026-02-26 |
 | 3. Session Stability & Live Updates | 2/2 | Complete | 2026-02-26 |
-| 4. Setup Flow & Templates | 0/TBD | Not started | - |
+| 4. Setup Flow & Templates | 0/3 | Not started | - |
 | 5. OpenCode Rules Integration & Distribution | 0/TBD | Not started | - |
