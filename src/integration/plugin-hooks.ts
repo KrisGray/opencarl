@@ -3,7 +3,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import type { Hooks } from "@opencode-ai/plugin";
 import { resolveCarlCommandSignals } from "../carl/command-parity";
-import { checkSetupNeeded, buildSetupPrompt } from "../carl/setup";
+import { checkSetupNeeded, buildSetupPrompt, runSetup } from "../carl/setup";
 import {
   registerPluginLoad,
   checkDuplicateLoad,
@@ -194,6 +194,18 @@ export function createCarlPluginHooks(): Hooks {
       if (commandName === "carl") {
         // /carl fallback should mirror *carl command-mode guidance
         recordCommandSignals(input.sessionID, ["carl"]);
+      }
+      // Handle /carl setup command
+      if (commandName === "carl setup" || commandName === "carl-setup") {
+        const result = await runSetup({
+          cwd: process.cwd(),
+          homeDir: os.homedir(),
+        });
+        console.log(
+          result.success
+            ? "[carl] Setup complete"
+            : `[carl] Setup failed: ${result.error}`
+        );
       }
     },
     "experimental.chat.system.transform": async (input, output) => {
