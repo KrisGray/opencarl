@@ -20,6 +20,14 @@ import {
   clearSessionWarning,
 } from "../carl/rule-cache";
 import { matchDomainsForTurn } from "../carl/matcher";
+import {
+  recordPromptSignals,
+  recordToolSignals,
+  recordCommandSignals,
+  getSessionSignals,
+  getSessionPromptText,
+  consumeCommandSignals,
+} from "../carl/signal-store";
 
 // Resolve plugin path at module initialization for duplicate detection
 const PLUGIN_PATH = typeof __dirname !== "undefined"
