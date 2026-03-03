@@ -5,7 +5,7 @@ import type { Hooks } from "@opencode-ai/plugin";
 import { computeContextBracketData, type ContextBracketData } from "../carl/context-brackets";
 import type { CarlRuleDomainPayload, CarlMatchDomainConfig } from "../carl/types";
 import { resolveCarlCommandSignals } from "../carl/command-parity";
-import { checkSetupNeeded, buildSetupPrompt, runSetup, runIntegration } from "../carl/setup";
+import { checkSetupNeeded, buildSetupPrompt, runSetup, runIntegration, integrateOpencode } from "../carl/setup";
 import {
   registerPluginLoad,
   checkDuplicateLoad,
@@ -239,6 +239,13 @@ export function createCarlPluginHooks(): Hooks {
         const result = await runIntegration({
           cwd: process.cwd(),
           remove: true,
+        });
+        console.log(result.message);
+      }
+      // Handle /carl setup --integrate-opencode
+      if (commandName === "carl setup --integrate-opencode") {
+        const result = await integrateOpencode({
+          cwd: process.cwd(),
         });
         console.log(result.message);
       }

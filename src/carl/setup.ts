@@ -6,6 +6,11 @@ import {
   removeCarlIntegration,
   IntegrationResult,
 } from "../integration/agents-writer";
+import {
+  readOpenCodeConfig,
+  mergeCarlInstructions,
+  writeOpenCodeConfig,
+} from "../integration/opencode-config";
 
 export interface SetupCheckResult {
   needed: boolean;
@@ -31,6 +36,7 @@ export interface IntegrationOptions {
   integrate?: boolean;
   remove?: boolean;
   agentsPath?: string;
+  integrateOpencode?: boolean;
 }
 
 /**
@@ -300,4 +306,71 @@ export async function runIntegration(options: {
     success: false,
     message: "[carl] No integration action specified (use --integrate or --remove)",
   };
+}
+
+/**
+ * Integrate CARL documentation references into opencode.json.
+ * - Reads existing opencode.json (or creates default)
+ * - Merges CARL doc paths into instructions field
+ * - Idempotent - won't duplicate entries
+ *
+ * @param options - Configuration options including cwd
+ * @returns IntegrationResult with success status and message
+ */
+export async function integrateOpencode(options: {
+  cwd: string;
+}): Promise<IntegrationResult> {
+  const { cwd } = options;
+
+  try {
+    // Read existing opencode.json (or get default empty config)
+    let config;
+    try {
+      config = await readOpenCodeConfig(cwd);
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : String(err);
+      return {
+        success: false,
+        message: errorMsg,
+      };
+    }
+
+    // Resolve CARL-DOCS.md path relative to this module
+    const carlDocsPath = path.resolve(
+      path.dirname(require.main?.filename || __dirname),
+      "..",
+      "resources",
+      "docs",
+      "CARL-DOCS.md"
+    );
+
+    // Relative path for opencode.json instructions
+    // Use path relative to cwd if carlDocsPath is within cwd, otherwise use absolute
+    const relativePath = "./resources/docs/CARL-DOCS.md";
+
+    // Merge CARL instructions
+    const mergedConfig = mergeCarlInstructions(config, [relativePath]);
+
+    // Write updated config
+    try {
+      await writeOpenCodeConfig(cwd, mergedConfig);
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : String(err);
+      return {
+        success: false,
+        message: errorMsg,
+      };
+    }
+
+    return {
+      success: true,
+      message: `[carl] CARL documentation added to opencode.json instructions`,
+    };
+  } catch (err) {
+    const errorMsg = err instanceof Error ? err.message : String(err);
+    return {
+      success: false,
+      message: `[carl] OpenCode integration failed: ${errorMsg}`,
+    };
+  }
 }
