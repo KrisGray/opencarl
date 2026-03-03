@@ -2,6 +2,10 @@
   "name": "carl-core",
   "version": "1.0.8",
   "description": "Context Augmentation & Reinforcement Layer - Dynamic rules for Claude Code",
+  "scripts": {
+    "build:opencode": "npx ts-node scripts/build-opencode.ts",
+    "prepublishOnly:opencode": "npm run build:opencode"
+  },
   "bin": {
     "carl-core": "bin/install.js"
   },
@@ -33,5 +37,8 @@
   "homepage": "https://github.com/ChristopherKahler/carl#readme",
   "engines": {
     "node": ">=16.7.0"
+  },
+  "dependencies": {
+    "get-shit-done-cc": "^1.22.1"
   }
 }
