@@ -2,23 +2,11 @@
 
 # CARL
 
-**Context Augmentation & Reinforcement Layer** — Dynamic rules for Claude Code.
+**Context Augmentation & Reinforcement Layer** — Dynamic rules for OpenCode.
 
-[![npm version](https://img.shields.io/npm/v/carl-core?style=for-the-badge&logo=npm&logoColor=white&color=CB3837)](https://www.npmjs.com/package/carl-core)
+[![npm version](https://img.shields.io/npm/v/@krisgray/opencode-carl-plugin?style=for-the-badge&logo=npm&logoColor=white&color=CB3837)](https://www.npmjs.com/package/@krisgray/opencode-carl-plugin)
 [![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/ChristopherKahler/carl?style=for-the-badge&logo=github&color=181717)](https://github.com/ChristopherKahler/carl)
-
-<br>
-
-```bash
-npx carl-core
-```
-
-**Works on Mac, Windows, and Linux.**
-
-<br>
-
-![CARL Install](assets/terminal.svg?v=3)
 
 <br>
 
@@ -26,7 +14,7 @@ npx carl-core
 
 <br>
 
-[Why CARL](#why-carl) · [Getting Started](#getting-started) · [How It Works](#how-it-works) · [Core Concepts](#core-concepts) · [With PAUL](#carl--paul)
+[Why CARL](#why-carl) · [Getting Started](#getting-started) · [How It Works](#how-it-works) · [Core Concepts](#core-concepts)
 
 </div>
 
@@ -34,13 +22,13 @@ npx carl-core
 
 ## Why CARL
 
-Every Claude Code session starts fresh. Your preferences, workflows, and hard-won lessons? Gone. You end up repeating the same instructions:
+Every OpenCode session starts fresh. Your preferences, workflows, and hard-won lessons? Gone. You end up repeating the same instructions:
 
 > "Use TypeScript strict mode."
 > "Don't over-engineer."
 > "Run tests after changes."
 
-Static prompts in CLAUDE.md work, but they bloat every session — even when irrelevant. Writing code? You don't need your content creation rules. Debugging? You don't need your planning workflow.
+Static prompts in AGENTS.md work, but they bloat every session — even when irrelevant. Writing code? You don't need your content creation rules. Debugging? You don't need your planning workflow.
 
 CARL fixes this with **just-in-time rule injection**:
 
@@ -48,13 +36,13 @@ CARL fixes this with **just-in-time rule injection**:
 2. **Rules disappear when not** — Your context stays lean
 3. **Explicit triggers available** — Star-commands (`*commandname`) for on-demand modes
 
-The result: Claude remembers how you work without wasting context on rules you don't need right now.
+The result: Your AI assistant remembers how you work without wasting context on rules you don't need right now.
 
 ---
 
 ## Who This Is For
 
-**Claude Code users** who want persistent preferences without bloated prompts.
+**OpenCode users** who want persistent preferences without bloated prompts.
 
 You've figured out what works for you — coding style, response format, workflow patterns. CARL makes those preferences stick:
 
@@ -63,27 +51,49 @@ You've figured out what works for you — coding style, response format, workflo
 - Override or extend per-project as needed
 - No manual prompt engineering each session
 
-If you find yourself repeating instructions to Claude, CARL is for you.
+If you find yourself repeating instructions, CARL is for you.
 
 ---
 
 ## Getting Started
 
+### Installation
+
 ```bash
-npx carl-core
+npm install @krisgray/opencode-carl-plugin
 ```
 
-The installer prompts you to choose:
-1. **Global** — Rules apply to all Claude Code projects (`~/.claude` + `~/.carl`)
-2. **Local** — Rules apply to current project only (`./.claude` + `./.carl`)
+### Configure opencode.json
 
-It also asks whether to add the CARL integration block to your CLAUDE.md.
+Add CARL to your `opencode.json` plugin list:
 
-**Restart Claude Code after installation.**
+```json
+{
+  "plugin": ["@krisgray/opencode-carl-plugin"]
+}
+```
+
+### Initialize
+
+In OpenCode, run:
+
+```
+/carl setup
+```
+
+This seeds your project with the `.carl/` directory structure and default templates.
+
+### Optional: AGENTS.md Integration
+
+To add CARL documentation to your project's `AGENTS.md`:
+
+```
+/carl setup --integrate
+```
 
 ### Your First Interaction
 
-After install, type `*carl` in any prompt:
+Type `*carl` in any prompt:
 
 ```
 *carl
@@ -95,14 +105,6 @@ This activates **CARL Help Mode** — an interactive guide that can:
 - Show your current configuration
 - Guide you through rule syntax
 
-`*carl` is your entry point for learning and managing CARL.
-
-### Staying Updated
-
-```bash
-npx carl-core@latest
-```
-
 ---
 
 ## How It Works
@@ -112,8 +114,8 @@ You type: "help me fix this bug"
                 │
                 ▼
     ┌───────────────────────┐
-    │   CARL Hook Scans     │
-    │   Your Prompt         │
+    │   CARL Scans Your     │
+    │   Prompt              │
     └───────────────────────┘
                 │
                 ▼
@@ -129,11 +131,11 @@ You type: "help me fix this bug"
     └───────────────────────┘
                 │
                 ▼
-    Claude responds with your
+    Response includes your
     coding preferences baked in
 ```
 
-The hook runs on every interaction, reads your `.carl/manifest`, and injects only the rules that match your current task.
+CARL reads your `.carl/manifest` and injects only the rules that match your current task.
 
 ### Project Structure
 
@@ -143,6 +145,7 @@ The hook runs on every interaction, reads your `.carl/manifest`, and injects onl
 ├── global                # Universal rules (always loaded)
 ├── commands              # Star-command definitions
 ├── context               # Context-aware rules (fresh/moderate/depleted)
+├── sessions/             # Session state files
 └── {custom-domain}       # Your domain files
 ```
 
@@ -239,25 +242,22 @@ Or use `*carl` and say "help me create a domain" for guided setup.
 
 ---
 
-## CARL + PAUL
+## Commands
 
-CARL has a companion: **[PAUL](https://github.com/ChristopherKahler/paul)** (Plan-Apply-Unify Loop).
+| Command | Purpose |
+|---------|---------|
+| `*carl` | Enter help mode |
+| `*carl docs` | View documentation |
+| `/carl` | Domain management |
+| `/carl list` | Show all domains |
+| `/carl view DOMAIN` | Show rules in a domain |
+| `/carl toggle DOMAIN active\|inactive` | Enable/disable domain |
 
-| Tool | Purpose |
-|------|---------|
-| **CARL** | Dynamic rule injection — how Claude behaves |
-| **PAUL** | Structured development workflow — how work flows |
+---
 
-They complement each other:
+## Rule Precedence
 
-- CARL loads PAUL rules when you're in a `.paul/` project
-- PAUL enforces loop integrity (plan → apply → unify)
-- CARL keeps PAUL rules out of context when not needed
-
-**Without CARL:** PAUL rules would bloat every session.
-**Without PAUL:** Complex projects lack structure.
-
-Together: lean context + reliable workflow.
+CARL rules inject alongside your OpenCode AGENTS.md rules. Both apply, with CARL rules providing dynamic context-aware loading based on your current task.
 
 ---
 
@@ -266,7 +266,7 @@ Together: lean context + reliable workflow.
 **Rules not loading?**
 1. Check manifest has `STATE=active`
 2. Verify recall keywords match your prompt
-3. Ensure hook is configured in `~/.claude/settings.json`
+3. Check `.carl/manifest` exists
 
 **Too many rules loading?**
 1. Make recall keywords more specific
@@ -287,7 +287,7 @@ Static prompts waste tokens on irrelevant rules. CARL loads only what's needed:
 
 | Approach | Context Cost |
 |----------|--------------|
-| Static CLAUDE.md | All rules, every session |
+| Static AGENTS.md | All rules, every session |
 | CARL | Only matched rules |
 
 More room for actual work.
@@ -310,16 +310,16 @@ CARL provides structure, not opinions. The default domains are examples — cust
 ## What's Included
 
 ```
-carl-core/
-├── hooks/carl-hook.py        # The injection engine
-├── .carl-template/           # Default configuration
-│   ├── manifest              # Domain registry
-│   ├── global                # Universal rules
-│   ├── commands              # Star-command definitions
-│   └── context               # Context bracket rules
-└── resources/                # Optional management tools
-    ├── commands/carl/            # /carl:manager and related commands
-    └── skills/               # Domain management helpers
+@krisgray/opencode-carl-plugin/
+├── dist/plugin.js          # Plugin entrypoint
+├── .carl-template/         # Default configuration
+│   ├── manifest            # Domain registry
+│   ├── global              # Universal rules
+│   ├── commands            # Star-command definitions
+│   └── context             # Context bracket rules
+└── resources/              # Commands and skills
+    ├── commands/carl/      # /carl commands
+    └── skills/             # Domain management helpers
 ```
 
 ---
@@ -340,7 +340,6 @@ Building tools for AI-assisted development.
 
 <div align="center">
 
-**Claude Code is powerful. CARL makes it personal.**
+**OpenCode is powerful. CARL makes it personal.**
 
 </div>
-
