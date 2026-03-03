@@ -1,58 +1,77 @@
 # Project State
 
-**Current Phase:** Not started
-**Current Phase Name:** —
-**Total Phases:** 5 (v1.0)
-**Current Plan:** —
-**Total Plans in Phase:** —
-**Status:** Defining requirements
-**Progress:** [░░░░░░░░░░] 0%
-**Last Activity:** 2026-03-03
-**Last Activity Description:** Milestone v1.1 started
-
 ## Project Reference
 
 See: .planning/PROJECT.md (updated 2026-03-03)
 
 **Core value:** Keep CARL's dynamic rule injection working seamlessly inside OpenCode with full parity and minimal user friction.
-**Current focus:** v1.1 — Polish & Complete Integration
+**Current focus:** Phase 6 - Integration & Developer Experience
+
+## Current Position
+
+Phase: 6 of 6 (Integration & Developer Experience)
+Plan: 0 of 4 in current phase
+Status: Ready to plan
+Last activity: 2026-03-03 — v1.1 roadmap created, phase 6 defined
+
+Progress: [████████████████░░░░] 80% (15/19 plans complete)
 
 ## Performance Metrics
 
-| Plan | Duration | Tasks | Files |
-|------|----------|-------|-------|
-| Phase 01 P01 | 13 min | 3 tasks | 6 files |
-| Phase 01 P02 | 12 min | 3 tasks | 4 files |
-| Phase 02 P01 | 0 min | 3 tasks | 4 files |
-| Phase 02 P02 | 11 min | 3 tasks | 7 files |
-| Phase 02 P03 | 0 min | 3 tasks | 5 files |
-| Phase 02 P04 | 5 min | 3 tasks | 4 files |
-| Phase 03 P01 | 10 min | 3 tasks | 5 files |
-| Phase 03 P02 | 10 min | 1 task | 7 files |
-| Phase 04 P01 | 5 min | 3 tasks | 2 files |
-| Phase 04 P02 | 3 min | 2 tasks | 2 files |
-| Phase 04 P03 | 3 min | 3 tasks | 3 files |
-| Phase 04 P04 | 5 min | 1 task | 1 file |
-| Phase 05 P03 | 4 min | 3 tasks | 3 files |
+**Velocity:**
+- Total plans completed: 15
+- Average duration: 6 min
+- Total execution time: ~1.5 hours
 
-## Decisions Made
+**By Phase:**
 
-**v1.0:**
-- [Phase 01]: Global plugin entrypoint imports the loader via absolute path derived at install time to ensure shared loader usage.
-- [Phase 03]: Rule cache is global but checks dirty flag before returning cached result; session overrides stored in .carl/sessions/{session_id}.json; invalid project rules emit warning once per session.
-- [Phase 03]: CRITICAL context bracket uses DEPLETED rules with explicit warning — Maintains rule consistency while alerting user to compact session
-- [Phase 04 P01]: Setup detection uses process-level guard; idempotent seeding skips existing files; project-first with global fallback
-- [Phase 04 P02]: Duplicate plugin detection uses session-scoped warning guard; first load wins; console.warn for visibility
-- [Phase 04 P03]: Quick reference extracted from docs before --- separator; fallback to first 2000 chars if no separator; regular *carl unchanged (only *carl docs triggers docs)
-- [Phase 05-01]: Use HTML comment markers for reversible AGENTS.md sections — Markers enable reliable identification and removal of CARL sections without parsing markdown
-- [Phase 05-03]: Dual-package strategy allows maintaining both carl-core and @krisgray/opencode-carl-plugin from same repo — Enables supporting both Claude Code and OpenCode from single codebase
+| Phase | Plans | Total | Avg/Plan |
+|-------|-------|-------|----------|
+| 1. Plugin Foundation | 2 | 25 min | 12.5 min |
+| 2. Matching & Injection | 4 | 16 min | 4 min |
+| 3. Session Stability | 2 | 20 min | 10 min |
+| 4. Setup Flow | 4 | 16 min | 4 min |
+| 5. Rules Integration | 3 | 4 min | 1.3 min |
 
-## Blockers/Concerns
+**Recent Trend:**
+- Last 5 plans: 5, 3, 3, 5, 4 min
+- Trend: Stable
 
-None
+*Updated after each plan completion*
+
+## Accumulated Context
+
+### Decisions
+
+Decisions are logged in PROJECT.md Key Decisions table.
+Recent decisions affecting current work:
+
+- [v1.1]: Scope limited to INTE-02 completion and DX improvements
+- [v1.1]: Phase numbering continues from 6 (v1.0 ended at 5)
+
+**v1.0 Decisions (archived):**
+- [Phase 01]: Global plugin entrypoint imports the loader via absolute path derived at install time
+- [Phase 03]: Rule cache checks dirty flag before returning; session overrides in .carl/sessions/
+- [Phase 03]: CRITICAL context bracket uses DEPLETED rules with explicit warning
+- [Phase 04]: Setup detection uses process-level guard; idempotent seeding skips existing files
+- [Phase 04]: Duplicate plugin detection uses session-scoped warning guard
+- [Phase 05]: HTML comment markers for reversible AGENTS.md sections
+- [Phase 05]: Dual-package strategy (carl-core + @krisgray/opencode-carl-plugin)
+
+### Pending Todos
+
+None yet.
+
+### Blockers/Concerns
+
+None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-03T12:53:36.000Z
-**Stopped at:** Completed 05-03-PLAN.md
-**Resume file:** None
+Last session: 2026-03-03
+Stopped at: Roadmap created for v1.1 milestone, phase 6 ready for planning
+Resume file: None
+
+---
+*State initialized: 2026-02-25*
+*Last updated: 2026-03-03 for v1.1 milestone*
