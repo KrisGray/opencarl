@@ -30,6 +30,43 @@ CARL rules are injected alongside OpenCode's built-in rules and instructions:
 3. **Use star-commands** - `*commandname` for explicit rule triggers
 4. **Review `.carl/manifest`** - See active domains and their settings
 
+### Migrating from AGENTS.md
+
+If your AGENTS.md has grown large with behavioral rules, consider moving them to CARL domains:
+
+| Content Type | Keep in AGENTS.md | Move to CARL |
+|--------------|-------------------|--------------|
+| Project identity & purpose | ✓ | |
+| Directory structure | ✓ | |
+| Team/business context | ✓ | |
+| Git/commit conventions | ✓ | |
+| **Coding preferences** | | ✓ |
+| **Response formatting rules** | | ✓ |
+| **Workflow-specific instructions** | | ✓ |
+| **Tool usage preferences** | | ✓ |
+
+**Migration example:**
+
+AGENTS.md:
+```
+Always use TypeScript strict mode. Prefer functional components. Run tests after changes.
+```
+
+→ `.carl/development`:
+```
+DEVELOPMENT_RULE_0=Always use TypeScript strict mode
+DEVELOPMENT_RULE_1=Prefer functional components
+DEVELOPMENT_RULE_2=Run tests after implementation changes
+```
+
+→ `.carl/manifest`:
+```
+DEVELOPMENT_STATE=active
+DEVELOPMENT_RECALL=write code, fix bug, implement, refactor
+```
+
+**Benefit:** Rules only load when you're coding, keeping context lean when doing other tasks.
+
 ## Quick Reference
 
 ### File Structure
