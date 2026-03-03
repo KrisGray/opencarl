@@ -2,8 +2,9 @@ import os from "os";
 import path from "path";
 import { fileURLToPath } from "url";
 import type { Hooks } from "@opencode-ai/plugin";
+import { computeContextBracketData } from "../carl/context-bracket";
 import { resolveCarlCommandSignals } from "../carl/command-parity";
-import { checkSetupNeeded, buildSetupPrompt, runSetup } from "../carl/setup";
+import { checkSetupNeeded, buildSetupPrompt, runSetup, runIntegration } from "../carl/setup";
 import {
   registerPluginLoad,
   checkDuplicateLoad,
@@ -30,9 +31,10 @@ import {
 } from "../carl/signal-store";
 
 // Resolve plugin path at module initialization for duplicate detection
-const PLUGIN_PATH = typeof __dirname !== "undefined"
-  ? __dirname
-  : path.dirname(fileURLToPath(import.meta.url));
+const PLUGIN_PATH =
+  typeof __dirname !== "undefined"
+    ? __dirname
+    : path.dirname(fileURLToPath(import.meta.url));
 
 // Register this plugin load
 registerPluginLoad(PLUGIN_PATH);
@@ -104,7 +106,7 @@ function extractPromptText(message?: MessageLike, parts?: PartLike[]): string {
 }
 
 function buildMatchDomains(
-  payloads: Record<string, CarlRuleDomainPayload>
+  payloads: Record<string, CarlRuleDomainPayload>,
 ): Record<string, CarlMatchDomainConfig> {
   const configs: Record<string, CarlMatchDomainConfig> = {};
 
@@ -125,7 +127,9 @@ function buildMatchDomains(
  * Compute token usage from session messages.
  * Returns total input + cache tokens, or null if unavailable.
  */
-function computeTokenUsage(messages: MessageDataLike[] | undefined): number | null {
+function computeTokenUsage(
+  messages: MessageDataLike[] | undefined,
+): number | null {
   if (!messages || messages.length === 0) {
     return null;
   }
@@ -155,8 +159,12 @@ function computeTokenUsage(messages: MessageDataLike[] | undefined): number | nu
  * Falls back to fresh session if token telemetry unavailable.
  */
 async function getContextBracketFromSession(
-  client: { session?: { messages?: (input: { path: { id: string } }) => Promise<unknown> } },
-  sessionId: string
+  client: {
+    session?: {
+      messages?: (input: { path: { id: string } }) => Promise<unknown>;
+    };
+  },
+  sessionId: string,
 ): Promise<ContextBracketData> {
   try {
     if (!client.session?.messages) {
@@ -187,7 +195,7 @@ export function createCarlPluginHooks(): Hooks {
 
       const promptText = extractPromptText(
         output.message as MessageLike,
-        output.parts as PartLike[]
+        output.parts as PartLike[],
       );
 
       if (promptText) {
@@ -198,7 +206,9 @@ export function createCarlPluginHooks(): Hooks {
       recordToolSignals(input.sessionID, input.tool, output.args);
     },
     "command.execute.before": async (input) => {
-      const commandName = (input.command ?? "").replace(/^\//, "").toLowerCase();
+      const commandName = (input.command ?? "")
+        .replace(/^\//, "")
+        .toLowerCase();
       if (commandName === "carl") {
         // /carl fallback should mirror *carl command-mode guidance
         recordCommandSignals(input.sessionID, ["carl"]);
@@ -212,8 +222,24 @@ export function createCarlPluginHooks(): Hooks {
         console.log(
           result.success
             ? "[carl] Setup complete"
-            : `[carl] Setup failed: ${result.error}`
+            : `[carl] Setup failed: ${result.error}`,
         );
+      }
+      // Handle /carl setup --integrate
+      if (commandName === "carl setup --integrate") {
+        const result = await runIntegration({
+          cwd: process.cwd(),
+          integrate: true,
+        });
+        console.log(result.message);
+      }
+      // Handle /carl setup --remove
+      if (commandName === "carl setup --remove") {
+        const result = await runIntegration({
+          cwd: process.cwd(),
+          remove: true,
+        });
+        console.log(result.message);
       }
     },
     "experimental.chat.system.transform": async (input, output) => {
@@ -234,8 +260,15 @@ export function createCarlPluginHooks(): Hooks {
 
       // Check for duplicate plugin loads (warn once per session)
       const duplicateCheck = checkDuplicateLoad(PLUGIN_PATH, sessionId);
-      if (duplicateCheck.isDuplicate && duplicateCheck.existingPath && !duplicateCheck.warningEmitted) {
-        const warning = getDuplicateWarning(PLUGIN_PATH, duplicateCheck.existingPath);
+      if (
+        duplicateCheck.isDuplicate &&
+        duplicateCheck.existingPath &&
+        !duplicateCheck.warningEmitted
+      ) {
+        const warning = getDuplicateWarning(
+          PLUGIN_PATH,
+          duplicateCheck.existingPath,
+        );
         console.warn(warning);
       }
 
@@ -248,7 +281,7 @@ export function createCarlPluginHooks(): Hooks {
             .map((w) => w.message)
             .join("; ");
           console.warn(
-            `[carl] Invalid project rules detected - project rules disabled: ${warningMessages}`
+            `[carl] Invalid project rules detected - project rules disabled: ${warningMessages}`,
           );
           markSessionWarned(sessionId);
         }
@@ -279,7 +312,7 @@ export function createCarlPluginHooks(): Hooks {
       // Compute context bracket from session token telemetry
       const contextBracket = await getContextBracketFromSession(
         (input as any).client,
-        sessionId
+        sessionId,
       );
 
       const injection = buildCarlInjection({

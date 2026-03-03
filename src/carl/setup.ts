@@ -1,6 +1,11 @@
 import fs from "fs";
 import path from "path";
 import { findProjectCarl, findGlobalCarl } from "../integration/paths";
+import {
+  integrateCarl,
+  removeCarlIntegration,
+  IntegrationResult,
+} from "../integration/agents-writer";
 
 export interface SetupCheckResult {
   needed: boolean;
@@ -19,6 +24,12 @@ export interface SetupResult {
   targetDir: string | null;
   seedResult?: SeedResult;
   error?: string;
+}
+
+export interface IntegrationOptions {
+  integrate?: boolean;
+  remove?: boolean;
+  agentsPath?: string;
 }
 
 /**
@@ -248,5 +259,44 @@ export async function runSetup(options: {
     success: true,
     targetDir,
     seedResult,
+  };
+}
+
+/**
+ * Run AGENTS.md integration or removal.
+ * Can be called independently or as part of setup.
+ */
+export async function runIntegration(options: {
+  cwd: string;
+  integrate?: boolean;
+  remove?: boolean;
+  agentsPath?: string;
+}): Promise<IntegrationResult> {
+  const { cwd, integrate, remove, agentsPath } = options;
+
+  // Default paths
+  const defaultAgentsPath = path.join(cwd, "AGENTS.md");
+  const targetAgentsPath = agentsPath || defaultAgentsPath;
+
+  // Resolve CARL-AGENTS.md path relative to this module
+  const carlDocsPath = path.resolve(
+    path.dirname(require.main?.filename || __dirname),
+    "..",
+    "resources",
+    "docs",
+    "CARL-AGENTS.md"
+  );
+
+  if (integrate) {
+    return integrateCarl(targetAgentsPath, carlDocsPath);
+  }
+
+  if (remove) {
+    return removeCarlIntegration(targetAgentsPath);
+  }
+
+  return {
+    success: false,
+    message: "[carl] No integration action specified (use --integrate or --remove)",
   };
 }
