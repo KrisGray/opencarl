@@ -32,6 +32,7 @@ import {
   getSessionPromptText,
   consumeCommandSignals,
 } from "../carl/signal-store";
+import { formatError } from "../carl/errors";
 
 // Resolve plugin path at module initialization for duplicate detection
 const PLUGIN_PATH = __dirname;
@@ -215,42 +216,59 @@ export function createCarlPluginHooks(): Hooks {
       }
       // Handle /carl setup command
       if (commandName === "carl setup" || commandName === "carl-setup") {
-        const result = await runSetup({
-          cwd: process.cwd(),
-          homeDir: os.homedir(),
-        });
-        console.log(
-          result.success
-            ? "[carl] Setup complete"
-            : `[carl] Setup failed: ${result.error}`,
-        );
+        try {
+          const result = await runSetup({
+            cwd: process.cwd(),
+            homeDir: os.homedir(),
+          });
+          console.log(
+            result.success
+              ? "[carl] Setup complete"
+              : `[carl] Setup failed: ${result.error}`,
+          );
+        } catch (error) {
+          console.error(formatError(error));
+        }
       }
       // Handle /carl setup --integrate
       if (commandName === "carl setup --integrate") {
-        const result = await runIntegration({
-          cwd: process.cwd(),
-          integrate: true,
-        });
-        console.log(result.message);
+        try {
+          const result = await runIntegration({
+            cwd: process.cwd(),
+            integrate: true,
+          });
+          console.log(result.message);
+        } catch (error) {
+          console.error(formatError(error));
+        }
       }
       // Handle /carl setup --remove
       if (commandName === "carl setup --remove") {
-        const result = await runIntegration({
-          cwd: process.cwd(),
-          remove: true,
-        });
-        console.log(result.message);
+        try {
+          const result = await runIntegration({
+            cwd: process.cwd(),
+            remove: true,
+          });
+          console.log(result.message);
+        } catch (error) {
+          console.error(formatError(error));
+        }
       }
       // Handle /carl setup --integrate-opencode
       if (commandName === "carl setup --integrate-opencode") {
-        const result = await integrateOpencode({
-          cwd: process.cwd(),
-        });
-        console.log(result.message);
+        try {
+          const result = await integrateOpencode({
+            cwd: process.cwd(),
+          });
+          console.log(result.message);
+        } catch (error) {
+          console.error(formatError(error));
+        }
       }
     },
     "experimental.chat.system.transform": async (input, output) => {
-      const sessionId = input.sessionID ?? "";
+      try {
+        const sessionId = input.sessionID ?? "";
 
       // Check setup on first invocation
       if (!setupChecked) {
@@ -369,6 +387,9 @@ export function createCarlPluginHooks(): Hooks {
 
       if (injection) {
         output.system.push(injection);
+      }
+      } catch (error) {
+        console.error(formatError(error));
       }
     },
   };
