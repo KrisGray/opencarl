@@ -239,5 +239,5 @@ QUICK_RULE_2=Minimal output
 
 ---
 
-*For the latest documentation, visit: [GitHub CARL Repository](https://github.com/ChristopherKahler/carl)*
+*For the latest documentation, visit: [GitHub OpenCARL Repository](https://github.com/KrisGray/opencarl)*
 *This documentation is bundled with your CARL plugin.*

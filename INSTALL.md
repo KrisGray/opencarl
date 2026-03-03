@@ -60,9 +60,9 @@ If you prefer manual setup:
 ### Step 1: Clone and Build
 
 ```bash
-git clone https://github.com/ChristopherKahler/carl.git
-cd carl
-npm run build:opencode
+git clone https://github.com/KrisGray/opencarl.git
+cd opencarl
+npm run build
 ```
 
 ### Step 2: Copy Plugin Files
