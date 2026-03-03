@@ -4,6 +4,7 @@ import type {
   CarlMatchRequest,
   CarlMatchResult,
 } from "./types";
+import { debugRuleMatch } from "./debug";
 
 function normalizeKeyword(value: string): string {
   return value.trim().toLowerCase();
@@ -88,6 +89,7 @@ export function matchDomainsForTurn(request: CarlMatchRequest): CarlMatchResult 
         excludedKeywords: excludeMatches,
         exclusionSource: "domain",
       });
+      debugRuleMatch(domain.name, haystack, [], excludeMatches);
       continue;
     }
 
@@ -103,6 +105,7 @@ export function matchDomainsForTurn(request: CarlMatchRequest): CarlMatchResult 
         matchedKeywords: recallMatches,
         excludedKeywords: [],
       });
+      debugRuleMatch(domain.name, haystack, recallMatches, []);
     }
   }
 

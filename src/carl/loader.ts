@@ -24,6 +24,13 @@ import type {
   CarlRuleSource,
   CarlProjectStatus,
 } from "./types";
+import {
+  CarlError,
+  configReadError,
+  domainLoadError,
+  permissionError,
+} from "./errors";
+import { debugFileLoad } from "./debug";
 
 export interface CarlRuleDiscoveryOverrides {
   projectCarlDir?: string;
@@ -78,7 +85,19 @@ function resolveManifest(
     return null;
   }
 
-  const manifest = parseManifest(sourcePath.manifestPath);
+  let manifest: ParsedManifest;
+  try {
+    manifest = parseManifest(sourcePath.manifestPath);
+  } catch (error) {
+    // Handle file read errors (permission denied, etc.)
+    if (error instanceof Error) {
+      if (error.message.includes("EACCES") || error.message.includes("permission")) {
+        throw permissionError(sourcePath.manifestPath, "read manifest");
+      }
+      throw configReadError(sourcePath.manifestPath, error.message);
+    }
+    throw configReadError(sourcePath.manifestPath, String(error));
+  }
 
   // Add scope to manifest warnings
   for (const w of manifest.warnings) {
@@ -87,9 +106,11 @@ function resolveManifest(
   warnings.push(...manifest.warnings);
 
   if (!manifest.isValid) {
+    debugFileLoad(sourcePath.manifestPath, scope, false);
     return null;
   }
 
+  debugFileLoad(sourcePath.manifestPath, scope, true);
   return { scope, path: sourcePath, manifest };
 }
 
@@ -112,13 +133,24 @@ function loadDomainPayloads(
       continue;
     }
 
-    const parsed = parseDomainRules(domainPath, domain);
+    let parsed;
+    try {
+      parsed = parseDomainRules(domainPath, domain);
+    } catch (error) {
+      // Handle file read errors (permission issues, encoding problems)
+      if (error instanceof Error && error.message.includes("EACCES")) {
+        throw permissionError(domainPath, "read");
+      }
+      throw domainLoadError(domain, domainPath, error instanceof Error ? error.message : String(error));
+    }
 
     // Add scope to domain warnings
     for (const w of parsed.warnings) {
       w.scope = source.scope;
     }
     warnings.push(...parsed.warnings);
+
+    debugFileLoad(domainPath, source.scope, true);
 
     const manifestConfig = source.manifest.domains[domain];
 

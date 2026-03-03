@@ -1,7 +1,8 @@
 import os from "os";
 import path from "path";
-import { fileURLToPath } from "url";
-import type { Hooks } from "@opencode-ai/plugin";
+
+// Type import workaround for ES module in CommonJS context
+type Hooks = import("@opencode-ai/plugin", { with: { "resolution-mode": "import" } }).Hooks;
 import { computeContextBracketData, type ContextBracketData } from "../carl/context-brackets";
 import type { CarlRuleDomainPayload, CarlMatchDomainConfig } from "../carl/types";
 import { resolveCarlCommandSignals } from "../carl/command-parity";
@@ -22,6 +23,7 @@ import {
   clearSessionWarning,
 } from "../carl/rule-cache";
 import { matchDomainsForTurn } from "../carl/matcher";
+import { debugInjection } from "../carl/debug";
 import {
   recordPromptSignals,
   recordToolSignals,
@@ -32,10 +34,7 @@ import {
 } from "../carl/signal-store";
 
 // Resolve plugin path at module initialization for duplicate detection
-const PLUGIN_PATH =
-  typeof __dirname !== "undefined"
-    ? __dirname
-    : path.dirname(fileURLToPath(import.meta.url));
+const PLUGIN_PATH = __dirname;
 
 // Register this plugin load
 registerPluginLoad(PLUGIN_PATH);
@@ -323,6 +322,20 @@ export function createCarlPluginHooks(): Hooks {
         sessionId,
       );
 
+      // Debug logging for injection
+      if (matchResult.matchedDomains.length > 0) {
+        const totalRules = matchResult.matchedDomains.reduce((sum, domain) => {
+          const payload = discovery.domainPayloads[domain];
+          return sum + (payload?.rules?.length || 0);
+        }, 0);
+        
+        debugInjection(
+          matchResult.matchedDomains,
+          totalRules,
+          contextBracket.bracket
+        );
+      }
+
       const injection = buildCarlInjection({
         domainPayloads: {
           ...discovery.domainPayloads,
@@ -356,13 +369,6 @@ export function createCarlPluginHooks(): Hooks {
 
       if (injection) {
         output.system.push(injection);
-      }
-    },
-    "file.watcher.updated": async (input) => {
-      // Mark rule cache dirty when .carl/ files change
-      const filePath = input.path ?? "";
-      if (isCarlPath(filePath)) {
-        markRulesDirty();
       }
     },
   };
