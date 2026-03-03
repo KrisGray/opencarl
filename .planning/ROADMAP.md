@@ -118,7 +118,7 @@ Plans:
   2. User sees clear, actionable error messages when the plugin fails to load
   3. User can enable debug logging to understand CARL's rule matching decisions
   4. User can reference a troubleshooting guide for common issues
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
 - [ ] 06-integration-developer-experience/06-01-PLAN.md — opencode.json instructions integration (INTE-02)
