@@ -8,24 +8,33 @@ Adapt CARL from a Claude Code hook into a first-class OpenCode plugin. The plugi
 
 Keep CARL's dynamic rule injection working seamlessly inside OpenCode with full parity and minimal user friction.
 
+## Current Milestone: v1.1 Polish & Complete Integration
+
+**Goal:** Complete remaining INTE-02 requirement and polish the v1.0 implementation with better DX.
+
+**Target features:**
+- INTE-02: Update `opencode.json` `instructions` to include CARL docs when requested
+- Polish & fixes: tests, rough edges, technical debt cleanup
+- Better DX: improved error messages, debug logging, troubleshooting guides
+
 ## Requirements
 
 ### Validated
 
-- ✓ Hook-based prompt scanning and domain rule injection via `.carl/manifest` and domain files — existing
-- ✓ Star-command activation (`*command`) for explicit modes — existing
-- ✓ Context bracket rules (fresh/moderate/depleted) — existing
-- ✓ CLI installer wiring Claude settings and templates — existing
+- ✓ OpenCode plugin replicates CARL hook behavior (keyword match, exclude, always-on, star-commands, context brackets) — v1.0 Phases 1-3
+- ✓ Local plugin distribution for OpenCode (`.opencode/plugins/` and `~/.config/opencode/plugins/`) — v1.0 Phase 1
+- ✓ Installer/setup flow for OpenCode (copy plugin, seed `.carl/` templates, ensure configuration) — v1.0 Phase 4
+- ✓ `AGENTS.md` integration with CARL usage guidance — v1.0 Phase 5
+- ✓ `*carl` trigger working, `/carl` fallback available — v1.0 Phase 2
+- ✓ Plugin implemented in TypeScript using OpenCode plugin types — v1.0 Phase 1
+- ✓ `.carl/` locations maintained for global and project rules — v1.0 Phase 1
+- ✓ NPM distribution via dual-package strategy — v1.0 Phase 5
 
 ### Active
 
-- [ ] OpenCode plugin replicates CARL hook behavior (keyword match, exclude, always-on, star-commands, context brackets)
-- [ ] Local plugin distribution for OpenCode (`.opencode/plugins/` and `~/.config/opencode/plugins/`)
-- [ ] Installer or setup flow for OpenCode (copy plugin, seed `.carl/` templates, ensure configuration)
-- [ ] OpenCode rules integration: update `AGENTS.md` and `opencode.json` instructions when appropriate
-- [ ] Preserve `*carl` trigger if possible; fall back to `/carl` if OpenCode cannot intercept `*`
-- [ ] Plugin implemented in TypeScript using OpenCode plugin types
-- [ ] Maintain `.carl/` locations for global and project rules
+- [ ] Complete INTE-02: `opencode.json` instructions integration
+- [ ] Polish: tests for edge cases, fix rough edges, address technical debt
+- [ ] Better DX: improved error messages, debug logging, troubleshooting guides
 
 ### Out of Scope
 
@@ -51,11 +60,12 @@ Keep CARL's dynamic rule injection working seamlessly inside OpenCode with full 
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Local plugin distribution | Matches OpenCode plugin loading and avoids npm publish | — Pending |
-| Keep `.carl/` locations | Preserve existing CARL workflows and files | — Pending |
-| Prefer `*carl` trigger | Maintains current user experience | — Pending |
-| Integrate with `AGENTS.md` and `opencode.json` | Align with OpenCode rules system | — Pending |
-| TypeScript plugin implementation | Aligns with OpenCode plugin types and examples | — Pending |
+| Local plugin distribution | Matches OpenCode plugin loading and avoids npm publish | ✓ Good |
+| Keep `.carl/` locations | Preserve existing CARL workflows and files | ✓ Good |
+| Prefer `*carl` trigger | Maintains current user experience | ✓ Good |
+| Integrate with `AGENTS.md` and `opencode.json` | Align with OpenCode rules system | ◆ Partial (AGENTS.md done, opencode.json instructions pending) |
+| TypeScript plugin implementation | Aligns with OpenCode plugin types and examples | ✓ Good |
+| Dual-package strategy (carl-core + @krisgray/opencode-carl-plugin) | Support both Claude Code and OpenCode from single repo | ✓ Good |
 
 ---
-*Last updated: 2026-02-25 after initialization*
+*Last updated: 2026-03-03 after v1.1 milestone started*
