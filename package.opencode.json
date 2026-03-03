@@ -1,0 +1,38 @@
+{
+  "name": "@krisgray/opencode-carl-plugin",
+  "version": "1.0.0",
+  "description": "CARL - Context Augmentation & Reinforcement Layer for OpenCode",
+  "main": "dist/plugin.js",
+  "types": "dist/plugin.d.ts",
+  "files": [
+    "dist/",
+    ".carl-template/",
+    "resources/",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "opencode",
+    "opencode-plugin",
+    "carl",
+    "rules",
+    "context",
+    "dynamic-rules"
+  ],
+  "author": "Chris Kahler",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChristopherKahler/carl.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ChristopherKahler/carl/issues"
+  },
+  "homepage": "https://github.com/ChristopherKahler/carl#readme",
+  "peerDependencies": {
+    "@opencode-ai/plugin": "^1.2.0"
+  },
+  "engines": {
+    "node": ">=16.7.0"
+  }
+}
