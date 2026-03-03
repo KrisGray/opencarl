@@ -68,7 +68,7 @@ Invoke with `*quick` in any prompt.
 
 ### What is CARL?
 
-CARL gives Claude Code persistent memory about how YOU work. Instead of repeating instructions every session, you define rules once and they load automatically when relevant.
+CARL gives your AI assistant persistent memory about how YOU work. Instead of repeating instructions every session, you define rules once and they load automatically when relevant.
 
 **Core value:** Keep CARL's dynamic rule injection working seamlessly with minimal user friction.
 
@@ -78,7 +78,7 @@ CARL gives Claude Code persistent memory about how YOU work. Instead of repeatin
 You type: "help me fix this bug"
    |
    v
-Hook scans your prompt for keywords
+CARL scans your prompt for keywords
    |
    v
 Matches "fix bug" -> DEVELOPMENT domain
@@ -87,7 +87,7 @@ Matches "fix bug" -> DEVELOPMENT domain
 Injects DEVELOPMENT rules into context
    |
    v
-Claude responds with your coding preferences baked in
+Response includes your coding preferences baked in
 ```
 
 ### Core Concepts
@@ -239,5 +239,5 @@ QUICK_RULE_2=Minimal output
 
 ---
 
-*For the latest documentation, visit: [GitHub CARL Repository](https://github.com/your-org/carl)*
+*For the latest documentation, visit: [GitHub CARL Repository](https://github.com/ChristopherKahler/carl)*
 *This documentation is bundled with your CARL plugin.*

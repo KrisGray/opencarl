@@ -4,7 +4,7 @@
 
 ## What is CARL?
 
-CARL gives Claude Code persistent memory about how YOU work. Instead of repeating instructions every session, you define rules once and they load automatically when relevant.
+CARL gives your AI assistant persistent memory about how YOU work. Instead of repeating instructions every session, you define rules once and they load automatically when relevant.
 
 ## How It Works
 
@@ -12,7 +12,7 @@ CARL gives Claude Code persistent memory about how YOU work. Instead of repeatin
 You type: "help me fix this bug"
    │
    ▼
-Hook scans your prompt for keywords
+CARL scans your prompt for keywords
    │
    ▼
 Matches "fix bug" → DEVELOPMENT domain
@@ -21,7 +21,7 @@ Matches "fix bug" → DEVELOPMENT domain
 Injects DEVELOPMENT rules into context
    │
    ▼
-Claude responds with your coding preferences baked in
+Response includes your coding preferences baked in
 ```
 
 ## Core Concepts
