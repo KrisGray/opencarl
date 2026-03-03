@@ -11,7 +11,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [x] **INST-01**: User can load CARL as a local OpenCode plugin from `.opencode/plugins/` and `~/.config/opencode/plugins/`
 - [x] **INST-02**: Setup flow copies the plugin and seeds `.carl/` templates when missing
-- [ ] **INST-03**: Setup flow updates `opencode.json` and/or `AGENTS.md` with CARL integration when requested
+- [x] **INST-03**: Setup flow updates `opencode.json` and/or `AGENTS.md` with CARL integration when requested
 - [x] **INST-04**: Plugin detects duplicate loads and warns once per session
 - [ ] **INST-05**: Plugin can be distributed via npm and loaded from `opencode.json` plugin list
 
@@ -52,9 +52,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### OpenCode Rules Integration
 
-- [ ] **INTE-01**: Update `AGENTS.md` with CARL usage guidance (project scope)
+- [x] **INTE-01**: Update `AGENTS.md` with CARL usage guidance (project scope)
 - [ ] **INTE-02**: Update `opencode.json` `instructions` to include CARL docs when requested
-- [ ] **INTE-03**: Document precedence between CARL rules and OpenCode rules/instructions
+- [x] **INTE-03**: Document precedence between CARL rules and OpenCode rules/instructions
 
 ### Templates & Resources
 
@@ -88,7 +88,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 |-------------|-------|--------|
 | INST-01 | Phase 1 | Complete |
 | INST-02 | Phase 4 | Complete |
-| INST-03 | Phase 5 | Pending |
+| INST-03 | Phase 5 | Complete |
 | INST-04 | Phase 4 | Complete |
 | INST-05 | Phase 5 | Pending |
 | RULE-01 | Phase 1 | Complete |
@@ -111,9 +111,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CTXT-03 | Phase 3 | Complete |
 | SAFE-01 | Phase 2 | Complete |
 | SAFE-02 | Phase 1 | Complete |
-| INTE-01 | Phase 5 | Pending |
+| INTE-01 | Phase 5 | Complete |
 | INTE-02 | Phase 5 | Pending |
-| INTE-03 | Phase 5 | Pending |
+| INTE-03 | Phase 5 | Complete |
 | TEMP-01 | Phase 4 | Complete |
 | TEMP-02 | Phase 4 | Complete |
 | ENHN-01 | v2 | Deferred |

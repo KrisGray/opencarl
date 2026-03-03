@@ -1,14 +1,14 @@
 # Project State
 
-**Current Phase:** 04
-**Current Phase Name:** Setup Flow & Templates
+**Current Phase:** 05
+**Current Phase Name:** OpenCode Rules Integration & Distribution
 **Total Phases:** 5
-**Current Plan:** Complete
-**Total Plans in Phase:** 4 (including gap closure 04-04)
-**Status:** Phase complete
-**Progress:** [██████████] 100%
-**Last Activity:** 2026-02-27
-**Last Activity Description:** Gap closure 04-04 complete - fixed ReferenceError
+**Current Plan:** 03
+**Total Plans in Phase:** 3
+**Status:** Phase complete — ready for verification
+**Progress:** [█████████░] 87%
+**Last Activity:** 2026-03-03
+**Last Activity Description:** Plan 05-03 complete - npm package docs and publish scripts
 
 ## Project Reference
 
@@ -33,6 +33,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 | Phase 04 P02 | 3 min | 2 tasks | 2 files |
 | Phase 04 P03 | 3 min | 3 tasks | 3 files |
 | Phase 04 P04 | 5 min | 1 task | 1 file |
+| Phase 05 P03 | 4 min | 3 tasks | 3 files |
 
 ## Decisions Made
 
@@ -43,6 +44,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 - [Phase 04 P01]: Setup detection uses process-level guard; idempotent seeding skips existing files; project-first with global fallback
 - [Phase 04 P02]: Duplicate plugin detection uses session-scoped warning guard; first load wins; console.warn for visibility
 - [Phase 04 P03]: Quick reference extracted from docs before --- separator; fallback to first 2000 chars if no separator; regular *carl unchanged (only *carl docs triggers docs)
+- [Phase 05-01]: Use HTML comment markers for reversible AGENTS.md sections — Markers enable reliable identification and removal of CARL sections without parsing markdown
 
 ## Blockers/Concerns
 
