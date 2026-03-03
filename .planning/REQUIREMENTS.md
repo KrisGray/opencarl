@@ -61,6 +61,16 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **TEMP-01**: Copy `.carl-template/` into `.carl/` on install if missing
 - [x] **TEMP-02**: Make CARL command/skill docs available in OpenCode workflows
 
+## v1.1 Requirements
+
+Requirements for polish release. Maps to Phase 6.
+
+### Developer Experience
+
+- [ ] **DX-01**: User receives clear, actionable error messages when plugin fails to load
+- [ ] **DX-02**: User can enable debug logging to trace plugin behavior and rule matching
+- [ ] **DX-03**: User can reference a troubleshooting guide for common issues
+
 ## v2 Requirements
 
 Deferred to future release. Tracked but not in current roadmap.
@@ -79,6 +89,7 @@ Explicitly excluded. Documented to prevent scope creep.
 | Auto-executing tools/commands | Security risk and violates user control expectations |
 | Always-on global injection with no opt-out | Causes prompt bloat and misapplied rules |
 | Black-box prompt rewriting | Undermines trust and debuggability |
+| Unit tests / Integration tests | Deferred — focusing on feature completion first |
 
 ## Traceability
 
@@ -112,18 +123,21 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SAFE-01 | Phase 2 | Complete |
 | SAFE-02 | Phase 1 | Complete |
 | INTE-01 | Phase 5 | Complete |
-| INTE-02 | Phase 5 | Pending |
+| INTE-02 | Phase 6 | Pending |
 | INTE-03 | Phase 5 | Complete |
 | TEMP-01 | Phase 4 | Complete |
 | TEMP-02 | Phase 4 | Complete |
+| DX-01 | Phase 6 | Pending |
+| DX-02 | Phase 6 | Pending |
+| DX-03 | Phase 6 | Pending |
 | ENHN-01 | v2 | Deferred |
 | ENHN-02 | v2 | Deferred |
 
 **Coverage:**
-- v1 requirements: 30 total
-- Mapped to phases: 30
+- v1 + v1.1 requirements: 33 total
+- Mapped to phases: 33
 - Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-02-25*
-*Last updated: 2026-02-25 after initial definition*
+*Last updated: 2026-03-03 after v1.1 scope definition*
