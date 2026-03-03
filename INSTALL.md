@@ -43,6 +43,16 @@ This adds an OpenCARL section with rule precedence documentation. Remove it anyt
 /carl setup --remove
 ```
 
+### Optional: opencode.json Instructions Integration
+
+To add OpenCARL docs to your `opencode.json` instructions field:
+
+```
+/carl setup --integrate-opencode
+```
+
+This merges CARL documentation into the `instructions` array in opencode.json, making it available globally to OpenCode. Run again to update if CARL docs change.
+
 ---
 
 ## Prerequisites
@@ -127,18 +137,27 @@ Test with:
 
 ## Troubleshooting
 
-**Rules not loading?**
-- Check `.carl/manifest` exists and has `STATE=active` for domains
-- Verify recall keywords match your prompts
-- Run `/carl list` to see active domains
+### Quick Fixes
 
-**Plugin not found?**
-- Verify `@krisgray/opencode-carl-plugin` is in your node_modules
-- Check opencode.json plugin path is correct
+| Problem | Fix |
+|---------|-----|
+| Rules not loading | Check `.carl/manifest` has `STATE=active` |
+| Plugin not found | Verify opencode.json plugin path |
+| Commands not available | Run `/carl setup` |
 
-**Commands not available?**
-- Run `/carl setup` to seed commands
-- Check `.opencode/commands/carl/` directory exists
+### Debug Mode
+
+Enable detailed logging:
+
+```bash
+CARL_DEBUG=true
+```
+
+This shows rule matching decisions and injection events.
+
+### Full Troubleshooting Guide
+
+See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for comprehensive troubleshooting covering installation, loading, matching, and integration issues.
 
 ---
 

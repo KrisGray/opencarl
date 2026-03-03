@@ -38,6 +38,8 @@
 | `/carl list` | Show all domains |
 | `/carl view DOMAIN` | Show rules in a domain |
 | `/carl toggle DOMAIN active\|inactive` | Enable/disable domain |
+| `/carl setup --integrate` | Add CARL docs to AGENTS.md |
+| `/carl setup --integrate-opencode` | Add CARL docs to opencode.json |
 
 ### Quick Example: Add a Rule
 Edit `.carl/development`:
@@ -61,6 +63,13 @@ Invoke with `*quick` in any prompt.
 | Wrong rules loading | Make recall keywords more specific |
 | Star-command not working | Verify `COMMANDS_STATE=active` in manifest |
 | Domain file ignored | Filename must be lowercase, no extension |
+
+### Debug Mode
+Enable detailed logging to see rule matching decisions:
+```bash
+CARL_DEBUG=true
+```
+Shows: file loads, rule matches, injection events. See [TROUBLESHOOTING.md](../../TROUBLESHOOTING.md) for full guide.
 
 ---
 
@@ -225,25 +234,33 @@ QUICK_RULE_2=Minimal output
 
 ### Troubleshooting
 
-**Rules not loading?**
-1. Check manifest has correct `STATE=active`
-2. Verify recall keywords match your prompt
-3. Look for typos in domain filename (must be lowercase, no extension)
+**Quick Diagnosis Checklist:**
+1. `.carl/manifest` exists and has `STATE=active` for domains
+2. Domain filename is lowercase with no extension
+3. Recall keywords match your prompt text
+4. Run `/carl list` to verify domain visibility
 
-**Too many rules loading?**
-1. Make recall keywords more specific
-2. Use EXCLUDE to block unwanted matches
-3. Consider splitting into separate domains
+**Debug Mode:**
+```bash
+CARL_DEBUG=true
+```
+Enables detailed logging of file loads, rule matches, and injection events.
 
-**Star-command not working?**
-1. Ensure `COMMANDS_STATE=active` in manifest
-2. Check command is in `.carl/commands` file
-3. Verify `*commandname` syntax (asterisk + lowercase)
+**Comprehensive Guide:**
+See [TROUBLESHOOTING.md](../../TROUBLESHOOTING.md) for:
+- Quick diagnosis checklist
+- Problem → Solution for common issues
+- Debug mode usage guide
+- GitHub issue template
 
-**Context bracket warnings?**
-- DEPLETED context means session has been compacted
-- Rules still load but with minimal injection overhead
-- Warning is intentional to alert you to reduced context
+**Common Issues:**
+
+| Issue | Fix |
+|-------|-----|
+| Rules not loading | Check `STATE=active`, verify keywords |
+| Too many rules | Use EXCLUDE, make keywords specific |
+| Star-command not working | Check `COMMANDS_STATE=active` |
+| Context bracket warnings | Normal when session is compacted |
 
 ---
 

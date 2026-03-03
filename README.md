@@ -117,6 +117,16 @@ To add OpenCARL documentation to your project's `AGENTS.md`
 /carl setup --integrate
 ```
 
+### Optional: opencode.json Instructions Integration
+
+To add OpenCARL docs to your `opencode.json` instructions field (for global OpenCode context)
+
+```
+/carl setup --integrate-opencode
+```
+
+This merges CARL documentation into your opencode.json, making it available to OpenCode in every session.
+
 ### Your First Interaction
 
 Type `*carl` in any prompt
@@ -289,19 +299,38 @@ OpenCARL rules inject alongside your OpenCode AGENTS.md rules. Both apply, with 
 
 ## Troubleshooting
 
-**Rules not loading?**
-1. Check manifest has `STATE=active`
-2. Verify recall keywords match your prompt
-3. Check `.carl/manifest` exists
+### Quick Diagnosis
 
-**Too many rules loading?**
-1. Make recall keywords more specific
-2. Use EXCLUDE to block unwanted matches
-3. Split broad domains into focused ones
+| Problem | Fix |
+|---------|-----|
+| Rules not loading | Check `STATE=active` in manifest |
+| Wrong rules loading | Make recall keywords more specific |
+| Plugin not found | Verify opencode.json plugin path |
+| Commands not available | Run `/carl setup` |
+
+### Debug Mode
+
+Enable detailed logging to see rule matching decisions:
+
+```bash
+CARL_DEBUG=true
+```
+
+This outputs rule loading, matching, and injection details to help diagnose issues.
+
+### Full Troubleshooting Guide
+
+For comprehensive troubleshooting, see [TROUBLESHOOTING.md](TROUBLESHOOTING.md) which covers:
+
+- Installation issues
+- Rule loading problems
+- Matching/injection debugging
+- Integration configuration
 
 **Need help?**
 - Type `*carl` for interactive guidance
 - Check `.carl/manifest` for current configuration
+- Run with `CARL_DEBUG=true` for detailed logs
 
 ---
 
