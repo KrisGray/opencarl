@@ -8,12 +8,16 @@ OpenCARL is a dynamic rule injection plugin for OpenCode that gives your AI assi
 
 Keep CARL's dynamic rule injection working seamlessly inside OpenCode with full parity and minimal user friction.
 
-## Current Milestone: Planning Next Release
+## Current Milestone: v1.2 Testing & Quality Assurance
 
-**Shipped:** v1.1 Polish & Complete Integration (2026-03-03)
+**Goal:** Establish comprehensive test coverage with CI/CD integration and E2E testing via Docker.
 
-**Next milestone goals:**
-- TBD via `/gsd-new-milestone`
+**Target features:**
+- Jest test infrastructure with 80% coverage thresholds
+- Unit tests for all core modules (loader, matcher, injector, validate, context-brackets, etc.)
+- Integration tests for plugin lifecycle and rule injection pipeline
+- E2E tests with real OpenCode in Docker container
+- GitHub Actions workflow for automated test execution on PR/push
 
 ## Requirements
 
