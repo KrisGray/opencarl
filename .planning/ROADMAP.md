@@ -85,17 +85,19 @@ Plans:
 - [x] 04-setup-flow-templates/04-04-PLAN.md — Fix missing signal-store imports (gap closure)
 
 ### Phase 5: OpenCode Rules Integration & Distribution
-**Goal**: Optional rules integration and npm-based distribution are available for users who want them.
+**Goal**: Optional rules integration via AGENTS.md and npm-based distribution available for users who want them.
 **Depends on**: Phase 4
 **Requirements**: INST-03, INST-05, INTE-01, INTE-02, INTE-03
 **Success Criteria** (what must be TRUE):
-  1. Setup can update `opencode.json` and/or `AGENTS.md` with CARL guidance when requested.
-  2. Users can find CARL usage guidance in `AGENTS.md` and `opencode.json` with documented precedence vs OpenCode rules.
-  3. CARL can be loaded via npm from the `opencode.json` plugin list.
-**Plans**: TBD
+  1. Setup can update AGENTS.md with CARL guidance when requested via --integrate flag.
+  2. Users can find CARL usage guidance in AGENTS.md with documented precedence vs OpenCode rules.
+  3. CARL can be loaded via npm from the opencode.json plugin list.
+**Plans**: 3 plans
 
 Plans:
-- [ ] TBD during planning
+- [ ] 05-opencode-rules-integration-distribution/05-01-PLAN.md — AGENTS.md integration with --integrate/--remove flags
+- [ ] 05-opencode-rules-integration-distribution/05-02-PLAN.md — NPM package structure for @krisgray/opencode-carl-plugin
+- [ ] 05-opencode-rules-integration-distribution/05-03-PLAN.md — Publish scripts and npm documentation
 
 ## Progress
 
@@ -108,4 +110,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 2. Matching, Injection & Command Parity | 0/TBD | Complete    | 2026-02-26 |
 | 3. Session Stability & Live Updates | 2/2 | Complete | 2026-02-26 |
 | 4. Setup Flow & Templates | 4/4 | Complete | 2026-02-27 |
-| 5. OpenCode Rules Integration & Distribution | 0/TBD | Not started | - |
+| 5. OpenCode Rules Integration & Distribution | 0/3 | Not started | - |
