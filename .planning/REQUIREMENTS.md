@@ -13,7 +13,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **INST-02**: Setup flow copies the plugin and seeds `.carl/` templates when missing
 - [x] **INST-03**: Setup flow updates `opencode.json` and/or `AGENTS.md` with CARL integration when requested
 - [x] **INST-04**: Plugin detects duplicate loads and warns once per session
-- [ ] **INST-05**: Plugin can be distributed via npm and loaded from `opencode.json` plugin list
+- [x] **INST-05**: Plugin can be distributed via npm and loaded from `opencode.json` plugin list
 
 ### Rule Discovery & Scoping
 
@@ -90,7 +90,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | INST-02 | Phase 4 | Complete |
 | INST-03 | Phase 5 | Complete |
 | INST-04 | Phase 4 | Complete |
-| INST-05 | Phase 5 | Pending |
+| INST-05 | Phase 5 | Complete |
 | RULE-01 | Phase 1 | Complete |
 | RULE-02 | Phase 1 | Complete |
 | RULE-03 | Phase 1 | Complete |

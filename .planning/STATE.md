@@ -45,6 +45,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 - [Phase 04 P02]: Duplicate plugin detection uses session-scoped warning guard; first load wins; console.warn for visibility
 - [Phase 04 P03]: Quick reference extracted from docs before --- separator; fallback to first 2000 chars if no separator; regular *carl unchanged (only *carl docs triggers docs)
 - [Phase 05-01]: Use HTML comment markers for reversible AGENTS.md sections — Markers enable reliable identification and removal of CARL sections without parsing markdown
+- [Phase 05-03]: Dual-package strategy allows maintaining both carl-core and @krisgray/opencode-carl-plugin from same repo — Enables supporting both Claude Code and OpenCode from single codebase
 
 ## Blockers/Concerns
 
@@ -53,6 +54,6 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 
 ## Session Continuity
 
-**Last session:** 2026-03-03T12:14:50.717Z
-**Stopped at:** Phase 5 context gathered
-**Resume file:** .planning/phases/05-opencode-rules-integration-distribution/05-CONTEXT.md
+**Last session:** 2026-03-03T12:53:36.000Z
+**Stopped at:** Completed 05-03-PLAN.md
+**Resume file:** None
