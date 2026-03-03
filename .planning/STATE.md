@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-03-03)
 ## Current Position
 
 Phase: 6 of 6 (Integration & Developer Experience)
-Plan: 0 of 4 in current phase
-Status: Ready to plan
-Last activity: 2026-03-03 — v1.1 roadmap created, phase 6 defined
+Plan: 1 of 4 in current phase
+Status: In progress
+Last activity: 2026-03-03 — Completed 06-01: OpenCode config integration
 
-Progress: [████████████████░░░░] 80% (15/19 plans complete)
+Progress: [████████████████░░░░] 84% (16/19 plans complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 15
+- Total plans completed: 16
 - Average duration: 6 min
-- Total execution time: ~1.5 hours
+- Total execution time: ~1.6 hours
 
 **By Phase:**
 
@@ -32,13 +32,13 @@ Progress: [████████████████░░░░] 80% (15
 | 3. Session Stability | 2 | 20 min | 10 min |
 | 4. Setup Flow | 4 | 16 min | 4 min |
 | 5. Rules Integration | 3 | 4 min | 1.3 min |
+| 6. Integration & DX | 1 | 4 min | 4 min |
 
 **Recent Trend:**
 - Last 5 plans: 5, 3, 3, 5, 4 min
 - Trend: Stable
 
 *Updated after each plan completion*
-| Phase 06-integration-developer-experience P04 | 2 | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -61,6 +61,7 @@ Recent decisions affecting current work:
 - [Phase 06-integration-developer-experience]: Quick Diagnosis Checklist provides rapid problem identification before detailed sections — Most issues can be identified with 5 common checks, saving time
 - [Phase 06-integration-developer-experience]: Organized troubleshooting by issue category (Installation, Loading, Matching, Integration) — Logical grouping helps users find relevant solutions quickly
 - [Phase 06-integration-developer-experience]: Debug Mode section documents CARL_DEBUG environment variable usage — Debug mode is critical for troubleshooting but wasn't previously documented
+- [Phase 06-01]: Use relative path ./resources/docs/CARL-DOCS.md for opencode.json instructions — Works across project setups and environments
 
 ### Pending Todos
 
@@ -73,7 +74,7 @@ None.
 ## Session Continuity
 
 Last session: 2026-03-03
-Stopped at: Roadmap created for v1.1 milestone, phase 6 ready for planning
+Stopped at: Completed 06-01-PLAN.md (OpenCode config integration)
 Resume file: None
 
 ---

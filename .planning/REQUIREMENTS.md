@@ -53,7 +53,7 @@ Requirements for initial release. Each maps to roadmap phases.
 ### OpenCode Rules Integration
 
 - [x] **INTE-01**: Update `AGENTS.md` with CARL usage guidance (project scope)
-- [ ] **INTE-02**: Update `opencode.json` `instructions` to include CARL docs when requested
+- [x] **INTE-02**: Update `opencode.json` `instructions` to include CARL docs when requested
 - [x] **INTE-03**: Document precedence between CARL rules and OpenCode rules/instructions
 
 ### Templates & Resources
@@ -123,7 +123,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SAFE-01 | Phase 2 | Complete |
 | SAFE-02 | Phase 1 | Complete |
 | INTE-01 | Phase 5 | Complete |
-| INTE-02 | Phase 6 | Pending |
+| INTE-02 | Phase 6 | Complete |
 | INTE-03 | Phase 5 | Complete |
 | TEMP-01 | Phase 4 | Complete |
 | TEMP-02 | Phase 4 | Complete |
