@@ -1,15 +1,25 @@
 #!/usr/bin/env node
 
+/**
+ * CARL Setup Script for OpenCode
+ * 
+ * This script sets up CARL for use with OpenCode:
+ * - Seeds .carl/ directory with templates
+ * - Copies commands and skills to .opencode/
+ * - Optionally integrates with AGENTS.md
+ * - Checks opencode.json plugin configuration
+ */
+
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
-const readline = require('readline');
 
-// Colors (amber/orange theme like Claude Code)
+// Colors
 const amber = '\x1b[38;5;214m';
 const orange = '\x1b[38;5;208m';
 const green = '\x1b[32m';
 const yellow = '\x1b[33m';
+const cyan = '\x1b[36m';
 const dim = '\x1b[2m';
 const reset = '\x1b[0m';
 
@@ -18,92 +28,92 @@ const pkg = require('../package.json');
 
 const banner = `
 ${orange}   ██████╗ █████╗ ██████╗ ██╗
-  ██╔════╝██╔══██╗██╔══██╗██║
-  ██║     ███████║██████╔╝██║
-  ██║     ██╔══██║██╔══██╗██║
-  ╚██████╗██║  ██║██║  ██║███████╗
-   ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝${reset}
+   ██╔════╝██╔══██╗██╔══██╗██║
+   ██║     ███████║██████╔╝██║
+   ██║     ██╔══██║██╔══██╗██║
+   ╚██████╗██║  ██║██║  ██║███████╗
+    ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝${reset}
 
-  CARL ${dim}v${pkg.version}${reset}
-  Context Augmentation & Reinforcement Layer
+   CARL ${dim}v${pkg.version}${reset}
+   Context Augmentation & Reinforcement Layer for OpenCode
 `;
 
-// CARL block for CLAUDE.md
-const CARL_BLOCK = `<!-- CARL-MANAGED: Do not remove this section -->
+// CARL section for AGENTS.md
+const CARL_AGENTS_SECTION = `<!-- CARL-START - DO NOT EDIT -->
 ## CARL Integration
 
-Follow all rules in <carl-rules> blocks from system-reminders.
-These are dynamically injected based on context and MUST be obeyed.
-<!-- END CARL-MANAGED -->`;
+CARL provides dynamic rule injection for this project. Rules load automatically when relevant to your current task.
+
+### How CARL Works with OpenCode
+
+1. **OpenCode AGENTS.md rules** - Load first as project-scoped instructions
+2. **CARL's dynamic rules** - Load based on recall keyword matches
+3. **Both sets of rules apply** to the current session
+
+### Integration Points
+
+| Integration | Purpose |
+|-------------|---------|
+| \`*carl\` | Enter CARL help mode |
+| \`*carl docs\` | View full CARL documentation |
+| \`/carl\` | Domain management commands |
+| \`.carl/\` directory | Your rule definitions |
+
+### Quick Reference
+
+\`\`\`
+.carl/
+├── manifest        # Domain registry (states + recall keywords)
+├── global          # Always-loaded rules
+├── commands        # Star-command definitions
+└── {domain}        # Custom domain files
+\`\`\`
+
+For full documentation, run \`*carl docs\` in OpenCode.
+<!-- CARL-END - DO NOT EDIT -->`;
 
 // Parse args
 const args = process.argv.slice(2);
 const hasGlobal = args.includes('--global') || args.includes('-g');
 const hasLocal = args.includes('--local') || args.includes('-l');
 const hasHelp = args.includes('--help') || args.includes('-h');
-const skipClaudeMd = args.includes('--skip-claude-md');
-
-// Parse --config-dir argument
-function parseConfigDirArg() {
-  const configDirIndex = args.findIndex(arg => arg === '--config-dir' || arg === '-c');
-  if (configDirIndex !== -1) {
-    const nextArg = args[configDirIndex + 1];
-    if (!nextArg || nextArg.startsWith('-')) {
-      console.error(`  ${yellow}--config-dir requires a path argument${reset}`);
-      process.exit(1);
-    }
-    return nextArg;
-  }
-  const configDirArg = args.find(arg => arg.startsWith('--config-dir=') || arg.startsWith('-c='));
-  if (configDirArg) {
-    return configDirArg.split('=')[1];
-  }
-  return null;
-}
-const explicitConfigDir = parseConfigDirArg();
+const hasIntegrate = args.includes('--integrate') || args.includes('-i');
+const hasRemove = args.includes('--remove') || args.includes('-r');
 
 console.log(banner);
 
-// Show help if requested
+// Show help
 if (hasHelp) {
-  console.log(`  ${yellow}Usage:${reset} npx carl-core [options]
+  console.log(`  ${yellow}Usage:${reset} npx @krisgray/opencode-carl-plugin [options]
 
   ${yellow}Options:${reset}
-    ${amber}-g, --global${reset}              Install globally (to ~/.claude and ~/.carl)
-    ${amber}-l, --local${reset}               Install locally (to ./.claude and ./.carl)
-    ${amber}-c, --config-dir <path>${reset}   Specify custom Claude config directory
-    ${amber}--skip-claude-md${reset}          Don't modify CLAUDE.md
-    ${amber}-h, --help${reset}                Show this help message
+    ${amber}-g, --global${reset}       Install globally (to ~/.opencode and ~/.carl)
+    ${amber}-l, --local${reset}        Install locally (to ./.opencode and ./.carl)
+    ${amber}-i, --integrate${reset}    Add CARL section to AGENTS.md
+    ${amber}-r, --remove${reset}       Remove CARL section from AGENTS.md
+    ${amber}-h, --help${reset}         Show this help message
 
   ${yellow}Examples:${reset}
-    ${dim}# Interactive install${reset}
-    npx carl-core
+    ${dim}# Interactive setup${reset}
+    npx @krisgray/opencode-carl-plugin
 
-    ${dim}# Install globally${reset}
-    npx carl-core --global
+    ${dim}# Setup globally with AGENTS.md integration${reset}
+    npx @krisgray/opencode-carl-plugin --global --integrate
 
-    ${dim}# Install to current project only${reset}
-    npx carl-core --local
+    ${dim}# Setup for current project only${reset}
+    npx @krisgray/opencode-carl-plugin --local
+
+    ${dim}# Just add/remove AGENTS.md section${reset}
+    npx @krisgray/opencode-carl-plugin --integrate
+    npx @krisgray/opencode-carl-plugin --remove
 
   ${yellow}What gets installed:${reset}
-    hooks/carl-hook.py     - The rule injection engine
-    commands/carl/         - Slash commands (/carl:manager)
-    skills/carl-manager/   - Domain management helpers
-    .carl/                 - Your rule configuration
-    settings.json          - Hook registration (merged)
-    CLAUDE.md              - CARL integration block (optional)
+    .opencode/commands/carl/   - Slash commands (/carl list, /carl view, etc.)
+    .opencode/skills/carl-*/   - Domain management helpers
+    .carl/                     - Your rule configuration (if not exists)
+    AGENTS.md                  - CARL integration section (optional)
 `);
   process.exit(0);
-}
-
-/**
- * Expand ~ to home directory
- */
-function expandTilde(filePath) {
-  if (filePath && filePath.startsWith('~/')) {
-    return path.join(os.homedir(), filePath.slice(2));
-  }
-  return filePath;
 }
 
 /**
@@ -127,163 +137,140 @@ function copyDir(srcDir, destDir) {
 }
 
 /**
- * Wire hook into settings.json
+ * Add CARL section to AGENTS.md
  */
-function wireHook(claudeDir, hookPath) {
-  const settingsPath = path.join(claudeDir, 'settings.json');
-  let settings = {};
-
-  // Read existing settings if present
-  if (fs.existsSync(settingsPath)) {
-    try {
-      settings = JSON.parse(fs.readFileSync(settingsPath, 'utf8'));
-    } catch (e) {
-      console.log(`  ${yellow}Warning: Could not parse existing settings.json, creating new${reset}`);
-    }
-  }
-
-  // Ensure hooks structure exists
-  if (!settings.hooks) {
-    settings.hooks = {};
-  }
-  if (!settings.hooks.UserPromptSubmit) {
-    settings.hooks.UserPromptSubmit = [];
-  }
-
-  // Normalize path to use forward slashes (works on all platforms)
-  const normalizedPath = hookPath.replace(/\\/g, '/');
-  const hookCommand = `python3 ${normalizedPath}`;
-
-  // Check if CARL hook already exists (check both structures: {type,command} and {hooks:[...]})
-  const existingIndex = settings.hooks.UserPromptSubmit.findIndex(h => {
-    // Direct structure: { type, command }
-    if (h.command && h.command.includes('carl-hook.py')) return true;
-    // Nested structure: { hooks: [{ type, command }] }
-    if (h.hooks && h.hooks.some(inner => inner.command && inner.command.includes('carl-hook.py'))) return true;
-    return false;
-  });
-
-  // New hook format: { hooks: [{ type, command }] }
-  const newHookEntry = {
-    hooks: [
-      {
-        type: 'command',
-        command: hookCommand
-      }
-    ]
-  };
-
-  if (existingIndex !== -1) {
-    settings.hooks.UserPromptSubmit[existingIndex] = newHookEntry;
-    console.log(`  ${green}✓${reset} Updated hook in settings.json`);
-  } else {
-    settings.hooks.UserPromptSubmit.push(newHookEntry);
-    console.log(`  ${green}✓${reset} Added hook to settings.json`);
-  }
-
-  fs.writeFileSync(settingsPath, JSON.stringify(settings, null, 2));
-}
-
-/**
- * Add CARL block to CLAUDE.md
- */
-function addCarlBlock(claudeMdPath) {
-  console.log(`  ${dim}Checking: ${claudeMdPath}${reset}`);
+function integrateAgentsMd(agentsPath) {
+  console.log(`\n  ${cyan}Integrating with AGENTS.md...${reset}`);
+  console.log(`  ${dim}Checking: ${agentsPath}${reset}`);
 
   let content = '';
-  let fileExists = fs.existsSync(claudeMdPath);
+  let fileExists = fs.existsSync(agentsPath);
 
   if (fileExists) {
-    content = fs.readFileSync(claudeMdPath, 'utf8');
+    content = fs.readFileSync(agentsPath, 'utf8');
 
-    // Check if CARL block already exists (normalize line endings for cross-platform)
-    const normalizedContent = content.replace(/\r\n/g, '\n');
-    if (normalizedContent.includes('<!-- CARL-MANAGED:')) {
-      console.log(`  ${dim}CARL block already in CLAUDE.md${reset}`);
+    // Check if CARL section already exists
+    if (content.includes('<!-- CARL-START')) {
+      console.log(`  ${yellow}CARL section already exists in AGENTS.md${reset}`);
       return false;
     }
-    console.log(`  ${dim}Existing CLAUDE.md found (${content.length} bytes), adding CARL block${reset}`);
+    console.log(`  ${dim}Existing AGENTS.md found, adding CARL section${reset}`);
   } else {
-    console.log(`  ${dim}No CLAUDE.md found, creating with CARL block${reset}`);
-    // Ensure parent directory exists
-    const parentDir = path.dirname(claudeMdPath);
-    if (!fs.existsSync(parentDir)) {
-      fs.mkdirSync(parentDir, { recursive: true });
-    }
-    // Create minimal CLAUDE.md with CARL block
-    content = `# Claude Code Configuration\n\n${CARL_BLOCK}\n`;
-    fs.writeFileSync(claudeMdPath, content);
-    return true;
+    console.log(`  ${dim}Creating AGENTS.md with CARL section${reset}`);
+    content = `# Project Instructions\n\n`;
+    fs.writeFileSync(agentsPath, content);
   }
 
-  // Find insertion point (after first heading or at top)
-  const lines = content.split(/\r?\n/);  // Handle both Windows and Unix line endings
-  let insertIndex = 0;
-
-  // Skip to after first heading and its description
-  for (let i = 0; i < lines.length; i++) {
-    if (lines[i].startsWith('#')) {
-      // Found first heading, skip past it and any immediate description
-      insertIndex = i + 1;
-      while (insertIndex < lines.length && lines[insertIndex].trim() !== '' && !lines[insertIndex].startsWith('#')) {
-        insertIndex++;
-      }
-      break;
-    }
-  }
-
-  // Insert CARL block
-  lines.splice(insertIndex, 0, '', CARL_BLOCK, '');
-  fs.writeFileSync(claudeMdPath, lines.join('\n'));
+  // Append CARL section
+  const updatedContent = content.trimEnd() + '\n\n' + CARL_AGENTS_SECTION + '\n';
+  fs.writeFileSync(agentsPath, updatedContent);
 
   return true;
 }
 
 /**
- * Install to the specified directory
+ * Remove CARL section from AGENTS.md
  */
-function install(isGlobal, addToClaudeMd = true) {
-  const src = path.join(__dirname, '..');
-  const configDir = expandTilde(explicitConfigDir) || expandTilde(process.env.CLAUDE_CONFIG_DIR);
-  const defaultGlobalDir = configDir || path.join(os.homedir(), '.claude');
+function removeAgentsIntegration(agentsPath) {
+  console.log(`\n  ${cyan}Removing CARL integration from AGENTS.md...${reset}`);
 
-  const claudeDir = isGlobal
-    ? defaultGlobalDir
-    : path.join(process.cwd(), '.claude');
+  if (!fs.existsSync(agentsPath)) {
+    console.log(`  ${yellow}AGENTS.md not found${reset}`);
+    return false;
+  }
+
+  let content = fs.readFileSync(agentsPath, 'utf8');
+
+  // Check if CARL section exists
+  if (!content.includes('<!-- CARL-START')) {
+    console.log(`  ${yellow}No CARL section found in AGENTS.md${reset}`);
+    return false;
+  }
+
+  // Remove CARL section (including markers and content between them)
+  const pattern = /<!-- CARL-START - DO NOT EDIT -->[\s\S]*?<!-- CARL-END - DO NOT EDIT -->/;
+  const updatedContent = content.replace(pattern, '').replace(/\n{3,}/g, '\n\n').trimEnd() + '\n';
+
+  fs.writeFileSync(agentsPath, updatedContent);
+  console.log(`  ${green}✓${reset} Removed CARL section from AGENTS.md`);
+  return true;
+}
+
+/**
+ * Check opencode.json for plugin configuration
+ */
+function checkOpencodeJson(isGlobal, opencodeDir) {
+  const opencodeJsonPath = isGlobal
+    ? path.join(opencodeDir, 'opencode.json')
+    : path.join(process.cwd(), 'opencode.json');
+
+  console.log(`\n  ${cyan}Checking opencode.json configuration...${reset}`);
+
+  if (!fs.existsSync(opencodeJsonPath)) {
+    console.log(`  ${yellow}opencode.json not found at: ${opencodeJsonPath}${reset}`);
+    console.log(`  ${dim}Create it with:${reset}`);
+    console.log(`  ${dim}{\n    "plugin": ["@krisgray/opencode-carl-plugin"]\n  }${reset}`);
+    return false;
+  }
+
+  try {
+    const config = JSON.parse(fs.readFileSync(opencodeJsonPath, 'utf8'));
+
+    if (config.plugin && Array.isArray(config.plugin)) {
+      const hasCarl = config.plugin.some(p =>
+        p === '@krisgray/opencode-carl-plugin' ||
+        p.includes('opencode-carl-plugin')
+      );
+
+      if (hasCarl) {
+        console.log(`  ${green}✓${reset} Plugin found in opencode.json`);
+        return true;
+      }
+    }
+
+    console.log(`  ${yellow}Plugin not found in opencode.json${reset}`);
+    console.log(`  ${dim}Add to your opencode.json:${reset}`);
+    console.log(`  ${dim}{\n    "plugin": ["@krisgray/opencode-carl-plugin"]\n  }${reset}`);
+    return false;
+  } catch (e) {
+    console.log(`  ${yellow}Could not parse opencode.json${reset}`);
+    return false;
+  }
+}
+
+/**
+ * Main installation function
+ */
+function install(isGlobal, doIntegrate = false) {
+  const src = path.join(__dirname, '..');
+
+  const opencodeDir = isGlobal
+    ? path.join(os.homedir(), '.opencode')
+    : path.join(process.cwd(), '.opencode');
 
   const carlDir = isGlobal
     ? path.join(os.homedir(), '.carl')
     : path.join(process.cwd(), '.carl');
 
-  const locationLabel = isGlobal
-    ? claudeDir.replace(os.homedir(), '~')
-    : claudeDir.replace(process.cwd(), '.');
+  const agentsPath = isGlobal
+    ? path.join(os.homedir(), 'AGENTS.md')
+    : path.join(process.cwd(), 'AGENTS.md');
 
-  const carlLabel = isGlobal
-    ? carlDir.replace(os.homedir(), '~')
-    : carlDir.replace(process.cwd(), '.');
+  const opencodeLabel = opencodeDir.replace(os.homedir(), '~');
+  const carlLabel = carlDir.replace(os.homedir(), '~');
 
-  console.log(`  Installing to ${amber}${locationLabel}${reset} and ${amber}${carlLabel}${reset}\n`);
+  console.log(`  Installing to ${amber}${opencodeLabel}${reset} and ${amber}${carlLabel}${reset}\n`);
 
-  // 1. Copy hook script
-  const hooksDir = path.join(claudeDir, 'hooks');
-  fs.mkdirSync(hooksDir, { recursive: true });
-  const hookSrc = path.join(src, 'hooks', 'carl-hook.py');
-  const hookDest = path.join(hooksDir, 'carl-hook.py');
-  fs.copyFileSync(hookSrc, hookDest);
-  fs.chmodSync(hookDest, '755');
-  console.log(`  ${green}✓${reset} Installed hooks/carl-hook.py`);
-
-  // 2. Copy commands
-  const commandsDir = path.join(claudeDir, 'commands');
+  // 1. Copy commands
+  const commandsDir = path.join(opencodeDir, 'commands');
   fs.mkdirSync(commandsDir, { recursive: true });
   const commandsSrc = path.join(src, 'resources', 'commands', 'carl');
   const commandsDest = path.join(commandsDir, 'carl');
   copyDir(commandsSrc, commandsDest);
   console.log(`  ${green}✓${reset} Installed commands/carl`);
 
-  // 3. Copy skills
-  const skillsDir = path.join(claudeDir, 'skills');
+  // 2. Copy skills
+  const skillsDir = path.join(opencodeDir, 'skills');
   fs.mkdirSync(skillsDir, { recursive: true });
   const skillsSrc = path.join(src, 'resources', 'skills');
   if (fs.existsSync(skillsSrc)) {
@@ -295,7 +282,7 @@ function install(isGlobal, addToClaudeMd = true) {
     console.log(`  ${green}✓${reset} Installed skills`);
   }
 
-  // 4. Copy .carl-template to .carl
+  // 3. Copy .carl-template to .carl (if not exists)
   const carlTemplateSrc = path.join(src, '.carl-template');
   if (!fs.existsSync(carlDir)) {
     copyDir(carlTemplateSrc, carlDir);
@@ -304,46 +291,74 @@ function install(isGlobal, addToClaudeMd = true) {
     console.log(`  ${dim}${carlLabel} already exists, skipping${reset}`);
   }
 
-  // 5. Wire hook into settings.json
-  wireHook(claudeDir, hookDest);
+  // 4. Check opencode.json
+  checkOpencodeJson(isGlobal, opencodeDir);
 
-  // 6. Add CARL block to CLAUDE.md (if requested)
-  if (addToClaudeMd && !skipClaudeMd) {
-    const claudeMdPath = path.join(claudeDir, 'CLAUDE.md');
-    if (addCarlBlock(claudeMdPath)) {
-      console.log(`  ${green}✓${reset} Added CARL block to CLAUDE.md`);
+  // 5. Integrate with AGENTS.md (if requested)
+  if (doIntegrate) {
+    if (integrateAgentsMd(agentsPath)) {
+      console.log(`  ${green}✓${reset} Added CARL section to AGENTS.md`);
     }
   }
 
   console.log(`
-  ${green}Done!${reset} Restart Claude Code to activate.
+  ${green}Done!${reset} CARL is installed.
+
+  ${amber}Next steps:${reset}
+    1. ${dim}Ensure @krisgray/opencode-carl-plugin is in your opencode.json${reset}
+    2. ${dim}Restart OpenCode if needed${reset}
+    3. ${dim}Type *carl for interactive help${reset}
 
   ${amber}Quick start:${reset}
     ${dim}*carl${reset}          - Interactive help
-    ${dim}/carl:manager${reset}  - Manage domains and rules
+    ${dim}/carl list${reset}     - Show all domains
+    ${dim}/carl view DOMAIN${reset} - View domain rules
 
-  ${amber}Learn more:${reset}
-    ${dim}Type *carl in any prompt for guided help${reset}
+  ${amber}Optional:${reset}
+    ${dim}npx @krisgray/opencode-carl-plugin --integrate${reset} - Add CARL to AGENTS.md
 `);
+}
+
+/**
+ * Handle --integrate flag only (no full install)
+ */
+function integrateOnly(isGlobal) {
+  const agentsPath = isGlobal
+    ? path.join(os.homedir(), 'AGENTS.md')
+    : path.join(process.cwd(), 'AGENTS.md');
+
+  if (integrateAgentsMd(agentsPath)) {
+    console.log(`  ${green}✓${reset} Added CARL section to AGENTS.md\n`);
+  }
+}
+
+/**
+ * Handle --remove flag
+ */
+function removeOnly(isGlobal) {
+  const agentsPath = isGlobal
+    ? path.join(os.homedir(), 'AGENTS.md')
+    : path.join(process.cwd(), 'AGENTS.md');
+
+  removeAgentsIntegration(agentsPath);
 }
 
 /**
  * Prompt for install location
  */
 function promptLocation() {
+  const readline = require('readline');
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
   });
 
-  const configDir = expandTilde(explicitConfigDir) || expandTilde(process.env.CLAUDE_CONFIG_DIR);
-  const globalPath = configDir || path.join(os.homedir(), '.claude');
-  const globalLabel = globalPath.replace(os.homedir(), '~');
+  const globalLabel = path.join(os.homedir(), '.opencode').replace(os.homedir(), '~');
 
   console.log(`  ${yellow}Where would you like to install?${reset}
 
   ${amber}1${reset}) Global ${dim}(${globalLabel} + ~/.carl)${reset} - available in all projects
-  ${amber}2${reset}) Local  ${dim}(./.claude + ./.carl)${reset} - this project only
+  ${amber}2${reset}) Local  ${dim}(./.opencode + ./.carl)${reset} - this project only
 `);
 
   rl.question(`  Choice ${dim}[1]${reset}: `, (answer) => {
@@ -351,39 +366,66 @@ function promptLocation() {
     const choice = answer.trim() || '1';
     const isGlobal = choice !== '2';
 
-    // Ask about CLAUDE.md modification
+    // Ask about AGENTS.md
     const rl2 = readline.createInterface({
       input: process.stdin,
       output: process.stdout
     });
 
     console.log(`
-  ${yellow}Add CARL integration block to CLAUDE.md?${reset}
-  ${dim}This helps Claude recognize and follow CARL rules.${reset}
+  ${yellow}Add CARL section to AGENTS.md?${reset}
+  ${dim}This documents how CARL works with OpenCode.${reset}
 
   ${amber}1${reset}) Yes ${dim}(recommended)${reset}
-  ${amber}2${reset}) No, I'll add it manually
+  ${amber}2${reset}) No, skip for now
 `);
 
     rl2.question(`  Choice ${dim}[1]${reset}: `, (answer2) => {
       rl2.close();
-      const addBlock = (answer2.trim() || '1') !== '2';
-      install(isGlobal, addBlock);
+      const doIntegrate = (answer2.trim() || '1') !== '2';
+      install(isGlobal, doIntegrate);
     });
   });
 }
 
-// Main
+// Main logic
 if (hasGlobal && hasLocal) {
   console.error(`  ${yellow}Cannot specify both --global and --local${reset}`);
   process.exit(1);
-} else if (explicitConfigDir && hasLocal) {
-  console.error(`  ${yellow}Cannot use --config-dir with --local${reset}`);
-  process.exit(1);
-} else if (hasGlobal) {
-  install(true, !skipClaudeMd);
-} else if (hasLocal) {
-  install(false, !skipClaudeMd);
+}
+
+const isGlobal = hasGlobal || (!hasLocal);
+
+// Handle --remove flag
+if (hasRemove) {
+  removeOnly(isGlobal);
+  process.exit(0);
+}
+
+// Handle --integrate only (no other flags)
+if (hasIntegrate && !hasGlobal && !hasLocal && args.length === 1) {
+  // Prompt for location
+  const readline = require('readline');
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+  });
+
+  console.log(`  ${yellow}Where is your AGENTS.md?${reset}
+
+  ${amber}1${reset}) Global ${dim}(~/AGENTS.md)${reset}
+  ${amber}2${reset}) Local  ${dim}(./AGENTS.md)${reset}
+`);
+
+  rl.question(`  Choice ${dim}[1]${reset}: `, (answer) => {
+    rl.close();
+    const choice = answer.trim() || '1';
+    integrateOnly(choice !== '2');
+  });
+} else if (hasGlobal || hasLocal) {
+  // Direct install with flags
+  install(isGlobal, hasIntegrate);
 } else {
+  // Interactive mode
   promptLocation();
 }
