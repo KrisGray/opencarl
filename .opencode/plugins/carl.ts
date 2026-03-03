@@ -28,9 +28,7 @@ function warnIfDuplicatePluginPlacement() {
 function logDiscoverySummary() {
   const result = loadCarlRules();
 
-  console.log(
-    `[carl] Discovery summary: ${result.sources.length} sources, ${result.domains.length} domains, ${result.warnings.length} warnings.`
-  );
+  console.log(`[carl] Discovery summary: ${result.sources.length} sources, ${result.domains.length} domains, ${result.warnings.length} warnings.`);
 
   for (const warning of result.warnings) {
     const domain = warning.domain ? ` domain=${warning.domain}` : "";
@@ -39,7 +37,7 @@ function logDiscoverySummary() {
   }
 }
 
-export default function carlPlugin(input: unknown) {
+export default function carlPlugin(input) {
   warnIfDuplicatePluginPlacement();
   logDiscoverySummary();
   return createCarlPluginHooks();

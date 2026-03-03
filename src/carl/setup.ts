@@ -24,6 +24,7 @@ export interface SetupResult {
   targetDir: string | null;
   seedResult?: SeedResult;
   error?: string;
+  reason?: string;
 }
 
 export interface IntegrationOptions {

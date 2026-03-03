@@ -43,7 +43,10 @@ function promptForScope() {
 }
 
 function writeProjectPlugin() {
-  const entrypoint = buildPluginEntrypoint("../../src/carl/loader");
+  const entrypoint = buildPluginEntrypoint(
+    "../../src/carl/loader",
+    "../../src/integration/plugin-hooks"
+  );
   const existing = fs.existsSync(PROJECT_PLUGIN_PATH)
     ? fs.readFileSync(PROJECT_PLUGIN_PATH, "utf8")
     : null;
