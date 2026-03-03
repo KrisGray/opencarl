@@ -67,7 +67,7 @@ Requirements for polish release. Maps to Phase 6.
 
 ### Developer Experience
 
-- [ ] **DX-01**: User receives clear, actionable error messages when plugin fails to load
+- [x] **DX-01**: User receives clear, actionable error messages when plugin fails to load
 - [x] **DX-02**: User can enable debug logging to trace plugin behavior and rule matching
 - [x] **DX-03**: User can reference a troubleshooting guide for common issues
 
@@ -127,7 +127,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | INTE-03 | Phase 5 | Complete |
 | TEMP-01 | Phase 4 | Complete |
 | TEMP-02 | Phase 4 | Complete |
-| DX-01 | Phase 6 | Pending |
+| DX-01 | Phase 6 | Complete |
 | DX-02 | Phase 6 | Complete |
 | DX-03 | Phase 6 | Complete |
 | ENHN-01 | v2 | Deferred |

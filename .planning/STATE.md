@@ -10,9 +10,9 @@ See: .planning/PROJECT.md (updated 2026-03-03)
 ## Current Position
 
 Phase: 6 of 6 (Integration & Developer Experience)
-Plan: 3 of 4 in current phase
+Plan: 2 of 4 in current phase
 Status: In progress
-Last activity: 2026-03-03 — Completed 06-03: Debug logging integration
+Last activity: 2026-03-03 — Completed 06-02: Structured error system
 
 Progress: [████████████████░░░░] 84% (16/19 plans complete)
 
@@ -39,6 +39,7 @@ Progress: [████████████████░░░░] 84% (16
 - Trend: Stable
 
 *Updated after each plan completion*
+| Phase 06-integration-developer-experience P02 | 5min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -63,6 +64,9 @@ Recent decisions affecting current work:
 - [Phase 06-03]: Debug logging integrated across loader, matcher, and hooks with CARL_DEBUG env var — Zero-overhead debug mode enables self-service troubleshooting
 - [Phase 06-03]: Debug output uses structured JSON with ISO 8601 timestamps — Machine-readable format for log analysis tools
 - [Phase 06-01]: Use relative path ./resources/docs/CARL-DOCS.md for opencode.json instructions — Works across project setups and environments
+- [Phase 06-integration-developer-experience]: Plugin gracefully degrades on errors - specific operations fail but plugin doesn't crash — Maintains stability while informing users of problems
+- [Phase 06-integration-developer-experience]: Errors go to stderr via console.error, not mixed with normal output — Standard Unix practice - separates error messages from regular output
+- [Phase 06-integration-developer-experience]: Error messages include context, location, problem, and copy-pasteable fix suggestions — Users need immediate, actionable guidance when errors occur
 
 ### Pending Todos
 
@@ -75,7 +79,7 @@ None.
 ## Session Continuity
 
 Last session: 2026-03-03
-Stopped at: Completed 06-03-PLAN.md (Debug logging integration)
+Stopped at: Completed 06-02-PLAN.md (Structured error system)
 Resume file: None
 
 ---
