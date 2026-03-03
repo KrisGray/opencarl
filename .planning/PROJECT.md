@@ -2,20 +2,18 @@
 
 ## What This Is
 
-Adapt CARL from a Claude Code hook into a first-class OpenCode plugin. The plugin preserves CARL's just-in-time rule injection and management workflow while integrating with OpenCode's plugin, rules, and config conventions.
+OpenCARL is a dynamic rule injection plugin for OpenCode that gives your AI assistant persistent memory about how you work. Rules load automatically when relevant to your current task via keyword matching, with support for star-commands, context-aware injection, and global/project rule scoping.
 
 ## Core Value
 
 Keep CARL's dynamic rule injection working seamlessly inside OpenCode with full parity and minimal user friction.
 
-## Current Milestone: v1.1 Polish & Complete Integration
+## Current Milestone: Planning Next Release
 
-**Goal:** Complete remaining INTE-02 requirement and polish the v1.0 implementation with better DX.
+**Shipped:** v1.1 Polish & Complete Integration (2026-03-03)
 
-**Target features:**
-- INTE-02: Update `opencode.json` `instructions` to include CARL docs when requested
-- Polish & fixes: tests, rough edges, technical debt cleanup
-- Better DX: improved error messages, debug logging, troubleshooting guides
+**Next milestone goals:**
+- TBD via `/gsd-new-milestone`
 
 ## Requirements
 
@@ -29,12 +27,14 @@ Keep CARL's dynamic rule injection working seamlessly inside OpenCode with full 
 - ✓ Plugin implemented in TypeScript using OpenCode plugin types — v1.0 Phase 1
 - ✓ `.carl/` locations maintained for global and project rules — v1.0 Phase 1
 - ✓ NPM distribution via dual-package strategy — v1.0 Phase 5
+- ✓ `opencode.json` instructions integration — v1.1 Phase 6
+- ✓ Clear, actionable error messages — v1.1 Phase 6
+- ✓ Debug logging with `CARL_DEBUG=true` — v1.1 Phase 6
+- ✓ Comprehensive troubleshooting guide — v1.1 Phase 6
 
 ### Active
 
-- [ ] Complete INTE-02: `opencode.json` instructions integration
-- [ ] Polish: tests for edge cases, fix rough edges, address technical debt
-- [ ] Better DX: improved error messages, debug logging, troubleshooting guides
+(None yet — define next milestone via `/gsd-new-milestone`)
 
 ### Out of Scope
 
@@ -44,9 +44,10 @@ Keep CARL's dynamic rule injection working seamlessly inside OpenCode with full 
 
 ## Context
 
-- CARL currently installs a Claude Code hook and injects rules from `.carl/` domains based on keyword matching.
-- OpenCode supports plugins via `.opencode/plugins/` and `~/.config/opencode/plugins/`, plus npm packages.
-- OpenCode rules can be set via `AGENTS.md` and `opencode.json` instructions.
+- **Shipped:** v1.1 (2026-03-03) - Complete OpenCode integration with developer experience improvements
+- **Tech stack:** TypeScript, OpenCode plugin API
+- **Key integrations:** AGENTS.md, opencode.json, npm distribution
+- **Documentation:** README.md, INSTALL.md, CARL-DOCS.md, TROUBLESHOOTING.md
 
 ## Constraints
 
@@ -63,9 +64,12 @@ Keep CARL's dynamic rule injection working seamlessly inside OpenCode with full 
 | Local plugin distribution | Matches OpenCode plugin loading and avoids npm publish | ✓ Good |
 | Keep `.carl/` locations | Preserve existing CARL workflows and files | ✓ Good |
 | Prefer `*carl` trigger | Maintains current user experience | ✓ Good |
-| Integrate with `AGENTS.md` and `opencode.json` | Align with OpenCode rules system | ◆ Partial (AGENTS.md done, opencode.json instructions pending) |
+| Integrate with `AGENTS.md` and `opencode.json` | Align with OpenCode rules system | ✓ Good |
 | TypeScript plugin implementation | Aligns with OpenCode plugin types and examples | ✓ Good |
-| Dual-package strategy (carl-core + @krisgray/opencode-carl-plugin) | Support both Claude Code and OpenCode from single repo | ✓ Good |
+| Dual-package strategy (carl-core + @krisgray/opencarl) | Support both Claude Code and OpenCode from single repo | ✓ Good |
+| Zero-overhead debug logging | Cache env var check at module load | ✓ Good |
+| Relative path for opencode.json instructions | Works across project setups | ✓ Good |
+| Structured errors with fix suggestions | Users get actionable guidance | ✓ Good |
 
 ---
-*Last updated: 2026-03-03 after v1.1 milestone started*
+*Last updated: 2026-03-03 after v1.1 milestone completion*
