@@ -1,21 +1,21 @@
 # Project State
 
-**Current Phase:** 05
-**Current Phase Name:** OpenCode Rules Integration & Distribution
-**Total Phases:** 5
-**Current Plan:** Not started
-**Total Plans in Phase:** 3
-**Status:** Milestone complete
-**Progress:** [█████████░] 87%
+**Current Phase:** Not started
+**Current Phase Name:** —
+**Total Phases:** 5 (v1.0)
+**Current Plan:** —
+**Total Plans in Phase:** —
+**Status:** Defining requirements
+**Progress:** [░░░░░░░░░░] 0%
 **Last Activity:** 2026-03-03
-**Last Activity Description:** Phase 05 complete
+**Last Activity Description:** Milestone v1.1 started
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-02-25)
+See: .planning/PROJECT.md (updated 2026-03-03)
 
 **Core value:** Keep CARL's dynamic rule injection working seamlessly inside OpenCode with full parity and minimal user friction.
-**Current focus:** Phase 5 — OpenCode Rules Integration & Distribution
+**Current focus:** v1.1 — Polish & Complete Integration
 
 ## Performance Metrics
 
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 | Phase 02 P03 | 0 min | 3 tasks | 5 files |
 | Phase 02 P04 | 5 min | 3 tasks | 4 files |
 | Phase 03 P01 | 10 min | 3 tasks | 5 files |
-| Phase 03 P02 | 10 min | 1 tasks | 7 files |
+| Phase 03 P02 | 10 min | 1 task | 7 files |
 | Phase 04 P01 | 5 min | 3 tasks | 2 files |
 | Phase 04 P02 | 3 min | 2 tasks | 2 files |
 | Phase 04 P03 | 3 min | 3 tasks | 3 files |
@@ -37,7 +37,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 
 ## Decisions Made
 
-
+**v1.0:**
 - [Phase 01]: Global plugin entrypoint imports the loader via absolute path derived at install time to ensure shared loader usage.
 - [Phase 03]: Rule cache is global but checks dirty flag before returning cached result; session overrides stored in .carl/sessions/{session_id}.json; invalid project rules emit warning once per session.
 - [Phase 03]: CRITICAL context bracket uses DEPLETED rules with explicit warning — Maintains rule consistency while alerting user to compact session
@@ -49,8 +49,7 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 
 ## Blockers/Concerns
 
-
-- REQUIREMENTS.md missing Phase 2 requirement IDs (MATCH-01, MATCH-03, MATCH-04, CMD-01, CMD-04, SAFE-01); mark-complete failed.
+None
 
 ## Session Continuity
 
