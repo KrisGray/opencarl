@@ -17,7 +17,7 @@
 # ============================================================================
 # SETTINGS
 # ============================================================================
-DEVMODE=false
+DEVMODE=true
 
 # ============================================================================
 # GLOBAL - Universal rules (always loaded)
@@ -36,3 +36,4 @@ CONTEXT_ALWAYS_ON=true
 # Detected via *pattern matching, rules in commands file
 # ============================================================================
 COMMANDS_STATE=active
+COMMANDS_RECALL=paritytest

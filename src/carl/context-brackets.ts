@@ -7,7 +7,6 @@
  * - DEPLETED: ≥25% remaining
  * - CRITICAL: <25% remaining (uses DEPLETED rules with warning)
  */
-
 export type ContextBracket = "FRESH" | "MODERATE" | "DEPLETED" | "CRITICAL";
 
 export interface ContextBracketData {
@@ -36,7 +35,9 @@ const DEFAULT_MAX_CONTEXT = 200000;
  * Determine context bracket from percentage remaining.
  * Returns FRESH if percentage is null (unknown/fresh session).
  */
-export function getContextBracket(contextRemaining: number | null): ContextBracket {
+export function getContextBracket(
+  contextRemaining: number | null,
+): ContextBracket {
   if (contextRemaining === null) {
     return "FRESH";
   }
@@ -70,7 +71,7 @@ export function getRulesBracket(bracket: ContextBracket): ContextBracket {
  */
 export function computeContextBracketData(
   tokensUsed: number | null,
-  maxContext: number = DEFAULT_MAX_CONTEXT
+  maxContext: number = DEFAULT_MAX_CONTEXT,
 ): ContextBracketData {
   if (tokensUsed === null || tokensUsed <= 0) {
     return {
@@ -81,7 +82,10 @@ export function computeContextBracketData(
     };
   }
 
-  const contextRemaining = Math.max(0, 100 - Math.floor((tokensUsed * 100) / maxContext));
+  const contextRemaining = Math.max(
+    0,
+    100 - Math.floor((tokensUsed * 100) / maxContext),
+  );
   const bracket = getContextBracket(contextRemaining);
   const isCritical = bracket === "CRITICAL";
   const rulesBracket = getRulesBracket(bracket);
@@ -105,7 +109,7 @@ export function computeContextBracketData(
  * @returns Tuple of [bracketFlags, bracketRules]
  */
 export function parseContextFile(
-  content: string
+  content: string,
 ): [Record<string, boolean>, Record<string, string[]>] {
   const bracketFlags: Record<string, boolean> = {};
   const bracketRules: Record<string, string[]> = {};
@@ -136,7 +140,9 @@ export function parseContextFile(
     }
 
     // Detect rules: {BRACKET}_RULE_{N} = rule text
-    const ruleMatch = key.match(/^(FRESH|MODERATE|DEPLETED|CRITICAL)_RULE_(\d+)$/);
+    const ruleMatch = key.match(
+      /^(FRESH|MODERATE|DEPLETED|CRITICAL)_RULE_(\d+)$/,
+    );
     if (ruleMatch) {
       const bracketName = ruleMatch[1];
       if (!bracketRules[bracketName]) {
@@ -160,7 +166,7 @@ export function parseContextFile(
 export function selectBracketRules(
   bracketRules: Record<string, string[]>,
   bracketFlags: Record<string, boolean>,
-  rulesBracket: ContextBracket
+  rulesBracket: ContextBracket,
 ): string[] {
   // Check if this bracket is enabled (default: true if not specified)
   const isEnabled = bracketFlags[rulesBracket] ?? true;
@@ -177,18 +183,24 @@ export function selectBracketRules(
  * @param data - Context bracket data
  * @returns Formatted header string or null if no bracket info
  */
-export function formatContextBracketHeader(data: ContextBracketData): string | null {
+export function formatContextBracketHeader(
+  data: ContextBracketData,
+): string | null {
   const lines: string[] = [];
 
   if (data.isCritical) {
     const remaining = data.contextRemaining ?? 0;
     lines.push(`⚠️ CONTEXT CRITICAL: ${remaining.toFixed(0)}% remaining ⚠️`);
-    lines.push("Recommend: compact session OR spawn fresh agent for remaining work");
+    lines.push(
+      "Recommend: compact session OR spawn fresh agent for remaining work",
+    );
     lines.push("");
   }
 
   if (data.contextRemaining !== null) {
-    lines.push(`CONTEXT BRACKET: [${data.bracket}] (${data.contextRemaining.toFixed(0)}% remaining)`);
+    lines.push(
+      `CONTEXT BRACKET: [${data.bracket}] (${data.contextRemaining.toFixed(0)}% remaining)`,
+    );
   } else {
     lines.push(`CONTEXT BRACKET: [${data.bracket}] (fresh session)`);
   }

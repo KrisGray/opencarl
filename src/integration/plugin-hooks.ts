@@ -2,7 +2,8 @@ import os from "os";
 import path from "path";
 import { fileURLToPath } from "url";
 import type { Hooks } from "@opencode-ai/plugin";
-import { computeContextBracketData } from "../carl/context-bracket";
+import { computeContextBracketData, type ContextBracketData } from "../carl/context-brackets";
+import type { CarlRuleDomainPayload, CarlMatchDomainConfig } from "../carl/types";
 import { resolveCarlCommandSignals } from "../carl/command-parity";
 import { checkSetupNeeded, buildSetupPrompt, runSetup, runIntegration } from "../carl/setup";
 import {

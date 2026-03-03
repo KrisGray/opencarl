@@ -120,7 +120,7 @@ export function buildCarlInjection(input: CarlInjectionInput): string | null {
   // Check if CONTEXT domain has bracket-filtered rules
   const contextPayload = payloadMap["CONTEXT"];
   const hasContextRules = contextPayload && contextPayload.state && (
-    contextBracket?.bracketRules
+    contextPayload.bracketRules
       ? selectBracketRules(
           contextPayload.bracketRules ?? {},
           contextPayload.bracketFlags ?? {},
