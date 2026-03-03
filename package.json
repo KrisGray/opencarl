@@ -3,8 +3,9 @@
   "version": "1.0.8",
   "description": "Context Augmentation & Reinforcement Layer - Dynamic rules for Claude Code",
   "scripts": {
-    "build:opencode": "npx ts-node scripts/build-opencode.ts",
-    "prepublishOnly:opencode": "npm run build:opencode"
+    "build:opencode": "npx tsc --project tsconfig.build.json && node -e \"const fs=require('fs'); const p='dist/plugin.js'; if(!fs.existsSync(p)){console.error('ERROR: '+p+' not found');process.exit(1)} console.log('[build] OpenCode plugin built successfully'); console.log('[build] Output: '+require('path').resolve(p))\"",
+    "prepublishOnly:opencode": "npm run build:opencode",
+    "publish:opencode": "npx ts-node scripts/publish-opencode.ts"
   },
   "bin": {
     "carl-core": "bin/install.js"
