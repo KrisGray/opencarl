@@ -1,76 +1,92 @@
-# CARL Installation Guide
+# CARL Installation Guide for OpenCode
 
-## Quick Install (Recommended)
+## Quick Install
 
 ```bash
-npx carl-core
+npm install @krisgray/opencode-carl-plugin
 ```
 
-The installer will:
-1. Prompt for install location (global or local)
-2. Copy the hook script and wire it into settings.json
-3. Copy commands and skills
-4. Create your `.carl/` configuration
-5. Optionally add the CARL integration block to CLAUDE.md
+### Configure opencode.json
 
-### Non-interactive Install
+Add CARL to your `opencode.json` plugin list:
 
-```bash
-npx carl-core --global       # Install to ~/.claude and ~/.carl
-npx carl-core --local        # Install to ./.claude and ./.carl
-npx carl-core --skip-claude-md  # Don't modify CLAUDE.md
+```json
+{
+  "plugin": ["@krisgray/opencode-carl-plugin"]
+}
 ```
 
-### Staying Updated
+### Run Setup
 
-```bash
-npx carl-core@latest
+In OpenCode, run:
+
+```
+/carl setup
+```
+
+This will:
+1. Seed `.carl/` templates in your project (if missing)
+2. Copy commands and skills to your `.opencode/` directory
+3. Prepare CARL for use
+
+### Optional: AGENTS.md Integration
+
+To add CARL documentation to your project's `AGENTS.md`:
+
+```
+/carl setup --integrate
+```
+
+This adds a CARL section with rule precedence documentation. Remove it anytime with:
+
+```
+/carl setup --remove
 ```
 
 ---
 
 ## Prerequisites
 
-- Claude Code CLI installed
-- Python 3.x (for the hook script)
-- Node.js 16.7+ (for npx)
+- OpenCode installed
+- Node.js 16.7+
+- npm
 
 ---
 
 ## Manual Installation
 
-If you prefer manual setup or npx isn't available:
+If you prefer manual setup:
 
-### Step 1: Clone the Repository
-
-```bash
-git clone https://github.com/ChristopherKahler/carl-core.git
-cd carl-core
-```
-
-### Step 2: Copy Hook Script
+### Step 1: Clone and Build
 
 ```bash
-mkdir -p ~/.claude/hooks
-cp hooks/carl-hook.py ~/.claude/hooks/carl-hook.py
-chmod +x ~/.claude/hooks/carl-hook.py
+git clone https://github.com/ChristopherKahler/carl.git
+cd carl
+npm run build:opencode
 ```
 
-### Step 3: Copy Commands
+### Step 2: Copy Plugin Files
+
+Copy the built plugin to your OpenCode plugins directory:
 
 ```bash
-mkdir -p ~/.claude/commands
-cp -r resources/commands/carl ~/.claude/commands/carl
+mkdir -p ~/.opencode/plugins
+cp -r dist ~/.opencode/plugins/carl
+cp -r resources ~/.opencode/plugins/carl/
+cp -r .carl-template ~/.opencode/plugins/carl/
 ```
 
-### Step 4: Copy Skills
+### Step 3: Configure opencode.json
 
-```bash
-mkdir -p ~/.claude/skills
-cp -r resources/skills/* ~/.claude/skills/
+Edit `~/.opencode/opencode.json` or your project's `opencode.json`:
+
+```json
+{
+  "plugin": ["./plugins/carl/dist/plugin.js"]
+}
 ```
 
-### Step 5: Copy CARL Config
+### Step 4: Copy CARL Config
 
 **Global (all projects):**
 ```bash
@@ -82,80 +98,73 @@ cp -r .carl-template ~/.carl
 cp -r .carl-template ./.carl
 ```
 
-### Step 6: Configure Hook in settings.json
-
-Edit `~/.claude/settings.json` (create if it doesn't exist).
-
-**CRITICAL:** Use your actual absolute home directory path.
-
-```json
-{
-  "hooks": {
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 /home/YOUR_USERNAME/.claude/hooks/carl-hook.py"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-### Step 7: Add CARL Block to CLAUDE.md
-
-Add this near the **top** of your CLAUDE.md:
-
-```markdown
-<!-- CARL-MANAGED: Do not remove this section -->
-## CARL Integration
-
-Follow all rules in <carl-rules> blocks from system-reminders.
-These are dynamically injected based on context and MUST be obeyed.
-<!-- END CARL-MANAGED -->
-```
-
-See [CARL-BLOCK.md](CARL-BLOCK.md) for details.
-
 ---
 
 ## Verify Installation
 
-All of these should exist:
+After installation, verify:
 
+1. `.carl/manifest` exists in your project or home directory
+2. `/carl` command is available in OpenCode
+3. `*carl` triggers help mode
+
+Test with:
 ```
-~/.claude/hooks/carl-hook.py
-~/.claude/commands/carl/manager.md
-~/.claude/skills/carl-manager/SKILL.md
-~/.claude/settings.json (with hook configured)
-~/.carl/manifest
+/carl list
 ```
 
 ---
 
 ## Usage
 
-**Restart Claude Code** after installation.
-
-- `*carl` — Interactive help and guidance
-- `/carl:manager` — Manage domains and rules
+- `*carl` — Enter CARL help mode
+- `*carl docs` — View full documentation
+- `/carl` — Domain management commands
+- `/carl list` — Show all domains
+- `/carl view DOMAIN` — Show rules in a domain
 
 ---
 
 ## Troubleshooting
 
-**Rules not appearing?**
-- Check `.carl/manifest` exists
-- Verify hook path in settings.json is absolute
-- Set `devmode = true` in manifest for debug output
+**Rules not loading?**
+- Check `.carl/manifest` exists and has `STATE=active` for domains
+- Verify recall keywords match your prompts
+- Run `/carl list` to see active domains
 
-**Hook errors?**
-- Ensure Python 3.x is installed and in PATH
-- Check file permissions: `chmod +x ~/.claude/hooks/carl-hook.py`
+**Plugin not found?**
+- Verify `@krisgray/opencode-carl-plugin` is in your node_modules
+- Check opencode.json plugin path is correct
 
-**CARL block not recognized?**
-- Ensure it's near the top of CLAUDE.md
-- Check for typos in the HTML comments
+**Commands not available?**
+- Run `/carl setup` to seed commands
+- Check `.opencode/commands/carl/` directory exists
+
+---
+
+## File Structure After Install
+
+```
+.opencode/
+├── commands/carl/      # CARL slash commands
+├── skills/carl-*/      # CARL skills
+└── plugins/            # Plugin files (if manual install)
+
+.carl/
+├── manifest            # Domain registry
+├── global              # Always-loaded rules
+├── commands            # Star-command definitions
+├── context             # Context bracket rules
+└── {domain}            # Your custom domains
+```
+
+---
+
+## Next Steps
+
+1. Edit `.carl/manifest` to configure domain recall keywords
+2. Add rules to domain files (e.g., `.carl/development`)
+3. Test with prompts containing your recall keywords
+4. Run `*carl` for interactive help
+
+For full documentation, see [README-opencode.md](README-opencode.md).
