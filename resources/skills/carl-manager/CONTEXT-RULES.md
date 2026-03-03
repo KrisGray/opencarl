@@ -2,7 +2,7 @@
 
 ## Overview
 
-The CONTEXT domain provides rules that adapt based on how much conversation context remains. This helps Claude adjust behavior as context depletes.
+The CONTEXT domain provides rules that adapt based on how much conversation context remains. This helps adjust behavior as context depletes.
 
 ## Brackets
 
@@ -50,7 +50,7 @@ Sequential rules for the bracket, starting at 0.
 
 ## How Injection Works
 
-1. Hook calculates context % remaining
+1. CARL calculates context % remaining
 2. Determines which bracket applies
 3. Checks if bracket is enabled
 4. Injects all `{BRACKET}_RULE_N` entries for that bracket
