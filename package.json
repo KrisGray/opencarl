@@ -1,24 +1,23 @@
 {
-  "name": "@krisgray/opencode-carl-plugin",
+  "name": "@krisgray/opencarl",
   "version": "1.0.0",
-  "description": "CARL - Context Augmentation & Reinforcement Layer for OpenCode",
+  "description": "OpenCARL - Context Augmentation & Reinforcement Layer for OpenCode (adapted from CARL by Chris Kahler)",
   "main": "dist/plugin.js",
   "types": "dist/plugin.d.ts",
   "bin": {
-    "carl": "bin/install.js"
-  },
-  "scripts": {
-    "build": "npx tsc --project tsconfig.build.json && node -e \"const fs=require('fs'); const p='dist/plugin.js'; if(!fs.existsSync(p)){console.error('ERROR: '+p+' not found');process.exit(1)} console.log('[build] OpenCode plugin built successfully'); console.log('[build] Output: '+require('path').resolve(p))\"",
-    "prepublishOnly": "npm run build"
+    "opencarl": "bin/install.js"
   },
   "files": [
     "bin",
     "dist",
     "resources",
-    ".carl-template",
-    "README.md",
-    "LICENSE"
+    ".carl-template"
   ],
+  "scripts": {
+    "build": "npx tsc --project tsconfig.build.json && node -e \"const fs=require('fs'); const p='dist/plugin.js'; if(!fs.existsSync(p)){console.error('ERROR: '+p+' not found');process.exit(1)} console.log('[build] OpenCARL plugin built successfully'); console.log('[build] Output: '+require('path').resolve(p))\"",
+    "prepublishOnly": "npm run build && npx ts-node scripts/verify-dist.ts",
+    "publish": "npm run build && npm publish --access public"
+  },
   "keywords": [
     "opencode",
     "opencode-plugin",
@@ -26,26 +25,23 @@
     "rules",
     "context",
     "dynamic-rules",
-    "ai"
+    "prompt-engineering"
   ],
-  "author": "Chris Kahler",
+  "author": "Kristian Gray",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ChristopherKahler/carl.git"
+    "url": "git+https://github.com/KrisGray/opencarl.git"
   },
   "bugs": {
-    "url": "https://github.com/ChristopherKahler/carl/issues"
+    "url": "https://github.com/KrisGray/opencarl/issues"
   },
-  "homepage": "https://github.com/ChristopherKahler/carl#readme",
+  "homepage": "https://github.com/KrisGray/opencarl#readme",
   "peerDependencies": {
     "@opencode-ai/plugin": "^1.2.0"
   },
   "engines": {
     "node": ">=16.7.0"
-  },
-  "dependencies": {
-    "get-shit-done-cc": "^1.22.1"
   },
   "devDependencies": {
     "@opencode-ai/plugin": "^1.2.15",

@@ -1,12 +1,12 @@
 <div align="center">
 
-# CARL
+# OpenCARL
 
 **Context Augmentation & Reinforcement Layer** — Dynamic rules for OpenCode.
 
-[![npm version](https://img.shields.io/npm/v/@krisgray/opencode-carl-plugin?style=for-the-badge&logo=npm&logoColor=white&color=CB3837)](https://www.npmjs.com/package/@krisgray/opencode-carl-plugin)
+[![npm version](https://img.shields.io/npm/v/@krisgray/opencarl?style=for-the-badge&logo=npm&logoColor=white&color=CB3837)](https://www.npmjs.com/package/@krisgray/opencarl)
 [![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/ChristopherKahler/carl?style=for-the-badge&logo=github&color=181717)](https://github.com/ChristopherKahler/carl)
+[![GitHub stars](https://img.shields.io/github/stars/KrisGray/opencarl?style=for-the-badge&logo=github&color=181717)](https://github.com/KrisGray/opencarl)
 
 <br>
 
@@ -14,13 +14,13 @@
 
 <br>
 
-[Why CARL](#why-carl) · [Getting Started](#getting-started) · [How It Works](#how-it-works) · [Core Concepts](#core-concepts)
+[Why OpenCARL](#why-opencarl) · [Getting Started](#getting-started) · [How It Works](#how-it-works) · [Core Concepts](#core-concepts)
 
 </div>
 
 ---
 
-## Why CARL
+## Why OpenCARL
 
 Every OpenCode session starts fresh. Your preferences, workflows, and hard-won lessons? Gone. You end up repeating the same instructions:
 
@@ -30,7 +30,7 @@ Every OpenCode session starts fresh. Your preferences, workflows, and hard-won l
 
 Static prompts in AGENTS.md work, but they bloat every session — even when irrelevant. Writing code? You don't need your content creation rules. Debugging? You don't need your planning workflow.
 
-CARL fixes this with **just-in-time rule injection**:
+OpenCARL fixes this with **just-in-time rule injection**:
 
 1. **Rules load when relevant** — Mention "fix bug" and your development preferences appear
 2. **Rules disappear when not** — Your context stays lean
@@ -44,14 +44,14 @@ The result: Your AI assistant remembers how you work without wasting context on 
 
 **OpenCode users** who want persistent preferences without bloated prompts.
 
-You've figured out what works for you — coding style, response format, workflow patterns. CARL makes those preferences stick:
+You've figured out what works for you — coding style, response format, workflow patterns. OpenCARL makes those preferences stick:
 
 - Define rules once, use them forever
 - Rules activate automatically based on context
 - Override or extend per-project as needed
 - No manual prompt engineering each session
 
-If you find yourself repeating instructions, CARL is for you.
+If you find yourself repeating instructions, OpenCARL is for you.
 
 ---
 
@@ -60,16 +60,16 @@ If you find yourself repeating instructions, CARL is for you.
 ### Installation
 
 ```bash
-npm install @krisgray/opencode-carl-plugin
+npm install @krisgray/opencarl
 ```
 
 ### Configure opencode.json
 
-Add CARL to your `opencode.json` plugin list:
+Add OpenCARL to your `opencode.json` plugin list:
 
 ```json
 {
-  "plugin": ["@krisgray/opencode-carl-plugin"]
+  "plugin": ["@krisgray/opencarl"]
 }
 ```
 
@@ -85,7 +85,7 @@ This seeds your project with the `.carl/` directory structure and default templa
 
 ### Optional: AGENTS.md Integration
 
-To add CARL documentation to your project's `AGENTS.md`:
+To add OpenCARL documentation to your project's `AGENTS.md`:
 
 ```
 /carl setup --integrate
@@ -99,8 +99,8 @@ Type `*carl` in any prompt:
 *carl
 ```
 
-This activates **CARL Help Mode** — an interactive guide that can:
-- Explain how CARL works
+This activates **OpenCARL Help Mode** — an interactive guide that can:
+- Explain how OpenCARL works
 - Help you create custom domains
 - Show your current configuration
 - Guide you through rule syntax
@@ -114,8 +114,8 @@ You type: "help me fix this bug"
                 │
                 ▼
     ┌───────────────────────┐
-    │   CARL Scans Your     │
-    │   Prompt              │
+    │   OpenCARL Scans Your  │
+    │   Prompt               │
     └───────────────────────┘
                 │
                 ▼
@@ -135,7 +135,7 @@ You type: "help me fix this bug"
     coding preferences baked in
 ```
 
-CARL reads your `.carl/manifest` and injects only the rules that match your current task.
+OpenCARL reads your `.carl/manifest` and injects only the rules that match your current task.
 
 ### Project Structure
 
@@ -257,7 +257,7 @@ Or use `*carl` and say "help me create a domain" for guided setup.
 
 ## Rule Precedence
 
-CARL rules inject alongside your OpenCode AGENTS.md rules. Both apply, with CARL rules providing dynamic context-aware loading based on your current task.
+OpenCARL rules inject alongside your OpenCode AGENTS.md rules. Both apply, with OpenCARL rules providing dynamic context-aware loading based on your current task.
 
 ---
 
@@ -283,18 +283,18 @@ CARL rules inject alongside your OpenCode AGENTS.md rules. Both apply, with CARL
 
 ### Lean Context
 
-Static prompts waste tokens on irrelevant rules. CARL loads only what's needed:
+Static prompts waste tokens on irrelevant rules. OpenCARL loads only what's needed:
 
 | Approach | Context Cost |
 |----------|--------------|
 | Static AGENTS.md | All rules, every session |
-| CARL | Only matched rules |
+| OpenCARL | Only matched rules |
 
 More room for actual work.
 
 ### Explicit Over Magic
 
-CARL is transparent:
+OpenCARL is transparent:
 - See exactly which domains loaded
 - Know why rules activated (keyword match)
 - Override with star-commands when needed
@@ -303,14 +303,14 @@ No hidden behavior.
 
 ### Your Rules, Your Way
 
-CARL provides structure, not opinions. The default domains are examples — customize or replace them entirely. Your workflow, your rules.
+OpenCARL provides structure, not opinions. The default domains are examples — customize or replace them entirely. Your workflow, your rules.
 
 ---
 
 ## What's Included
 
 ```
-@krisgray/opencode-carl-plugin/
+@krisgray/opencarl/
 ├── dist/plugin.js          # Plugin entrypoint
 ├── .carl-template/         # Default configuration
 │   ├── manifest            # Domain registry
@@ -324,6 +324,20 @@ CARL provides structure, not opinions. The default domains are examples — cust
 
 ---
 
+## Attribution & License
+
+**CARL** (Context Augmentation & Reinforcement Layer) was originally 
+created by [Chris Kahler](https://github.com/ChristopherKahler) 
+for Claude Code.
+
+**OpenCARL** is an OpenCode adaptation, maintained by 
+[Kristian Gray](https://github.com/KrisGray).
+
+The original CARL project can be found at:
+https://github.com/ChristopherKahler/carl
+
+---
+
 ## License
 
 MIT License. See [LICENSE](LICENSE) for details.
@@ -332,14 +346,14 @@ MIT License. See [LICENSE](LICENSE) for details.
 
 ## Author
 
-**Chris Kahler** — [Chris AI Systems](https://github.com/ChristopherKahler)
+**Kristian Gray** — OpenCARL Maintainer
 
-Building tools for AI-assisted development.
+**Original Author** — Chris Kahler (CARL Creator)
 
 ---
 
 <div align="center">
 
-**OpenCode is powerful. CARL makes it personal.**
+**OpenCode is powerful. OpenCARL makes it personal.**
 
 </div>

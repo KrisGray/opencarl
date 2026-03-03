@@ -1,18 +1,18 @@
-# CARL Installation Guide for OpenCode
+# OpenCARL Installation Guide
 
 ## Quick Install
 
 ```bash
-npm install @krisgray/opencode-carl-plugin
+npm install @krisgray/opencarl
 ```
 
 ### Configure opencode.json
 
-Add CARL to your `opencode.json` plugin list:
+Add OpenCARL to your `opencode.json` plugin list:
 
 ```json
 {
-  "plugin": ["@krisgray/opencode-carl-plugin"]
+  "plugin": ["@krisgray/opencarl"]
 }
 ```
 
@@ -27,17 +27,17 @@ In OpenCode, run:
 This will:
 1. Seed `.carl/` templates in your project (if missing)
 2. Copy commands and skills to your `.opencode/` directory
-3. Prepare CARL for use
+3. Prepare OpenCARL for use
 
 ### Optional: AGENTS.md Integration
 
-To add CARL documentation to your project's `AGENTS.md`:
+To add OpenCARL documentation to your project's `AGENTS.md`:
 
 ```
 /carl setup --integrate
 ```
 
-This adds a CARL section with rule precedence documentation. Remove it anytime with:
+This adds an OpenCARL section with rule precedence documentation. Remove it anytime with:
 
 ```
 /carl setup --remove
@@ -86,7 +86,7 @@ Edit `~/.opencode/opencode.json` or your project's `opencode.json`:
 }
 ```
 
-### Step 4: Copy CARL Config
+### Step 4: Copy OpenCARL Config
 
 **Global (all projects):**
 ```bash
@@ -117,7 +117,7 @@ Test with:
 
 ## Usage
 
-- `*carl` — Enter CARL help mode
+- `*carl` — Enter OpenCARL help mode
 - `*carl docs` — View full documentation
 - `/carl` — Domain management commands
 - `/carl list` — Show all domains
@@ -146,8 +146,8 @@ Test with:
 
 ```
 .opencode/
-├── commands/carl/      # CARL slash commands
-├── skills/carl-*/      # CARL skills
+├── commands/carl/      # OpenCARL slash commands
+├── skills/carl-*/      # OpenCARL skills
 └── plugins/            # Plugin files (if manual install)
 
 .carl/

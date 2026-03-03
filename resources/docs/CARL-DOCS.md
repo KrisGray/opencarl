@@ -1,4 +1,4 @@
-# CARL Documentation
+# OpenCARL Documentation
 
 ## Quick Reference
 

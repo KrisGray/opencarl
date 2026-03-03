@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 /**
- * CARL Setup Script for OpenCode
+ * OpenCARL Setup Script for OpenCode
  * 
- * This script sets up CARL for use with OpenCode:
+ * This script sets up OpenCARL for use with OpenCode:
  * - Seeds .carl/ directory with templates
  * - Copies commands and skills to .opencode/
  * - Optionally integrates with AGENTS.md
@@ -34,20 +34,20 @@ ${orange}   ██████╗ █████╗ ██████╗ █�
    ╚██████╗██║  ██║██║  ██║███████╗
     ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝${reset}
 
-   CARL ${dim}v${pkg.version}${reset}
+   OpenCARL ${dim}v${pkg.version}${reset}
    Context Augmentation & Reinforcement Layer for OpenCode
 `;
 
-// CARL section for AGENTS.md
+// OpenCARL section for AGENTS.md
 const CARL_AGENTS_SECTION = `<!-- CARL-START - DO NOT EDIT -->
-## CARL Integration
+## OpenCARL Integration
 
-CARL provides dynamic rule injection for this project. Rules load automatically when relevant to your current task.
+OpenCARL provides dynamic rule injection for this project. Rules load automatically when relevant to your current task.
 
-### How CARL Works with OpenCode
+### How OpenCARL Works with OpenCode
 
 1. **OpenCode AGENTS.md rules** - Load first as project-scoped instructions
-2. **CARL's dynamic rules** - Load based on recall keyword matches
+2. **OpenCARL's dynamic rules** - Load based on recall keyword matches
 3. **Both sets of rules apply** to the current session
 
 ### Integration Points
@@ -151,12 +151,12 @@ function integrateAgentsMd(agentsPath) {
 
     // Check if CARL section already exists
     if (content.includes('<!-- CARL-START')) {
-      console.log(`  ${yellow}CARL section already exists in AGENTS.md${reset}`);
+      console.log(`  ${yellow}OpenCARL section already exists in AGENTS.md${reset}`);
       return false;
     }
-    console.log(`  ${dim}Existing AGENTS.md found, adding CARL section${reset}`);
+    console.log(`  ${dim}Existing AGENTS.md found, adding OpenCARL section${reset}`);
   } else {
-    console.log(`  ${dim}Creating AGENTS.md with CARL section${reset}`);
+    console.log(`  ${dim}Creating AGENTS.md with OpenCARL section${reset}`);
     content = `# Project Instructions\n\n`;
     fs.writeFileSync(agentsPath, content);
   }
@@ -172,7 +172,7 @@ function integrateAgentsMd(agentsPath) {
  * Remove CARL section from AGENTS.md
  */
 function removeAgentsIntegration(agentsPath) {
-  console.log(`\n  ${cyan}Removing CARL integration from AGENTS.md...${reset}`);
+  console.log(`\n  ${cyan}Removing OpenCARL integration from AGENTS.md...${reset}`);
 
   if (!fs.existsSync(agentsPath)) {
     console.log(`  ${yellow}AGENTS.md not found${reset}`);
@@ -183,7 +183,7 @@ function removeAgentsIntegration(agentsPath) {
 
   // Check if CARL section exists
   if (!content.includes('<!-- CARL-START')) {
-    console.log(`  ${yellow}No CARL section found in AGENTS.md${reset}`);
+    console.log(`  ${yellow}No OpenCARL section found in AGENTS.md${reset}`);
     return false;
   }
 
@@ -192,7 +192,7 @@ function removeAgentsIntegration(agentsPath) {
   const updatedContent = content.replace(pattern, '').replace(/\n{3,}/g, '\n\n').trimEnd() + '\n';
 
   fs.writeFileSync(agentsPath, updatedContent);
-  console.log(`  ${green}✓${reset} Removed CARL section from AGENTS.md`);
+  console.log(`  ${green}✓${reset} Removed OpenCARL section from AGENTS.md`);
   return true;
 }
 
