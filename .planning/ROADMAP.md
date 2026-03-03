@@ -107,7 +107,7 @@ Plans:
 
 **Milestone Goal:** Complete remaining INTE-02 requirement and polish v1.0 with better developer experience.
 
-- [ ] **Phase 6: Integration & Developer Experience** - Complete opencode.json integration and add troubleshooting/diagnostic tools.
+- [x] **Phase 6: Integration & Developer Experience** - Complete opencode.json integration and add troubleshooting/diagnostic tools. (completed 2026-03-03)
 
 ### Phase 6: Integration & Developer Experience
 **Goal**: Users have complete OpenCode configuration integration and can troubleshoot plugin issues independently
@@ -138,7 +138,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 3. Session Stability | v1.0 | 2/2 | Complete | 2026-02-26 |
 | 4. Setup Flow | v1.0 | 4/4 | Complete | 2026-02-27 |
 | 5. Rules Integration | v1.0 | 3/3 | Complete | 2026-03-03 |
-| 6. Integration & DX | v1.1 | 0/4 | Not started | - |
+| 6. Integration & DX | 4/4 | Complete   | 2026-03-03 | - |
 
 ---
 *Roadmap created: 2026-02-25*
