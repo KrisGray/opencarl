@@ -1,7 +1,7 @@
 {
   "name": "@krisgray/opencarl",
   "version": "1.0.0",
-  "description": "OpenCARL - Context Augmentation & Reinforcement Layer for OpenCode (adapted from CARL by Chris Kahler)",
+  "description": "OpenCARL - Dynamic rule injection for OpenCode. Rules load when relevant, disappear when not. Adapted from CARL by Chris Kahler.",
   "main": "dist/plugin.js",
   "types": "dist/plugin.d.ts",
   "bin": {

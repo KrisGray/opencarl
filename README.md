@@ -20,23 +20,49 @@
 
 ---
 
+## What is OpenCARL?
+
+OpenCARL is a dynamic rule injection plugin for OpenCode that gives your AI assistant persistent memory about how you work. Instead of repeating instructions every session, define rules once and they load automatically when relevant to your current task.
+
+**Key Features:**
+- 🎯 **Keyword-based loading** - Rules activate when you mention specific terms
+- ⭐ **Star-commands** - Explicit triggers like `*brief` for on-demand modes
+- 🔄 **Context-aware** - Adjusts behavior based on session context
+- 🌐 **Global & project rules** - Share across projects or keep them specific
+- 📝 **AGENTS.md integration** - Optional documentation integration
+
+OpenCARL is an OpenCode adaptation of CARL (Context Augmentation & Reinforcement Layer), originally created by Chris Kahler for Claude Code.
+
+---
+
 ## Why OpenCARL
 
 Every OpenCode session starts fresh. Your preferences, workflows, and hard-won lessons? Gone. You end up repeating the same instructions:
 
+<details>
+<summary>📖 Example instructions you might repeat</summary>
+
 > "Use TypeScript strict mode."
 > "Don't over-engineer."
 > "Run tests after changes."
+> "Prefer functional components."
+> "Keep responses concise."
+
+</details>
 
 Static prompts in AGENTS.md work, but they bloat every session — even when irrelevant. Writing code? You don't need your content creation rules. Debugging? You don't need your planning workflow.
 
 OpenCARL fixes this with **just-in-time rule injection**:
 
-1. **Rules load when relevant** — Mention "fix bug" and your development preferences appear
-2. **Rules disappear when not** — Your context stays lean
-3. **Explicit triggers available** — Star-commands (`*commandname`) for on-demand modes
+| Traditional Approach | OpenCARL Approach |
+|---------------------|-------------------|
+| All rules, every session | Only matched rules |
+| Bloated context | Lean context |
+| Manual repetition | Automatic loading |
 
-The result: Your AI assistant remembers how you work without wasting context on rules you don't need right now.
+### The Result
+
+Your AI assistant remembers how you work without wasting context on rules you don't need right now.
 
 ---
 
@@ -46,10 +72,10 @@ The result: Your AI assistant remembers how you work without wasting context on 
 
 You've figured out what works for you — coding style, response format, workflow patterns. OpenCARL makes those preferences stick:
 
-- Define rules once, use them forever
-- Rules activate automatically based on context
-- Override or extend per-project as needed
-- No manual prompt engineering each session
+- ✅ Define rules once, use them forever
+- ✅ Rules activate automatically based on context
+- ✅ Override or extend per-project as needed
+- ✅ No manual prompt engineering each session
 
 If you find yourself repeating instructions, OpenCARL is for you.
 
@@ -65,7 +91,7 @@ npm install @krisgray/opencarl
 
 ### Configure opencode.json
 
-Add OpenCARL to your `opencode.json` plugin list:
+Add OpenCARL to your `opencode.json` plugin list
 
 ```json
 {
@@ -75,7 +101,7 @@ Add OpenCARL to your `opencode.json` plugin list:
 
 ### Initialize
 
-In OpenCode, run:
+In OpenCode, run
 
 ```
 /carl setup
@@ -85,7 +111,7 @@ This seeds your project with the `.carl/` directory structure and default templa
 
 ### Optional: AGENTS.md Integration
 
-To add OpenCARL documentation to your project's `AGENTS.md`:
+To add OpenCARL documentation to your project's `AGENTS.md`
 
 ```
 /carl setup --integrate
@@ -93,13 +119,13 @@ To add OpenCARL documentation to your project's `AGENTS.md`:
 
 ### Your First Interaction
 
-Type `*carl` in any prompt:
+Type `*carl` in any prompt
 
 ```
 *carl
 ```
 
-This activates **OpenCARL Help Mode** — an interactive guide that can:
+This activates **OpenCARL Help Mode** — an interactive guide that can
 - Explain how OpenCARL works
 - Help you create custom domains
 - Show your current configuration
@@ -155,7 +181,7 @@ OpenCARL reads your `.carl/manifest` and injects only the rules that match your 
 
 ### Domains
 
-A domain is a collection of related rules. Create domains for different contexts:
+A domain is a collection of related rules. Create domains for different contexts
 
 | Example Domain | Trigger Keywords | What It Does |
 |----------------|------------------|--------------|
@@ -167,13 +193,13 @@ When your prompt matches a domain's keywords, its rules load automatically.
 
 ### Star-Commands
 
-Explicit triggers using `*commandname` syntax:
+Explicit triggers using `*commandname` syntax
 
 ```
 *brief explain recursion
 ```
 
-Unlike domains (automatic), star-commands are intentional. Use them for workflow modes:
+Unlike domains (automatic), star-commands are intentional. Use them for workflow modes
 
 - Response formatting (concise vs detailed)
 - Task modes (planning vs execution)
@@ -183,7 +209,7 @@ Create your own star-commands for frequently-used behaviors.
 
 ### The Manifest
 
-Controls which domains exist and when they activate:
+Controls which domains exist and when they activate
 
 ```
 DEVELOPMENT_STATE=active
@@ -201,7 +227,7 @@ DEVELOPMENT_ALWAYS_ON=false
 
 ### Rule Format
 
-Simple `KEY=VALUE` in domain files:
+Simple `KEY=VALUE` in domain files
 
 ```
 DEVELOPMENT_RULE_0=Code over explanation - show, don't tell
@@ -227,12 +253,12 @@ Local rules override global when both exist.
 ### Creating Custom Domains
 
 1. Create file `.carl/myworkflow` (lowercase)
-2. Add rules with uppercase prefix:
+2. Add rules with uppercase prefix
    ```
    MYWORKFLOW_RULE_0=First instruction
    MYWORKFLOW_RULE_1=Second instruction
    ```
-3. Register in manifest:
+3. Register in manifest
    ```
    MYWORKFLOW_STATE=active
    MYWORKFLOW_RECALL=keyword1, keyword2
@@ -283,7 +309,7 @@ OpenCARL rules inject alongside your OpenCode AGENTS.md rules. Both apply, with 
 
 ### Lean Context
 
-Static prompts waste tokens on irrelevant rules. OpenCARL loads only what's needed:
+Static prompts waste tokens on irrelevant rules. OpenCARL loads only what's needed
 
 | Approach | Context Cost |
 |----------|--------------|
@@ -294,7 +320,7 @@ More room for actual work.
 
 ### Explicit Over Magic
 
-OpenCARL is transparent:
+OpenCARL is transparent
 - See exactly which domains loaded
 - Know why rules activated (keyword match)
 - Override with star-commands when needed
@@ -333,7 +359,7 @@ for Claude Code.
 **OpenCARL** is an OpenCode adaptation, maintained by 
 [Kristian Gray](https://github.com/KrisGray).
 
-The original CARL project can be found at:
+The original CARL project can be found at
 https://github.com/ChristopherKahler/carl
 
 ---

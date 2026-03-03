@@ -66,11 +66,19 @@ Invoke with `*quick` in any prompt.
 
 ## Full Guide
 
-### What is CARL?
+### What is OpenCARL?
 
-CARL gives your AI assistant persistent memory about how YOU work. Instead of repeating instructions every session, you define rules once and they load automatically when relevant.
+OpenCARL is a dynamic rule injection plugin for OpenCode that gives your AI assistant persistent memory about how you work. Instead of repeating instructions every session, you define rules once and they load automatically when relevant to your current task.
 
-**Core value:** Keep CARL's dynamic rule injection working seamlessly with minimal user friction.
+**Key Features:**
+- 🎯 **Keyword-based loading** - Rules activate when you mention specific terms
+- ⭐ **Star-commands** - Explicit triggers like `*brief` for on-demand modes
+- 🔄 **Context-aware** - Adjusts behavior based on session context
+- 🌐 **Global & project rules** - Share across projects or keep them specific
+
+**Core value:** Keep OpenCARL's dynamic rule injection working seamlessly with minimal user friction.
+
+OpenCARL is an OpenCode adaptation of CARL (Context Augmentation & Reinforcement Layer), originally created by Chris Kahler for Claude Code.
 
 ### How It Works
 
