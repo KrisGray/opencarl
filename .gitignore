@@ -1,17 +1,54 @@
-# Python
-__pycache__/
-*.py[cod]
-*.egg-info/
-dist/
-build/
+# Dependencies
+node_modules/
 
-# IDE
-.vscode/
-.idea/
+# Build output
+dist/
+*.tsbuild
+
+*.tgz
+
+# TypeScript cache
+*.tsbuildinfo/
+
+# Backup files
+.carl-backup/
+
+# Environment
+.env
+.env.local
+*.env
+
+# Logs
+*.log
+npm-debug.log
+
+# Lock files
+package-lock.json
 
 # OS
 .DS_Store
 Thumbs.db
 
-# CARL session files (auto-generated, local to each machine)
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+*.sublime-workspace
+
+# Python (if any scripts remain)
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# CARL session files (auto-generated, local)
 .carl/sessions/*.json
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Temporary files
+*.tmp
+*.temp
