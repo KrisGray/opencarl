@@ -38,6 +38,7 @@ Progress: [████████████████░░░░] 80% (15
 - Trend: Stable
 
 *Updated after each plan completion*
+| Phase 06-integration-developer-experience P04 | 2 | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -57,6 +58,9 @@ Recent decisions affecting current work:
 - [Phase 04]: Duplicate plugin detection uses session-scoped warning guard
 - [Phase 05]: HTML comment markers for reversible AGENTS.md sections
 - [Phase 05]: Dual-package strategy (carl-core + @krisgray/opencode-carl-plugin)
+- [Phase 06-integration-developer-experience]: Quick Diagnosis Checklist provides rapid problem identification before detailed sections — Most issues can be identified with 5 common checks, saving time
+- [Phase 06-integration-developer-experience]: Organized troubleshooting by issue category (Installation, Loading, Matching, Integration) — Logical grouping helps users find relevant solutions quickly
+- [Phase 06-integration-developer-experience]: Debug Mode section documents CARL_DEBUG environment variable usage — Debug mode is critical for troubleshooting but wasn't previously documented
 
 ### Pending Todos
 

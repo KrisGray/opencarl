@@ -69,7 +69,7 @@ Requirements for polish release. Maps to Phase 6.
 
 - [ ] **DX-01**: User receives clear, actionable error messages when plugin fails to load
 - [ ] **DX-02**: User can enable debug logging to trace plugin behavior and rule matching
-- [ ] **DX-03**: User can reference a troubleshooting guide for common issues
+- [x] **DX-03**: User can reference a troubleshooting guide for common issues
 
 ## v2 Requirements
 
@@ -129,7 +129,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | TEMP-02 | Phase 4 | Complete |
 | DX-01 | Phase 6 | Pending |
 | DX-02 | Phase 6 | Pending |
-| DX-03 | Phase 6 | Pending |
+| DX-03 | Phase 6 | Complete |
 | ENHN-01 | v2 | Deferred |
 | ENHN-02 | v2 | Deferred |
 
