@@ -146,6 +146,58 @@ describe("context-brackets.ts", () => {
 
   describe("selectBracketRules", () => {
     // Tests for selecting rules based on bracket
+
+    it("should return rules for matching bracket", () => {
+      const bracketRules = {
+        FRESH: ["rule1", "rule2"],
+        DEPLETED: ["rule3"],
+      };
+      const result = selectBracketRules(bracketRules, {}, "FRESH");
+      expect(result).toEqual(["rule1", "rule2"]);
+    });
+
+    it("should return empty array for missing bracket", () => {
+      const bracketRules = { FRESH: ["rule1"] };
+      const result = selectBracketRules(bracketRules, {}, "MODERATE");
+      expect(result).toEqual([]);
+    });
+
+    it("should return empty array when bracket disabled", () => {
+      const bracketRules = { FRESH: ["rule1"] };
+      const bracketFlags = { FRESH: false };
+      const result = selectBracketRules(bracketRules, bracketFlags, "FRESH");
+      expect(result).toEqual([]);
+    });
+
+    it("should return rules when bracket enabled", () => {
+      const bracketRules = { FRESH: ["rule1", "rule2"] };
+      const bracketFlags = { FRESH: true };
+      const result = selectBracketRules(bracketRules, bracketFlags, "FRESH");
+      expect(result).toEqual(["rule1", "rule2"]);
+    });
+
+    it("should default to enabled when flag not specified", () => {
+      const bracketRules = { FRESH: ["rule1"] };
+      const bracketFlags = {}; // empty
+      const result = selectBracketRules(bracketRules, bracketFlags, "FRESH");
+      expect(result).toEqual(["rule1"]);
+    });
+
+    it("should handle DEPLETED rules for CRITICAL request", () => {
+      // rulesBracket='DEPLETED' (mapped from CRITICAL)
+      const bracketRules = {
+        DEPLETED: ["depleted-rule1", "depleted-rule2"],
+        CRITICAL: ["critical-rule"],
+      };
+      const result = selectBracketRules(bracketRules, {}, "DEPLETED");
+      expect(result).toEqual(["depleted-rule1", "depleted-rule2"]);
+    });
+
+    it("should handle empty bracketRules object", () => {
+      const bracketRules = {};
+      const result = selectBracketRules(bracketRules, {}, "FRESH");
+      expect(result).toEqual([]);
+    });
   });
 
   describe("parseContextFile", () => {
