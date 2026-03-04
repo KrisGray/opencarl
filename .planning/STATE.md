@@ -12,11 +12,11 @@ See: .planning/PROJECT.md (updated 2026-03-03)
 | Field | Value |
 |-------|-------|
 | **Phase** | 8 - Core Unit Tests - Parsing & Matching |
-| **Plan** | 3 of 5 |
+| **Plan** | 4 of 5 |
 | **Status** | In Progress |
-| **Progress** | ████░░░░░░ 40% |
+| **Progress** | ████████░░ 80% |
 
-**Next Action:** Continue with 08-02-PLAN (Manifest parser tests) or 08-04-PLAN (Context bracket tests)
+**Next Action:** Continue with remaining plans in Phase 8 or proceed to Phase 9
 
 ---
 
@@ -39,7 +39,7 @@ See: .planning/PROJECT.md (updated 2026-03-03)
 
 **v1.2 Progress:**
 - Phases: 2/5 (Phase 7 & 8 in progress)
-- Requirements: 7/24 (Phase 7 complete, UNIT-02 complete)
+- Requirements: 8/24 (Phase 7 complete, UNIT-02, UNIT-04 complete)
 
 ---
 | Phase 07-02 P02 | 3 min | 3 tasks | 8 files |
@@ -47,6 +47,7 @@ See: .planning/PROJECT.md (updated 2026-03-03)
 | Phase 07-03 P03 | 5 min | 3 tasks | 2 files |
 | Phase 08 P02 | 2 min | 5 tasks | 2 files |
 | Phase 08-04 P04 | 2 min | 6 tasks | 1 files |
+| Phase 08-05 P05 | 5 min | 7 tasks | 1 files |
 
 ## Milestone Progress
 
@@ -55,7 +56,7 @@ See: .planning/PROJECT.md (updated 2026-03-03)
 | Phase | Status | Progress |
 |-------|--------|----------|
 | 7. Test Infrastructure & CI Setup | Complete | ██████████ 100% |
-| 8. Core Unit Tests - Parsing & Matching | In Progress | ████░░░░░░ 40% |
+| 8. Core Unit Tests - Parsing & Matching | In Progress | ████████░░ 80% |
 | 9. Core Unit Tests - Session & Setup | Not started | ░░░░░░░░░░ 0% |
 | 10. Integration Tests | Not started | ░░░░░░░░░░ 0% |
 | 11. E2E Tests & Docker | Not started | ░░░░░░░░░░ 0% |
@@ -93,6 +94,7 @@ Decisions are logged in PROJECT.md Key Decisions table.
 - [Phase 08]: Added temp directory cleanup hooks (beforeEach/afterEach) for consistent inline test data approach
 - [Phase 08]: Fixed import syntax in validate.ts using namespace imports (* as)
 - [Phase 08-04]: Fixed test destructuring order to match actual parseContextFile return type [bracketFlags, bracketRules]
+- [Phase 08-05]: Context bracket tests must match rulesBracket rules, not bracket name — buildCarlInjection uses rulesBracket to select rules, not the display bracket
 
 ### Active Constraints
 
@@ -120,8 +122,8 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-04T17:55:14.084Z
-**Stopped at:** Completed 08-04-PLAN.md
+**Last session:** 2026-03-04T17:59:10.230Z
+**Stopped at:** Completed 08-05-PLAN.md
 **Resume file:** None
 
 ### Quick Start
@@ -141,12 +143,12 @@ cat .planning/ROADMAP.md
 
 | Date | Action | Result |
 |------|--------|--------|
+| 2026-03-04 | Plan 08-05 complete | Injector tests (31 tests, 89% coverage) |
+| 2026-03-04 | Plan 08-04 complete | Context bracket tests (24 tests, 96% coverage) |
 | 2026-03-04 | Plan 08-03 complete | Keyword scanner tests (32 tests, 98% coverage) |
 | 2026-03-04 | Phase 8 started | Core Unit Tests - Parsing & Matching in progress |
 | 2026-03-04 | Phase 7 complete | Test infrastructure & CI operational |
-| 2026-03-03 | Roadmap created for v1.2 | 5 phases, 24 requirements mapped |
-| 2026-03-03 | v1.1 milestone complete | Phase 6 shipped |
 
 ---
 *State initialized: 2026-02-25*
-*Last updated: 2026-03-04 after Plan 08-03 completion*
+*Last updated: 2026-03-04 after Plan 08-05 completion*
