@@ -246,11 +246,147 @@ describe('injector.ts', () => {
     });
 
     describe('global rules', () => {
-      // Tests for GLOBAL domain handling
+      it('should always include GLOBAL domain', () => {
+        const input: CarlInjectionInput = {
+          domainPayloads: {
+            GLOBAL: createTestDomainPayload({
+              domain: 'GLOBAL',
+              rules: ['Global rule 1', 'Global rule 2'],
+              alwaysOn: false,
+            }),
+          },
+          matchedDomains: [],
+        };
+
+        const result = buildCarlInjection(input);
+
+        expect(result).not.toBeNull();
+        expect(result).toContain('[GLOBAL] RULES:');
+        expect(result).toContain('Global rule 1');
+      });
+
+      it('should include GLOBAL even with matched domains', () => {
+        const input: CarlInjectionInput = {
+          domainPayloads: {
+            GLOBAL: createTestDomainPayload({
+              domain: 'GLOBAL',
+              rules: ['Global rule'],
+              alwaysOn: false,
+            }),
+            DEVELOPMENT: createTestDomainPayload({
+              domain: 'DEVELOPMENT',
+              rules: ['Dev rule'],
+            }),
+          },
+          matchedDomains: ['DEVELOPMENT'],
+        };
+
+        const result = buildCarlInjection(input);
+
+        expect(result).toContain('[GLOBAL] RULES:');
+        expect(result).toContain('[DEVELOPMENT] RULES:');
+        expect(result).toContain('ALWAYS-ON DOMAINS');
+      });
+
+      it('should place GLOBAL in ALWAYS-ON DOMAINS section', () => {
+        const input: CarlInjectionInput = {
+          domainPayloads: {
+            GLOBAL: createTestDomainPayload({
+              domain: 'GLOBAL',
+              rules: ['Global rule'],
+            }),
+          },
+          matchedDomains: [],
+        };
+
+        const result = buildCarlInjection(input);
+
+        expect(result).toContain('ALWAYS-ON DOMAINS');
+        expect(result).toContain('[GLOBAL] RULES:');
+      });
     });
 
     describe('always-on domains', () => {
-      // Tests for ALWAYS_ON handling
+      it('should include ALWAYS_ON domain even without match', () => {
+        const input: CarlInjectionInput = {
+          domainPayloads: {
+            ALWAYS_ON_DOMAIN: createTestDomainPayload({
+              domain: 'ALWAYS_ON_DOMAIN',
+              rules: ['Always rule'],
+              alwaysOn: true,
+            }),
+          },
+          matchedDomains: [],
+        };
+
+        const result = buildCarlInjection(input);
+
+        expect(result).toContain('[ALWAYS_ON_DOMAIN] RULES:');
+        expect(result).toContain('Always rule');
+      });
+
+      it('should not duplicate ALWAYS_ON domain in matched section', () => {
+        const input: CarlInjectionInput = {
+          domainPayloads: {
+            ALWAYS_ON_DOMAIN: createTestDomainPayload({
+              domain: 'ALWAYS_ON_DOMAIN',
+              rules: ['Always rule'],
+              alwaysOn: true,
+            }),
+          },
+          matchedDomains: ['ALWAYS_ON_DOMAIN'],
+        };
+
+        const result = buildCarlInjection(input);
+
+        // Should appear only once in ALWAYS-ON section
+        const matches = result!.match(/\[ALWAYS_ON_DOMAIN\]/g);
+        expect(matches).toHaveLength(1);
+        expect(result).toContain('ALWAYS-ON DOMAINS');
+      });
+
+      it('should filter inactive ALWAYS_ON domains', () => {
+        const input: CarlInjectionInput = {
+          domainPayloads: {
+            ALWAYS_ON_DOMAIN: createTestDomainPayload({
+              domain: 'ALWAYS_ON_DOMAIN',
+              rules: ['Always rule'],
+              alwaysOn: true,
+              state: false,
+            }),
+          },
+          matchedDomains: [],
+        };
+
+        const result = buildCarlInjection(input);
+
+        expect(result).toBeNull();
+      });
+
+      it('should separate ALWAYS-ON from MATCHED sections', () => {
+        const input: CarlInjectionInput = {
+          domainPayloads: {
+            DEVELOPMENT: createTestDomainPayload({
+              domain: 'DEVELOPMENT',
+              rules: ['Dev rule'],
+              alwaysOn: false,
+            }),
+            GLOBAL: createTestDomainPayload({
+              domain: 'GLOBAL',
+              rules: ['Global rule'],
+              alwaysOn: false,
+            }),
+          },
+          matchedDomains: ['DEVELOPMENT'],
+        };
+
+        const result = buildCarlInjection(input);
+
+        expect(result).toContain('ALWAYS-ON DOMAINS');
+        expect(result).toContain('MATCHED DOMAINS');
+        expect(result).toContain('[GLOBAL] RULES:');
+        expect(result).toContain('[DEVELOPMENT] RULES:');
+      });
     });
 
     describe('command domains', () => {
