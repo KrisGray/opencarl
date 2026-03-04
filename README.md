@@ -2,6 +2,8 @@
 
 # OpenCARL
 
+[![Coverage](https://codecov.io/gh/KrisGray/opencarl/branch/main/graph/badge.svg)](https://codecov.io/gh/KrisGray/opencarl)
+
 **Context Augmentation & Reinforcement Layer** — Dynamic rules for OpenCode.
 
 [![npm version](https://img.shields.io/npm/v/@krisgray/opencarl?style=for-the-badge&logo=npm&logoColor=white&color=CB3837)](https://www.npmjs.com/package/@krisgray/opencarl)
