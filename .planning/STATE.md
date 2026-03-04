@@ -5,18 +5,18 @@
 See: .planning/PROJECT.md (updated 2026-03-03)
 
 **Core value:** Keep CARL's dynamic rule injection working seamlessly inside OpenCode with full parity and minimal user friction.
-**Current focus:** v1.2 Testing & QA - Phase 8
+**Current focus:** v1.2 Testing & QA - Phase 9
 
 ## Current Position
 
 | Field | Value |
 |-------|-------|
-| **Phase** | 8 - Core Unit Tests - Parsing & Matching |
-| **Plan** | 4 of 5 |
+| **Phase** | 9 - Core Unit Tests - Session & Setup |
+| **Plan** | 1 of 5 |
 | **Status** | In Progress |
-| **Progress** | ████████░░ 80% |
+| **Progress** | █████░░░░░ 50% |
 
-**Next Action:** Continue with remaining plans in Phase 8 or proceed to Phase 9
+**Next Action:** Continue with remaining plans in Phase 9
 
 ---
 
@@ -48,6 +48,7 @@ See: .planning/PROJECT.md (updated 2026-03-03)
 | Phase 08 P02 | 2 min | 5 tasks | 2 files |
 | Phase 08-04 P04 | 2 min | 6 tasks | 1 files |
 | Phase 08-05 P05 | 5 min | 7 tasks | 1 files |
+| Phase 09-core-unit-tests-session-setup P09 | 3 min | 3 tasks | - files |
 
 ## Milestone Progress
 
@@ -56,8 +57,8 @@ See: .planning/PROJECT.md (updated 2026-03-03)
 | Phase | Status | Progress |
 |-------|--------|----------|
 | 7. Test Infrastructure & CI Setup | Complete | ██████████ 100% |
-| 8. Core Unit Tests - Parsing & Matching | In Progress | ████████░░ 80% |
-| 9. Core Unit Tests - Session & Setup | Not started | ░░░░░░░░░░ 0% |
+| 8. Core Unit Tests - Parsing & Matching | Complete | ██████████ 100% |
+| 9. Core Unit Tests - Session & Setup | In Progress | ██░░░░░░░░ 20% |
 | 10. Integration Tests | Not started | ░░░░░░░░░░ 0% |
 | 11. E2E Tests & Docker | Not started | ░░░░░░░░░░ 0% |
 
@@ -122,9 +123,9 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-04T18:53:43.361Z
-**Stopped at:** Phase 9 context gathered
-**Resume file:** .planning/phases/09-core-unit-tests-session-setup/09-CONTEXT.md
+**Last session:** 2026-03-04T19:57:56.784Z
+**Stopped at:** Completed 09-03-PLAN
+**Resume file:** None
 
 ### Quick Start
 
