@@ -1,11 +1,24 @@
 import { parseManifest } from '../../../src/carl/validate';
 import type { ParsedManifest } from '../../../src/carl/validate';
-import fs from 'fs';
-import path from 'path';
-import os from 'os';
+import { createTestManifestPath } from '../../helpers/manifest-factory';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as os from 'os';
 
 describe('validate.ts', () => {
   describe('parseManifest', () => {
+    let tempDir: string;
+
+    beforeEach(() => {
+      tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'carl-test-'));
+    });
+
+    afterEach(() => {
+      if (fs.existsSync(tempDir)) {
+        fs.rmSync(tempDir, { recursive: true, force: true });
+      }
+    });
+
     describe('valid manifests', () => {
       // Tests for valid single/multi-domain manifests
     });
