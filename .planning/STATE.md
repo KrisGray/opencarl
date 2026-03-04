@@ -87,6 +87,7 @@ Decisions are logged in PROJECT.md Key Decisions table.
 **v1.0 Decisions (archived):**
 - See .planning/milestones/v1.0-ROADMAP.md
 - [Phase 07]: Coverage reporters: text, lcov, html (text for console, lcov for CI, html for visual)
+- [Phase 08-03]: BDD-style nested describes for test organization — Groups tests by functionality for easy navigation and failing tests
 
 ### Active Constraints
 
@@ -114,8 +115,8 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-04T15:29:25.499Z
-**Stopped at:** Completed 08-01-PLAN
+**Last session:** 2026-03-04T16:04:29.339Z
+**Stopped at:** Completed 08-03-PLAN
 **Resume file:** None
 
 ### Quick Start

@@ -16,7 +16,7 @@ Requirements for testing milestone. Each maps to roadmap phases.
 ### Unit Tests - Core Modules
 
 - [ ] **UNIT-01**: Manifest parser tests (valid single/multi-domain, empty, malformed, STATE/ALWAYS_ON parsing)
-- [ ] **UNIT-02**: Keyword scanner / matcher tests (match, exclude, always-on, case-insensitive, multi-domain)
+- [x] **UNIT-02**: Keyword scanner / matcher tests (match, exclude, always-on, case-insensitive, multi-domain)
 - [ ] **UNIT-03**: Domain manager tests (load, toggle, list, view operations)
 - [ ] **UNIT-04**: Rule composer / injector tests (single domain, multiple domains, global rules, context brackets)
 - [ ] **UNIT-05**: Context bracket tests (fresh, moderate, depleted classification and rule selection)
@@ -76,7 +76,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | TEST-02 | Phase 7 | Complete |
 | TEST-03 | Phase 7 | Complete |
 | UNIT-01 | Phase 8 | Pending |
-| UNIT-02 | Phase 8 | Pending |
+| UNIT-02 | Phase 8 | Complete |
 | UNIT-03 | Phase 9 | Pending |
 | UNIT-04 | Phase 8 | Pending |
 | UNIT-05 | Phase 8 | Pending |
