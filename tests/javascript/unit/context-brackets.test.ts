@@ -20,6 +20,39 @@ import {
 describe("context-brackets.ts", () => {
   describe("getContextBracket", () => {
     // Tests for bracket classification from percentage
+
+    it("should return FRESH for null percentage (unknown)", () => {
+      expect(getContextBracket(null)).toBe("FRESH");
+    });
+
+    it("should return FRESH for >= 60% remaining", () => {
+      expect(getContextBracket(60)).toBe("FRESH");
+      expect(getContextBracket(70)).toBe("FRESH");
+      expect(getContextBracket(80)).toBe("FRESH");
+      expect(getContextBracket(100)).toBe("FRESH");
+    });
+
+    it("should return MODERATE for >= 40% and < 60%", () => {
+      expect(getContextBracket(40)).toBe("MODERATE");
+      expect(getContextBracket(50)).toBe("MODERATE");
+      expect(getContextBracket(59)).toBe("MODERATE");
+    });
+
+    it("should return DEPLETED for >= 25% and < 40%", () => {
+      expect(getContextBracket(25)).toBe("DEPLETED");
+      expect(getContextBracket(30)).toBe("DEPLETED");
+      expect(getContextBracket(39)).toBe("DEPLETED");
+    });
+
+    it("should return CRITICAL for < 25%", () => {
+      expect(getContextBracket(0)).toBe("CRITICAL");
+      expect(getContextBracket(10)).toBe("CRITICAL");
+      expect(getContextBracket(24)).toBe("CRITICAL");
+    });
+
+    it("should handle 0% remaining", () => {
+      expect(getContextBracket(0)).toBe("CRITICAL");
+    });
   });
 
   describe("computeContextBracketData", () => {
@@ -28,6 +61,18 @@ describe("context-brackets.ts", () => {
 
   describe("getRulesBracket", () => {
     // Tests for rules bracket mapping (CRITICAL -> DEPLETED)
+
+    it("should return DEPLETED for CRITICAL bracket", () => {
+      // CRITICAL state uses DEPLETED rules
+      expect(getRulesBracket("CRITICAL")).toBe("DEPLETED");
+    });
+
+    it("should return same bracket for non-CRITICAL", () => {
+      // FRESH, MODERATE, DEPLETED pass through
+      expect(getRulesBracket("FRESH")).toBe("FRESH");
+      expect(getRulesBracket("MODERATE")).toBe("MODERATE");
+      expect(getRulesBracket("DEPLETED")).toBe("DEPLETED");
+    });
   });
 
   describe("selectBracketRules", () => {
