@@ -5,16 +5,20 @@
 See: .planning/PROJECT.md (updated 2026-03-03)
 
 **Core value:** Keep CARL's dynamic rule injection working seamlessly inside OpenCode with full parity and minimal user friction.
-**Current focus:** Planning next milestone
+**Current focus:** v1.2 Testing & QA - Phase 7
 
 ## Current Position
 
-Phase: Not started (defining requirements)
-Plan: —
-Status: Defining requirements for v1.2
-Last activity: 2026-03-03 — Milestone v1.2 Testing & QA started
+| Field | Value |
+|-------|-------|
+| **Phase** | 7 - Test Infrastructure & CI Setup |
+| **Plan** | TBD |
+| **Status** | Not started |
+| **Progress** | ░░░░░░░░░░ 0% |
 
-Progress: [░░░░░░░░░░░░░░░░░░░░░░] 0% (Starting v1.2)
+**Next Action:** Run `/gsd-plan-phase 7` to create first plan
+
+---
 
 ## Performance Metrics
 
@@ -33,11 +37,43 @@ Progress: [░░░░░░░░░░░░░░░░░░░░░░] 0
 | 5. Rules Integration | 3 | 4 min | 1.3 min |
 | 6. Integration & DX | 4 | 19 min | 4.75 min |
 
+**v1.2 Progress:**
+- Phases: 0/5
+- Requirements: 0/24
+
+---
+
+## Milestone Progress
+
+### v1.2 Testing & QA (Current)
+
+| Phase | Status | Progress |
+|-------|--------|----------|
+| 7. Test Infrastructure & CI Setup | Not started | ░░░░░░░░░░ 0% |
+| 8. Core Unit Tests - Parsing & Matching | Not started | ░░░░░░░░░░ 0% |
+| 9. Core Unit Tests - Session & Setup | Not started | ░░░░░░░░░░ 0% |
+| 10. Integration Tests | Not started | ░░░░░░░░░░ 0% |
+| 11. E2E Tests & Docker | Not started | ░░░░░░░░░░ 0% |
+
+### Prior Milestones
+
+- **v1.1 Polish & Complete Integration** - Shipped 2026-03-03 ✓
+- **v1.0 MVP** - Shipped 2026-03-03 ✓
+
+---
+
 ## Accumulated Context
 
 ### Decisions
 
 Decisions are logged in PROJECT.md Key Decisions table.
+
+**v1.2 Decisions:**
+- Jest with ts-jest preset (TypeScript project, industry standard)
+- 80% coverage threshold (balance quality vs velocity)
+- Docker for E2E tests (isolated, reproducible OpenCode environment)
+- GitHub Actions for CI (native GitHub integration)
+- Separate unit test phases by domain (natural grouping)
 
 **v1.1 Decisions:**
 - Zero-overhead debug logging (cache env var check)
@@ -48,6 +84,20 @@ Decisions are logged in PROJECT.md Key Decisions table.
 **v1.0 Decisions (archived):**
 - See .planning/milestones/v1.0-ROADMAP.md
 
+### Active Constraints
+
+1. Tests run via shell script and/or GitHub Actions (user requirement)
+2. E2E tests use real OpenCode in Docker container (user requirement)
+3. 80% coverage threshold enforced (user requirement)
+
+### Technical Notes
+
+- Test directory: `tests/javascript/` (per test plan)
+- Fixtures directory: `tests/fixtures/` (manifests, prompts, sessions)
+- E2E Docker: OpenCode container with plugin mounted
+- Coverage artifacts: Uploaded to GitHub Actions
+- Detailed test plan: `.planning/OPENCARL_TEST_PLAN.md`
+
 ### Pending Todos
 
 None.
@@ -56,12 +106,34 @@ None.
 
 None.
 
+---
+
 ## Session Continuity
 
-Last session: 2026-03-03
-Stopped at: v1.1 milestone complete
-Resume file: None
+**Last session:** 2026-03-04T12:14:30.081Z
+**Stopped at:** Phase 7 context gathered
+**Resume file:** .planning/phases/07-test-infrastructure-ci-setup/07-CONTEXT.md
+
+### Quick Start
+
+```bash
+# Check current status
+cat .planning/STATE.md
+
+# View roadmap
+cat .planning/ROADMAP.md
+
+# Start planning phase 7
+/gsd-plan-phase 7
+```
+
+### Recent Activity
+
+| Date | Action | Result |
+|------|--------|--------|
+| 2026-03-03 | Roadmap created for v1.2 | 5 phases, 24 requirements mapped |
+| 2026-03-03 | v1.1 milestone complete | Phase 6 shipped |
 
 ---
 *State initialized: 2026-02-25*
-*Last updated: 2026-03-03 after v1.1 milestone completion*
+*Last updated: 2026-03-03 after v1.2 roadmap creation*
