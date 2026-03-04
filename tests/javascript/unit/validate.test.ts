@@ -234,7 +234,76 @@ DEVELOPMENT_RECALL=code`;
     });
 
     describe('STATE and ALWAYS_ON parsing', () => {
-      // Boolean value variations
+      it('should parse STATE=true variations', () => {
+        const truthyValues = ['true', 'TRUE', 'yes', 'YES', '1', 'active', 'on'];
+
+        truthyValues.forEach((value) => {
+          const content = `DEVELOPMENT_STATE=${value}`;
+          const manifestPath = createTestManifestPath(content, tempDir);
+          const result = parseManifest(manifestPath);
+
+          expect(result.isValid).toBe(true);
+          expect(result.domains.DEVELOPMENT.state).toBe(true);
+        });
+      });
+
+      it('should parse STATE=false variations', () => {
+        const falsyValues = ['false', 'FALSE', 'no', 'NO', '0', 'inactive', 'off'];
+
+        falsyValues.forEach((value) => {
+          const content = `DEVELOPMENT_STATE=${value}`;
+          const manifestPath = createTestManifestPath(content, tempDir);
+          const result = parseManifest(manifestPath);
+
+          expect(result.isValid).toBe(true);
+          expect(result.domains.DEVELOPMENT.state).toBe(false);
+        });
+      });
+
+      it('should parse ALWAYS_ON=true variations', () => {
+        const truthyValues = ['true', 'TRUE', 'yes', 'YES', '1', 'active', 'on'];
+
+        truthyValues.forEach((value) => {
+          const content = `DEVELOPMENT_ALWAYS_ON=${value}`;
+          const manifestPath = createTestManifestPath(content, tempDir);
+          const result = parseManifest(manifestPath);
+
+          expect(result.isValid).toBe(true);
+          expect(result.domains.DEVELOPMENT.alwaysOn).toBe(true);
+        });
+      });
+
+      it('should parse ALWAYS_ON=false variations', () => {
+        const falsyValues = ['false', 'FALSE', 'no', 'NO', '0', 'inactive', 'off'];
+
+        falsyValues.forEach((value) => {
+          const content = `DEVELOPMENT_ALWAYS_ON=${value}`;
+          const manifestPath = createTestManifestPath(content, tempDir);
+          const result = parseManifest(manifestPath);
+
+          expect(result.isValid).toBe(true);
+          expect(result.domains.DEVELOPMENT.alwaysOn).toBe(false);
+        });
+      });
+
+      it('should default domain state to false when not specified', () => {
+        const content = `DEVELOPMENT_RECALL=code, debug`;
+        const manifestPath = createTestManifestPath(content, tempDir);
+        const result = parseManifest(manifestPath);
+
+        expect(result.isValid).toBe(true);
+        expect(result.domains.DEVELOPMENT.state).toBe(false);
+      });
+
+      it('should default alwaysOn to false when not specified', () => {
+        const content = `DEVELOPMENT_STATE=active
+DEVELOPMENT_RECALL=code`;
+        const manifestPath = createTestManifestPath(content, tempDir);
+        const result = parseManifest(manifestPath);
+
+        expect(result.isValid).toBe(true);
+        expect(result.domains.DEVELOPMENT.alwaysOn).toBe(false);
+      });
     });
   });
 });
