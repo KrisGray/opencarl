@@ -17,13 +17,13 @@ Requirements for testing milestone. Each maps to roadmap phases.
 
 - [x] **UNIT-01**: Manifest parser tests (valid single/multi-domain, empty, malformed, STATE/ALWAYS_ON parsing)
 - [x] **UNIT-02**: Keyword scanner / matcher tests (match, exclude, always-on, case-insensitive, multi-domain)
-- [ ] **UNIT-03**: Domain manager tests (load, toggle, list, view operations)
+- [x] **UNIT-03**: Domain manager tests (load, toggle, list, view operations)
 - [x] **UNIT-04**: Rule composer / injector tests (single domain, multiple domains, global rules, context brackets)
 - [x] **UNIT-05**: Context bracket tests (fresh, moderate, depleted classification and rule selection)
 - [ ] **UNIT-06**: Star-command parser tests (*carl, *carl docs, custom commands, edge cases)
-- [ ] **UNIT-07**: Session manager tests (create, get, update, persist)
-- [ ] **UNIT-08**: Setup/initializer tests (.carl/ scaffolding, template copy, idempotency)
-- [ ] **UNIT-09**: Validation module tests (manifest validation, domain validation)
+- [x] **UNIT-07**: Session manager tests (create, get, update, persist)
+- [x] **UNIT-08**: Setup/initializer tests (.carl/ scaffolding, template copy, idempotency)
+- [x] **UNIT-09**: Validation module tests (manifest validation, domain validation)
 
 ### Integration Tests
 
@@ -77,13 +77,13 @@ Which phases cover which requirements. Updated during roadmap creation.
 | TEST-03 | Phase 7 | Complete |
 | UNIT-01 | Phase 8 | Complete |
 | UNIT-02 | Phase 8 | Complete |
-| UNIT-03 | Phase 9 | Pending |
+| UNIT-03 | Phase 9 | Complete |
 | UNIT-04 | Phase 8 | Complete |
 | UNIT-05 | Phase 8 | Complete |
 | UNIT-06 | Phase 9 | Pending |
-| UNIT-07 | Phase 9 | Pending |
-| UNIT-08 | Phase 9 | Pending |
-| UNIT-09 | Phase 9 | Pending |
+| UNIT-07 | Phase 9 | Complete |
+| UNIT-08 | Phase 9 | Complete |
+| UNIT-09 | Phase 9 | Complete |
 | INTG-01 | Phase 10 | Pending |
 | INTG-02 | Phase 10 | Pending |
 | INTG-03 | Phase 10 | Pending |
