@@ -1,0 +1,3 @@
+DEVELOPMENT_RULE_1=Use early returns to reduce nesting
+DEVELOPMENT_RULE_2=Prefer small, testable functions
+DEVELOPMENT_RULE_3=Add TypeScript types for all function parameters

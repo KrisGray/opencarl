@@ -1,0 +1,9 @@
+FRESH_RULES=true
+FRESH_RULE_1=Start with high-level context
+FRESH_RULE_2=Provide relevant background
+MODERATE_RULES=true
+MODERATE_RULE_1=Add focused detail
+MODERATE_RULE_2=Reference prior decisions
+DEPLETED_RULES=true
+DEPLETED_RULE_1=Keep responses minimal
+DEPLETED_RULE_2=Defer to user direction

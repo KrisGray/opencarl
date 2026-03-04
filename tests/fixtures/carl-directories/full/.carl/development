@@ -1,0 +1,5 @@
+DEVELOPMENT_RULE_1=Use early returns to reduce nesting
+DEVELOPMENT_RULE_2=Prefer small, testable functions
+DEVELOPMENT_RULE_3=Add type annotations for public APIs
+DEVELOPMENT_RULE_4=Handle edge cases explicitly
+DEVELOPMENT_RULE_5=Write self-documenting code
