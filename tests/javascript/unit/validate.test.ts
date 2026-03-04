@@ -158,7 +158,79 @@ DEVELOPMENT_EXCLUDE=secret, , password, ,`;
     });
 
     describe('malformed input', () => {
-      // Invalid lines, missing equals, invalid booleans
+      it('should warn on lines without equals sign', () => {
+        const content = `DEVELOPMENT_STATE=active
+this is not valid
+DEVELOPMENT_RECALL=code`;
+        const manifestPath = createTestManifestPath(content, tempDir);
+        const result = parseManifest(manifestPath);
+
+        expect(result.isValid).toBe(true);
+        expect(result.warnings).toHaveLength(1);
+        expect(result.warnings[0].message).toContain('Malformed manifest line');
+        expect(result.domains.DEVELOPMENT.recall).toEqual(['code']);
+      });
+
+      it('should warn on unknown manifest keys', () => {
+        const content = `DEVELOPMENT_STATE=active
+UNKNOWN_FIELD=value
+DEVELOPMENT_RECALL=code`;
+        const manifestPath = createTestManifestPath(content, tempDir);
+        const result = parseManifest(manifestPath);
+
+        expect(result.isValid).toBe(true);
+        expect(result.warnings).toHaveLength(1);
+        expect(result.warnings[0].message).toContain('Unknown manifest key');
+      });
+
+      it('should warn on invalid STATE boolean value', () => {
+        const content = `DEVELOPMENT_STATE=maybe
+DEVELOPMENT_RECALL=code`;
+        const manifestPath = createTestManifestPath(content, tempDir);
+        const result = parseManifest(manifestPath);
+
+        expect(result.isValid).toBe(true);
+        expect(result.warnings).toHaveLength(1);
+        expect(result.warnings[0].message).toContain('Invalid DEVELOPMENT_STATE value');
+        expect(result.domains.DEVELOPMENT.state).toBe(false);
+      });
+
+      it('should warn on invalid ALWAYS_ON boolean value', () => {
+        const content = `DEVELOPMENT_STATE=active
+DEVELOPMENT_ALWAYS_ON=sure
+DEVELOPMENT_RECALL=code`;
+        const manifestPath = createTestManifestPath(content, tempDir);
+        const result = parseManifest(manifestPath);
+
+        expect(result.isValid).toBe(true);
+        expect(result.warnings).toHaveLength(1);
+        expect(result.warnings[0].message).toContain('Invalid DEVELOPMENT_ALWAYS_ON value');
+        expect(result.domains.DEVELOPMENT.alwaysOn).toBe(false);
+      });
+
+      it('should handle empty key (line starting with =)', () => {
+        const content = `DEVELOPMENT_STATE=active
+=value
+DEVELOPMENT_RECALL=code`;
+        const manifestPath = createTestManifestPath(content, tempDir);
+        const result = parseManifest(manifestPath);
+
+        expect(result.isValid).toBe(true);
+        expect(result.warnings.length).toBeGreaterThan(0);
+      });
+
+      it('should accumulate multiple warnings', () => {
+        const content = `DEVELOPMENT_STATE=maybe
+this is not valid
+DEVELOPMENT_ALWAYS_ON=sure
+UNKNOWN_FIELD=value
+DEVELOPMENT_RECALL=code`;
+        const manifestPath = createTestManifestPath(content, tempDir);
+        const result = parseManifest(manifestPath);
+
+        expect(result.isValid).toBe(true);
+        expect(result.warnings.length).toBeGreaterThan(2);
+      });
     });
 
     describe('STATE and ALWAYS_ON parsing', () => {
