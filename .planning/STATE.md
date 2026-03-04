@@ -96,6 +96,7 @@ Decisions are logged in PROJECT.md Key Decisions table.
 - [Phase 08]: Fixed import syntax in validate.ts using namespace imports (* as)
 - [Phase 08-04]: Fixed test destructuring order to match actual parseContextFile return type [bracketFlags, bracketRules]
 - [Phase 08-05]: Context bracket tests must match rulesBracket rules, not bracket name — buildCarlInjection uses rulesBracket to select rules, not the display bracket
+- [Phase 09-01]: Use namespace imports (* as fs) with esModuleInterop for TypeScript compatibility — Default imports (import fs from 'fs') incompatible with TypeScript configuration; namespace imports work with esModuleInterop enabled
 
 ### Active Constraints
 
@@ -123,8 +124,8 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-04T19:57:56.784Z
-**Stopped at:** Completed 09-03-PLAN
+**Last session:** 2026-03-04T19:58:12.348Z
+**Stopped at:** Completed 09-01-PLAN.md
 **Resume file:** None
 
 ### Quick Start
