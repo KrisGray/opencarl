@@ -76,7 +76,6 @@ describe('command-parity.ts', () => {
       beforeEach(() => {
         tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'carl-test-'));
         commandsPath = path.join(tempDir, 'commands');
-        fs.mkdirSync(commandsPath, { recursive: true });
       });
 
       afterEach(() => {
@@ -176,7 +175,6 @@ describe('command-parity.ts', () => {
       beforeEach(() => {
         tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'carl-test-'));
         commandsPath = path.join(tempDir, 'commands');
-        fs.mkdirSync(commandsPath, { recursive: true });
       });
 
       afterEach(() => {
@@ -344,7 +342,6 @@ describe('command-parity.ts', () => {
       beforeEach(() => {
         tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'carl-test-'));
         commandsPath = path.join(tempDir, 'commands');
-        fs.mkdirSync(commandsPath, { recursive: true });
       });
 
       afterEach(() => {
@@ -427,13 +424,13 @@ describe('command-parity.ts', () => {
 
       it('should handle special characters in prompt (*carl-test, *carl_123)', () => {
         // *carl-test should match CARL (stops at first -)
-        // *carl_123 should match CARL (stops at first -)
+        // *carl_123 should match CARL (stops at first _)
         const result = resolveCarlCommandSignals({
           promptText: '*carl-test *carl_123',
         });
 
-        // Only CARL and CARL should be extracted (the regex stops at word boundary)
-        expect(result.commandTokens).toEqual(['CARL', 'CARL']);
+        // Only CARL should be extracted (the regex stops at non-letter chars, then deduplicates)
+        expect(result.commandTokens).toEqual(['CARL']);
       });
 
       it('should handle very long prompts with many star commands', () => {
