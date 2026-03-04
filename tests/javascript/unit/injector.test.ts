@@ -390,7 +390,119 @@ describe('injector.ts', () => {
     });
 
     describe('command domains', () => {
-      // Tests for explicit command domains
+      it('should include command domains in COMMAND section', () => {
+        const input: CarlInjectionInput = {
+          domainPayloads: {
+            BRIEF: createTestDomainPayload({
+              domain: 'BRIEF',
+              rules: ['Brief rule'],
+            }),
+          },
+          commandDomains: ['BRIEF'],
+        };
+
+        const result = buildCarlInjection(input);
+
+        expect(result).toContain('COMMAND DOMAINS (explicit)');
+        expect(result).toContain('[BRIEF] RULES:');
+      });
+
+      it('should prioritize command over matched domains', () => {
+        const input: CarlInjectionInput = {
+          domainPayloads: {
+            BRIEF: createTestDomainPayload({
+              domain: 'BRIEF',
+              rules: ['Brief rule'],
+            }),
+          },
+          matchedDomains: ['BRIEF'],
+          commandDomains: ['BRIEF'],
+        };
+
+        const result = buildCarlInjection(input);
+
+        expect(result).toContain('COMMAND DOMAINS (explicit)');
+        expect(result).toContain('[BRIEF] RULES:');
+        // Should NOT appear in MATCHED DOMAINS section
+        expect(result).not.toContain('MATCHED DOMAINS');
+      });
+
+      it('should prioritize command over alwaysOn', () => {
+        const input: CarlInjectionInput = {
+          domainPayloads: {
+            BRIEF: createTestDomainPayload({
+              domain: 'BRIEF',
+              rules: ['Brief rule'],
+              alwaysOn: true,
+            }),
+          },
+          commandDomains: ['BRIEF'],
+        };
+
+        const result = buildCarlInjection(input);
+
+        expect(result).toContain('COMMAND DOMAINS (explicit)');
+        expect(result).toContain('[BRIEF] RULES:');
+        // Should NOT appear in ALWAYS-ON section
+        const alwaysOnMatches = result!.match(/ALWAYS-ON DOMAINS/g);
+        expect(alwaysOnMatches).toBeNull();
+      });
+
+      it('should handle multiple command domains', () => {
+        const input: CarlInjectionInput = {
+          domainPayloads: {
+            BRIEF: createTestDomainPayload({
+              domain: 'BRIEF',
+              rules: ['Brief rule'],
+            }),
+            DETAILED: createTestDomainPayload({
+              domain: 'DETAILED',
+              rules: ['Detailed rule'],
+            }),
+          },
+          commandDomains: ['BRIEF', 'DETAILED'],
+        };
+
+        const result = buildCarlInjection(input);
+
+        expect(result).toContain('[BRIEF] RULES:');
+        expect(result).toContain('[DETAILED] RULES:');
+        expect(result).toContain('COMMAND DOMAINS (explicit)');
+      });
+
+      it('should filter inactive command domains', () => {
+        const input: CarlInjectionInput = {
+          domainPayloads: {
+            BRIEF: createTestDomainPayload({
+              domain: 'BRIEF',
+              rules: ['Brief rule'],
+              state: false,
+            }),
+          },
+          commandDomains: ['BRIEF'],
+        };
+
+        const result = buildCarlInjection(input);
+
+        expect(result).toBeNull();
+      });
+
+      it('should normalize domain names (case-insensitive)', () => {
+        const input: CarlInjectionInput = {
+          domainPayloads: {
+            BRIEF: createTestDomainPayload({
+              domain: 'BRIEF',
+              rules: ['Brief rule'],
+            }),
+          },
+          commandDomains: ['brief'], // lowercase
+        };
+
+        const result = buildCarlInjection(input);
+
+        expect(result).toContain('[BRIEF] RULES:');
+        expect(result).toContain('Brief rule');
+      });
     });
 
     describe('context brackets', () => {
