@@ -5,18 +5,18 @@
 See: .planning/PROJECT.md (updated 2026-03-03)
 
 **Core value:** Keep CARL's dynamic rule injection working seamlessly inside OpenCode with full parity and minimal user friction.
-**Current focus:** v1.2 Testing & QA - Phase 7
+**Current focus:** v1.2 Testing & QA - Phase 8
 
 ## Current Position
 
 | Field | Value |
 |-------|-------|
-| **Phase** | 7 - Test Infrastructure & CI Setup |
-| **Plan** | 3 of 3 |
-| **Status** | Complete |
-| **Progress** | ██████████ 100% |
+| **Phase** | 8 - Core Unit Tests - Parsing & Matching |
+| **Plan** | 3 of 5 |
+| **Status** | In Progress |
+| **Progress** | ████░░░░░░ 40% |
 
-**Next Action:** Run `/gsd-plan-phase 8` to plan next phase (Core Unit Tests - Parsing & Matching)
+**Next Action:** Continue with 08-02-PLAN (Manifest parser tests) or 08-04-PLAN (Context bracket tests)
 
 ---
 
@@ -38,13 +38,14 @@ See: .planning/PROJECT.md (updated 2026-03-03)
 | 6. Integration & DX | 4 | 19 min | 4.75 min |
 
 **v1.2 Progress:**
-- Phases: 1/5
-- Requirements: 6/24 (Phase 7 complete)
+- Phases: 2/5 (Phase 7 & 8 in progress)
+- Requirements: 7/24 (Phase 7 complete, UNIT-02 complete)
 
 ---
 | Phase 07-02 P02 | 3 min | 3 tasks | 8 files |
 | Phase 07 P01 | 4 | 4 tasks | 4 files |
 | Phase 07-03 P03 | 5 min | 3 tasks | 2 files |
+| Phase 08 P02 | 2 min | 5 tasks | 2 files |
 
 ## Milestone Progress
 
@@ -53,7 +54,7 @@ See: .planning/PROJECT.md (updated 2026-03-03)
 | Phase | Status | Progress |
 |-------|--------|----------|
 | 7. Test Infrastructure & CI Setup | Complete | ██████████ 100% |
-| 8. Core Unit Tests - Parsing & Matching | Not started | ░░░░░░░░░░ 0% |
+| 8. Core Unit Tests - Parsing & Matching | In Progress | ████░░░░░░ 40% |
 | 9. Core Unit Tests - Session & Setup | Not started | ░░░░░░░░░░ 0% |
 | 10. Integration Tests | Not started | ░░░░░░░░░░ 0% |
 | 11. E2E Tests & Docker | Not started | ░░░░░░░░░░ 0% |
@@ -115,7 +116,7 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-04T16:04:29.339Z
+**Last session:** 2026-03-04T16:10:42Z
 **Stopped at:** Completed 08-03-PLAN
 **Resume file:** None
 
@@ -136,10 +137,12 @@ cat .planning/ROADMAP.md
 
 | Date | Action | Result |
 |------|--------|--------|
+| 2026-03-04 | Plan 08-03 complete | Keyword scanner tests (32 tests, 98% coverage) |
+| 2026-03-04 | Phase 8 started | Core Unit Tests - Parsing & Matching in progress |
 | 2026-03-04 | Phase 7 complete | Test infrastructure & CI operational |
 | 2026-03-03 | Roadmap created for v1.2 | 5 phases, 24 requirements mapped |
 | 2026-03-03 | v1.1 milestone complete | Phase 6 shipped |
 
 ---
 *State initialized: 2026-02-25*
-*Last updated: 2026-03-04 after Phase 7 completion*
+*Last updated: 2026-03-04 after Plan 08-03 completion*

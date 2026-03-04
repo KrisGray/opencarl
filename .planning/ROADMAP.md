@@ -94,9 +94,9 @@ Plans:
 **Plans**: 5 plans
 
 Plans:
-- [ ] 08-01-PLAN.md — Test fixtures and helper factories (Wave 0)
+- [x] 08-01-PLAN.md — Test fixtures and helper factories (Wave 0)
 - [ ] 08-02-PLAN.md — Manifest parser tests -UNIT-01 (Wave 1)
-- [ ] 08-03-PLAN.md — Keyword scanner tests -UNIT-02 (Wave 1)
+- [x] 08-03-PLAN.md — Keyword scanner tests -UNIT-02 (Wave 1)
 - [ ] 08-04-PLAN.md — Context bracket tests-UNIT-05 (Wave 1)
 - [ ] 08-05-PLAN.md — Rule composer/injector tests-UNIT-04 (Wave 2)
 
@@ -169,7 +169,7 @@ Plans:
 | 5. Rules Integration | v1.0 | 3/3 | Complete | 2026-03-03 |
 | 6. Integration & DX | v1.1 | 4/4 | Complete | 2026-03-03 |
 | 7. Test Infrastructure & CI Setup | v1.2 | 3/3 | Complete | 2026-03-04 |
-| 8. Core Unit Tests - Parsing & Matching | v1.2 | 0/1 | Not started | - |
+| 8. Core Unit Tests - Parsing & Matching | v1.2 | 2/5 | In Progress | - |
 | 9. Core Unit Tests - Session & Setup | v1.2 | 0/1 | Not started | - |
 | 10. Integration Tests | v1.2 | 0/1 | Not started | - |
 | 11. E2E Tests & Docker | v1.2 | 0/1 | Not started | - |
