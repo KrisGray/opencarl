@@ -528,7 +528,8 @@ describe('injector.ts', () => {
         const result = buildCarlInjection(input);
 
         expect(result).toContain('CONTEXT BRACKET: [FRESH]');
-        expect(result).toContain('fresh session');
+        expect(result).toContain('80% remaining');
+        expect(result).toContain('[FRESH] CONTEXT RULES:');
       });
 
       it('should filter CONTEXT rules by bracket', () => {
@@ -566,11 +567,11 @@ describe('injector.ts', () => {
             CONTEXT: createTestDomainPayload({
               domain: 'CONTEXT',
               rules: [],
-              bracketRules: { FRESH: ['fresh rule'] },
-              bracketFlags: { FRESH: true },
+              bracketRules: { FRESH: ['fresh rule'], MODERATE: ['moderate rule'] },
+              bracketFlags: { FRESH: true, MODERATE: true },
             }),
           },
-          contextBracket: createModerateBracketData(), // 50% remaining
+          contextBracket: createModerateBracketData(), // 50% remaining, rulesBracket: 'MODERATE'
         };
 
         const result = buildCarlInjection(input);
