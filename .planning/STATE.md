@@ -89,6 +89,8 @@ Decisions are logged in PROJECT.md Key Decisions table.
 - See .planning/milestones/v1.0-ROADMAP.md
 - [Phase 07]: Coverage reporters: text, lcov, html (text for console, lcov for CI, html for visual)
 - [Phase 08-03]: BDD-style nested describes for test organization — Groups tests by functionality for easy navigation and failing tests
+- [Phase 08]: Added temp directory cleanup hooks (beforeEach/afterEach) for consistent inline test data approach
+- [Phase 08]: Fixed import syntax in validate.ts using namespace imports (* as)
 
 ### Active Constraints
 
@@ -116,8 +118,8 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-04T16:10:42Z
-**Stopped at:** Completed 08-03-PLAN
+**Last session:** 2026-03-04T16:37:23.598Z
+**Stopped at:** Completed 08-02-PLAN.md
 **Resume file:** None
 
 ### Quick Start

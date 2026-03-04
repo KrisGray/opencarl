@@ -506,7 +506,173 @@ describe('injector.ts', () => {
     });
 
     describe('context brackets', () => {
-      // Tests for CONTEXT with bracket filtering
+      it('should include CONTEXT bracket header when context data provided', () => {
+        const input: CarlInjectionInput = {
+          domainPayloads: {
+            CONTEXT: createTestDomainPayload({
+              domain: 'CONTEXT',
+              rules: [],
+              bracketRules: {
+                FRESH: ['fresh rule 1', 'fresh rule 2'],
+                DEPLETED: ['depleted rule'],
+              },
+              bracketFlags: {
+                FRESH: true,
+                DEPLETED: true,
+              },
+            }),
+          },
+          contextBracket: createFreshBracketData(),
+        };
+
+        const result = buildCarlInjection(input);
+
+        expect(result).toContain('CONTEXT BRACKET: [FRESH]');
+        expect(result).toContain('fresh session');
+      });
+
+      it('should filter CONTEXT rules by bracket', () => {
+        const input: CarlInjectionInput = {
+          domainPayloads: {
+            CONTEXT: createTestDomainPayload({
+              domain: 'CONTEXT',
+              rules: [],
+              bracketRules: {
+                FRESH: ['fresh rule 1', 'fresh rule 2'],
+                DEPLETED: ['depleted rule'],
+                MODERATE: ['moderate rule'],
+              },
+              bracketFlags: {
+                FRESH: true,
+                DEPLETED: true,
+                MODERATE: true,
+              },
+            }),
+          },
+          contextBracket: createFreshBracketData(),
+        };
+
+        const result = buildCarlInjection(input);
+
+        expect(result).toContain('fresh rule 1');
+        expect(result).toContain('fresh rule 2');
+        expect(result).not.toContain('depleted rule');
+        expect(result).not.toContain('moderate rule');
+      });
+
+      it('should show percentage remaining in header', () => {
+        const input: CarlInjectionInput = {
+          domainPayloads: {
+            CONTEXT: createTestDomainPayload({
+              domain: 'CONTEXT',
+              rules: [],
+              bracketRules: { FRESH: ['fresh rule'] },
+              bracketFlags: { FRESH: true },
+            }),
+          },
+          contextBracket: createModerateBracketData(), // 50% remaining
+        };
+
+        const result = buildCarlInjection(input);
+
+        expect(result).toContain('50% remaining');
+        expect(result).toContain('[MODERATE] CONTEXT RULES:');
+      });
+
+      it('should show fresh session message for null contextRemaining', () => {
+        const input: CarlInjectionInput = {
+          domainPayloads: {
+            CONTEXT: createTestDomainPayload({
+              domain: 'CONTEXT',
+              rules: [],
+              bracketRules: { FRESH: ['fresh rule'] },
+              bracketFlags: { FRESH: true },
+            }),
+          },
+          contextBracket: {
+            bracket: 'FRESH',
+            contextRemaining: null,
+            isCritical: false,
+            rulesBracket: 'FRESH',
+          },
+        };
+
+        const result = buildCarlInjection(input);
+
+        expect(result).toContain('fresh session');
+      });
+
+      it('should include critical warning for CRITICAL bracket', () => {
+        const input: CarlInjectionInput = {
+          domainPayloads: {
+            CONTEXT: createTestDomainPayload({
+              domain: 'CONTEXT',
+              rules: [],
+              bracketRules: {
+                DEPLETED: ['critical rule'],
+              },
+              bracketFlags: {
+                DEPLETED: true,
+              },
+            }),
+          },
+          contextBracket: createCriticalBracketData(), // 15% remaining, isCritical: true
+        };
+
+        const result = buildCarlInjection(input);
+
+        expect(result).toContain('CONTEXT CRITICAL');
+        expect(result).toContain('15% remaining');
+        expect(result).toContain('compact session');
+      });
+
+      it('should use DEPLETED rules for CRITICAL state', () => {
+        const input: CarlInjectionInput = {
+          domainPayloads: {
+            CONTEXT: createTestDomainPayload({
+              domain: 'CONTEXT',
+              rules: [],
+              bracketRules: {
+                FRESH: ['fresh rule'],
+                DEPLETED: ['depleted rule for critical'],
+              },
+              bracketFlags: {
+                FRESH: true,
+                DEPLETED: true,
+              },
+            }),
+          },
+          contextBracket: createCriticalBracketData(), // isCritical, true, rulesBracket: 'DEPLETED'
+        };
+
+        const result = buildCarlInjection(input);
+
+        expect(result).toContain('depleted rule for critical');
+        expect(result).not.toContain('fresh rule');
+        expect(result).toContain('[DEPLETED] CONTEXT RULES:');
+      });
+
+      it('should not include CONTEXT if bracket rules disabled', () => {
+        const input: CarlInjectionInput = {
+          domainPayloads: {
+            CONTEXT: createTestDomainPayload({
+              domain: 'CONTEXT',
+              rules: [],
+              bracketRules: {
+                FRESH: ['fresh rule'],
+              },
+              bracketFlags: {
+                FRESH: false, // Disabled
+              },
+            }),
+          },
+          contextBracket: createFreshBracketData(),
+        };
+
+        const result = buildCarlInjection(input);
+
+        expect(result).toBeNull();
+      });
     });
 
     describe('edge cases', () => {

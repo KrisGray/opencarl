@@ -202,6 +202,101 @@ describe("context-brackets.ts", () => {
 
   describe("parseContextFile", () => {
     // Tests for parsing bracket rules from file content
+
+    it("should parse bracket flags correctly", () => {
+      const content = "FRESH_RULES=true\nMODERATE_RULES=false";
+      const [flags, = parseContextFile(content);
+      expect(flags).toEqual({ FRESH: true, MODERATE: false });
+    });
+
+    it("should parse bracket rules correctly", () => {
+      const content = "FRESH_RULE_1=Use detailed explanations\nFRESH_RULE_2=Include examples";
+      const [rules] = parseContextFile(content);
+      expect(rules.FRESH).toEqual([
+        "Use detailed explanations",
+        "Include examples",
+      ]);
+    });
+
+    it("should handle multiple brackets in same file", () => {
+      const content = `
+FRESH_RULE_1=Use detailed explanations
+MODERATE_RULE_1=Be concise
+DEPLETED_RULE_1=Use minimal context
+DEPLETED_RULE_2=Skip long quotes
+`;
+      const [rules] = parseContextFile(content);
+      expect(rules.FRESH).toHaveLength(2);
+      expect(rules.MODERATE).toHaveLength(1);
+      expect(rules.DEPLETED).toHaveLength(2);
+    });
+
+    it("should ignore comment lines", () => {
+      const content = `
+# This is a comment
+FRESH_RULE_1=Use detailed explanations
+`;
+      const [rules] = parseContextFile(content);
+      expect(rules.FRESH).toEqual(["Use detailed explanations"]);
+    });
+
+    it("should ignore blank lines", () => {
+      const content = `
+
+FRESH_RULE_1=Use detailed explanations
+
+`;
+      const [rules] = parseContextFile(content);
+      expect(rules).toEqual({});
+    });
+
+    it("should ignore lines without equals sign", () => {
+      const content = `
+FRESH_RULE_1
+INVALID LINE
+`;
+      const [rules] = parseContextFile(content);
+      expect(rules).toEqual({});
+    });
+
+    it("should parse boolean variations for flags", () => {
+      const content = `
+FRESH_RULES=true
+MODERATE_RULES=yes
+DEPLETED_RULES=1
+`;
+      const [flags] = parseContextFile(content);
+      expect(flags).toEqual({ FRESH: true, MODERATE: true, DEPLETED: false });
+    });
+
+    it("should preserve rule order within bracket", () => {
+      const content = `
+FRESH_RULE_1=First rule
+FRESH_RULE_2=Second rule
+FRESH_RULE_3=Third rule
+`;
+      const [rules] = parseContextFile(content);
+      expect(rules.FRESH).toEqual([
+        "First rule",
+        "Second rule",
+        "Third rule",
+      ]);
+    });
+
+    it("should handle empty file", () => {
+      const [rules] = parseContextFile("");
+      expect(rules).toEqual({});
+    });
+
+    it("should skip lines with empty key or value", () => {
+      const content = `
+=value
+KEY=
+`;
+      const [flags, rules] = parseContextFile(content);
+      expect(flags).toEqual({});
+      expect(rules).toEqual({});
+    });
   });
 
   describe("formatCriticalWarning", () => {
