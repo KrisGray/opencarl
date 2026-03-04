@@ -339,10 +339,6 @@ export function resolveDomainFile(
   const expectedName = domain.toLowerCase();
   const expectedPath = path.join(carlDir, expectedName);
 
-  if (fs.existsSync(expectedPath)) {
-    return expectedPath;
-  }
-
   if (!fs.existsSync(carlDir)) {
     warn(warnings, `Missing domain file for ${domain}`, {
       path: expectedPath,
@@ -351,12 +347,24 @@ export function resolveDomainFile(
     return null;
   }
 
+  // Check for exact case match (important for case-insensitive filesystems like macOS)
   const entries = fs.readdirSync(carlDir, { withFileTypes: true });
+  const exactMatch = entries.find((entry) => {
+    if (!entry.isFile()) {
+      return false;
+    }
+    return entry.name === expectedName;
+  });
+
+  if (exactMatch) {
+    return expectedPath;
+  }
+
+  // Check for case mismatch
   const mismatch = entries.find((entry) => {
     if (!entry.isFile()) {
       return false;
     }
-
     return entry.name.toLowerCase() === expectedName;
   });
 
