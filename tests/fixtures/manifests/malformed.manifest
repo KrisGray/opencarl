@@ -1,0 +1,6 @@
+DEVELOPMENT_STATE=active
+this line has no equals
+DEVELOPMENT_RECALL=code
+INVALID_KEY=something
+=emptykey
+DEV_STATE=maybe
