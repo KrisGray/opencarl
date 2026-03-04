@@ -117,7 +117,14 @@ Plans:
   4. Developer can verify setup scaffolds .carl/ directory with templates idempotently
   5. Developer can verify validation module catches manifest and domain errors
 
-**Plans**: TBD
+**Plans**: 5 plans
+
+Plans:
+- [ ] 09-01-PLAN.md — Test helpers (session-state-factory, setup-mocks) (Wave 0)
+- [ ] 09-02-PLAN.md — Command parity tests - UNIT-06 (Wave 1)
+- [ ] 09-03-PLAN.md — Validation domain rules tests - UNIT-09 (Wave 1)
+- [ ] 09-04-PLAN.md — Session overrides tests - UNIT-03, UNIT-07 (Wave 2)
+- [ ] 09-05-PLAN.md — Setup tests - UNIT-08 (Wave 2)
 
 ---
 
@@ -170,7 +177,7 @@ Plans:
 | 6. Integration & DX | v1.1 | 4/4 | Complete | 2026-03-03 |
 | 7. Test Infrastructure & CI Setup | v1.2 | 3/3 | Complete | 2026-03-04 |
 | 8. Core Unit Tests - Parsing & Matching | v1.2 | 2/5 | In Progress | - |
-| 9. Core Unit Tests - Session & Setup | v1.2 | 0/1 | Not started | - |
+| 9. Core Unit Tests - Session & Setup | v1.2 | 0/5 | Not started | - |
 | 10. Integration Tests | v1.2 | 0/1 | Not started | - |
 | 11. E2E Tests & Docker | v1.2 | 0/1 | Not started | - |
 
