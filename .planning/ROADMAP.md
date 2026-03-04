@@ -91,7 +91,14 @@ Plans:
   3. Developer can verify rule composer correctly combines single/multiple domains and global rules
   4. Developer can verify context bracket logic classifies fresh/moderate/depleted sessions correctly
 
-**Plans**: TBD
+**Plans**: 5 plans
+
+Plans:
+- [ ] 08-01-PLAN.md — Test fixtures and helper factories (Wave 0)
+- [ ] 08-02-PLAN.md — Manifest parser tests -UNIT-01 (Wave 1)
+- [ ] 08-03-PLAN.md — Keyword scanner tests -UNIT-02 (Wave 1)
+- [ ] 08-04-PLAN.md — Context bracket tests-UNIT-05 (Wave 1)
+- [ ] 08-05-PLAN.md — Rule composer/injector tests-UNIT-04 (Wave 2)
 
 ---
 
