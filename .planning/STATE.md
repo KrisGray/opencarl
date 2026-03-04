@@ -46,6 +46,7 @@ See: .planning/PROJECT.md (updated 2026-03-03)
 | Phase 07 P01 | 4 | 4 tasks | 4 files |
 | Phase 07-03 P03 | 5 min | 3 tasks | 2 files |
 | Phase 08 P02 | 2 min | 5 tasks | 2 files |
+| Phase 08-04 P04 | 2 min | 6 tasks | 1 files |
 
 ## Milestone Progress
 
@@ -91,6 +92,7 @@ Decisions are logged in PROJECT.md Key Decisions table.
 - [Phase 08-03]: BDD-style nested describes for test organization — Groups tests by functionality for easy navigation and failing tests
 - [Phase 08]: Added temp directory cleanup hooks (beforeEach/afterEach) for consistent inline test data approach
 - [Phase 08]: Fixed import syntax in validate.ts using namespace imports (* as)
+- [Phase 08-04]: Fixed test destructuring order to match actual parseContextFile return type [bracketFlags, bracketRules]
 
 ### Active Constraints
 
@@ -118,8 +120,8 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-04T16:37:23.598Z
-**Stopped at:** Completed 08-02-PLAN.md
+**Last session:** 2026-03-04T17:55:14.084Z
+**Stopped at:** Completed 08-04-PLAN.md
 **Resume file:** None
 
 ### Quick Start

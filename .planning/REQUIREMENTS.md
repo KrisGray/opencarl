@@ -19,7 +19,7 @@ Requirements for testing milestone. Each maps to roadmap phases.
 - [x] **UNIT-02**: Keyword scanner / matcher tests (match, exclude, always-on, case-insensitive, multi-domain)
 - [ ] **UNIT-03**: Domain manager tests (load, toggle, list, view operations)
 - [ ] **UNIT-04**: Rule composer / injector tests (single domain, multiple domains, global rules, context brackets)
-- [ ] **UNIT-05**: Context bracket tests (fresh, moderate, depleted classification and rule selection)
+- [x] **UNIT-05**: Context bracket tests (fresh, moderate, depleted classification and rule selection)
 - [ ] **UNIT-06**: Star-command parser tests (*carl, *carl docs, custom commands, edge cases)
 - [ ] **UNIT-07**: Session manager tests (create, get, update, persist)
 - [ ] **UNIT-08**: Setup/initializer tests (.carl/ scaffolding, template copy, idempotency)
@@ -79,7 +79,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | UNIT-02 | Phase 8 | Complete |
 | UNIT-03 | Phase 9 | Pending |
 | UNIT-04 | Phase 8 | Pending |
-| UNIT-05 | Phase 8 | Pending |
+| UNIT-05 | Phase 8 | Complete |
 | UNIT-06 | Phase 9 | Pending |
 | UNIT-07 | Phase 9 | Pending |
 | UNIT-08 | Phase 9 | Pending |
