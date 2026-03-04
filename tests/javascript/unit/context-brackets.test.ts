@@ -205,13 +205,13 @@ describe("context-brackets.ts", () => {
 
     it("should parse bracket flags correctly", () => {
       const content = "FRESH_RULES=true\nMODERATE_RULES=false";
-      const [flags, = parseContextFile(content);
+      const [flags, rules] = parseContextFile(content);
       expect(flags).toEqual({ FRESH: true, MODERATE: false });
     });
 
     it("should parse bracket rules correctly", () => {
       const content = "FRESH_RULE_1=Use detailed explanations\nFRESH_RULE_2=Include examples";
-      const [rules] = parseContextFile(content);
+      const [flags, rules] = parseContextFile(content);
       expect(rules.FRESH).toEqual([
         "Use detailed explanations",
         "Include examples",
@@ -221,11 +221,12 @@ describe("context-brackets.ts", () => {
     it("should handle multiple brackets in same file", () => {
       const content = `
 FRESH_RULE_1=Use detailed explanations
+FRESH_RULE_2=Provide examples
 MODERATE_RULE_1=Be concise
 DEPLETED_RULE_1=Use minimal context
 DEPLETED_RULE_2=Skip long quotes
 `;
-      const [rules] = parseContextFile(content);
+      const [flags, rules] = parseContextFile(content);
       expect(rules.FRESH).toHaveLength(2);
       expect(rules.MODERATE).toHaveLength(1);
       expect(rules.DEPLETED).toHaveLength(2);
@@ -236,7 +237,7 @@ DEPLETED_RULE_2=Skip long quotes
 # This is a comment
 FRESH_RULE_1=Use detailed explanations
 `;
-      const [rules] = parseContextFile(content);
+      const [flags, rules] = parseContextFile(content);
       expect(rules.FRESH).toEqual(["Use detailed explanations"]);
     });
 
@@ -246,8 +247,8 @@ FRESH_RULE_1=Use detailed explanations
 FRESH_RULE_1=Use detailed explanations
 
 `;
-      const [rules] = parseContextFile(content);
-      expect(rules).toEqual({});
+      const [flags, rules] = parseContextFile(content);
+      expect(rules).toEqual({ FRESH: ["Use detailed explanations"] });
     });
 
     it("should ignore lines without equals sign", () => {
@@ -255,7 +256,7 @@ FRESH_RULE_1=Use detailed explanations
 FRESH_RULE_1
 INVALID LINE
 `;
-      const [rules] = parseContextFile(content);
+      const [flags, rules] = parseContextFile(content);
       expect(rules).toEqual({});
     });
 
@@ -264,9 +265,10 @@ INVALID LINE
 FRESH_RULES=true
 MODERATE_RULES=yes
 DEPLETED_RULES=1
+CRITICAL_RULES=false
 `;
-      const [flags] = parseContextFile(content);
-      expect(flags).toEqual({ FRESH: true, MODERATE: true, DEPLETED: false });
+      const [flags, rules] = parseContextFile(content);
+      expect(flags).toEqual({ FRESH: true, MODERATE: true, DEPLETED: true, CRITICAL: false });
     });
 
     it("should preserve rule order within bracket", () => {
@@ -275,7 +277,7 @@ FRESH_RULE_1=First rule
 FRESH_RULE_2=Second rule
 FRESH_RULE_3=Third rule
 `;
-      const [rules] = parseContextFile(content);
+      const [flags, rules] = parseContextFile(content);
       expect(rules.FRESH).toEqual([
         "First rule",
         "Second rule",
@@ -284,7 +286,7 @@ FRESH_RULE_3=Third rule
     });
 
     it("should handle empty file", () => {
-      const [rules] = parseContextFile("");
+      const [flags, rules] = parseContextFile("");
       expect(rules).toEqual({});
     });
 
@@ -301,9 +303,61 @@ KEY=
 
   describe("formatCriticalWarning", () => {
     // Tests for critical warning formatting
+
+    it("should format critical warning with percentage", () => {
+      const warning = formatCriticalWarning(15);
+      expect(warning).toContain("15%");
+      expect(warning).toContain("CRITICAL");
+      expect(warning).toContain("compact");
+    });
+
+    it("should include recommendation in warning", () => {
+      const warning = formatCriticalWarning(15);
+      expect(warning).toContain("Recommend:");
+    });
+
+    it("should handle low percentages", () => {
+      const warning = formatCriticalWarning(5);
+      expect(warning).toContain("5%");
+    });
   });
 
   describe("formatContextBracketHeader", () => {
     // Tests for context bracket header formatting
+
+    it("should format context bracket header for fresh session", () => {
+      const data: ContextBracketData = {
+        bracket: 'FRESH',
+        contextRemaining: null,
+        isCritical: false,
+        rulesBracket: 'FRESH',
+      };
+      const header = formatContextBracketHeader(data);
+      expect(header).toContain("fresh session");
+    });
+
+    it("should format context bracket header with percentage", () => {
+      const data: ContextBracketData = {
+        bracket: 'MODERATE',
+        contextRemaining: 50,
+        isCritical: false,
+        rulesBracket: 'MODERATE',
+      };
+      const header = formatContextBracketHeader(data);
+      expect(header).toContain("50%");
+      expect(header).toContain("MODERATE");
+    });
+
+    it("should include critical warning in header when isCritical", () => {
+      const data: ContextBracketData = {
+        bracket: 'CRITICAL',
+        contextRemaining: 15,
+        isCritical: true,
+        rulesBracket: 'DEPLETED',
+      };
+      const header = formatContextBracketHeader(data);
+      expect(header).toContain("⚠️");
+      expect(header).toContain("CRITICAL");
+    });
   });
 });
