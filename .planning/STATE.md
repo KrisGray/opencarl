@@ -43,6 +43,7 @@ See: .planning/PROJECT.md (updated 2026-03-03)
 
 ---
 | Phase 07-02 P02 | 3 min | 3 tasks | 8 files |
+| Phase 07 P01 | 4 | 4 tasks | 4 files |
 
 ## Milestone Progress
 
@@ -84,6 +85,7 @@ Decisions are logged in PROJECT.md Key Decisions table.
 
 **v1.0 Decisions (archived):**
 - See .planning/milestones/v1.0-ROADMAP.md
+- [Phase 07]: Coverage reporters: text, lcov, html (text for console, lcov for CI, html for visual)
 
 ### Active Constraints
 
@@ -111,8 +113,8 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-04T12:52:44.117Z
-**Stopped at:** Completed 07-02-PLAN.md
+**Last session:** 2026-03-04T12:54:55.557Z
+**Stopped at:** Completed 07-01-PLAN.md
 **Resume file:** None
 
 ### Quick Start
