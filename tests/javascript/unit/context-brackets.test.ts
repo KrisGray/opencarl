@@ -57,6 +57,75 @@ describe("context-brackets.ts", () => {
 
   describe("computeContextBracketData", () => {
     // Tests for full bracket data computation
+
+    it("should return FRESH for null tokensUsed", () => {
+      const result = computeContextBracketData(null);
+      expect(result.bracket).toBe("FRESH");
+      expect(result.contextRemaining).toBeNull();
+      expect(result.isCritical).toBe(false);
+    });
+
+    it("should return FRESH for 0 tokensUsed", () => {
+      const result = computeContextBracketData(0);
+      expect(result.bracket).toBe("FRESH");
+      expect(result.contextRemaining).toBeNull();
+    });
+
+    it("should compute percentage correctly with default max", () => {
+      // tokensUsed=80000, maxContext=200000 (default)
+      const result = computeContextBracketData(80000);
+      expect(result.contextRemaining).toBe(60);
+      expect(result.bracket).toBe("FRESH");
+    });
+
+    it("should compute MODERATE bracket correctly", () => {
+      // tokensUsed=100000, maxContext=200000
+      const result = computeContextBracketData(100000);
+      expect(result.contextRemaining).toBe(50);
+      expect(result.bracket).toBe("MODERATE");
+    });
+
+    it("should compute DEPLETED bracket correctly", () => {
+      // tokensUsed=130000, maxContext=200000
+      const result = computeContextBracketData(130000);
+      expect(result.contextRemaining).toBe(35);
+      expect(result.bracket).toBe("DEPLETED");
+    });
+
+    it("should compute CRITICAL bracket correctly", () => {
+      // tokensUsed=170000, maxContext=200000
+      const result = computeContextBracketData(170000);
+      expect(result.contextRemaining).toBe(15);
+      expect(result.bracket).toBe("CRITICAL");
+      expect(result.isCritical).toBe(true);
+    });
+
+    it("should handle custom maxContext parameter", () => {
+      // tokensUsed=50000, maxContext=100000
+      const result = computeContextBracketData(50000, 100000);
+      expect(result.contextRemaining).toBe(50);
+    });
+
+    it("should cap contextRemaining at 0 minimum", () => {
+      // tokensUsed > maxContext
+      const result = computeContextBracketData(250000);
+      expect(result.contextRemaining).toBeGreaterThanOrEqual(0);
+    });
+
+    it("should set rulesBracket to DEPLETED for CRITICAL", () => {
+      // CRITICAL state
+      const result = computeContextBracketData(180000);
+      expect(result.rulesBracket).toBe("DEPLETED");
+    });
+
+    it("should set rulesBracket same as bracket for non-CRITICAL", () => {
+      // FRESH, MODERATE states
+      const freshResult = computeContextBracketData(50000);
+      expect(freshResult.rulesBracket).toBe(freshResult.bracket);
+      
+      const moderateResult = computeContextBracketData(100000);
+      expect(moderateResult.rulesBracket).toBe(moderateResult.bracket);
+    });
   });
 
   describe("getRulesBracket", () => {
