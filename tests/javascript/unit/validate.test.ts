@@ -83,7 +83,78 @@ DEVELOPMENT_STATE=active`;
     });
 
     describe('edge cases', () => {
-      // Empty, whitespace, comments
+      it('should return invalid for empty manifest', () => {
+        const content = '';
+        const manifestPath = createTestManifestPath(content, tempDir);
+        const result = parseManifest(manifestPath);
+
+        expect(result.isValid).toBe(false);
+        expect(result.warnings).toHaveLength(1);
+        expect(result.warnings[0].message).toContain('no recognized entries');
+      });
+
+      it('should ignore blank lines and whitespace', () => {
+        const content = `DEVELOPMENT_STATE=active
+
+
+DEVELOPMENT_RECALL=code, debug
+
+
+DEVMODE=false`;
+        const manifestPath = createTestManifestPath(content, tempDir);
+        const result = parseManifest(manifestPath);
+
+        expect(result.isValid).toBe(true);
+        expect(result.domains).toHaveProperty('DEVELOPMENT');
+        expect(result.devmode).toBe(false);
+      });
+
+      it('should ignore comment lines starting with hash', () => {
+        const content = `# This is a comment
+DEVELOPMENT_STATE=active
+# Another comment
+DEVELOPMENT_RECALL=code
+# Final comment`;
+        const manifestPath = createTestManifestPath(content, tempDir);
+        const result = parseManifest(manifestPath);
+
+        expect(result.isValid).toBe(true);
+        expect(result.domains).toHaveProperty('DEVELOPMENT');
+        expect(result.warnings).toHaveLength(0);
+      });
+
+      it('should trim whitespace from keys and values', () => {
+        const content = `DEVELOPMENT_STATE  =  active
+DEVELOPMENT_RECALL  =  code, debug  `;
+        const manifestPath = createTestManifestPath(content, tempDir);
+        const result = parseManifest(manifestPath);
+
+        expect(result.isValid).toBe(true);
+        expect(result.domains.DEVELOPMENT.state).toBe(true);
+        expect(result.domains.DEVELOPMENT.recall).toEqual(['code', 'debug']);
+      });
+
+      it('should handle RECALL/EXCLUDE with extra commas', () => {
+        const content = `DEVELOPMENT_STATE=active
+DEVELOPMENT_RECALL=fix bug, , write code, ,
+DEVELOPMENT_EXCLUDE=secret, , password, ,`;
+        const manifestPath = createTestManifestPath(content, tempDir);
+        const result = parseManifest(manifestPath);
+
+        expect(result.isValid).toBe(true);
+        expect(result.domains.DEVELOPMENT.recall).toEqual(['fix bug', 'write code']);
+        expect(result.domains.DEVELOPMENT.exclude).toEqual(['secret', 'password']);
+      });
+
+      it('should handle file that does not exist', () => {
+        const nonExistentPath = path.join(tempDir, 'non-existent.manifest');
+        const result = parseManifest(nonExistentPath);
+
+        expect(result.isValid).toBe(false);
+        expect(result.domains).toEqual({});
+        expect(result.devmode).toBe(false);
+        expect(result.globalExclude).toEqual([]);
+      });
     });
 
     describe('malformed input', () => {
