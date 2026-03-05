@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`rule injection pipeline - integration snapshot testing should produce correct injection output (snapshot) 1`] = `
+"<carl-rules>
+CONTEXT BRACKET: [FRESH] (80% remaining)
+
+ALWAYS-ON DOMAINS
+================================================
+CONTEXT BRACKET: [FRESH] (80% remaining)
+
+[FRESH] CONTEXT RULES:
+  1. Start with high-level context
+  2. Provide relevant background
+
+MATCHED DOMAINS
+================================================
+[DEVELOPMENT] RULES:
+  1. Use early returns to reduce nesting
+  2. Prefer small, testable functions
+  3. Add type annotations for public APIs
+  4. Handle edge cases explicitly
+  5. Write self-documenting code
+
+</carl-rules>
+"
+`;
