@@ -34,7 +34,7 @@ Requirements for testing milestone. Each maps to roadmap phases.
 
 ### E2E Tests
 
-- [ ] **E2E-01**: Docker container with OpenCode for integration testing
+- [x] **E2E-01**: Docker container with OpenCode for integration testing
 - [ ] **E2E-02**: Full setup flow E2E (scaffold .carl/, verify defaults, test prompts)
 - [ ] **E2E-03**: Keyword matching flow E2E with real OpenCode
 - [ ] **E2E-04**: Star-command flow E2E with real OpenCode
@@ -88,7 +88,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | INTG-02 | Phase 10 | Complete |
 | INTG-03 | Phase 10 | Complete |
 | INTG-04 | Phase 10 | Complete |
-| E2E-01 | Phase 11 | Pending |
+| E2E-01 | Phase 11 | Complete |
 | E2E-02 | Phase 11 | Pending |
 | E2E-03 | Phase 11 | Pending |
 | E2E-04 | Phase 11 | Pending |
