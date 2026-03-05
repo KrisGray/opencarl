@@ -147,7 +147,11 @@ Plans:
   5. Validation tests cover manifest + domain validation paths
   6. Phase 9 verification report exists and passes
 
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 09.1-01-PLAN.md — Domain/session manager tests (loader, rule-cache, signal-store)
+- [ ] 09.1-02-PLAN.md — Phase 9.1 verification report + requirement evidence
 
 ---
 
