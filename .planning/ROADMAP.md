@@ -57,7 +57,7 @@ Plans:
 - [ ] **Phase 9: Core Unit Tests - Session & Setup** - Domain manager, star-command parser, session manager, setup/initializer, and validation tests
 - [ ] **Phase 9.1 (INSERTED): Close Phase 9 Unit Test Gaps** - Complete missing/partial Phase 9 unit tests and verification
 - [x] **Phase 10: Integration Tests** - Plugin lifecycle, rule injection pipeline, domain workflow, and file system operations tests (completed 2026-03-05)
-- [ ] **Phase 11: E2E Tests & Docker** - Docker container setup, full workflow E2E tests with real OpenCode, and CI E2E execution
+- [x] **Phase 11: E2E Tests & Docker** - Docker container setup, full workflow E2E tests with real OpenCode, and CI E2E execution (completed 2026-03-05)
 
 ### Phase 7: Test Infrastructure & CI Setup
 
@@ -218,7 +218,7 @@ Plans:
 | 9. Core Unit Tests - Session & Setup | v1.2 | 0/5 | Not started | - |
 | 9.1. Close Phase 9 Unit Test Gaps | v1.2 | 0/1 | Not started | - |
 | 10. Integration Tests | v1.2 | 4/4 | Complete | 2026-03-05 |
-| 11. E2E Tests & Docker | 2/3 | In Progress|  | - |
+| 11. E2E Tests & Docker | 3/3 | Complete   | 2026-03-05 | - |
 | 10. Integration Tests | 4/4 | Complete    | 2026-03-05 | - |
 | 11. E2E Tests & Docker | v1.2 | 0/1 | Not started | - |
 

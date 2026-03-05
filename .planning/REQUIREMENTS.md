@@ -43,7 +43,7 @@ Requirements for testing milestone. Each maps to roadmap phases.
 
 - [x] **CI-01**: GitHub Actions workflow created for test automation
 - [x] **CI-02**: Tests run on PR and push to main
-- [ ] **CI-03**: Docker-based E2E tests in GitHub Actions
+- [x] **CI-03**: Docker-based E2E tests in GitHub Actions
 - [x] **CI-04**: Coverage report generated as workflow artifact
 
 ## v2 Requirements
@@ -94,7 +94,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | E2E-04 | Phase 11 | Complete |
 | CI-01 | Phase 7 | Complete |
 | CI-02 | Phase 7 | Complete |
-| CI-03 | Phase 11 | Pending |
+| CI-03 | Phase 11 | Complete |
 | CI-04 | Phase 7 | Complete |
 
 **Coverage:**
