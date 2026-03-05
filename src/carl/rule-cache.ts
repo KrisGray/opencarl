@@ -1,4 +1,4 @@
-import os from "os";
+import * as os from "os";
 import { loadCarlRules, type CarlRuleDiscoveryOptions } from "./loader";
 import type { CarlRuleDiscoveryResult, CarlRuleSourceScope } from "./types";
 
