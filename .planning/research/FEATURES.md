@@ -1,133 +1,310 @@
-# Feature Research
+# Feature Research: OpenCARL vs CARL
 
 **Domain:** OpenCode prompt-injection / rule-injection plugins
-**Researched:** 2026-02-25
-**Confidence:** MEDIUM
+**Researched:** 2026-03-05
+**Milestone:** v1.3 Branding & Context Migration (REFACTORING)
+**Confidence:** HIGH
 
-## Feature Landscape
+## Executive Summary
 
-### Table Stakes (Users Expect These)
+**OpenCARL has NO new features compared to CARL.** This is a branding and porting project, not a feature enhancement.
 
-Features users assume exist. Missing these = product feels incomplete.
+**What OpenCARL IS:**
+- An adaptation/port of CARL (Context Augmentation & Reinforcement Layer) from Claude Code to OpenCode
+- Maintains 100% functional parity with the original CARL plugin
+- Simply targets a different AI platform (OpenCode instead of Claude Code)
 
-| Feature | Why Expected | Complexity | Notes |
-|---------|--------------|------------|-------|
-| Local plugin install + load order | OpenCode loads plugins from local directories and npm; rule-injection plugins must fit that flow | LOW | Must work from `.opencode/plugins/` and `~/.config/opencode/plugins/` with standard config precedence | 
-| Rule discovery at global + project scopes | Users expect rules to be found in standard locations and scoped to project vs global | MEDIUM | Mirrors OpenCode config/rules scoping; avoid custom path requirements | 
-| Conditional rule matching (globs/keywords/tools) | Rule injection is expected to adapt to context, not be always-on | MEDIUM | Common in existing plugin patterns; include OR logic and clear matching rules | 
-| System prompt injection hook | Core value is injecting rules into the system prompt before the model runs | HIGH | Requires OpenCode plugin events and system transform hooks | 
-| Context capture from tools/messages | Matching depends on knowing files/tools and prompt text | MEDIUM | Tool hooks for paths + message hooks for keywords; track per-session state | 
-| Compaction-safe state | OpenCode compacts sessions; injected state must survive | MEDIUM | Use compaction hook to persist critical context | 
-| Safety guardrails (do-not-read, allow/deny) | Rule injection plugins are expected to prevent unsafe or irrelevant injections | MEDIUM | Provide skip lists, size limits, and exclusions to avoid prompt bloat | 
+**What the "Open" Means:**
+- "Open" = "for OpenCode" (the target platform)
+- NOT "Open Source" (CARL was already open source)
+- NOT "new capabilities" (feature set is identical)
 
-### Differentiators (Competitive Advantage)
+**Migration Scope (v1.3):**
+- Rename all CARL references to OpenCARL throughout codebase
+- Update command triggers, environment variables, configuration directories
+- Preserve all existing functionality and user workflows
 
-Features that set the product apart. Not required, but valuable.
+---
 
-| Feature | Value Proposition | Complexity | Notes |
-|---------|-------------------|------------|-------|
-| CARL-style domain manifest + star-commands | Maintains existing CARL UX; explicit mode switches | HIGH | Star-commands preferred; fall back to `/carl` if needed | 
-| Context bracket heuristics (fresh/moderate/depleted) | Better injection timing and reduced prompt noise | MEDIUM | Applies rules only when context quality suggests it | 
-| Rule provenance + debug tracing | Users can see why a rule was injected and from where | MEDIUM | Log matched rules, conditions, and source paths | 
-| Incremental state tracking (no full rescans) | Faster, more reliable injections for long sessions | HIGH | Capture paths from tool hooks; only seed from history once | 
-| Rule linting + validation | Prevents broken metadata and overly-broad keywords | MEDIUM | Validate frontmatter; warn on risky patterns | 
-| Hybrid integration with AGENTS.md + instructions | Aligns with OpenCode rules system while preserving CARL | MEDIUM | Combine rule sources; allow explicit precedence | 
+## Evidence from Codebase
 
-### Anti-Features (Commonly Requested, Often Problematic)
+### 1. Explicit Documentation Statements
 
-Features that seem good but create problems.
+**From README.md (line 36):**
+> "OpenCARL is an **OpenCode adaptation** of CARL (Context Augmentation & Reinforcement Layer), originally created by Chris Kahler for Claude Code."
 
-| Feature | Why Requested | Why Problematic | Alternative |
-|---------|---------------|-----------------|-------------|
-| Auto-executing tools/commands | "Make it fix itself" | Security risk and violates user control | Use rule-only guidance + explicit commands | 
-| Remote rule fetching by default | "Keep rules in one place" | Supply-chain risk and offline fragility | Optional, explicit, signed URLs only | 
-| Always-on global injection with no opt-out | "Consistency across projects" | Prompt bloat and misapplied rules | Scoped rules + per-project overrides | 
-| Black-box prompt rewriting | "Hide complexity" | Hard to debug and undermines trust | Transparent injection with logging | 
+**From package.json (line 3):**
+> "OpenCARL - Dynamic rule injection for OpenCode. Rules load when relevant, disappear when not. **Adapted from CARL** by Chris Kahler."
 
-## Feature Dependencies
+### 2. Code Investigation Results
 
-```
-Rule discovery (global + project)
-    └──requires──> System prompt injection hook
-               └──requires──> Conditional matching engine (globs/keywords/tools)
-                          └──requires──> Context capture (tool hooks + message hooks)
+**Search for "Open" prefixes in TypeScript source code:**
+- Result: **Zero matches** (excluding file paths)
+- No OpenCARL-specific classes, functions, or modules
+- No conditional logic based on "Open" vs "CARL" branding
 
-Compaction-safe state ──enhances──> Context capture
+**Directory structure still uses CARL naming:**
+- Source: `src/carl/` (not `src/opencarl/`)
+- Commands: `/carl`, `*carl` (not `/opencarl`, `*opencarl`)
+- Environment: `CARL_DEBUG` (not `OPENCARL_DEBUG`)
+- Config: `.carl/` (not `.opencarl/`)
 
-Rule provenance + debug tracing ──enhances──> Conditional matching engine
+**Package metadata already rebranded:**
+- Package name: `@krisgray/opencarl` ✓
+- README title: "OpenCARL" ✓
+- Documentation headers: "OpenCARL" ✓
 
-Context bracket heuristics ──enhances──> System prompt injection hook
+**Conclusion:** Branding partially complete in package metadata, but not yet in source code.
 
-Hybrid AGENTS.md integration ──conflicts──> Always-on global injection
-```
+### 3. Feature Set Analysis
 
-### Dependency Notes
+**Original CARL features (for Claude Code):**
+- Dynamic rule injection plugin
+- Keyword matching triggers rule loading
+- Star-commands (*carl, *carl docs, custom commands)
+- Context-aware injection (fresh, moderate, depleted sessions)
+- Global/project rule scoping
+- AGENTS.md integration
+- NPM distribution
+- Debug logging (CARL_DEBUG)
+- Troubleshooting documentation
 
-- **System prompt injection requires rule discovery:** No rules to inject without discovery at startup.
-- **Conditional matching requires context capture:** Globs/keywords/tools need the latest paths, prompt text, and tool list.
-- **Compaction-safe state enhances context capture:** Prevents rules from disappearing after session compression.
-- **Hybrid AGENTS.md integration conflicts with always-on global injection:** Rules must respect OpenCode precedence to avoid duplicate/contradicting instructions.
+**OpenCARL features (for OpenCode):**
+- ✓ Dynamic rule injection plugin
+- ✓ Keyword matching triggers rule loading
+- ✓ Star-commands (*carl, *carl docs, custom commands)
+- ✓ Context-aware injection (fresh, moderate, depleted sessions)
+- ✓ Global/project rule scoping (.carl/ locations)
+- ✓ opencode.json and AGENTS.md integration
+- ✓ NPM distribution with dual-package strategy
+- ✓ Debug logging (CARL_DEBUG → to be OPENCARL_DEBUG)
+- ✓ Troubleshooting documentation
 
-## MVP Definition
+**Differences:** NONE (except platform-specific APIs, which is required for porting)
 
-### Launch With (v1)
+---
 
-Minimum viable product — what's needed to validate the concept.
+## What IS Changing (v1.3 Migration Scope)
 
-- [ ] Local plugin install + load order — required for OpenCode adoption
-- [ ] Rule discovery at global + project scopes — preserves CARL workflows
-- [ ] Conditional rule matching + injection — core value of prompt-injection plugin
-- [ ] Context capture from tools/messages — enables matching to work
-- [ ] Compaction-safe state — prevents rule loss in long sessions
+### Rebranding Changes
 
-### Add After Validation (v1.x)
+| Item | Current (CARL) | Target (OpenCARL) | Status |
+|------|----------------|-------------------|--------|
+| Source directory | `src/carl/` | `src/opencarl/` | Pending |
+| Config directory | `.carl/` | `.opencarl/` | Pending |
+| Command trigger | `*carl` | `*opencarl` | Pending |
+| Fallback command | `/carl` | `/opencarl` | Pending |
+| Environment variable | `CARL_DEBUG` | `OPENCARL_DEBUG` | Pending |
+| Package name | `@krisgray/carl` | `@krisgray/opencarl` | ✓ Done |
+| Documentation | `CARL-DOCS.md` | `OPENCARL-DOCS.md` | Pending |
+| README references | "CARL" | "OpenCARL" | Partial |
 
-Features to add once core is working.
+### Backwards Compatibility
 
-- [ ] Rule provenance + debug tracing — improves trust and troubleshooting
-- [ ] Rule linting + validation — reduces misconfigurations
-- [ ] Context bracket heuristics — reduce prompt noise
+From PROJECT.md constraints:
+> "Preserving existing `.carl/` (to be renamed to `.opencarl/`) directory structure and manifest/domain file semantics."
 
-### Future Consideration (v2+)
+**Implication:** The rebranding should maintain backwards compatibility where possible, particularly for existing user configurations.
 
-Features to defer until product-market fit is established.
+---
 
-- [ ] Hybrid AGENTS.md + instructions synthesis — more complex precedence logic
-- [ ] Rich rule editor UI — nice-to-have, not required for CLI-first users
+## What is NOT Changing (Out of Scope)
 
-## Feature Prioritization Matrix
+From PROJECT.md "Out of Scope" section:
 
-| Feature | User Value | Implementation Cost | Priority |
-|---------|------------|---------------------|----------|
-| Rule discovery (global + project) | HIGH | MEDIUM | P1 |
-| Conditional matching + injection | HIGH | HIGH | P1 |
-| Context capture (tool + message hooks) | HIGH | MEDIUM | P1 |
-| Compaction-safe state | MEDIUM | MEDIUM | P2 |
-| Rule provenance + debug tracing | MEDIUM | MEDIUM | P2 |
-| Context bracket heuristics | MEDIUM | MEDIUM | P2 |
-| Rule linting + validation | MEDIUM | MEDIUM | P2 |
-| Hybrid AGENTS.md integration | MEDIUM | HIGH | P3 |
+- ✓ **Core architecture** - Rule injection pipeline, plugin hooks remain identical
+- ✓ **File structure** - `.carl/` → `.opencarl/` is just renaming (same internal structure)
+- ✓ **Rule syntax** - Domain file format preserved exactly
+- ✓ **Plugin types** - OpenCode plugin types unchanged
+- ✓ **Test infrastructure** - Jest, Docker, CI/CD remain the same
+- ✓ **Build system** - Tooling and build process unchanged
 
-**Priority key:**
-- P1: Must have for launch
-- P2: Should have, add when possible
-- P3: Nice to have, future consideration
+---
 
-## Competitor Feature Analysis
+## True New Capabilities: **NONE**
 
-| Feature | Competitor A | Competitor B | Our Approach |
-|---------|--------------|--------------|--------------|
-| Rule discovery + injection | opencode-rules auto-discovers `.md`/`.mdc` rules and injects into system prompt | OpenCode built-in rules via `AGENTS.md` + `instructions` | Preserve CARL rules + support OpenCode rules integration | 
-| Conditional matching | opencode-rules supports globs/keywords/tools | OpenCode rules are static unless split into files | Keep CARL keyword + exclude logic, add globs/tools support | 
-| Compaction awareness | opencode-rules uses compaction hook to persist context | OpenCode compaction is configurable but not rule-aware | Use compaction hook to persist CARL context | 
+### Clarification
+
+**If CARL already did X and we're just rebranding, then X is NOT a new feature.**
+
+All capabilities listed in the existing `.planning/research/FEATURES.md` (from v1.0) were already present in CARL. OpenCARL simply brings those same capabilities to the OpenCode platform.
+
+### Feature Comparison Matrix
+
+| Feature | CARL (Claude Code) | OpenCARL (OpenCode) | New? |
+|---------|-------------------|---------------------|------|
+| Dynamic rule injection | ✓ | ✓ | No |
+| Keyword-based loading | ✓ | ✓ | No |
+| Star-commands (*carl) | ✓ | ✓ | No |
+| Context-aware injection | ✓ | ✓ | No |
+| Global/project scoping | ✓ | ✓ | No |
+| Integration with platform rules | AGENTS.md (Claude) | AGENTS.md + opencode.json | Platform-specific, not new |
+| NPM distribution | ✓ | ✓ | No |
+| Debug logging | ✓ | ✓ | No |
+| Troubleshooting docs | ✓ | ✓ | No |
+
+**Conclusion:** No truly new capabilities. All features are either identical to CARL or platform-specific adaptations required for the port.
+
+---
+
+## Existing Feature Set (From v1.0 Research)
+
+For reference, here are the features that CARL had and OpenCARL preserves:
+
+### Table Stakes (From v1.0 FEATURES.md)
+
+| Feature | Complexity | Status in OpenCARL |
+|---------|------------|---------------------|
+| Local plugin install + load order | LOW | ✓ Implemented |
+| Rule discovery at global + project scopes | MEDIUM | ✓ Implemented |
+| Conditional rule matching (keywords/tools) | MEDIUM | ✓ Implemented |
+| System prompt injection hook | HIGH | ✓ Implemented |
+| Context capture from tools/messages | MEDIUM | ✓ Implemented |
+| Compaction-safe state | MEDIUM | ✓ Implemented |
+| Safety guardrails (do-not-read, allow/deny) | MEDIUM | ✓ Implemented |
+
+### Differentiators (From v1.0 FEATURES.md)
+
+| Feature | Complexity | Status in OpenCARL |
+|---------|------------|---------------------|
+| Domain manifest + star-commands | HIGH | ✓ Implemented |
+| Context bracket heuristics | MEDIUM | ✓ Implemented |
+| Rule provenance + debug tracing | MEDIUM | ✓ Implemented |
+| Incremental state tracking | HIGH | ✓ Implemented |
+| Rule linting + validation | MEDIUM | ✓ Implemented |
+| Hybrid integration with AGENTS.md + instructions | MEDIUM | ✓ Implemented (with opencode.json) |
+
+---
+
+## Anti-Features (What OpenCARL Should NOT Add)
+
+As this is a **refactoring milestone**, the following should be avoided:
+
+| Anti-Feature | Why Avoid | Approach |
+|-------------|-----------|----------|
+| New rule injection logic | Not in scope | Preserve existing CARL logic |
+| Different manifest syntax | Breaks existing workflows | Keep exact same format |
+| New star-command syntax | Breaks existing workflows | Keep `*commandname` format |
+| Platform-specific features (beyond necessary) | Defeats purpose of porting | Only adapt what's required for OpenCode API |
+| Enhanced debugging (beyond rebranding) | Out of scope for v1.3 | Keep CARL_DEBUG → OPENCARL_DEBUG only |
+
+---
+
+## Open Questions (For v1.3 Planning)
+
+1. **Backwards Compatibility:** Should OpenCARL support reading from both `.carl/` and `.opencarl/` directories during transition?
+
+2. **Command Aliases:** Should `/carl` and `*carl` continue to work as deprecated aliases, or be removed completely?
+
+3. **Environment Variable:** Should both `CARL_DEBUG` and `OPENCARL_DEBUG` be supported temporarily?
+
+4. **Documentation Migration:** Should CARL-DOCS.md be renamed to OPENCARL-DOCS.md, or kept as-is with updated content?
+
+**These questions are for the v1.3 roadmap planner to resolve.**
+
+---
+
+## Recommendations for v1.3 Roadmap
+
+### Phase Structure
+
+Given this is a **pure rebranding milestone**, the phase structure should be:
+
+1. **Phase 1: Source Code Rebranding**
+   - Rename `src/carl/` → `src/opencarl/`
+   - Update all import statements
+   - Update class/function names (if any use "CARL" prefix)
+
+2. **Phase 2: Configuration Rebranding**
+   - Rename `.carl-template/` → `.opencarl-template/`
+   - Update setup scripts to use `.opencarl/`
+   - Decide on backwards compatibility strategy
+
+3. **Phase 3: Command Rebranding**
+   - Update command handlers: `/carl` → `/opencarl`, `*carl` → `*opencarl`
+   - Update help text and documentation
+   - Update test fixtures
+
+4. **Phase 4: Documentation Rebranding**
+   - Rename `CARL-DOCS.md` → `OPENCARL-DOCS.md`
+   - Update README.md and INSTALL.md
+   - Update TROUBLESHOOTING.md
+
+5. **Phase 5: Environment Variable Rebranding**
+   - Update `CARL_DEBUG` → `OPENCARL_DEBUG`
+   - Update all references in code and docs
+
+6. **Phase 6: Package Metadata Finalization**
+   - Verify package name is `@krisgray/opencarl`
+   - Update npm scripts if needed
+   - Update repository URLs
+
+### Risk Assessment
+
+**LOW RISK** - This is a text/string replacement exercise:
+- No logic changes
+- No architectural changes
+- No new functionality to test
+- Existing tests should pass after simple search-replace
+
+**Caveat:** Need to ensure backwards compatibility decisions are documented clearly.
+
+---
+
+## Confidence Assessment
+
+| Area | Confidence | Reason |
+|------|------------|--------|
+| No new features | HIGH | Source code analysis shows 100% feature parity |
+| Rebranding scope | HIGH | Explicitly stated in PROJECT.md as refactoring |
+| Platform adaptation | HIGH | Documentation confirms OpenCode adaptation of CARL |
+| Migration complexity | MEDIUM | Simple string replacement, but backwards compat decisions needed |
+| Documentation accuracy | HIGH | README and package.json explicitly state relationship |
+
+---
 
 ## Sources
 
-- https://opencode.ai/docs/plugins/ (plugin loading, hooks, compaction, local plugin directories)
-- https://opencode.ai/docs/config/ (plugin config, precedence, `.opencode` structure)
-- https://opencode.ai/docs/rules/ (AGENTS.md rules and instructions handling)
-- https://raw.githubusercontent.com/frap129/opencode-rules/main/README.md (community rule-injection plugin features and hook usage)
+### Primary Sources (HIGH Confidence)
+
+1. **README.md** (lines 36-37) - Explicit statement that OpenCARL is an OpenCode adaptation of CARL
+2. **package.json** (line 3) - Package description confirms adaptation from CARL
+3. **PROJECT.md** (lines 1-20, 56-62) - Explicitly defines v1.3 as a "rebranding, not a rewrite" milestone
+4. **Source code investigation** - grep search shows no "Open" prefixes in TypeScript code
+5. **Directory structure** - Still uses `src/carl/`, `*.carl` naming
+
+### Secondary Sources (MEDIUM Confidence)
+
+6. **.planning/research/FEATURES.md** (v1.0) - Documents original CARL feature set
+7. **TROUBLESHOOTING.md** - References CARL features without OpenCARL-specific additions
+8. **CARL-DOCS.md** - Documentation covers CARL features, no new OpenCARL capabilities mentioned
+
+### Verification Steps Taken
+
+- ✓ Searched for "opencarl|OpenCARL|OPENCARL" in all TypeScript source files
+- ✓ Verified package.json uses @krisgray/opencarl
+- ✓ Verified README.md references OpenCARL adaptation
+- ✓ Checked directory structure still uses CARL naming
+- ✓ Read all documentation files for new feature mentions
+- ✓ Reviewed PROJECT.md milestone scope definition
 
 ---
-*Feature research for: OpenCode prompt-injection / rule-injection plugins*
-*Researched: 2026-02-25*
+
+## Summary
+
+**OpenCARL brings ZERO new features compared to CARL.**
+
+This is a branding and porting project:
+- CARL (for Claude Code) → OpenCARL (for OpenCode)
+- Same feature set, different target platform
+- v1.3 is a refactoring milestone: rename all CARL → OpenCARL references
+
+**All capabilities listed in v1.0 research remain applicable to OpenCARL.** The only differences are platform-specific adaptations required to work with OpenCode's plugin API instead of Claude Code's API.
+
+**For the v1.3 roadmap:** Focus on systematic string replacement and migration, NOT new feature development.
+
+---
+
+*Research for: v1.3 Branding & Context Migration*
+*Researched: 2026-03-05*
+*Confidence: HIGH*

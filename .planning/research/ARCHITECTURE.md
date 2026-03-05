@@ -1,198 +1,365 @@
-# Architecture Research
+# Architecture Patterns
 
-**Domain:** OpenCode plugin architecture for prompt-injection (CARL parity)
-**Researched:** 2026-02-25
-**Confidence:** MEDIUM
+**Domain:** OpenCARL Plugin for OpenCode
+**Researched:** 2026-03-05
+**Mode:** Ecosystem (Migration Focus)
 
-## Standard Architecture
+## Executive Summary
 
-### System Overview
+**OpenCARL does NOT require any architectural changes beyond renaming.** The OpenCode ecosystem does not have special patterns for "Open" prefixed plugins. This is a pure rebranding exercise.
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                     OpenCode Runtime                         │
-├─────────────────────────────────────────────────────────────┤
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐        │
-│  │ Plugin Entry │  │ Hook Router  │  │ Event Stream │        │
-│  └─────┬────────┘  └─────┬────────┘  └─────┬────────┘        │
-│        │                 │                 │                 │
-├────────┴─────────────────┴─────────────────┴────────────────┤
-│                         CARL Plugin                          │
-├─────────────────────────────────────────────────────────────┤
-│  ┌──────────┐  ┌──────────┐  ┌──────────────┐  ┌───────────┐ │
-│  │ Rule     │  │ Matcher  │  │ Prompt       │  │ Command   │ │
-│  │ Loader   │  │ /Scorer  │  │ Injector     │  │ Handler   │ │
-│  └────┬─────┘  └────┬─────┘  └────┬─────────┘  └────┬──────┘ │
-│       │             │            │                  │        │
-├───────┴─────────────┴────────────┴──────────────────┴────────┤
-│                File System + OpenCode Rules                  │
-│    .carl/manifest + domain files + AGENTS.md/opencode.json   │
-└─────────────────────────────────────────────────────────────┘
-```
+**Key finding:** The "Open" in OpenCARL is a branding choice, not an OpenCode architectural pattern. All OpenCode plugins use the `opencode-<feature>` naming convention, not `<feature>-opencode` or `<feature>-open`.
 
-### Component Responsibilities
+## Recommended Architecture for OpenCARL
 
-| Component | Responsibility | Typical Implementation |
-|-----------|----------------|------------------------|
-| Plugin entrypoint | Register hooks, own lifecycle | TypeScript `Plugin` export in `.opencode/plugins/` |
-| Rule loader | Read `.carl/manifest` and domain files (global + project) | FS reader + schema validation + caching |
-| Matcher/scorer | Keyword match, exclusions, always-on rules, star commands | Rule engine with deterministic ordering |
-| Prompt injector | Compose rule blocks and context brackets into prompt | Hook handler that appends/updates prompt parts |
-| Command handler | Detect `*carl`/`*command` and map to rule modes | TUI/command hook that rewrites prompt scope |
-| Watcher/cache | Track manifest/domain changes for hot reload | `file.watcher.updated` hook + in-memory cache |
-| Rules integrator | Sync/seed `AGENTS.md` and `opencode.json` hints | One-time installer or opt-in hook |
+**No changes to current architecture.** Preserve the existing CARL architecture exactly, only renaming references.
 
-## Recommended Project Structure
+### Current Architecture (CARL)
 
 ```
-.opencode/
-├── plugins/
-│   └── carl-plugin.ts       # Plugin entrypoint and hook wiring
-├── package.json             # Local deps for plugin if needed
-└── README.md                # Optional local plugin notes
 src/
-├── carl/
-│   ├── loader.ts            # Manifest + domain file loading
-│   ├── matcher.ts           # Keyword match/exclude/always-on logic
-│   ├── injector.ts          # Prompt assembly + context brackets
-│   ├── commands.ts          # Star-command parsing + routing
-│   ├── cache.ts             # In-memory cache + mtime tracking
-│   └── types.ts             # Rule + manifest types
-└── integration/
-    ├── opencode-rules.ts    # AGENTS.md/opencode.json helpers
-    └── paths.ts             # Global/project path resolution
+├── carl/                    # Core plugin logic (→ src/opencarl/)
+│   ├── command-parity.ts    # Command handling (*carl → *opencarl)
+│   ├── context-brackets.ts  # Token-based context awareness
+│   ├── debug.ts             # Debug logging (CARL_DEBUG → OPENCARL_DEBUG)
+│   ├── duplicate-detector.ts
+│   ├── errors.ts
+│   ├── help-text.ts
+│   ├── injector.ts          # Rule injection pipeline
+│   ├── loader.ts            # Rule file loading (.carl/ → .opencarl/)
+│   ├── matcher.ts           # Keyword matching
+│   ├── rule-cache.ts
+│   ├── session-overrides.ts
+│   ├── setup.ts
+│   ├── signal-store.ts
+│   ├── types.ts
+│   └── validate.ts
+├── integration/             # OpenCode integration layer
+│   ├── agents-writer.ts
+│   ├── opencode-config.ts
+│   ├── paths.ts
+│   └── plugin-hooks.ts      # Hook registration (OpenCode events)
+└── plugin.ts                # Main plugin export
 ```
 
-### Structure Rationale
+### Migrated Architecture (OpenCARL)
 
-- **.opencode/plugins/:** Keep the plugin load location aligned with OpenCode discovery rules.
-- **src/carl/:** Isolate CARL logic from OpenCode glue to preserve portability and testing.
-- **src/integration/:** Separate cross-cutting file writes from rule evaluation.
+```
+src/
+├── opencarl/                # Core plugin logic (renamed from carl/)
+│   ├── command-parity.ts    # *opencarl command handling
+│   ├── context-brackets.ts  # Token-based context awareness
+│   ├── debug.ts             # OPENCARL_DEBUG env var
+│   ├── duplicate-detector.ts
+│   ├── errors.ts
+│   ├── help-text.ts
+│   ├── injector.ts          # Rule injection pipeline
+│   ├── loader.ts            # .opencarl/ directory handling
+│   ├── matcher.ts           # Keyword matching
+│   ├── rule-cache.ts
+│   ├── session-overrides.ts
+│   ├── setup.ts
+│   ├── signal-store.ts
+│   ├── types.ts
+│   └── validate.ts
+├── integration/             # OpenCode integration layer (unchanged)
+│   ├── agents-writer.ts
+│   ├── opencode-config.ts
+│   ├── paths.ts
+│   └── plugin-hooks.ts
+└── plugin.ts                # Main plugin export
+```
 
-## Architectural Patterns
+## OpenCode Plugin Naming Patterns
 
-### Pattern 1: Event-Driven Hook Pipeline
+### Observed Patterns in Ecosystem
 
-**What:** Subscribe to OpenCode events and route them through a single rule pipeline.
-**When to use:** Prompt injection or policy enforcement plugins.
-**Trade-offs:** Simple integration, but must be careful about hook ordering and side effects.
+| Plugin | Package Name | Pattern |
+|--------|--------------|---------|
+| Helicone Session | `opencode-helicone-session` | `opencode-<feature>` |
+| Wakatime | `opencode-wakatime` | `opencode-<feature>` |
+| Daytona | `opencode-daytona` | `opencode-<feature>` |
+| Type Inject | `opencode-type-inject` | `opencode-<feature>` |
+| Dynamic Context Pruning | `opencode-dynamic-context-pruning` | `opencode-<feature>` |
+| Workspace | `opencode-workspace` | `opencode-<feature>` |
+| Background Agents | `opencode-background-agents` | `opencode-<feature>` |
 
-**Example:**
-```typescript
-export const CarlPlugin: Plugin = async (ctx) => {
-  const engine = createCarlEngine(ctx)
-  return {
-    "tui.prompt.append": async (input, output) => {
-      const injection = await engine.buildInjection(input.prompt)
-      output.append = `${output.append}\n${injection}`
-    },
+**Pattern:** `opencode-<feature>` is the standard convention.
+
+### Package Metadata Pattern
+
+From `opencode-helicone-session/package.json`:
+
+```json
+{
+  "name": "opencode-helicone-session",
+  "description": "OpenCode plugin for Helicone session tracking",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "peerDependencies": {
+    "@opencode-ai/plugin": ">=0.15.0"
+  },
+  "keywords": [
+    "opencode",
+    "helicone",
+    "session",
+    "plugin"
+  ]
+}
+```
+
+### OpenCARL Package Metadata (Current)
+
+```json
+{
+  "name": "@krisgray/opencarl",
+  "description": "OpenCARL - Dynamic rule injection for OpenCode",
+  "main": "dist/plugin.js",
+  "types": "dist/plugin.d.ts",
+  "peerDependencies": {
+    "@opencode-ai/plugin": "^1.2.0"
   }
 }
 ```
 
-### Pattern 2: Deterministic Rule Resolution
+**Status:** ✅ **Already correct.** Using scoped package `@krisgray/opencarl` is appropriate and aligns with OpenCode ecosystem.
 
-**What:** Always compute injections from the same ordered inputs (manifest → domains → matches).
-**When to use:** Any rule system with overrides and exclusions.
-**Trade-offs:** Predictable behavior, but requires explicit precedence rules.
+## Component Boundaries
+
+### Core Modules (src/opencarl/)
+
+| Module | Responsibility | Communicates With |
+|--------|----------------|------------------|
+| `loader.ts` | Load rule files from `.opencarl/` | `matcher.ts`, `injector.ts` |
+| `matcher.ts` | Match keywords to domains | `loader.ts`, `signal-store.ts` |
+| `injector.ts` | Build injection strings | `matcher.ts`, `context-brackets.ts` |
+| `debug.ts` | Debug logging (OPENCARL_DEBUG) | All modules |
+| `setup.ts` | Initialize `.opencarl/` directories | File system, CLI commands |
+| `command-parity.ts` | Handle `*opencarl` star-commands | `injector.ts`, `help-text.ts` |
+| `context-brackets.ts` | Token-based context awareness | `injector.ts` |
+| `rule-cache.ts` | Cache loaded rules per session | All modules |
+
+### Integration Layer (src/integration/)
+
+| Module | Responsibility | Communicates With |
+|--------|----------------|------------------|
+| `plugin-hooks.ts` | Register OpenCode hooks | Core modules (`opencarl/`) |
+| `opencode-config.ts` | Write `opencode.json` instructions | `setup.ts`, file system |
+| `agents-writer.ts` | Write `AGENTS.md` instructions | File system |
+| `paths.ts` | Resolve `.opencarl/` directory paths | File system, environment |
+
+### Data Flow
+
+```
+User Prompt → plugin-hooks.ts
+                ↓
+            signal-store.ts (record signals)
+                ↓
+            rule-cache.ts (get cached rules)
+                ↓
+            loader.ts (load rule files)
+                ↓
+            matcher.ts (match keywords)
+                ↓
+            context-brackets.ts (compute context)
+                ↓
+            injector.ts (build injection)
+                ↓
+            OpenCode session
+```
+
+## Patterns to Follow
+
+### Pattern 1: Plugin Hook Registration
+
+**What:** OpenCode plugins register hooks via the `@opencode-ai/plugin` SDK.
+
+**When:** Required for all OpenCode plugins.
+
+**Example (current, no changes needed):**
+
+```typescript
+// src/plugin.ts
+import { createCarlPluginHooks } from "./integration/plugin-hooks";
+
+export default {
+  hooks: createCarlPluginHooks(),
+};
+
+// src/integration/plugin-hooks.ts
+export function createCarlPluginHooks(): Hooks {
+  return {
+    "chat.message": async (input, output) => { /* ... */ },
+    "tool.execute.before": async (input, output) => { /* ... */ },
+    "command.execute.before": async (input) => { /* ... */ },
+    "experimental.chat.system.transform": async (input, output) => { /* ... */ },
+  };
+}
+```
+
+**Migration:** No changes needed. Keep as-is.
+
+### Pattern 2: Environment Variable Naming
+
+**What:** OpenCode plugins use uppercase environment variables with plugin prefix.
+
+**Current (CARL):** `CARL_DEBUG`
+
+**Migrated (OpenCARL):** `OPENCARL_DEBUG`
 
 **Example:**
+
 ```typescript
-const rules = mergeRules(globalRules, projectRules)
-const matched = matchRules(rules, { query, starCommand })
-const ordered = sortByPrecedence(matched)
+// src/opencarl/debug.ts (after migration)
+const isDebugEnabled = process.env.OPENCARL_DEBUG === "true";
+
+export function debugLog(...args: unknown[]) {
+  if (isDebugEnabled) {
+    console.log("[opencarl]", ...args);
+  }
+}
 ```
 
-### Pattern 3: Prompt Composition with Context Brackets
+**Migration:** Replace all `CARL_DEBUG` references with `OPENCARL_DEBUG`.
 
-**What:** Inject different rule blocks based on context budgets (fresh/moderate/depleted).
-**When to use:** Long-running sessions where prompt size varies.
-**Trade-offs:** Better relevance under compaction, but adds branching complexity.
+### Pattern 3: Directory Naming
 
-## Data Flow
+**What:** OpenCode plugins use `.opencode/` for project-scoped configuration.
 
-### Request Flow
+**Current (CARL):** `.carl/` directories
 
-```
-[User prompt]
-    ↓
-[Hook: tui.prompt.append] → [Rule loader] → [Matcher/scorer]
-    ↓                         ↓                ↓
-[Prompt injector] ← [Context bracket] ← [Rule selection]
-    ↓
-[Final prompt to model]
+**Migrated (OpenCARL):** `.opencarl/` directories
+
+**Example:**
+
+```typescript
+// src/integration/paths.ts (after migration)
+export const OPENCARL_DIR = ".opencarl";
+export const GLOBAL_OPENCARL_DIR = path.join(os.homedir(), ".opencarl");
 ```
 
-### State Management
+**Migration:** Replace all `.carl/` references with `.opencarl/`.
 
+### Pattern 4: Command Naming
+
+**What:** OpenCode plugins use star-commands (`*command`) for explicit triggers.
+
+**Current (CARL):** `*carl`
+
+**Migrated (OpenCARL):** `*opencarl`
+
+**Fallback:** `/opencarl` (for shell compatibility)
+
+**Example:**
+
+```typescript
+// src/opencarl/command-parity.ts (after migration)
+export function resolveCarlCommandSignals({
+  promptText,
+  commandOverrides,
+  commandsPayload,
+  getHelpGuidance,
+}: {
+  promptText: string;
+  commandOverrides: string[];
+  commandsPayload: CarlRuleDomainPayload;
+  getHelpGuidance: () => string;
+}) {
+  // Check for *opencarl trigger
+  const hasStarCommand = commandOverrides.includes("opencarl");
+
+  // Check for /opencarl fallback
+  const hasSlashCommand = promptText.includes("/opencarl");
+
+  // ... logic unchanged
+}
 ```
-[In-memory cache]
-    ↓ (load)
-[Manifest/domains] ← [File watcher] → [Cache refresh]
-```
 
-### Key Data Flows
+**Migration:** Replace `*carl` with `*opencarl`, add `/opencarl` fallback.
 
-1. **Prompt injection:** user prompt → rule resolution → bracketed injection appended.
-2. **Star-command routing:** prompt input → command handler → forced rule set → injection.
-3. **Rule updates:** file change event → cache invalidation → next prompt recompute.
+## Anti-Patterns to Avoid
 
-## Scaling Considerations
+### Anti-Pattern 1: Changing Module Structure
 
-| Scale | Architecture Adjustments |
-|-------|--------------------------|
-| 0-1k users | Local plugin with in-memory cache is sufficient. |
-| 1k-100k users | Add debounce on file watcher and memoize rule resolution. |
-| 100k+ users | Keep plugin stateless; move heavy parsing to build-time tools if needed. |
+**What:** Restructuring `src/carl/` into a different organization.
 
-### Scaling Priorities
+**Why bad:** Unnecessary risk, creates diff noise, breaks existing test infrastructure.
 
-1. **First bottleneck:** file IO on every prompt; fix with cache + mtime checks.
-2. **Second bottleneck:** rule matching per prompt; fix with precomputed indexes.
+**Instead:** Keep module structure exactly the same, only rename `src/carl/` to `src/opencarl/`.
 
-## Anti-Patterns
+### Anti-Pattern 2: Over-Engineering "Open" Patterns
 
-### Anti-Pattern 1: Injecting without provenance
+**What:** Assuming "Open" prefix requires special treatment (e.g., `open-*` commands, `OPEN_*` env vars).
 
-**What people do:** Append large rule blobs without identifying source or bracket.
-**Why it's wrong:** Hard to debug and violates user expectations about rule origin.
-**Do this instead:** Add a short header with source (global/project/domain) and bracket level.
+**Why bad:** No basis in OpenCode ecosystem. "Open" is just part of the name.
 
-### Anti-Pattern 2: Global-only rule resolution
+**Instead:** Use standard patterns: `*opencarl` command, `OPENCARL_DEBUG` env var, `.opencarl/` directory.
 
-**What people do:** Ignore project `.carl/` files when global rules exist.
-**Why it's wrong:** Breaks expected local overrides.
-**Do this instead:** Merge global + project with explicit precedence and exclusions.
+### Anti-Pattern 3: Breaking Backwards Compatibility Unnecessarily
 
-## Integration Points
+**What:** Immediately removing `.carl/` support without transition period.
 
-### External Services
+**Why bad:** Users may have existing `.carl/` directories.
 
-| Service | Integration Pattern | Notes |
-|---------|---------------------|-------|
-| None | Local filesystem + OpenCode hooks | Prefer local plugin distribution. |
+**Instead:** Support both `.carl/` and `.opencarl/` during transition, deprecate `.carl/` in future version.
 
-### Internal Boundaries
+## Scalability Considerations
 
-| Boundary | Communication | Notes |
-|----------|---------------|-------|
-| Plugin entrypoint ↔ CARL engine | Direct function calls | Keep OpenCode-specific types at the boundary. |
-| CARL engine ↔ Filesystem | Read + cache + watcher | Avoid writes except installer/setup. |
-| CARL engine ↔ OpenCode rules | File helpers | Update `AGENTS.md`/`opencode.json` only when configured. |
+**Not applicable for v1.3 rebranding milestone.** This is a pure refactoring, no performance or scalability changes.
 
-## Suggested Build Order
+## Module Organization Comparison
 
-1. **Rule loader + types:** foundation for manifest/domain compatibility.
-2. **Matcher/scorer:** implement precedence, exclusions, always-on, star-command logic.
-3. **Prompt injector:** compose brackets and injection output.
-4. **Plugin entrypoint:** wire OpenCode hooks (e.g., `tui.prompt.append`, `command.executed`).
-5. **Watcher/cache:** optimize IO and enable hot reload.
-6. **Rules integrator + installer:** optional setup for `AGENTS.md`/`opencode.json`.
+### Current (CARL) vs Migrated (OpenCARL)
+
+| Aspect | CARL | OpenCARL | Change |
+|--------|------|----------|--------|
+| Package name | `@krisgray/opencarl` (already correct) | `@krisgray/opencarl` | ✅ None |
+| Source directory | `src/carl/` | `src/opencarl/` | Rename only |
+| Config directory | `.carl/` | `.opencarl/` | Rename only |
+| Star command | `*carl` | `*opencarl` | Rename only |
+| Slash command | `/carl` | `/opencarl` | Rename only |
+| Debug env var | `CARL_DEBUG` | `OPENCARL_DEBUG` | Rename only |
+| Log prefix | `[carl]` | `[opencarl]` | Rename only |
+| Documentation | `CARL-DOCS.md` | `OPENCARL-DOCS.md` | Rename only |
+| Module structure | 15 modules in `carl/` | 15 modules in `opencarl/` | ✅ None |
+| Hook registration | `createCarlPluginHooks()` | `createCarlPluginHooks()` | ✅ None |
+| Integration layer | `integration/` | `integration/` | ✅ None |
+
+## Migration Checklist
+
+### File Structure
+- [ ] Rename `src/carl/` → `src/opencarl/`
+- [ ] No changes to module organization
+- [ ] No changes to integration layer (`src/integration/`)
+
+### Code References
+- [ ] Update all imports: `../carl/` → `../opencarl/`
+- [ ] Update directory constants: `.carl/` → `.opencarl/`
+- [ ] Update env var checks: `CARL_DEBUG` → `OPENCARL_DEBUG`
+- [ ] Update log prefixes: `[carl]` → `[opencarl]`
+- [ ] Update command strings: `"carl"` → `"opencarl"`
+- [ ] Update help text references
+
+### Documentation
+- [ ] Rename `CARL-DOCS.md` → `OPENCARL-DOCS.md`
+- [ ] Update README references
+- [ ] Update INSTALL.md references
+- [ ] Update TROUBLESHOOTING.md references
+
+### Tests
+- [ ] Update all test file names and paths
+- [ ] Update test fixtures (`.carl-template` → `.opencarl-template`)
+- [ ] Update test assertions for log output
+- [ ] Update command string assertions
+
+### Package Metadata
+- [ ] ✅ Already using `@krisgray/opencarl`
+- [ ] Update description text
+- [ ] Update keywords
 
 ## Sources
 
-- https://opencode.ai/docs/plugins/ (official plugin structure, events, load order)
-
----
-*Architecture research for: OpenCode plugin architecture for prompt injection*
-*Researched: 2026-02-25*
+- [OpenCode Plugin Documentation](https://opencode.ai/docs/plugins/) - Official plugin architecture (HIGH confidence)
+- [OpenCode Ecosystem](https://opencode.ai/docs/ecosystem/) - List of all plugins, naming patterns (HIGH confidence)
+- [opencode-helicone-session package.json](https://raw.githubusercontent.com/H2Shami/opencode-helicone-session/main/package.json) - Example plugin structure (MEDIUM confidence)
+- [OCX Plugin Architecture](https://deepwiki.com/kdcokenny/ocx/6.1-plugin-architecture) - Advanced plugin patterns (MEDIUM confidence)
