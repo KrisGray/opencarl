@@ -1,4 +1,4 @@
-import path from "path";
+import * as path from "path";
 import type { CarlSessionSignals } from "./types";
 
 const MAX_SIGNAL_ENTRIES = 20;
@@ -189,7 +189,10 @@ export function getSessionSignals(sessionId: string): CarlSessionSignals {
   const toolTokens = uniqTokens(store.toolEntries);
   const pathTokens = uniqTokens(store.pathEntries);
 
-  const lastPrompt = store.promptEntries.at(-1) ?? [];
+  const lastPrompt =
+    store.promptEntries.length > 0
+      ? store.promptEntries[store.promptEntries.length - 1]
+      : [];
 
   return {
     promptTokens: lastPrompt,
