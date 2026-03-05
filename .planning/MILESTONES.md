@@ -14,12 +14,19 @@
 ---
 
 
-## v1.2 Testing & QA (Shipped: 2026-03-05)
+## v1.2 Testing & QA (Shipped: 2026-03-18)
 
-**Phases completed:** 6 phases, 23 plans, 0 tasks
+**Phases completed:** 6 phases, 23 plans, 312 tests
 
 **Key accomplishments:**
-- (none recorded)
+- Jest test framework with ts-jest, 80% coverage thresholds, and comprehensive test scripts
+- Test fixtures and helper factories for manifest parsing, keyword matching, and rule injection (126 tests)
+- Session and setup unit tests with 149 passing tests across 7 test suites
+- Integration tests with 35 passing tests covering plugin lifecycle and rule injection pipeline
+- Docker E2E testing with OpenCode CLI v1.2.15, sequential test runner, and 23 E2E tests
+- Full CI/CD pipeline with GitHub Actions workflows for unit/integration/E2E tests
+
+**Test coverage:** 312 tests (254 unit, 35 integration, 23 E2E), 79.44% statements, 80.74% functions
 
 ---
 
