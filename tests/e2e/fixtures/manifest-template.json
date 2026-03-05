@@ -1,0 +1,19 @@
+{
+  "name": "CARL Manifest Template",
+  "description": "Reference manifest structure for setup test validation",
+  "format": {
+    "version": "1.0",
+    "type": "manifest",
+    "file_extension": null
+  },
+  "settings": {
+    "DEVMODE": "boolean (true|false)",
+    "STATE": "active|inactive",
+    "RECALL": "comma-separated keywords",
+    "EXCLUDE": "comma-separated keywords",
+    "ALWAYS_ON": "true|false"
+  },
+  "example_manifest": "See setup-manifest.txt for actual format",
+  "default_domains": ["GLOBAL", "CONTEXT", "COMMANDS"],
+  "notes": "Manifest uses simple KEY=VALUE format, not JSON. This file is reference only."
+}
