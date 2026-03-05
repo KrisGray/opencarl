@@ -2,21 +2,20 @@
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-03-03)
+See: .planning/PROJECT.md (updated 2026-03-18)
 
-**Core value:** Keep CARL's dynamic rule injection working seamlessly inside OpenCode with full parity and minimal user friction.
-**Current focus:** v1.2 Testing & QA - Phase 11
+**Core value:** Keep OpenCARL's dynamic rule injection working seamlessly inside OpenCode with full parity and minimal user friction.
+**Current focus:** v1.3 Branding & Context Migration - Phase 12
 
 ## Current Position
 
-**Current Phase:** 11
-**Current Phase Name:** E2E Tests & Docker
-**Total Phases:** 11
+**Current Phase:** 12
+**Current Phase Name:** Branding & Context Migration
+**Total Phases:** 12
+**Total Plans in Phase:** TBD
 **Current Plan:** Not started
-**Total Plans in Phase:** 4
-**Status:** v1.2 milestone complete
-**Last Activity:** 2026-03-05
-**Last Activity Description:** v1.2 milestone completed and archived
+**Status:** v1.3 milestone - Defining requirements
+**Last Activity:** 2026-03-18 — v1.3 milestone initiated, rebranding scope defined
 
 **Progress:** [██████████] 100%
 
