@@ -5,18 +5,18 @@
 See: .planning/PROJECT.md (updated 2026-03-03)
 
 **Core value:** Keep CARL's dynamic rule injection working seamlessly inside OpenCode with full parity and minimal user friction.
-**Current focus:** v1.2 Testing & QA - Phase 9.1
+**Current focus:** v1.2 Testing & QA - Phase 11
 
 ## Current Position
 
-**Current Phase:** 10
-**Current Phase Name:** Close Phase 9 Unit Test Gaps
+**Current Phase:** 11
+**Current Phase Name:** E2E Tests & Docker
 **Total Phases:** 11
-**Current Plan:** Not started
-**Total Plans in Phase:** 2
-**Status:** Milestone complete
+**Current Plan:** 04
+**Total Plans in Phase:** 4
+**Status:** In progress
 **Last Activity:** 2026-03-05
-**Last Activity Description:** Phase 10 complete
+**Last Activity Description:** Plan 11-04 complete
 
 **Progress:** [██████████] 100%
 
@@ -54,6 +54,8 @@ See: .planning/PROJECT.md (updated 2026-03-03)
 | Phase 09.1-close-phase-9-unit-test-gaps P01 | 7 min | 3 tasks | 7 files |
 | Phase 09.1 P02 | 2 min | 2 tasks | 4 files |
 | Phase 11-e2e-tests-docker P02 | 3 min | 3 tasks | 3 files |
+| Phase 11-e2e-tests-docker P03 | 2 min | 1 task | 1 file |
+| Phase 11-e2e-tests-docker P04 | 0 min | 1 task | 1 file |
 
 ## Milestone Progress
 
@@ -63,9 +65,9 @@ See: .planning/PROJECT.md (updated 2026-03-03)
 |-------|--------|----------|
 | 7. Test Infrastructure & CI Setup | Complete | ██████████ 100% |
 | 8. Core Unit Tests - Parsing & Matching | Complete | ██████████ 100% |
-| 9. Core Unit Tests - Session & Setup | In Progress | ██░░░░░░░░ 20% |
-| 10. Integration Tests | Not started | ░░░░░░░░░░ 0% |
-| 11. E2E Tests & Docker | Not started | ░░░░░░░░░░ 0% |
+| 9. Core Unit Tests - Session & Setup | Complete | ██████████ 100% |
+| 10. Integration Tests | Complete | ██████████ 100% |
+| 11. E2E Tests & Docker | In Progress | ████░░░░░░ 75% |
 
 ### Prior Milestones
 
@@ -129,20 +131,19 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-05T16:02:09.884Z
-**Stopped at:** Completed 11-03-PLAN.md
+**Last session:** 2026-03-05T16:22:22Z
+**Stopped at:** Completed 11-04-PLAN.md
 **Resume file:** None
 
 ### Recent Activity
 
 | Date | Action | Result |
 |------|--------|--------|
-| 2026-03-04 | Plan 08-05 complete | Injector tests (31 tests, 89% coverage) |
-| 2026-03-04 | Plan 08-04 complete | Context bracket tests (24 tests, 96% coverage) |
-| 2026-03-04 | Plan 08-03 complete | Keyword scanner tests (32 tests, 98% coverage) |
-| 2026-03-04 | Phase 8 started | Core Unit Tests - Parsing & Matching in progress |
-| 2026-03-04 | Phase 7 complete | Test infrastructure & CI operational |
+| 2026-03-05 | Plan 11-04 complete | Star-command fixture added (5 files now in fixtures/) |
+| 2026-03-05 | Plan 11-03 complete | GitHub Actions CI for E2E tests (e2e-tests.yml) |
+| 2026-03-05 | Plan 11-02 complete | E2E test suites for setup, keyword, star-command tests |
+| 2026-03-05 | Plan 11-01 complete | Docker infrastructure for E2E testing |
 
 ---
 *State initialized: 2026-02-25*
-*Last updated: 2026-03-04 after Plan 08-05 completion*
+*Last updated: 2026-03-05 after Plan 11-04 completion*
