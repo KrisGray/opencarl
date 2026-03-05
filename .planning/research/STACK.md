@@ -1,91 +1,177 @@
-# Stack Research
+# Technology Stack
 
-**Domain:** OpenCode plugin development (prompt interception + instruction injection)
-**Researched:** 2026-02-25
-**Confidence:** HIGH
+**Project:** OpenCARL Rebranding (v1.3)
+**Researched:** 2026-03-05
+**Type:** REFACTORING MILESTONE
 
-## Recommended Stack
+## Recommended Stack Changes
 
-### Core Technologies
+This milestone is a **refactoring effort** focused on name changes only. No new libraries, frameworks, or build tools are required.
 
-| Technology | Version | Purpose | Why Recommended |
-|------------|---------|---------|-----------------|
-| OpenCode Plugin API (`@opencode-ai/plugin`) | 1.2.14 | Type-safe plugin hooks (e.g., `tui.prompt.append`, message hooks) for intercepting prompts and injecting instructions | Official plugin surface; supports TypeScript and exposes the exact hook points OpenCode uses for prompt flow |
-| OpenCode SDK (`@opencode-ai/sdk`) | 1.2.14 | Typed client for logging and session interactions inside plugins | First-party SDK used in plugin context; keeps API use stable and typed |
-| TypeScript | 5.9.3 | Authoring plugins with types, IDE support, and safer hook contracts | OpenCode docs show TS-first plugin examples and types are published for the plugin API |
-| Bun | 1.3.9 | Runtime + package manager OpenCode uses to install local plugin deps and expose `$` shell API | OpenCode installs plugin deps with Bun and provides Bun shell primitives in plugin context |
-| Node.js (LTS) | 24.14.0 | External tooling compatibility (tsc, linting, CI checks) when running outside OpenCode | Aligns with current LTS for CI/dev scripts without diverging from OpenCode’s Bun runtime |
+### Package Naming (Already Complete)
 
-### Supporting Libraries
+| Technology | Current | Target | Status | Why |
+|------------|---------|--------|--------|-----|
+| Package name | `@krisgray/opencarl` | `@krisgray/opencarl` | ✓ Complete | NPM naming guidelines require unique, descriptive, lowercase names. Scoped packages (@scope/name) are the recommended pattern. |
+| Binary name | `opencarl` | `opencarl` | ✓ Complete | Already updated in package.json bin field. |
 
-| Library | Version | Purpose | When to Use |
-|---------|---------|---------|-------------|
-| Zod | 4.1.8 | Schema validation for tool args and input guards | Needed when defining custom tools via `tool()` or validating plugin inputs |
-| shescape | 2.1.0 | Shell escaping helper | Use in `tool.execute.before` or shell-related hooks to avoid injection issues |
+**NPM Naming Guidelines Verified** (HIGH confidence):
+- No uppercase letters ✓
+- Unique and descriptive ✓
+- Scoped naming for namespace organization ✓
+- Source: https://docs.npmjs.com/package-name-guidelines/
 
-### Development Tools
+**"Open" Prefix Convention** (MEDIUM confidence):
+- No official "Open" prefix convention found in npm documentation
+- Common pattern in open-source projects (OpenSSL, OpenSSH, OpenAI, OpenCode)
+- "OpenCARL" follows established naming patterns
+- Source: websearch on "Open prefix naming" + npm guidelines
 
-| Tool | Purpose | Notes |
-|------|---------|-------|
-| `bun install` (Bun 1.3.9) | Install plugin dependencies for local plugins | OpenCode runs `bun install` in `.opencode/` at startup |
-| `tsc` (TypeScript 5.9.3) | Typecheck plugins in CI | Keep `noEmit` for plugin dev since OpenCode loads TS directly |
+### Command Triggers (Needs Migration)
+
+| Component | Current | Target | File | Complexity |
+|-----------|---------|--------|------|------------|
+| Star command pattern | `\*([a-zA-Z]+)` | No change | `src/carl/command-parity.ts` | Low - pattern unchanged |
+| Command handler check | `commandName === "carl"` | `commandName === "opencarl"` | `src/integration/plugin-hooks.ts` | Low - string comparison |
+| Star command token | `*carl` → `*opencarl` | `*opencarl` | `src/carl/command-parity.ts` | Low - token name change |
+
+**OpenCode Plugin Registration** (HIGH confidence):
+- Plugins are TypeScript/JavaScript modules exporting hooks
+- No special plugin name registration required
+- Plugin name in package.json does not affect runtime behavior
+- Source: https://opencode.ai/docs/plugins/
+
+### Environment Variables (Needs Migration)
+
+| Variable | Current | Target | Pattern | Status |
+|----------|---------|--------|---------|--------|
+| Debug flag | `CARL_DEBUG` | `OPENCARL_DEBUG` | SCREAMING_SNAKE_CASE | Needs update |
+| Usage | `process.env.CARL_DEBUG === "true"` | `process.env.OPENCARL_DEBUG === "true"` | Module load caching | Good pattern |
+
+**Environment Variable Best Practices** (MEDIUM confidence):
+- Use SCREAMING_SNAKE_CASE (all caps, underscores)
+- Prefix with app name to avoid collisions (OPENCARL_)
+- Cache at module load for zero-overhead when disabled
+- Source: Standard Unix env var conventions
+
+### Configuration Directory (Needs Migration)
+
+| Location | Current | Target | Backwards Compat |
+|----------|---------|--------|------------------|
+| Global rules | `~/.carl/` | `~/.opencarl/` | Optional support for `.carl/` |
+| Project rules | `.carl/` | `.opencarl/` | Optional support for `.carl/` |
+| Template dir | `.carl-template` | `.opencarl-template` | Keep both during migration |
+
+**Directory Naming** (MEDIUM confidence):
+- Dot-prefixed directories for config (`.opencarl/`)
+- OpenCode uses `.opencode/` pattern
+- Backwards compatibility recommended for user migration
+- Source: https://opencode.ai/docs/config/
+
+### Source Code Structure (Needs Migration)
+
+| Path | Current | Target | Impact |
+|------|---------|--------|--------|
+| Source directory | `src/carl/` | `src/opencarl/` | All imports, file paths |
+| Module exports | `createCarlPluginHooks` | `createOpenCarlPluginHooks` | Function names |
+| Type names | `CarlRuleDomainPayload` | `OpenCarlRuleDomainPayload` | Type definitions |
+| Internal references | Multiple | Multiple | Throughout codebase |
+
+## Migration Checklist
+
+### Required Changes
+
+- [ ] **package.json**:
+  - [ ] Keywords: Remove "carl", add "opencarl" (line 32)
+  - [ ] Files array: Update `.carl-template` → `.opencarl-template` (line 14)
+  - [ ] Description: Already mentions "OpenCARL" ✓
+
+- [ ] **Environment Variable**:
+  - [ ] `src/carl/debug.ts`: `CARL_DEBUG` → `OPENCARL_DEBUG` (line 10)
+  - [ ] `src/carl/debug.ts`: Update log prefix `[carl:debug]` → `[opencarl:debug]` (line 38)
+
+- [ ] **Command Handling**:
+  - [ ] `src/integration/plugin-hooks.ts`: `commandName === "carl"` → `"opencarl"` (line 215)
+  - [ ] `src/integration/plugin-hooks.ts`: Update console.log messages `[carl]` → `[opencarl]` (lines 228, 229, 310, 376)
+  - [ ] `src/carl/command-parity.ts`: Token check `token === "CARL"` → `"OPENCARL"` (line 172)
+  - [ ] `src/carl/command-parity.ts`: Docs path `CARL-DOCS.md` → `OPENCARL-DOCS.md` (line 181)
+
+- [ ] **Directory Structure**:
+  - [ ] Rename `src/carl/` → `src/opencarl/`
+  - [ ] Update all import paths
+  - [ ] Update function/type names (Carl → OpenCarl)
+
+- [ ] **Tests and Fixtures**:
+  - [ ] Update test directory names
+  - [ ] Update fixture references
+  - [ ] Update test assertions
+
+### Optional Backwards Compatibility
+
+- [ ] Support reading from `~/.carl/` if `~/.opencarl/` not found
+- [ ] Support `.carl/` in project if `.opencarl/` not found
+- [ ] Add deprecation warning when using old paths
+- [ ] Document migration path in CARL-DOCS.md → OPENCARL-DOCS.md
+
+## No Changes Required
+
+### Core Technology Stack (Preserve Exactly)
+
+| Component | Technology | Version | Why Keep |
+|-----------|-----------|---------|----------|
+| Runtime | Node.js | >=16.7.0 | Engine requirement |
+| Language | TypeScript | 5.9.3 | Plugin types compatibility |
+| Plugin API | @opencode-ai/plugin | ^1.2.0 | OpenCode integration |
+| Testing | Jest | 30.2.0 | Existing test suite |
+| Build | tsc | 5.9.3 | TypeScript compiler |
+| CI/CD | GitHub Actions | - | Existing pipeline |
+
+### Architecture Patterns (Preserve Exactly)
+
+- Zero-overhead debug logging (cached at module load)
+- Rule injection pipeline
+- Star-command handling
+- Context bracket computation
+- Duplicate plugin detection
+- Session overrides
+- Devmode logging
 
 ## Installation
 
+No installation changes required. Build and test scripts remain identical.
+
 ```bash
-# Core
-bun add @opencode-ai/plugin@1.2.14 @opencode-ai/sdk@1.2.14
+# Build
+npm run build
 
-# Supporting
-bun add zod@4.1.8 shescape@2.1.0
+# Test
+npm run test
 
-# Dev dependencies
-bun add -d typescript@5.9.3
+# Publish (after rebrand)
+npm run publish
 ```
-
-## Alternatives Considered
-
-| Recommended | Alternative | When to Use Alternative |
-|-------------|-------------|-------------------------|
-| Local plugin files in `.opencode/plugins/` | Publish to npm and reference in `opencode.json` | If you need versioned distribution across many projects/teams |
-| TypeScript plugins | JavaScript plugins | For quick prototyping or when avoiding a TS toolchain |
-| Bun-based dependency install | npm/pnpm/yarn in repo | Only if OpenCode’s startup install is disabled and you manage deps externally |
-
-## What NOT to Use
-
-| Avoid | Why | Use Instead |
-|-------|-----|-------------|
-| Directly patching OpenCode core or binary | Fragile and breaks with updates; bypasses official hooks | Plugin hooks via `@opencode-ai/plugin` |
-| CommonJS (`require`, `module.exports`) plugins | OpenCode plugin packages are ESM; CJS interop adds friction | ESM/TypeScript modules |
-| Shell wrappers to prepend prompt text | Bypasses OpenCode’s prompt pipeline and is hard to scope | `tui.prompt.append` or message hooks in plugins |
-
-## Stack Patterns by Variant
-
-**If you only need local project behavior:**
-- Use `.opencode/plugins/*.ts` with a `.opencode/package.json` for deps
-- Because OpenCode loads local plugins directly at startup
-
-**If you need cross-project distribution:**
-- Publish an npm package and reference it in `opencode.json`
-- Because OpenCode installs npm plugins automatically with Bun
-
-## Version Compatibility
-
-| Package A | Compatible With | Notes |
-|-----------|-----------------|-------|
-| `@opencode-ai/plugin@1.2.14` | `@opencode-ai/sdk@1.2.14` | Plugin package depends on the matching SDK version |
-| `@opencode-ai/plugin@1.2.14` | `zod@4.1.8` | Zod is the schema engine used by `tool()` helper |
-| `typescript@5.9.3` | `node>=14.17` | TS engine requirement; use Node 24 LTS for CI alignment |
 
 ## Sources
 
-- https://opencode.ai/docs/plugins/ — plugin load paths, hooks, Bun usage, TS support
-- https://registry.npmjs.org/@opencode-ai/plugin/latest — 1.2.14
-- https://registry.npmjs.org/@opencode-ai/sdk/latest — 1.2.14
-- https://registry.npmjs.org/typescript/latest — 5.9.3
-- https://nodejs.org/en/download — Node.js 24.14.0 LTS
-- https://bun.sh/ — Bun 1.3.9
+| Topic | Source | Confidence |
+|-------|--------|------------|
+| NPM package naming | https://docs.npmjs.com/package-name-guidelines/ | HIGH |
+| OpenCode plugin registration | https://opencode.ai/docs/plugins/ | HIGH |
+| Environment variable conventions | websearch + Unix standards | MEDIUM |
+| "Open" prefix patterns | websearch on open source naming | MEDIUM |
+| Directory naming | https://opencode.ai/docs/config/ | HIGH |
 
----
-*Stack research for: OpenCode plugin development (prompt interception + instruction injection)*
-*Researched: 2026-02-25*
+## Migration Impact Assessment
+
+| Component | Lines to Change | Risk Level | Notes |
+|-----------|-----------------|------------|-------|
+| package.json metadata | ~2 | Low | Keywords, template path |
+| Environment variables | ~2 | Low | Only one var used |
+| Command handling | ~5 | Low | String comparisons, logs |
+| Directory structure | All imports | Medium | Path updates across codebase |
+| Function/type names | ~50+ | Medium | Carl* → OpenCarl* naming |
+| Tests/fixtures | ~100+ | Low | Mostly path renames |
+| Documentation | Multiple | Low | String replacements |
+
+**Total estimated changes:** ~150-200 lines across ~50 files
+**Recommended approach:** Automated find-replace + manual verification
