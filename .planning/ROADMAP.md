@@ -194,7 +194,12 @@ Plans:
   4. Developer can verify star-commands work correctly with real OpenCode
   5. GitHub Actions runs E2E tests in Docker as part of CI pipeline
 
-**Plans**: TBD
+**Plans**: 3 plans
+
+Plans:
+- [ ] 11-01-PLAN.md — Docker container with OpenCode for E2E testing (E2E-01)
+- [ ] 11-02-PLAN.md — E2E tests for setup, keyword matching, and star-commands (E2E-02, E2E-03, E2E-04)
+- [ ] 11-03-PLAN.md — GitHub Actions workflow for E2E tests (CI-03)
 
 </details>
 
@@ -212,6 +217,8 @@ Plans:
 | 8. Core Unit Tests - Parsing & Matching | v1.2 | 2/5 | In Progress | - |
 | 9. Core Unit Tests - Session & Setup | v1.2 | 0/5 | Not started | - |
 | 9.1. Close Phase 9 Unit Test Gaps | v1.2 | 0/1 | Not started | - |
+| 10. Integration Tests | v1.2 | 4/4 | Complete | 2026-03-05 |
+| 11. E2E Tests & Docker | v1.2 | 0/3 | Not started | - |
 | 10. Integration Tests | 4/4 | Complete    | 2026-03-05 | - |
 | 11. E2E Tests & Docker | v1.2 | 0/1 | Not started | - |
 
