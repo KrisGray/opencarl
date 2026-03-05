@@ -4,8 +4,6 @@
  * Provides simulation of the OpenCode plugin client API and hook I/O structures.
  */
 
-import type { Hooks } from "@opencode-ai/plugin";
-
 /**
  * Mock OpenCode client with session messages and token telemetry.
  */
@@ -19,7 +17,7 @@ export interface MockOpenCodeClient {
  * Mock hook input matching @opencode-ai/plugin hook input structure.
  */
 export interface MockHooksInput {
-  sessionID?: string;
+  sessionID: string;
   message?: {
     role?: string;
     content?: string | Array<string | { type?: string; text?: string }>;
@@ -31,8 +29,13 @@ export interface MockHooksInput {
     content?: string;
   }>;
   tool?: string;
+  callID?: string;
   args?: Record<string, unknown>;
   command?: string;
+  model?: {
+    providerID: string;
+    modelID: string;
+  };
   client?: MockOpenCodeClient;
 }
 
@@ -98,7 +101,7 @@ export function createMockOpenCodeClient(
  * ```
  */
 export function createMockHooksInput(overrides?: Partial<MockHooksInput>): MockHooksInput {
-  return {
+  const defaults: MockHooksInput = {
     sessionID: "test-session-id",
     message: {
       role: "user",
@@ -106,11 +109,24 @@ export function createMockHooksInput(overrides?: Partial<MockHooksInput>): MockH
     },
     parts: [],
     tool: undefined,
+    callID: undefined,
     args: undefined,
     command: undefined,
+    model: {
+      providerID: "test-provider",
+      modelID: "test-model",
+    },
     client: undefined,
-    ...overrides,
   };
+
+  const result = { ...defaults, ...overrides };
+
+  // Ensure model is always defined
+  if (!result.model) {
+    result.model = defaults.model;
+  }
+
+  return result;
 }
 
 /**

@@ -45,7 +45,24 @@ const config: Config = {
   testTimeout: 30000,
 
   // Verbose output
-  verbose: true
+  verbose: true,
+
+  // TypeScript configuration for Jest
+  transform: {
+    '^.+\\.tsx?$': [
+      'ts-jest',
+      {
+        tsconfig: {
+          esModuleInterop: true,
+          allowSyntheticDefaultImports: true,
+          skipLibCheck: true,
+          strict: false,
+          noImplicitAny: false,
+          moduleResolution: 'node'
+        }
+      }
+    ]
+  }
 };
 
 export default config;
