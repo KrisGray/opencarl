@@ -1,0 +1,123 @@
+name: E2E Tests
+
+on:
+  pull_request:
+    branches: [main]
+    # Skip draft PRs (per user decision)
+    types: [opened, synchronize, reopened, ready_for_review]
+  push:
+    branches: [main]
+  schedule:
+    # Nightly at 2 AM UTC
+    - cron: '0 2 * * *'
+
+# Only run on non-draft PRs
+concurrency:
+  group: e2e-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  e2e:
+    # Skip draft PRs
+    if: github.event.pull_request.draft == false
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Cache Docker layers
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      - name: Build Docker image
+        run: |
+          docker build -f tests/e2e/Dockerfile -t opencode-carl:e2e \
+            --cache-from type=local,src=/tmp/.buildx-cache \
+            --cache-to type=local,dest=/tmp/.buildx-cache-new,mode=max \
+            .
+
+          # Move cache (workaround for cache action)
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+
+      - name: Run E2E tests (with retry)
+        run: |
+          MAX_RETRIES=1
+          RETRY_COUNT=0
+          TEST_PASSED=false
+
+          while [ $RETRY_COUNT -le $MAX_RETRIES ]; do
+            echo "Attempt $((RETRY_COUNT + 1)) of $((MAX_RETRIES + 1))"
+
+            if npm run test:e2e:ci; then
+              TEST_PASSED=true
+              break
+            else
+              RETRY_COUNT=$((RETRY_COUNT + 1))
+              if [ $RETRY_COUNT -le $MAX_RETRIES ]; then
+                echo "Tests failed, retrying..."
+                sleep 5
+              fi
+            fi
+          done
+
+          if [ "$TEST_PASSED" = false ]; then
+            echo "Tests failed after $((MAX_RETRIES + 1)) attempts"
+            exit 1
+          fi
+
+      - name: Upload Docker container logs (on failure)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-logs
+          path: |
+            /tmp/test*_output.txt
+          retention-days: 14
+
+      - name: Upload .carl directory state (on failure)
+        if: failure()
+        run: |
+          if [ -d .carl ]; then
+            tar -czf carl-state.tar.gz .carl/
+          fi
+
+      - name: Upload .carl state artifact (on failure)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: carl-state
+          path: carl-state.tar.gz
+          retention-days: 14
+
+      - name: Upload OpenCode stdout/stderr (on failure)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: opencode-logs
+          path: |
+            /tmp/test*_output.txt
+          retention-days: 14
+
+      - name: Cleanup Docker cache
+        if: always()
+        run: |
+          rm -rf /tmp/.buildx-cache
