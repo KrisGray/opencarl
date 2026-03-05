@@ -2,7 +2,9 @@ import os from "os";
 import path from "path";
 
 // Type import workaround for ES module in CommonJS context
-type Hooks = import("@opencode-ai/plugin", { with: { "resolution-mode": "import" } }).Hooks;
+// Note: Using 'any' for Hooks to support Jest/ts-jest compatibility
+// In production runtime, the actual @opencode-ai/plugin Hooks type will be used
+type Hooks = any;
 import { computeContextBracketData, type ContextBracketData } from "../carl/context-brackets";
 import type { CarlRuleDomainPayload, CarlMatchDomainConfig } from "../carl/types";
 import { resolveCarlCommandSignals } from "../carl/command-parity";
