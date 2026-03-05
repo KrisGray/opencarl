@@ -55,6 +55,7 @@ Plans:
 - [ ] **Phase 7: Test Infrastructure & CI Setup** - Jest configuration, directory structure, coverage thresholds, and GitHub Actions workflow
 - [ ] **Phase 8: Core Unit Tests - Parsing & Matching** - Manifest parser, keyword scanner, rule composer, and context bracket tests
 - [ ] **Phase 9: Core Unit Tests - Session & Setup** - Domain manager, star-command parser, session manager, setup/initializer, and validation tests
+- [ ] **Phase 9.1 (INSERTED): Close Phase 9 Unit Test Gaps** - Complete missing/partial Phase 9 unit tests and verification
 - [ ] **Phase 10: Integration Tests** - Plugin lifecycle, rule injection pipeline, domain workflow, and file system operations tests
 - [ ] **Phase 11: E2E Tests & Docker** - Docker container setup, full workflow E2E tests with real OpenCode, and CI E2E execution
 
@@ -128,6 +129,28 @@ Plans:
 
 ---
 
+### Phase 9.1 (INSERTED): Close Phase 9 Unit Test Gaps
+
+**Goal**: Phase 9 unit test requirements are fully satisfied and verified.
+
+**Depends on**: Phase 9 (unit test plans executed)
+
+**Requirements**: UNIT-03, UNIT-06, UNIT-07, UNIT-08, UNIT-09
+
+**Gap Closure**: Closes audit gaps from v1.2 milestone audit (Phase 9 unverified + missing tests).
+
+**Success Criteria** (what must be TRUE):
+  1. Domain manager tests exist and cover load/toggle/list/view operations
+  2. Star-command parser tests cover *carl, *carl docs, and custom commands
+  3. Session manager tests cover create/get/update/persist
+  4. Setup/initializer tests cover .carl/ scaffolding and idempotency
+  5. Validation tests cover manifest + domain validation paths
+  6. Phase 9 verification report exists and passes
+
+**Plans**: TBD
+
+---
+
 ### Phase 10: Integration Tests
 
 **Goal**: Plugin components work together correctly across full workflows.
@@ -178,6 +201,7 @@ Plans:
 | 7. Test Infrastructure & CI Setup | v1.2 | 3/3 | Complete | 2026-03-04 |
 | 8. Core Unit Tests - Parsing & Matching | v1.2 | 2/5 | In Progress | - |
 | 9. Core Unit Tests - Session & Setup | v1.2 | 0/5 | Not started | - |
+| 9.1. Close Phase 9 Unit Test Gaps | v1.2 | 0/1 | Not started | - |
 | 10. Integration Tests | v1.2 | 0/1 | Not started | - |
 | 11. E2E Tests & Docker | v1.2 | 0/1 | Not started | - |
 
@@ -189,7 +213,7 @@ Plans:
 |-------|--------------|-------|
 | 7 | TEST-01, TEST-02, TEST-03, CI-01, CI-02, CI-04 | 6 |
 | 8 | UNIT-01, UNIT-02, UNIT-04, UNIT-05 | 4 |
-| 9 | UNIT-03, UNIT-06, UNIT-07, UNIT-08, UNIT-09 | 5 |
+| 9.1 | UNIT-03, UNIT-06, UNIT-07, UNIT-08, UNIT-09 | 5 |
 | 10 | INTG-01, INTG-02, INTG-03, INTG-04 | 4 |
 | 11 | E2E-01, E2E-02, E2E-03, E2E-04, CI-03 | 5 |
 
@@ -205,10 +229,13 @@ Phase 6 (v1.1) ✓
 Phase 7 (Test Infrastructure & CI)
      ↓
 Phase 8 (Unit Tests - Parsing) ──┬──→ Phase 10 (Integration Tests)
-Phase 9 (Unit Tests - Session) ──┘          ↓
-                                     Phase 11 (E2E Tests & Docker)
+Phase 9 (Unit Tests - Session) ──┘
+      ↓
+Phase 9.1 (Close Phase 9 Gaps) ──→ Phase 10 (Integration Tests)
+                                     ↓
+                               Phase 11 (E2E Tests & Docker)
 ```
 
 ---
 *Roadmap created: 2026-02-25*
-*Last updated: 2026-03-03 after v1.2 roadmap creation*
+*Last updated: 2026-03-05 after v1.2 gap-closure planning*
