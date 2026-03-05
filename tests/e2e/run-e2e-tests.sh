@@ -97,7 +97,7 @@ test_setup_flow() {
     log_test "Test 1: Setup flow"
 
     # Run setup
-    run_container_cmd "cd /workspace && *carl setup" > /tmp/test1_output.txt 2>&1
+    run_container_cmd "cd /workspace && carl setup" > /tmp/test1_output.txt 2>&1
 
     # Check if .carl/ directory exists
     run_container_cmd "[ -d /workspace/.carl ]"
@@ -135,12 +135,15 @@ test_setup_flow() {
 test_idempotency() {
     log_test "Test 2: Setup idempotency"
 
+    # Run setup first (since test 1 cleaned up)
+    run_container_cmd "cd /workspace && carl setup" > /tmp/test2_setup.txt 2>&1
+
     # Backup manifest content
     local original_manifest
     original_manifest=$(run_container_cmd "cat /workspace/.carl/manifest")
 
     # Run setup again
-    run_container_cmd "cd /workspace && *carl setup" > /tmp/test2_output.txt 2>&1
+    run_container_cmd "cd /workspace && carl setup" > /tmp/test2_output.txt 2>&1
 
     # Check manifest unchanged
     local new_manifest
@@ -191,6 +194,10 @@ test_keyword_matching() {
 test_case_insensitive() {
     log_test "Test 4: Case-insensitive keyword matching"
 
+    # Setup test manifest first (since test 3 cleaned up)
+    run_container_cmd "mkdir -p /workspace/.carl"
+    run_container_cmd "cat /workspace/tests/e2e/fixtures/keyword-manifest.txt > /workspace/.carl/manifest"
+
     # Verify manifest contains keyword (case should match in manifest)
     run_container_cmd "grep -qi 'FIX BUG' /workspace/.carl/manifest || grep -qi 'fix bug' /workspace/.carl/manifest"
 
@@ -210,16 +217,16 @@ test_case_insensitive() {
 
 # Test 5: Star-command flow
 test_star_commands() {
-    log_test "Test 5: Star-command flow (*carl status)"
+    log_test "Test 5: Star-command flow (carl status)"
 
     # Run star command
-    run_container_cmd "cd /workspace && *carl status" > /tmp/test5_output.txt 2>&1
+    run_container_cmd "cd /workspace && carl status" > /tmp/test5_output.txt 2>&1
 
     # Check for expected output
     grep -q "domains" /tmp/test5_output.txt || grep -q "GLOBAL\|CONTEXT\|COMMANDS" /tmp/test5_output.txt || grep -q "DEVMODE" /tmp/test5_output.txt
 
     if [ $? -eq 0 ]; then
-        log_info "✓ *carl status command executed"
+        log_info "✓ carl status command executed"
         log_info "✓ Test 5 PASSED"
         PASSED_TESTS=$((PASSED_TESTS + 1))
         TEST_RESULTS+=("Test 5: Star-command flow - PASSED")

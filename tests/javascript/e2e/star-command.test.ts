@@ -2,7 +2,7 @@
  * E2E tests for star-commands with real OpenCode in Docker container
  *
  * Tests:
- * 5. Star-command flow - *carl status, *carl list, *carl toggle work correctly
+ * 5. Star-command flow - carl status, carl list, carl toggle work correctly
  *
  * Primary validation: File system verification (manifest state)
  * Secondary validation: Output parsing (stdout/stderr messages)
@@ -97,10 +97,10 @@ describe('E2E: Star-Commands', () => {
       cleanupCarlDir();
     });
 
-    describe('*carl status', () => {
+    describe('carl status', () => {
       it('should display current domain status', () => {
-        // Execute: *carl status
-        const result = dockerExec(`cd ${WORKSPACE_DIR} && *carl status`);
+        // Execute: carl status
+        const result = dockerExec(`cd ${WORKSPACE_DIR} && carl status`);
 
         // Primary assertion (file system): Verify manifest state unchanged
         const manifestContent = readFileContent('.carl/manifest');
@@ -118,12 +118,12 @@ describe('E2E: Star-Commands', () => {
         // Verify no errors
         expect(result.exitCode).toBe(0);
 
-        console.log('✓ *carl status displayed domain status');
+        console.log('✓ carl status displayed domain status');
       });
 
       it('should show active status for enabled domains', () => {
-        // Execute: *carl status
-        const result = dockerExec(`cd ${WORKSPACE_DIR} && *carl status`);
+        // Execute: carl status
+        const result = dockerExec(`cd ${WORKSPACE_DIR} && carl status`);
 
         // Primary assertion: Manifest has active domains
         const manifestContent = readFileContent('.carl/manifest');
@@ -139,14 +139,14 @@ describe('E2E: Star-Commands', () => {
             result.stdout.toLowerCase().includes('commands')
         ).toBe(true);
 
-        console.log('✓ *carl status showed active domains');
+        console.log('✓ carl status showed active domains');
       });
     });
 
-    describe('*carl list', () => {
+    describe('carl list', () => {
       it('should list all configured domains', () => {
-        // Execute: *carl list
-        const result = dockerExec(`cd ${WORKSPACE_DIR} && *carl list`);
+        // Execute: carl list
+        const result = dockerExec(`cd ${WORKSPACE_DIR} && carl list`);
 
         // Primary assertion: File system unchanged (read-only command)
         const manifestContentBefore = readFileContent('.carl/manifest');
@@ -164,12 +164,12 @@ describe('E2E: Star-Commands', () => {
         // Verify no errors
         expect(result.exitCode).toBe(0);
 
-        console.log('✓ *carl list displayed all domains');
+        console.log('✓ carl list displayed all domains');
       });
 
       it('should show domain details including state', () => {
-        // Execute: *carl list
-        const result = dockerExec(`cd ${WORKSPACE_DIR} && *carl list`);
+        // Execute: carl list
+        const result = dockerExec(`cd ${WORKSPACE_DIR} && carl list`);
 
         // Primary assertion: Manifest contains domain configurations
         const manifestContent = readFileContent('.carl/manifest');
@@ -185,14 +185,14 @@ describe('E2E: Star-Commands', () => {
             result.stdout.toLowerCase().includes('commands')
         ).toBe(true);
 
-        console.log('✓ *carl list showed domain details');
+        console.log('✓ carl list showed domain details');
       });
     });
 
-    describe('*carl toggle', () => {
+    describe('carl toggle', () => {
       it('should toggle domain from active to inactive', () => {
-        // Execute: *carl toggle GLOBAL inactive
-        const result = dockerExec(`cd ${WORKSPACE_DIR} && *carl toggle GLOBAL inactive`);
+        // Execute: carl toggle GLOBAL inactive
+        const result = dockerExec(`cd ${WORKSPACE_DIR} && carl toggle GLOBAL inactive`);
 
         // Primary assertion (file system): Manifest STATE updated to inactive
         const manifestContent = readFileContent('.carl/manifest');
@@ -208,19 +208,19 @@ describe('E2E: Star-Commands', () => {
         // Verify no errors
         expect(result.exitCode).toBe(0);
 
-        console.log('✓ *carl toggle GLOBAL inactive - Domain state updated');
+        console.log('✓ carl toggle GLOBAL inactive - Domain state updated');
       });
 
       it('should toggle domain from inactive to active', () => {
         // First, toggle to inactive
-        dockerExec(`cd ${WORKSPACE_DIR} && *carl toggle CONTEXT inactive`);
+        dockerExec(`cd ${WORKSPACE_DIR} && carl toggle CONTEXT inactive`);
 
         // Verify it's inactive
         let manifestContent = readFileContent('.carl/manifest');
         expect(manifestContent).toContain('CONTEXT_STATE=inactive');
 
-        // Execute: *carl toggle CONTEXT active
-        const result = dockerExec(`cd ${WORKSPACE_DIR} && *carl toggle CONTEXT active`);
+        // Execute: carl toggle CONTEXT active
+        const result = dockerExec(`cd ${WORKSPACE_DIR} && carl toggle CONTEXT active`);
 
         // Primary assertion: Manifest STATE updated to active
         manifestContent = readFileContent('.carl/manifest');
@@ -236,7 +236,7 @@ describe('E2E: Star-Commands', () => {
         // Verify no errors
         expect(result.exitCode).toBe(0);
 
-        console.log('✓ *carl toggle CONTEXT active - Domain state updated');
+        console.log('✓ carl toggle CONTEXT active - Domain state updated');
       });
 
       it('should update manifest without affecting other domains', () => {
@@ -244,8 +244,8 @@ describe('E2E: Star-Commands', () => {
         const initialManifest = readFileContent('.carl/manifest');
         const initialContextState = initialManifest.match(/CONTEXT_STATE=(active|inactive)/)?.[1];
 
-        // Execute: *carl toggle GLOBAL inactive
-        dockerExec(`cd ${WORKSPACE_DIR} && *carl toggle GLOBAL inactive`);
+        // Execute: carl toggle GLOBAL inactive
+        dockerExec(`cd ${WORKSPACE_DIR} && carl toggle GLOBAL inactive`);
 
         // Get updated manifest content
         const updatedManifest = readFileContent('.carl/manifest');
@@ -259,12 +259,12 @@ describe('E2E: Star-Commands', () => {
         expect(updatedManifest).toContain('CONTEXT');
         expect(updatedManifest).toContain('COMMANDS');
 
-        console.log('✓ *carl toggle updated only the target domain');
+        console.log('✓ carl toggle updated only the target domain');
       });
 
       it('should handle invalid domain name gracefully', () => {
-        // Execute: *carl toggle INVALID_DOMAIN active
-        const result = dockerExec(`cd ${WORKSPACE_DIR} && *carl toggle INVALID_DOMAIN active`);
+        // Execute: carl toggle INVALID_DOMAIN active
+        const result = dockerExec(`cd ${WORKSPACE_DIR} && carl toggle INVALID_DOMAIN active`);
 
         // Primary assertion: Manifest unchanged for valid domains
         const manifestContent = readFileContent('.carl/manifest');
@@ -279,7 +279,7 @@ describe('E2E: Star-Commands', () => {
         // Command may fail or return error message
         // Either outcome is acceptable for this test
 
-        console.log('✓ *carl toggle handled invalid domain name');
+        console.log('✓ carl toggle handled invalid domain name');
       });
     });
 
@@ -299,8 +299,8 @@ describe('E2E: Star-Commands', () => {
       });
 
       it('should handle malformed toggle command gracefully', () => {
-        // Execute: *carl toggle with missing arguments
-        const result = dockerExec(`cd ${WORKSPACE_DIR} && *carl toggle`);
+        // Execute: carl toggle with missing arguments
+        const result = dockerExec(`cd ${WORKSPACE_DIR} && carl toggle`);
 
         // Primary assertion: Manifest unchanged (if it exists)
         if (fileExists('.carl/manifest')) {
@@ -312,7 +312,7 @@ describe('E2E: Star-Commands', () => {
         // Secondary assertion: Error or help message
         // Both are acceptable error handling behaviors
 
-        console.log('✓ Malformed *carl toggle command handled gracefully');
+        console.log('✓ Malformed carl toggle command handled gracefully');
       });
     });
   });

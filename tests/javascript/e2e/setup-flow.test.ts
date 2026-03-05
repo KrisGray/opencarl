@@ -99,8 +99,8 @@ describe('E2E: Setup Flow', () => {
     });
 
     it('should create .carl/ directory with valid structure on setup', () => {
-      // Execute: *carl setup
-      const result = dockerExec(`cd ${WORKSPACE_DIR} && *carl setup`);
+      // Execute: carl setup
+      const result = dockerExec(`cd ${WORKSPACE_DIR} && carl setup`);
 
       // Verify command executed successfully
       expect(result.exitCode).toBe(0);
@@ -131,7 +131,7 @@ describe('E2E: Setup Flow', () => {
 
     it('should create manifest with default domain configurations', () => {
       // Execute setup
-      const result = dockerExec(`cd ${WORKSPACE_DIR} && *carl setup`);
+      const result = dockerExec(`cd ${WORKSPACE_DIR} && carl setup`);
 
       expect(result.exitCode).toBe(0);
 
@@ -170,14 +170,14 @@ describe('E2E: Setup Flow', () => {
 
     it('should preserve existing manifest on second setup run', () => {
       // First setup run
-      const firstResult = dockerExec(`cd ${WORKSPACE_DIR} && *carl setup`);
+      const firstResult = dockerExec(`cd ${WORKSPACE_DIR} && carl setup`);
       expect(firstResult.exitCode).toBe(0);
 
       // Capture manifest content after first run
       const manifestContent1 = readFileContent('.carl/manifest');
 
       // Second setup run
-      const secondResult = dockerExec(`cd ${WORKSPACE_DIR} && *carl setup`);
+      const secondResult = dockerExec(`cd ${WORKSPACE_DIR} && carl setup`);
       expect(secondResult.exitCode).toBe(0);
 
       // Capture manifest content after second run
@@ -199,7 +199,7 @@ describe('E2E: Setup Flow', () => {
 
     it('should preserve custom manifest changes on re-setup', () => {
       // First setup run
-      dockerExec(`cd ${WORKSPACE_DIR} && *carl setup`);
+      dockerExec(`cd ${WORKSPACE_DIR} && carl setup`);
 
       // Make a custom change to the manifest
       const customManifest = readFileContent('.carl/manifest');
@@ -215,7 +215,7 @@ EOF`);
       expect(beforeReSetup).toContain('DEVMODE=false');
 
       // Second setup run
-      dockerExec(`cd ${WORKSPACE_DIR} && *carl setup`);
+      dockerExec(`cd ${WORKSPACE_DIR} && carl setup`);
 
       // Verify the custom change is preserved
       const afterReSetup = readFileContent('.carl/manifest');
@@ -227,13 +227,13 @@ EOF`);
 
     it('should create all files only once (no duplicates)', () => {
       // First setup run
-      dockerExec(`cd ${WORKSPACE_DIR} && *carl setup`);
+      dockerExec(`cd ${WORKSPACE_DIR} && carl setup`);
 
       // Check file count in .carl/ directory
       const firstFileCount = dockerExec(`find ${WORKSPACE_DIR}/.carl -type f | wc -l`).stdout.trim();
 
       // Second setup run
-      dockerExec(`cd ${WORKSPACE_DIR} && *carl setup`);
+      dockerExec(`cd ${WORKSPACE_DIR} && carl setup`);
 
       // Check file count again
       const secondFileCount = dockerExec(`find ${WORKSPACE_DIR}/.carl -type f | wc -l`).stdout.trim();
