@@ -1,0 +1,34 @@
+# CARL Manifest for Keyword Testing
+# ===================================
+# Test fixture for keyword matching E2E tests
+
+# ============================================================================
+# SETTINGS
+# ============================================================================
+DEVMODE=true
+
+# ============================================================================
+# GLOBAL - Universal rules (always loaded)
+# ============================================================================
+GLOBAL_STATE=active
+GLOBAL_ALWAYS_ON=true
+
+# ============================================================================
+# CONTEXT - Dynamic bracket rules
+# ============================================================================
+CONTEXT_STATE=active
+CONTEXT_ALWAYS_ON=true
+
+# ============================================================================
+# COMMANDS - Star-commands
+# ============================================================================
+COMMANDS_STATE=active
+COMMANDS_RECALL=paritytest
+
+# ============================================================================
+# DEVELOPMENT - Development domain for testing keyword matching
+# Triggers on: fix bug, debug, test code
+# ============================================================================
+DEVELOPMENT_STATE=active
+DEVELOPMENT_RECALL=fix bug,debug,test code
+DEVELOPMENT_ALWAYS_ON=false
