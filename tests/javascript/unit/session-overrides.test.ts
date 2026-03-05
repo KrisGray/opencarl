@@ -291,7 +291,7 @@ describe('session-overrides.ts', () => {
         overrides
       );
 
-      expect(result).toEqual(['ALPHA', 'BETA', 'GAMMA', 'ZEBRA']);
+      expect(result).toEqual(['ZEBRA', 'ALPHA', 'BETA', 'GAMMA']);
     });
 
     it('should handle empty overrides (return original list)', () => {
@@ -305,7 +305,7 @@ describe('session-overrides.ts', () => {
         overrides
       );
 
-      expect(result).toEqual(['CONTENT', 'DEVELOPMENT']);
+      expect(result).toEqual(['DEVELOPMENT', 'CONTENT']);
     });
 
     it('should handle empty input domain list', () => {
