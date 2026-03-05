@@ -374,3 +374,186 @@ export async function integrateOpencode(options: {
     };
   }
 }
+
+export interface ListResult {
+  success: boolean;
+  domains?: Array<{ name: string; state: string; recall?: string }>;
+  error?: string;
+}
+
+export interface ToggleResult {
+  success: boolean;
+  domain?: string;
+  oldState?: string;
+  newState?: string;
+  error?: string;
+}
+
+/**
+ * List all domains and their states from the manifest.
+ */
+export function runList(options: { cwd: string; homeDir: string }): ListResult {
+  const { cwd, homeDir } = options;
+
+  // Find the .carl/ directory (project first, then global)
+  let carlDir: string | null = null;
+  const projectCarl = findProjectCarl(cwd);
+  if (projectCarl) {
+    carlDir = projectCarl.carlDir;
+  } else {
+    const globalCarl = findGlobalCarl(homeDir);
+    if (globalCarl) {
+      carlDir = globalCarl.carlDir;
+    }
+  }
+
+  if (!carlDir) {
+    return {
+      success: false,
+      error: "No .carl/ directory found. Run setup first.",
+    };
+  }
+
+  const manifestPath = path.join(carlDir, "manifest");
+
+  if (!fs.existsSync(manifestPath)) {
+    return {
+      success: false,
+      error: `Manifest file not found: ${manifestPath}`,
+    };
+  }
+
+  try {
+    const lines = fs.readFileSync(manifestPath, "utf8").split(/\r?\n/);
+    const domains: Array<{ name: string; state: string; recall?: string }> = [];
+    const domainKeyPattern = /^([A-Z0-9_]+)_STATE=(.+)$/;
+
+    for (const rawLine of lines) {
+      const line = rawLine.trim();
+      if (!line || line.startsWith("#")) {
+        continue;
+      }
+
+      const match = line.match(domainKeyPattern);
+      if (match) {
+        const domain = match[1];
+        const state = match[2];
+
+        // Find recall keywords for this domain
+        const recallMatch = lines.find(
+          (l) => l.trim().startsWith(`${domain}_RECALL=`)
+        );
+        let recall: string | undefined;
+        if (recallMatch) {
+          const recallValue = recallMatch.split("=")[1]?.trim();
+          if (recallValue) {
+            recall = recallValue;
+          }
+        }
+
+        domains.push({ name: domain, state, recall });
+      }
+    }
+
+    return {
+      success: true,
+      domains,
+    };
+  } catch (err) {
+    const errorMsg = err instanceof Error ? err.message : String(err);
+    return {
+      success: false,
+      error: `Failed to read manifest: ${errorMsg}`,
+    };
+  }
+}
+
+/**
+ * Toggle a domain's active state in the manifest.
+ */
+export function runToggle(options: {
+  cwd: string;
+  homeDir: string;
+  domain: string;
+}): ToggleResult {
+  const { cwd, homeDir, domain } = options;
+
+  // Normalize domain name to uppercase
+  const domainName = domain.toUpperCase();
+
+  // Find the .carl/ directory (project first, then global)
+  let carlDir: string | null = null;
+  const projectCarl = findProjectCarl(cwd);
+  if (projectCarl) {
+    carlDir = projectCarl.carlDir;
+  } else {
+    const globalCarl = findGlobalCarl(homeDir);
+    if (globalCarl) {
+      carlDir = globalCarl.carlDir;
+    }
+  }
+
+  if (!carlDir) {
+    return {
+      success: false,
+      error: "No .carl/ directory found. Run setup first.",
+    };
+  }
+
+  const manifestPath = path.join(carlDir, "manifest");
+
+  if (!fs.existsSync(manifestPath)) {
+    return {
+      success: false,
+      error: `Manifest file not found: ${manifestPath}`,
+    };
+  }
+
+  try {
+    const lines = fs.readFileSync(manifestPath, "utf8").split(/\r?\n/);
+    let domainFound = false;
+    let oldState: string | undefined;
+    let lineIndex = -1;
+
+    // Find the domain state line
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim();
+      const statePattern = new RegExp(`^${domainName}_STATE=(.+)$`);
+      const match = line.match(statePattern);
+
+      if (match) {
+        domainFound = true;
+        oldState = match[1].trim();
+        lineIndex = i;
+        break;
+      }
+    }
+
+    if (!domainFound) {
+      return {
+        success: false,
+        error: `Domain '${domainName}' not found in manifest.`,
+      };
+    }
+
+    // Toggle the state
+    const newState = oldState === "active" ? "inactive" : "active";
+    lines[lineIndex] = `${domainName}_STATE=${newState}`;
+
+    // Write back to file
+    fs.writeFileSync(manifestPath, lines.join("\n"));
+
+    return {
+      success: true,
+      domain: domainName,
+      oldState,
+      newState,
+    };
+  } catch (err) {
+    const errorMsg = err instanceof Error ? err.message : String(err);
+    return {
+      success: false,
+      error: `Failed to toggle domain: ${errorMsg}`,
+    };
+  }
+}
