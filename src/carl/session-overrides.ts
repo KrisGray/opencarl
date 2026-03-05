@@ -119,18 +119,17 @@ export function applySessionOverrides(
     return domains;
   }
 
-  const activeDomains = new Set(domains);
-
+  const inputDomains = new Set(domains);
+  
   for (const [domain, value] of Object.entries(overrides.domains)) {
     if (value === "false") {
-      // Disable domain
-      activeDomains.delete(domain);
+      // Disable domain from overrides
+      inputDomains.delete(domain);
     }
-    // Note: "true" is ignored - we don't enable missing domains
-    // "inherit" is a no-op
+    // Note: "true" and "inherit" are no-ops - we respect the original override value
   }
 
-  return Array.from(activeDomains).sort();
+  return Array.from(inputDomains).sort();
 }
 
 /**

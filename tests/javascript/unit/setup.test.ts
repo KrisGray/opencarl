@@ -7,7 +7,7 @@ import {
 import * as path from 'path';
 import * as fs from 'fs';
 
-// Mock the fs module - use jest.mock with factory that returns object with jest.fn()
+// Mock the fs module
 jest.mock('fs', () => ({
   accessSync: jest.fn(),
   existsSync: jest.fn(),
@@ -99,7 +99,6 @@ describe('setup.ts', () => {
       mockAccessSync.mockReturnValue(undefined);
 
       const result = checkSetupNeeded({ cwd: testCwd, homeDir: testHomeDir });
-
       expect(result.needed).toBe(true);
       expect(result.targetDir).toBe(path.join(testCwd, '.carl'));
       expect(result.reason).toContain('No .carl/');
@@ -133,17 +132,21 @@ describe('setup.ts', () => {
 
       expect(result.needed).toBe(true);
       expect(result.targetDir).toBe(path.join(testCwd, '.carl'));
+      expect(result.reason).toContain('No .carl/');
+    });
+
     it('should fallback to global when project not writable', () => {
       mockFindProjectCarl.mockReturnValue(null);
       mockFindGlobalCarl.mockReturnValue(null);
-      mockAccessSync.mockReturnValue(undefined)
+      mockAccessSync.mockImplementation(() => {
+        throw new Error('EACCES: permission denied');
+      });
 
       const result = checkSetupNeeded({ cwd: testCwd, homeDir: testHomeDir });
 
       expect(result.needed).toBe(true);
-      expect(result.targetDir).toBe(path.join(testCwd, '.carl'));
-      expect(result.reason).toContain('project directory');
+      expect(result.targetDir).toBe(path.join(testHomeDir, '.carl'));
+      expect(result.reason).toContain('global ~/.carl/');
     });
-
   });
 });
