@@ -29,7 +29,7 @@ Requirements for testing milestone. Each maps to roadmap phases.
 
 - [ ] **INTG-01**: Plugin lifecycle test (initialization, hook registration, message processing)
 - [x] **INTG-02**: Rule injection pipeline test (manifest → scan → load → compose → inject)
-- [ ] **INTG-03**: Setup and domain workflow test (setup → list → toggle → verify)
+- [x] **INTG-03**: Setup and domain workflow test (setup → list → toggle → verify)
 - [x] **INTG-04**: File system operations test (manifest changes, session persistence, global/local resolution)
 
 ### E2E Tests
@@ -86,7 +86,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | UNIT-09 | Phase 9.1 | Complete |
 | INTG-01 | Phase 10 | Pending |
 | INTG-02 | Phase 10 | Complete |
-| INTG-03 | Phase 10 | Pending |
+| INTG-03 | Phase 10 | Complete |
 | INTG-04 | Phase 10 | Complete |
 | E2E-01 | Phase 11 | Pending |
 | E2E-02 | Phase 11 | Pending |
