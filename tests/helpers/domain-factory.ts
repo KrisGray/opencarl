@@ -34,26 +34,3 @@ export function createTestDomainConfig(
     ...overrides,
   };
 }
-
-/**
- * Create multiple domain payloads for testing
- */
-export function createMultipleDomainPayloads(
-  count: number
-): Record<string, CarlRuleDomainPayload> {
-  const payloads: Record<string, CarlRuleDomainPayload> = {};
-
-  for (let i = 0; i < count; i++) {
-    const domainName = `DOMAIN_${i}`;
-    payloads[domainName] = createTestDomainPayload({
-      domain: domainName,
-      rules: [`Rule ${i}_1`, `Rule ${i}_2`],
-    recall: [`keyword${i}`],
-    exclude: [],
-    state: i % 2 === 0,
-    alwaysOn: i === 0,
-    });
-  }
-
-  return payloads;
-}
