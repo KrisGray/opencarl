@@ -169,7 +169,13 @@ Plans:
   3. Developer can verify setup → list → toggle workflow operates correctly
   4. Developer can verify file operations (manifest changes, session persistence, global/local resolution) work correctly
 
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+- [ ] 10-01-PLAN.md — Plugin lifecycle tests (INTG-01)
+- [ ] 10-02-PLAN.md — Rule injection pipeline tests (INTG-02)
+- [ ] 10-03-PLAN.md — Setup and domain workflow tests (INTG-03)
+- [ ] 10-04-PLAN.md — File system operations tests (INTG-04)
 
 ---
 
@@ -206,7 +212,7 @@ Plans:
 | 8. Core Unit Tests - Parsing & Matching | v1.2 | 2/5 | In Progress | - |
 | 9. Core Unit Tests - Session & Setup | v1.2 | 0/5 | Not started | - |
 | 9.1. Close Phase 9 Unit Test Gaps | v1.2 | 0/1 | Not started | - |
-| 10. Integration Tests | v1.2 | 0/1 | Not started | - |
+| 10. Integration Tests | v1.2 | 0/4 | Not started | - |
 | 11. E2E Tests & Docker | v1.2 | 0/1 | Not started | - |
 
 ---
