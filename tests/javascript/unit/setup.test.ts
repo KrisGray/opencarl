@@ -10,6 +10,9 @@ import * as fs from 'fs';
 // Mock the fs module
 jest.mock('fs', () => ({
   accessSync: jest.fn(),
+  constants: {
+    W_OK: 2,
+  },
   existsSync: jest.fn(),
   mkdirSync: jest.fn(),
   readdirSync: jest.fn(),
