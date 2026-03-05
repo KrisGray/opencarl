@@ -22,7 +22,8 @@
     "test:coverage": "jest --coverage",
     "test:unit": "jest --testPathPattern='tests/javascript/unit'",
     "test:integration": "jest --testPathPattern='tests/javascript/integration'",
-    "test:e2e": "jest --testPathPattern='tests/javascript/e2e'"
+    "test:e2e": "jest --testPathPattern='tests/javascript/e2e'",
+    "test:e2e:local": "bash tests/e2e/run-e2e-tests.sh"
   },
   "keywords": [
     "opencode",
