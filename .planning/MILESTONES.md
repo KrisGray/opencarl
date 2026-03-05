@@ -13,3 +13,13 @@
 
 ---
 
+
+## v1.2 Testing & QA (Shipped: 2026-03-05)
+
+**Phases completed:** 6 phases, 23 plans, 0 tasks
+
+**Key accomplishments:**
+- (none recorded)
+
+---
+
