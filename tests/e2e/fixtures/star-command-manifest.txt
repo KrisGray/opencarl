@@ -1,0 +1,36 @@
+# CARL Manifest for Star-Command Testing
+# =======================================
+# Test fixture for star-command E2E tests
+# Tests *carl status, *carl list, *carl toggle functionality
+
+# ============================================================================
+# SETTINGS
+# ============================================================================
+DEVMODE=true
+
+# ============================================================================
+# GLOBAL - Universal rules (always loaded)
+# ============================================================================
+GLOBAL_STATE=active
+GLOBAL_ALWAYS_ON=true
+
+# ============================================================================
+# CONTEXT - Dynamic bracket rules based on context window usage
+# ============================================================================
+CONTEXT_STATE=active
+CONTEXT_ALWAYS_ON=true
+
+# ============================================================================
+# COMMANDS - Star-commands like *carl status, *carl list, *carl toggle
+# Detected via *pattern matching, rules in commands file
+# ============================================================================
+COMMANDS_STATE=active
+COMMANDS_RECALL=paritytest
+
+# ============================================================================
+# DEVELOPMENT - Development domain for testing toggle scenarios
+# Initially inactive for toggle test: *carl toggle DEVELOPMENT active
+# ============================================================================
+DEVELOPMENT_STATE=inactive
+DEVELOPMENT_RECALL=fix bug,debug,test code
+DEVELOPMENT_ALWAYS_ON=false
