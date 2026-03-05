@@ -5,18 +5,20 @@
 See: .planning/PROJECT.md (updated 2026-03-03)
 
 **Core value:** Keep CARL's dynamic rule injection working seamlessly inside OpenCode with full parity and minimal user friction.
-**Current focus:** v1.2 Testing & QA - Phase 9
+**Current focus:** v1.2 Testing & QA - Phase 9.1
 
 ## Current Position
 
-| Field | Value |
-|-------|-------|
-| **Phase** | 9 - Core Unit Tests - Session & Setup |
-| **Plan** | 1 of 5 |
-| **Status** | In Progress |
-| **Progress** | █████░░░░░ 50% |
+**Current Phase:** 09.1
+**Current Phase Name:** Close Phase 9 Unit Test Gaps
+**Total Phases:** 11
+**Current Plan:** 2
+**Total Plans in Phase:** 2
+**Status:** Ready to execute
+**Last Activity:** 2026-03-05
+**Last Activity Description:** Completed 09.1-01 plan
 
-**Next Action:** Continue with remaining plans in Phase 9
+**Progress:** [█████████░] 93%
 
 ---
 
@@ -49,6 +51,7 @@ See: .planning/PROJECT.md (updated 2026-03-03)
 | Phase 08-04 P04 | 2 min | 6 tasks | 1 files |
 | Phase 08-05 P05 | 5 min | 7 tasks | 1 files |
 | Phase 09-core-unit-tests-session-setup P09 | 3 min | 3 tasks | - files |
+| Phase 09.1-close-phase-9-unit-test-gaps P01 | 7 min | 3 tasks | 7 files |
 
 ## Milestone Progress
 
@@ -124,22 +127,9 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-05T11:31:00.524Z
-**Stopped at:** Phase 9.1 context gathered
-**Resume file:** .planning/phases/09.1-close-phase-9-unit-test-gaps/09.1-CONTEXT.md
-
-### Quick Start
-
-```bash
-# Check current status
-cat .planning/STATE.md
-
-# View roadmap
-cat .planning/ROADMAP.md
-
-# Plan next phase
-/gsd-plan-phase 8
-```
+**Last session:** 2026-03-05T11:51:00.268Z
+**Stopped at:** Completed 09.1-01-PLAN.md
+**Resume file:** None
 
 ### Recent Activity
 
