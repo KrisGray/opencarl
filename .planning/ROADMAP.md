@@ -220,13 +220,13 @@ Plans:
   2. All functions and variables use "opencarl" prefix throughout the codebase
   3. Import statements reference ./opencarl/* paths instead of ./carl/*
   4. Internal code comments reference OpenCARL branding consistently
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
-- [ ] 12-01: Type name rebranding (SOURCE-01)
-- [ ] 12-02: Function/variable name rebranding (SOURCE-02)
-- [ ] 12-03: Import statement updates (SOURCE-03)
-- [ ] 12-04: Code comment updates (SOURCE-04)
+- [ ] 12-01-PLAN.md — Rename type declarations and references (SOURCE-01)
+- [ ] 12-02-PLAN.md — Rename function/variable declarations and references (SOURCE-02)
+- [ ] 12-03-PLAN.md — Update import statements to opencarl paths (SOURCE-03)
+- [ ] 12-04-PLAN.md — Update code comments to OpenCARL branding (SOURCE-04)
 
 ---
 
