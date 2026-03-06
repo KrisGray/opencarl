@@ -8,11 +8,11 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
-import { loadCarlRules } from '../../../src/carl/loader';
-import { matchDomainsForTurn } from '../../../src/carl/matcher';
-import { buildCarlInjection } from '../../../src/carl/injector';
-import { computeContextBracketData } from '../../../src/carl/context-brackets';
-import type { OpencarlInjectionInput } from '../../../src/carl/injector';
+import { loadOpencarlRules } from '../../../src/opencarl/loader';
+import { matchDomainsForTurn } from '../../../src/opencarl/matcher';
+import { buildCarlInjection } from '../../../src/opencarl/injector';
+import { computeContextBracketData } from '../../../src/opencarl/context-brackets';
+import type { OpencarlInjectionInput } from '../../../src/opencarl/injector';
 
 const fixturesRoot = path.join(
   __dirname,
@@ -48,15 +48,15 @@ function createDomainConfigsFromPayloads(
 
 describe('rule injection pipeline - integration', () => {
   let tempDir: string;
-  let projectCarlDir: string;
-  let globalCarlDir: string;
-  let fallbackCarlDir: string;
+  let projectOpencarlDir: string;
+  let globalOpencarlDir: string;
+  let fallbackOpencarlDir: string;
 
   beforeEach(() => {
     tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'carl-pipeline-integration-'));
-    projectCarlDir = path.join(tempDir, 'project', '.carl');
-    globalCarlDir = path.join(tempDir, 'global', '.carl');
-    fallbackCarlDir = path.join(tempDir, 'fallback', '.carl');
+    projectOpencarlDir = path.join(tempDir, 'project', '.carl');
+    globalOpencarlDir = path.join(tempDir, 'global', '.carl');
+    fallbackOpencarlDir = path.join(tempDir, 'fallback', '.carl');
   });
 
   afterEach(() => {
@@ -67,13 +67,13 @@ describe('rule injection pipeline - integration', () => {
 
   describe('manifest and domain loading', () => {
     it('should load rules from manifest and domain files', () => {
-      copyFixture('full', projectCarlDir);
+      copyFixture('full', projectOpencarlDir);
 
-      const loadResult = loadCarlRules({
+      const loadResult = loadOpencarlRules({
         overrides: {
-          projectCarlDir,
-          globalCarlDir,
-          fallbackCarlDir,
+          projectOpencarlDir,
+          globalOpencarlDir,
+          fallbackOpencarlDir,
         },
       });
 
@@ -102,13 +102,13 @@ describe('rule injection pipeline - integration', () => {
 
   describe('keyword matching', () => {
     it('should match domains based on prompt keywords', () => {
-      copyFixture('full', projectCarlDir);
+      copyFixture('full', projectOpencarlDir);
 
-      const loadResult = loadCarlRules({
+      const loadResult = loadOpencarlRules({
         overrides: {
-          projectCarlDir,
-          globalCarlDir,
-          fallbackCarlDir,
+          projectOpencarlDir,
+          globalOpencarlDir,
+          fallbackOpencarlDir,
         },
       });
 
@@ -139,13 +139,13 @@ describe('rule injection pipeline - integration', () => {
     });
 
     it('should filter excluded domains by exclude keywords', () => {
-      copyFixture('full', projectCarlDir);
+      copyFixture('full', projectOpencarlDir);
 
-      const loadResult = loadCarlRules({
+      const loadResult = loadOpencarlRules({
         overrides: {
-          projectCarlDir,
-          globalCarlDir,
-          fallbackCarlDir,
+          projectOpencarlDir,
+          globalOpencarlDir,
+          fallbackOpencarlDir,
         },
       });
 
@@ -177,13 +177,13 @@ describe('rule injection pipeline - integration', () => {
 
   describe('injection building', () => {
     it('should build injection with matched domains', () => {
-      copyFixture('full', projectCarlDir);
+      copyFixture('full', projectOpencarlDir);
 
-      const loadResult = loadCarlRules({
+      const loadResult = loadOpencarlRules({
         overrides: {
-          projectCarlDir,
-          globalCarlDir,
-          fallbackCarlDir,
+          projectOpencarlDir,
+          globalOpencarlDir,
+          fallbackOpencarlDir,
         },
       });
 
@@ -217,13 +217,13 @@ describe('rule injection pipeline - integration', () => {
     });
 
     it('should include CONTEXT domain rules with bracket filtering', () => {
-      copyFixture('full', projectCarlDir);
+      copyFixture('full', projectOpencarlDir);
 
-      const loadResult = loadCarlRules({
+      const loadResult = loadOpencarlRules({
         overrides: {
-          projectCarlDir,
-          globalCarlDir,
-          fallbackCarlDir,
+          projectOpencarlDir,
+          globalOpencarlDir,
+          fallbackOpencarlDir,
         },
       });
 
@@ -251,13 +251,13 @@ describe('rule injection pipeline - integration', () => {
     });
 
     it('should use MODERATE rules when context bracket is MODERATE', () => {
-      copyFixture('full', projectCarlDir);
+      copyFixture('full', projectOpencarlDir);
 
-      const loadResult = loadCarlRules({
+      const loadResult = loadOpencarlRules({
         overrides: {
-          projectCarlDir,
-          globalCarlDir,
-          fallbackCarlDir,
+          projectOpencarlDir,
+          globalOpencarlDir,
+          fallbackOpencarlDir,
         },
       });
 
@@ -280,13 +280,13 @@ describe('rule injection pipeline - integration', () => {
     });
 
     it('should use DEPLETED rules when context bracket is CRITICAL', () => {
-      copyFixture('full', projectCarlDir);
+      copyFixture('full', projectOpencarlDir);
 
-      const loadResult = loadCarlRules({
+      const loadResult = loadOpencarlRules({
         overrides: {
-          projectCarlDir,
-          globalCarlDir,
-          fallbackCarlDir,
+          projectOpencarlDir,
+          globalOpencarlDir,
+          fallbackOpencarlDir,
         },
       });
 
@@ -312,13 +312,13 @@ describe('rule injection pipeline - integration', () => {
 
   describe('snapshot testing', () => {
     it('should produce correct injection output (snapshot)', () => {
-      copyFixture('full', projectCarlDir);
+      copyFixture('full', projectOpencarlDir);
 
-      const loadResult = loadCarlRules({
+      const loadResult = loadOpencarlRules({
         overrides: {
-          projectCarlDir,
-          globalCarlDir,
-          fallbackCarlDir,
+          projectOpencarlDir,
+          globalOpencarlDir,
+          fallbackOpencarlDir,
         },
       });
 
@@ -350,13 +350,13 @@ describe('rule injection pipeline - integration', () => {
 
   describe('edge cases', () => {
     it('should handle empty matched domains', () => {
-      copyFixture('full', projectCarlDir);
+      copyFixture('full', projectOpencarlDir);
 
-      const loadResult = loadCarlRules({
+      const loadResult = loadOpencarlRules({
         overrides: {
-          projectCarlDir,
-          globalCarlDir,
-          fallbackCarlDir,
+          projectOpencarlDir,
+          globalOpencarlDir,
+          fallbackOpencarlDir,
         },
       });
 
@@ -392,13 +392,13 @@ describe('rule injection pipeline - integration', () => {
     });
 
     it('should return null when no domains should be injected', () => {
-      copyFixture('minimal', projectCarlDir);
+      copyFixture('minimal', projectOpencarlDir);
 
-      const loadResult = loadCarlRules({
+      const loadResult = loadOpencarlRules({
         overrides: {
-          projectCarlDir,
-          globalCarlDir,
-          fallbackCarlDir,
+          projectOpencarlDir,
+          globalOpencarlDir,
+          fallbackOpencarlDir,
         },
       });
 

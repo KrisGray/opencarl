@@ -1,7 +1,7 @@
-function loadSignalStoreModule(): typeof import('../../../src/carl/signal-store') {
-  let moduleExports: typeof import('../../../src/carl/signal-store');
+function loadSignalStoreModule(): typeof import('../../../src/opencarl/signal-store') {
+  let moduleExports: typeof import('../../../src/opencarl/signal-store');
   jest.isolateModules(() => {
-    moduleExports = require('../../../src/carl/signal-store');
+    moduleExports = require('../../../src/opencarl/signal-store');
   });
   return moduleExports!;
 }

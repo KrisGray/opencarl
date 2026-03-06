@@ -44,7 +44,7 @@ function promptForScope() {
 
 function writeProjectPlugin() {
   const entrypoint = buildPluginEntrypoint(
-    "../../src/carl/loader",
+    "../../src/opencarl/loader",
     "../../src/integration/plugin-hooks"
   );
   const existing = fs.existsSync(PROJECT_PLUGIN_PATH)

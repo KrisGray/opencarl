@@ -1,4 +1,4 @@
-import type { OpencarlRuleDomainPayload, OpencarlMatchDomainConfig } from '../../src/carl/types';
+import type { OpencarlRuleDomainPayload, OpencarlMatchDomainConfig } from '../../src/opencarl/types';
 
 /**
  * Create a test domain payload with sensible defaults

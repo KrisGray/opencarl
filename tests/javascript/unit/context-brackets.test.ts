@@ -15,7 +15,7 @@ import {
   formatContextBracketHeader,
   ContextBracket,
   ContextBracketData,
-} from "../../../src/carl/context-brackets";
+} from "../../../src/opencarl/context-brackets";
 
 describe("context-brackets.ts", () => {
   describe("getContextBracket", () => {

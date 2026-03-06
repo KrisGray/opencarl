@@ -1,18 +1,18 @@
-import { runSetup, runList, runToggle } from '../../../src/carl/setup';
-import { loadOpencarlRules } from '../../../src/carl/loader';
+import { runSetup, runList, runToggle } from '../../../src/opencarl/setup';
+import { loadOpencarlRules } from '../../../src/opencarl/loader';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
 
 describe('setup and domain workflow - integration', () => {
   let tempDir: string;
-  let projectCarlDir: string;
+  let projectOpencarlDir: string;
   let templateDir: string;
 
   beforeEach(() => {
     // Create temp working directory for .carl/
     tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'carl-integration-test-'));
-    projectCarlDir = path.join(tempDir, '.carl');
+    projectOpencarlDir = path.join(tempDir, '.carl');
     // Set template directory to the actual .carl-template directory
     templateDir = path.resolve(__dirname, '../../..', '.carl-template');
   });
@@ -33,10 +33,10 @@ describe('setup and domain workflow - integration', () => {
       expect(result.success).toBe(true);
 
       // Assert .carl/ directory exists
-      expect(fs.existsSync(projectCarlDir)).toBe(true);
+      expect(fs.existsSync(projectOpencarlDir)).toBe(true);
 
       // Assert MANIFEST file exists
-      const manifestPath = path.join(projectCarlDir, 'manifest');
+      const manifestPath = path.join(projectOpencarlDir, 'manifest');
       expect(fs.existsSync(manifestPath)).toBe(true);
 
       // Assert manifest contains domain entries
@@ -46,9 +46,9 @@ describe('setup and domain workflow - integration', () => {
       expect(manifestContent).toContain('COMMANDS_STATE');
 
       // Assert template domain files exist
-      expect(fs.existsSync(path.join(projectCarlDir, 'global'))).toBe(true);
-      expect(fs.existsSync(path.join(projectCarlDir, 'context'))).toBe(true);
-      expect(fs.existsSync(path.join(projectCarlDir, 'commands'))).toBe(true);
+      expect(fs.existsSync(path.join(projectOpencarlDir, 'global'))).toBe(true);
+      expect(fs.existsSync(path.join(projectOpencarlDir, 'context'))).toBe(true);
+      expect(fs.existsSync(path.join(projectOpencarlDir, 'commands'))).toBe(true);
     });
   });
 
@@ -105,7 +105,7 @@ describe('setup and domain workflow - integration', () => {
       expect(toggleResult.newState).toBe('inactive');
 
       // Assert MANIFEST file CONTEXT_STATE changed to 'inactive'
-      const manifestPath = path.join(projectCarlDir, 'manifest');
+      const manifestPath = path.join(projectOpencarlDir, 'manifest');
       const manifestContent = fs.readFileSync(manifestPath, 'utf8');
       expect(manifestContent).toContain('CONTEXT_STATE=inactive');
 
@@ -136,7 +136,7 @@ describe('setup and domain workflow - integration', () => {
       expect(toggleResult.newState).toBe('active');
 
       // Assert MANIFEST file CONTEXT_STATE changed back to 'active'
-      const manifestPath = path.join(projectCarlDir, 'manifest');
+      const manifestPath = path.join(projectOpencarlDir, 'manifest');
       const manifestContent = fs.readFileSync(manifestPath, 'utf8');
       expect(manifestContent).toContain('CONTEXT_STATE=active');
 
@@ -182,7 +182,7 @@ describe('setup and domain workflow - integration', () => {
       await runSetup({ cwd: tempDir, homeDir, templateDir });
 
       // Capture original manifest content
-      const manifestPath = path.join(projectCarlDir, 'manifest');
+      const manifestPath = path.join(projectOpencarlDir, 'manifest');
       const originalManifest = fs.readFileSync(manifestPath, 'utf8');
 
       // Run toggle for non-existent domain

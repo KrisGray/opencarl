@@ -1,10 +1,10 @@
 import path from "path";
-import { buildCarlHelpGuidance } from "../src/carl/help-text";
+import { buildCarlHelpGuidance } from "../src/opencarl/help-text";
 import {
   resolveCarlCommandSignals,
-  type CarlCommandResolutionResult,
-} from "../src/carl/command-parity";
-import type { CarlRuleDomainPayload } from "../src/carl/types";
+  type OpencarlCommandResolutionResult,
+} from "../src/opencarl/command-parity";
+import type { OpencarlRuleDomainPayload } from "../src/opencarl/types";
 
 function assert(condition: boolean, message: string) {
   if (!condition) {
@@ -23,7 +23,7 @@ function runFixture(name: string, check: () => void) {
   }
 }
 
-const commandsPayload: CarlRuleDomainPayload = {
+const commandsPayload: OpencarlRuleDomainPayload = {
   domain: "COMMANDS",
   scope: "fallback",
   sourcePath: path.resolve(".carl-template"),
@@ -36,7 +36,7 @@ const commandsPayload: CarlRuleDomainPayload = {
 
 const guidance = buildCarlHelpGuidance();
 
-function resolveWithPrompt(promptText: string): CarlCommandResolutionResult {
+function resolveWithPrompt(promptText: string): OpencarlCommandResolutionResult {
   return resolveCarlCommandSignals({
     promptText,
     commandsPayload,

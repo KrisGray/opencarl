@@ -1,23 +1,23 @@
 import fs from "fs";
 import os from "os";
 import path from "path";
-import { matchDomainsForTurn } from "../src/carl/matcher";
-import { buildCarlInjection } from "../src/carl/injector";
-import { resolveCarlCommandSignals } from "../src/carl/command-parity";
-import { buildCarlHelpGuidance } from "../src/carl/help-text";
+import { matchDomainsForTurn } from "../src/opencarl/matcher";
+import { buildCarlInjection } from "../src/opencarl/injector";
+import { resolveCarlCommandSignals } from "../src/opencarl/command-parity";
+import { buildCarlHelpGuidance } from "../src/opencarl/help-text";
 import type {
-  CarlMatchDomainConfig,
-  CarlMatchRequest,
-  CarlRuleDomainPayload,
-} from "../src/carl/types";
+  OpencarlMatchDomainConfig,
+  OpencarlMatchRequest,
+  OpencarlRuleDomainPayload,
+} from "../src/opencarl/types";
 
 type MatchingFixture = {
-  domainSets: Record<string, CarlMatchDomainConfig[]>;
+  domainSets: Record<string, OpencarlMatchDomainConfig[]>;
   cases: Array<{
     id: string;
     description?: string;
     domainSet: string;
-    input: Omit<CarlMatchRequest, "domains">;
+    input: Omit<OpencarlMatchRequest, "domains">;
     expected: {
       globalExcludeTriggered?: boolean;
       globalExcludeKeywords?: string[];
@@ -34,7 +34,7 @@ type MatchingFixture = {
 };
 
 type InjectionFixture = {
-  payloadSets: Record<string, Record<string, CarlRuleDomainPayload>>;
+  payloadSets: Record<string, Record<string, OpencarlRuleDomainPayload>>;
   cases: Array<{
     id: string;
     description?: string;
@@ -75,8 +75,8 @@ function readFixture<T>(fixturePath: string): T {
   return JSON.parse(raw) as T;
 }
 
-function buildDomainMap(domains: CarlMatchDomainConfig[]) {
-  return domains.reduce<Record<string, CarlMatchDomainConfig>>((acc, domain) => {
+function buildDomainMap(domains: OpencarlMatchDomainConfig[]) {
+  return domains.reduce<Record<string, OpencarlMatchDomainConfig>>((acc, domain) => {
     acc[domain.name] = domain;
     return acc;
   }, {});
@@ -195,7 +195,7 @@ function runMatchingFixtures(): void {
 
   runCategory("Matching", fixture.cases, (fixtureCase) => {
     const domains = fixture.domainSets[fixtureCase.domainSet] ?? [];
-    const request: CarlMatchRequest = {
+    const request: OpencarlMatchRequest = {
       promptText: fixtureCase.input.promptText,
       signals: fixtureCase.input.signals,
       domains: buildDomainMap(domains),
@@ -351,7 +351,7 @@ function runCommandFixtures(): void {
     const commandLines = fixture.commandFiles[fixtureCase.commandFile] ?? [];
     const { dir, filePath } = writeCommandFile(commandLines);
     try {
-      const commandsPayload: CarlRuleDomainPayload = {
+      const commandsPayload: OpencarlRuleDomainPayload = {
         domain: "COMMANDS",
         scope: "project",
         sourcePath: dir,
@@ -427,7 +427,7 @@ function runCommandFixtures(): void {
 function runCriticalLinks(): void {
   const results: Array<{ name: string; ok: boolean; detail?: string }> = [];
 
-  const baseDomains: CarlMatchDomainConfig[] = [
+  const baseDomains: OpencarlMatchDomainConfig[] = [
     {
       name: "ALPHA",
       state: true,
@@ -463,7 +463,7 @@ function runCriticalLinks(): void {
         )} excluded=${JSON.stringify(exclusionResult.excludedDomains)}`,
   });
 
-  const payloads: Record<string, CarlRuleDomainPayload> = {
+  const payloads: Record<string, OpencarlRuleDomainPayload> = {
     GLOBAL: {
       domain: "GLOBAL",
       scope: "global",
@@ -508,7 +508,7 @@ function runCriticalLinks(): void {
   ]);
 
   try {
-    const commandsPayload: CarlRuleDomainPayload = {
+    const commandsPayload: OpencarlRuleDomainPayload = {
       domain: "COMMANDS",
       scope: "project",
       sourcePath: dir,

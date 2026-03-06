@@ -1,10 +1,10 @@
-import { parseManifest, parseDomainRules, resolveDomainFile } from '../../../src/carl/validate';
-import type { ParsedManifest, ParsedDomainRules } from '../../../src/carl/validate';
+import { parseManifest, parseDomainRules, resolveDomainFile } from '../../../src/opencarl/validate';
+import type { ParsedManifest, ParsedDomainRules } from '../../../src/opencarl/validate';
 import { createTestManifestPath } from '../../helpers/manifest-factory';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
-import type { OpencarlRuleDiscoveryWarning } from '../../../src/carl/types';
+import type { OpencarlRuleDiscoveryWarning } from '../../../src/opencarl/types';
 
 describe('validate.ts', () => {
   describe('parseManifest', () => {

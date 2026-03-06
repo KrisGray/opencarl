@@ -1,4 +1,4 @@
-import type { SessionOverrides, SessionOverrideValue } from '../../src/carl/session-overrides';
+import type { SessionOverrides, SessionOverrideValue } from '../../src/opencarl/session-overrides';
 
 /**
  * Create a test session overrides object with sensible defaults.

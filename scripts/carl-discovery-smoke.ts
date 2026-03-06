@@ -1,7 +1,7 @@
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
-const { loadCarlRules } = require("../src/carl/loader");
+const { loadCarlRules } = require("../src/opencarl/loader");
 
 function writeFile(targetPath, content) {
   fs.mkdirSync(path.dirname(targetPath), { recursive: true });

@@ -1,4 +1,4 @@
-import type { ContextBracketData, ContextBracket } from '../../src/carl/context-brackets';
+import type { ContextBracketData, ContextBracket } from '../../src/opencarl/context-brackets';
 
 /**
  * Create test context bracket data with sensible defaults

@@ -31,7 +31,7 @@ import { createTestBracketData } from '../../helpers/bracket-factory';
 let tempCarlDir: string;
 
 // Mock loaders and dependencies
-jest.mock('../../../src/carl/rule-cache', () => ({
+jest.mock('../../../src/opencarl/rule-cache', () => ({
   getCachedRules: jest.fn(),
   hasSessionWarned: jest.fn(() => false),
   markSessionWarned: jest.fn(),
@@ -40,19 +40,19 @@ jest.mock('../../../src/carl/rule-cache', () => ({
   isCarlPath: jest.fn(() => true),
 }));
 
-jest.mock('../../../src/carl/matcher', () => ({
+jest.mock('../../../src/opencarl/matcher', () => ({
   matchDomainsForTurn: jest.fn(),
 }));
 
-jest.mock('../../../src/carl/injector', () => ({
+jest.mock('../../../src/opencarl/injector', () => ({
   buildCarlInjection: jest.fn(),
 }));
 
-jest.mock('../../../src/carl/command-parity', () => ({
+jest.mock('../../../src/opencarl/command-parity', () => ({
   resolveCarlCommandSignals: jest.fn(),
 }));
 
-jest.mock('../../../src/carl/setup', () => ({
+jest.mock('../../../src/opencarl/setup', () => ({
   checkSetupNeeded: jest.fn(() => ({ needed: false, targetDir: null })),
   buildSetupPrompt: jest.fn(() => 'Setup prompt'),
   runSetup: jest.fn(() => ({ success: true, error: null })),
@@ -60,17 +60,17 @@ jest.mock('../../../src/carl/setup', () => ({
   integrateOpencode: jest.fn(() => ({ message: 'OpenCode integration complete' })),
 }));
 
-jest.mock('../../../src/carl/debug', () => ({
+jest.mock('../../../src/opencarl/debug', () => ({
   debugInjection: jest.fn(),
 }));
 
-jest.mock('../../../src/carl/duplicate-detector', () => ({
+jest.mock('../../../src/opencarl/duplicate-detector', () => ({
   checkDuplicateLoad: jest.fn(() => ({ isDuplicate: false, existingPath: null, warningEmitted: false })),
   getDuplicateWarning: jest.fn(() => 'Duplicate warning'),
   registerPluginLoad: jest.fn(),
 }));
 
-jest.mock('../../../src/carl/help-text', () => ({
+jest.mock('../../../src/opencarl/help-text', () => ({
   buildCarlHelpGuidance: jest.fn(() => ({ combined: 'Help guidance' })),
 }));
 
@@ -80,25 +80,25 @@ describe('plugin-hooks.ts - integration', () => {
   let mockMatchDomainsForTurn: jest.Mock;
   let mockBuildCarlInjection: jest.Mock;
   let mockResolveCarlCommandSignals: jest.Mock;
-  let signalStore: typeof import('../../../src/carl/signal-store');
+  let signalStore: typeof import('../../../src/opencarl/signal-store');
 
   function loadAllModules() {
     jest.resetModules();
     jest.isolateModules(() => {
       // Load signal-store first
-      signalStore = require('../../../src/carl/signal-store');
+      signalStore = require('../../../src/opencarl/signal-store');
 
       // Set up mock implementations
-      const ruleCache = require('../../../src/carl/rule-cache');
+      const ruleCache = require('../../../src/opencarl/rule-cache');
       mockGetCachedRules = ruleCache.getCachedRules;
 
-      const matcher = require('../../../src/carl/matcher');
+      const matcher = require('../../../src/opencarl/matcher');
       mockMatchDomainsForTurn = matcher.matchDomainsForTurn;
 
-      const injector = require('../../../src/carl/injector');
+      const injector = require('../../../src/opencarl/injector');
       mockBuildCarlInjection = injector.buildCarlInjection;
 
-      const commandParity = require('../../../src/carl/command-parity');
+      const commandParity = require('../../../src/opencarl/command-parity');
       mockResolveCarlCommandSignals = commandParity.resolveCarlCommandSignals;
 
       // Default mock return values

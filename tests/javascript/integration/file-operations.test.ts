@@ -1,9 +1,9 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
-import { loadCarlRules } from '../../../src/carl/loader';
-import { markRulesDirty, getCachedRules, resetRulesCache } from '../../../src/carl/rule-cache';
-import { loadSessionOverrides } from '../../../src/carl/session-overrides';
+import { loadOpencarlRules } from '../../../src/opencarl/loader';
+import { markRulesDirty, getCachedRules, resetRulesCache } from '../../../src/opencarl/rule-cache';
+import { loadSessionOverrides } from '../../../src/opencarl/session-overrides';
 
 const fixturesRoot = path.join(
   __dirname,
@@ -21,16 +21,16 @@ function copyFixture(fixtureName: 'minimal' | 'full', targetCarlDir: string): vo
 
 describe('file system operations - integration', () => {
   let tempDir: string;
-  let projectCarlDir: string;
-  let globalCarlDir: string;
-  let fallbackCarlDir: string;
+  let projectOpencarlDir: string;
+  let globalOpencarlDir: string;
+  let fallbackOpencarlDir: string;
   const testSessionId = 'test-session-integration';
 
   beforeEach(() => {
     tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'carl-file-ops-test-'));
-    projectCarlDir = path.join(tempDir, 'project', '.carl');
-    globalCarlDir = path.join(tempDir, 'global', '.carl');
-    fallbackCarlDir = path.join(tempDir, 'fallback', '.carl');
+    projectOpencarlDir = path.join(tempDir, 'project', '.carl');
+    globalOpencarlDir = path.join(tempDir, 'global', '.carl');
+    fallbackOpencarlDir = path.join(tempDir, 'fallback', '.carl');
 
     // Reset cache before each test
     resetRulesCache();
@@ -44,15 +44,15 @@ describe('file system operations - integration', () => {
   describe('manifest change detection and reload', () => {
     it('should detect manifest changes and reload rules', () => {
       // Setup temp .carl/ with DEVELOPMENT domain active
-      copyFixture('full', projectCarlDir);
+      copyFixture('full', projectOpencarlDir);
 
       // Load rules and cache result
       const firstResult = getCachedRules({
         sessionId: testSessionId,
         overrides: {
-          projectCarlDir,
-          globalCarlDir,
-          fallbackCarlDir,
+          projectOpencarlDir,
+          globalOpencarlDir,
+          fallbackOpencarlDir,
         },
       });
 
@@ -61,7 +61,7 @@ describe('file system operations - integration', () => {
       expect(firstResult.domains).toContain('CONTEXT');
 
       // Modify MANIFEST to change DEVELOPMENT_STATE to 'inactive'
-      const manifestPath = path.join(projectCarlDir, 'manifest');
+      const manifestPath = path.join(projectOpencarlDir, 'manifest');
       const manifestContent = fs.readFileSync(manifestPath, 'utf8');
       const modifiedContent = manifestContent.replace(
         'DEVELOPMENT_STATE=active',
@@ -77,9 +77,9 @@ describe('file system operations - integration', () => {
       const secondResult = getCachedRules({
         sessionId: testSessionId,
         overrides: {
-          projectCarlDir,
-          globalCarlDir,
-          fallbackCarlDir,
+          projectOpencarlDir,
+          globalOpencarlDir,
+          fallbackOpencarlDir,
         },
       });
 
@@ -97,15 +97,15 @@ describe('file system operations - integration', () => {
   describe('domain file change detection and reload', () => {
     it('should detect domain file changes and reload rules', () => {
       // Setup temp .carl/ with development domain file containing rules
-      copyFixture('minimal', projectCarlDir);
+      copyFixture('minimal', projectOpencarlDir);
 
       // Load rules and cache result
       const firstResult = getCachedRules({
         sessionId: testSessionId,
         overrides: {
-          projectCarlDir,
-          globalCarlDir,
-          fallbackCarlDir,
+          projectOpencarlDir,
+          globalOpencarlDir,
+          fallbackOpencarlDir,
         },
       });
 
@@ -113,7 +113,7 @@ describe('file system operations - integration', () => {
       expect(initialRuleCount).toBeGreaterThan(0);
 
       // Modify development domain file to add new rule
-      const domainPath = path.join(projectCarlDir, 'development');
+      const domainPath = path.join(projectOpencarlDir, 'development');
       const domainContent = fs.readFileSync(domainPath, 'utf8');
       const newRule = 'DEVELOPMENT_RULE_4=This is a new rule';
       const modifiedContent = domainContent.trim() + '\n' + newRule + '\n';
@@ -125,9 +125,9 @@ describe('file system operations - integration', () => {
       const secondResult = getCachedRules({
         sessionId: testSessionId,
         overrides: {
-          projectCarlDir,
-          globalCarlDir,
-          fallbackCarlDir,
+          projectOpencarlDir,
+          globalOpencarlDir,
+          fallbackOpencarlDir,
         },
       });
 
@@ -150,10 +150,10 @@ describe('file system operations - integration', () => {
   describe('session override application from session files', () => {
     it('should apply session overrides from session files', () => {
       // Setup temp .carl/ with multiple active domains (DEVELOPMENT, CONTENT, CONTEXT)
-      copyFixture('full', projectCarlDir);
+      copyFixture('full', projectOpencarlDir);
 
       // Create session file: .carl/sessions/test-session.json
-      const sessionsDir = path.join(projectCarlDir, 'sessions');
+      const sessionsDir = path.join(projectOpencarlDir, 'sessions');
       fs.mkdirSync(sessionsDir, { recursive: true });
       const sessionContent = JSON.stringify({
         domains: {
@@ -164,7 +164,7 @@ describe('file system operations - integration', () => {
       fs.writeFileSync(path.join(sessionsDir, `${testSessionId}.json`), sessionContent, 'utf8');
 
       // Load session overrides
-      const overrides = loadSessionOverrides(projectCarlDir, testSessionId);
+      const overrides = loadSessionOverrides(projectOpencarlDir, testSessionId);
 
       // Assert overrides disable DEVELOPMENT domain
       expect(overrides.domains.DEVELOPMENT).toBe('false');
@@ -173,12 +173,12 @@ describe('file system operations - integration', () => {
       expect(overrides.domains.CONTENT).toBe('true');
 
       // Verify the overrides actually affect domain loading
-      const result = loadCarlRules({
+      const result = loadOpencarlRules({
         sessionId: testSessionId,
         overrides: {
-          projectCarlDir,
-          globalCarlDir,
-          fallbackCarlDir,
+          projectOpencarlDir,
+          globalOpencarlDir,
+          fallbackOpencarlDir,
         },
       });
 
@@ -191,10 +191,10 @@ describe('file system operations - integration', () => {
   describe('project over global rule precedence', () => {
     it('should prefer project rules over global rules with same domain name', () => {
       // Setup global .carl/ with DEVELOPMENT domain containing global rules
-      copyFixture('full', globalCarlDir);
+      copyFixture('full', globalOpencarlDir);
 
       // Modify global development to have distinct rules
-      const globalDevPath = path.join(globalCarlDir, 'development');
+      const globalDevPath = path.join(globalOpencarlDir, 'development');
       fs.writeFileSync(
         globalDevPath,
         'DEVELOPMENT_RULE_GLOBAL=Global-only rule\n',
@@ -202,14 +202,14 @@ describe('file system operations - integration', () => {
       );
 
       // Setup project .carl/ with DEVELOPMENT domain containing project rules
-      copyFixture('minimal', projectCarlDir);
+      copyFixture('minimal', projectOpencarlDir);
 
       // Load rules with both project and global paths
-      const result = loadCarlRules({
+      const result = loadOpencarlRules({
         overrides: {
-          projectCarlDir,
-          globalCarlDir,
-          fallbackCarlDir,
+          projectOpencarlDir,
+          globalOpencarlDir,
+          fallbackOpencarlDir,
         },
       });
 
@@ -236,10 +236,10 @@ describe('file system operations - integration', () => {
   describe('fallback rules when project and global are missing', () => {
     it('should load fallback rules when project and global are missing', () => {
       // Setup fallback .carl/ with minimal CONTENT domain
-      copyFixture('minimal', fallbackCarlDir);
+      copyFixture('minimal', fallbackOpencarlDir);
 
       // Modify manifest to have CONTENT instead of DEVELOPMENT
-      const manifestPath = path.join(fallbackCarlDir, 'manifest');
+      const manifestPath = path.join(fallbackOpencarlDir, 'manifest');
       const manifestContent = fs.readFileSync(manifestPath, 'utf8');
       const modifiedContent = manifestContent
         .replace('DEVELOPMENT_STATE=active', 'CONTENT_STATE=active')
@@ -249,17 +249,17 @@ describe('file system operations - integration', () => {
       fs.writeFileSync(manifestPath, modifiedContent, 'utf8');
 
       // Create content domain file
-      const contentPath = path.join(fallbackCarlDir, 'content');
+      const contentPath = path.join(fallbackOpencarlDir, 'content');
       fs.writeFileSync(contentPath, 'CONTENT_RULE_1=Write clear and concise content\n', 'utf8');
 
       // Leave project and global directories empty (don't create them)
 
       // Load rules with fallback path
-      const result = loadCarlRules({
+      const result = loadOpencarlRules({
         overrides: {
-          projectCarlDir: path.join(tempDir, 'missing-project', '.carl'),
-          globalCarlDir: path.join(tempDir, 'missing-global', '.carl'),
-          fallbackCarlDir,
+          projectOpencarlDir: path.join(tempDir, 'missing-project', '.carl'),
+          globalOpencarlDir: path.join(tempDir, 'missing-global', '.carl'),
+          fallbackOpencarlDir,
         },
       });
 
@@ -281,10 +281,10 @@ describe('file system operations - integration', () => {
   describe('corrupted session file graceful handling', () => {
     it('should handle corrupted session file gracefully', () => {
       // Setup temp .carl/ with domains
-      copyFixture('full', projectCarlDir);
+      copyFixture('full', projectOpencarlDir);
 
       // Create session file with invalid JSON: .carl/sessions/bad-session.json
-      const sessionsDir = path.join(projectCarlDir, 'sessions');
+      const sessionsDir = path.join(projectOpencarlDir, 'sessions');
       fs.mkdirSync(sessionsDir, { recursive: true });
       const badSessionId = 'bad-session';
       fs.writeFileSync(
@@ -295,7 +295,7 @@ describe('file system operations - integration', () => {
 
       // Load session overrides
       const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
-      const overrides = loadSessionOverrides(projectCarlDir, badSessionId);
+      const overrides = loadSessionOverrides(projectOpencarlDir, badSessionId);
 
       // Assert function returns empty overrides (graceful degradation)
       expect(overrides.exists).toBe(false);
@@ -307,12 +307,12 @@ describe('file system operations - integration', () => {
       );
 
       // Verify that loading rules still works
-      const result = loadCarlRules({
+      const result = loadOpencarlRules({
         sessionId: badSessionId,
         overrides: {
-          projectCarlDir,
-          globalCarlDir,
-          fallbackCarlDir,
+          projectOpencarlDir,
+          globalOpencarlDir,
+          fallbackOpencarlDir,
         },
       });
 

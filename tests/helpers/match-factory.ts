@@ -1,4 +1,4 @@
-import type { OpencarlMatchRequest, OpencarlSessionSignals } from '../../src/carl/types';
+import type { OpencarlMatchRequest, OpencarlSessionSignals } from '../../src/opencarl/types';
 
 /**
  * Create a test match request with sensible defaults

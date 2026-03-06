@@ -1,4 +1,4 @@
-import type { ParsedManifest, ManifestDomainConfig } from '../../src/carl/validate';
+import type { ParsedManifest, ManifestDomainConfig } from '../../src/opencarl/validate';
 import * as fs from 'fs';
 import * as path from 'path';
 

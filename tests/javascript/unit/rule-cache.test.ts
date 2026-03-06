@@ -1,12 +1,12 @@
-import type { OpencarlRuleDiscoveryResult } from '../../../src/carl/types';
+import type { OpencarlRuleDiscoveryResult } from '../../../src/opencarl/types';
 
-type LoadCarlRulesFn = typeof import('../../../src/carl/loader').loadCarlRules;
+type LoadOpencarlRulesFn = typeof import('../../../src/opencarl/loader').loadOpencarlRules;
 
-jest.mock('../../../src/carl/loader', () => ({
-  loadCarlRules: jest.fn(),
+jest.mock('../../../src/opencarl/loader', () => ({
+  loadOpencarlRules: jest.fn(),
 }));
 
-let mockLoadCarlRules: jest.MockedFunction<LoadCarlRulesFn>;
+let mockLoadOpencarlRules: jest.MockedFunction<LoadOpencarlRulesFn>;
 
 function createResult(domains: string[] = []): OpencarlRuleDiscoveryResult {
   return {
@@ -21,99 +21,99 @@ function createResult(domains: string[] = []): OpencarlRuleDiscoveryResult {
   };
 }
 
-function getMockLoadCarlRules(): jest.MockedFunction<LoadCarlRulesFn> {
-  return require('../../../src/carl/loader').loadCarlRules as jest.MockedFunction<LoadCarlRulesFn>;
+function getMockLoadOpencarlRules(): jest.MockedFunction<LoadOpencarlRulesFn> {
+  return require('../../../src/opencarl/loader').loadOpencarlRules as jest.MockedFunction<LoadOpencarlRulesFn>;
 }
 
-function loadRuleCacheModule(): typeof import('../../../src/carl/rule-cache') {
-  return require('../../../src/carl/rule-cache');
+function loadRuleCacheModule(): typeof import('../../../src/opencarl/rule-cache') {
+  return require('../../../src/opencarl/rule-cache');
 }
 
 describe('rule-cache.ts', () => {
   beforeEach(() => {
     jest.resetModules();
-    mockLoadCarlRules = getMockLoadCarlRules();
-    mockLoadCarlRules.mockReset();
+    mockLoadOpencarlRules = getMockLoadOpencarlRules();
+    mockLoadOpencarlRules.mockReset();
   });
 
   describe('cache state + dirty flag', () => {
     it('markRulesDirty toggles isCacheDirty and triggers reload on next getCachedRules', () => {
       const cache = loadRuleCacheModule();
-      mockLoadCarlRules.mockReturnValueOnce(createResult(['alpha']));
+      mockLoadOpencarlRules.mockReturnValueOnce(createResult(['alpha']));
 
       cache.getCachedRules({ sessionId: 'session-a' });
-      expect(mockLoadCarlRules).toHaveBeenCalledTimes(1);
+      expect(mockLoadOpencarlRules).toHaveBeenCalledTimes(1);
 
       cache.markRulesDirty();
       expect(cache.isCacheDirty()).toBe(true);
 
-      mockLoadCarlRules.mockReturnValueOnce(createResult(['beta']));
+      mockLoadOpencarlRules.mockReturnValueOnce(createResult(['beta']));
       const result = cache.getCachedRules({ sessionId: 'session-a' });
 
-      expect(mockLoadCarlRules).toHaveBeenCalledTimes(2);
+      expect(mockLoadOpencarlRules).toHaveBeenCalledTimes(2);
       expect(result.domains).toEqual(['beta']);
       expect(cache.isCacheDirty()).toBe(false);
     });
 
     it('getCachedRules caches results and does not reload if options are unchanged', () => {
       const cache = loadRuleCacheModule();
-      mockLoadCarlRules.mockReturnValueOnce(createResult(['cached']));
+      mockLoadOpencarlRules.mockReturnValueOnce(createResult(['cached']));
 
       const first = cache.getCachedRules({ sessionId: 'session-a' });
       const second = cache.getCachedRules({ sessionId: 'session-a' });
 
-      expect(mockLoadCarlRules).toHaveBeenCalledTimes(1);
+      expect(mockLoadOpencarlRules).toHaveBeenCalledTimes(1);
       expect(second).toBe(first);
     });
 
     it('getCachedRules reloads when sessionId changes', () => {
       const cache = loadRuleCacheModule();
-      mockLoadCarlRules.mockReturnValueOnce(createResult(['alpha']));
+      mockLoadOpencarlRules.mockReturnValueOnce(createResult(['alpha']));
 
       cache.getCachedRules({ sessionId: 'session-a' });
 
-      mockLoadCarlRules.mockReturnValueOnce(createResult(['beta']));
+      mockLoadOpencarlRules.mockReturnValueOnce(createResult(['beta']));
       const result = cache.getCachedRules({ sessionId: 'session-b' });
 
-      expect(mockLoadCarlRules).toHaveBeenCalledTimes(2);
+      expect(mockLoadOpencarlRules).toHaveBeenCalledTimes(2);
       expect(result.domains).toEqual(['beta']);
     });
 
     it('getCachedRules reloads when project opt-in flag changes', () => {
       const cache = loadRuleCacheModule();
-      mockLoadCarlRules.mockReturnValueOnce(createResult(['alpha']));
+      mockLoadOpencarlRules.mockReturnValueOnce(createResult(['alpha']));
 
       cache.getCachedRules({ sessionId: 'session-a', projectOptIn: true });
 
-      mockLoadCarlRules.mockReturnValueOnce(createResult(['beta']));
+      mockLoadOpencarlRules.mockReturnValueOnce(createResult(['beta']));
       const result = cache.getCachedRules({ sessionId: 'session-a', projectOptIn: false });
 
-      expect(mockLoadCarlRules).toHaveBeenCalledTimes(2);
+      expect(mockLoadOpencarlRules).toHaveBeenCalledTimes(2);
       expect(result.domains).toEqual(['beta']);
     });
 
     it('getCachedRules reloads when overrides change', () => {
       const cache = loadRuleCacheModule();
-      mockLoadCarlRules.mockReturnValueOnce(createResult(['alpha']));
+      mockLoadOpencarlRules.mockReturnValueOnce(createResult(['alpha']));
 
       cache.getCachedRules({
-        overrides: { projectCarlDir: '/tmp/project-a' },
+        overrides: { projectOpencarlDir: '/tmp/project-a' },
         sessionId: 'session-a',
       });
 
-      mockLoadCarlRules.mockReturnValueOnce(createResult(['beta']));
+      mockLoadOpencarlRules.mockReturnValueOnce(createResult(['beta']));
       const result = cache.getCachedRules({
-        overrides: { projectCarlDir: '/tmp/project-b' },
+        overrides: { projectOpencarlDir: '/tmp/project-b' },
         sessionId: 'session-a',
       });
 
-      expect(mockLoadCarlRules).toHaveBeenCalledTimes(2);
+      expect(mockLoadOpencarlRules).toHaveBeenCalledTimes(2);
       expect(result.domains).toEqual(['beta']);
     });
 
     it('getCacheMeta reflects cache state after load', () => {
       const cache = loadRuleCacheModule();
-      mockLoadCarlRules.mockReturnValueOnce(createResult(['alpha']));
+      mockLoadOpencarlRules.mockReturnValueOnce(createResult(['alpha']));
 
       cache.getCachedRules({ sessionId: 'session-a' });
       const meta = cache.getCacheMeta();
@@ -125,7 +125,7 @@ describe('rule-cache.ts', () => {
 
     it('resetRulesCache clears cache and dirty flag', () => {
       const cache = loadRuleCacheModule();
-      mockLoadCarlRules.mockReturnValueOnce(createResult(['alpha']));
+      mockLoadOpencarlRules.mockReturnValueOnce(createResult(['alpha']));
 
       cache.getCachedRules({ sessionId: 'session-a' });
       cache.markRulesDirty();

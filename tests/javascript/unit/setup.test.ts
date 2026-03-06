@@ -3,7 +3,7 @@ import {
   seedOpencarlTemplates,
   runSetup,
   buildSetupPrompt,
-} from '../../../src/carl/setup';
+} from '../../../src/opencarl/setup';
 import * as path from 'path';
 import * as fs from 'fs';
 

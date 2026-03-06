@@ -6,8 +6,8 @@ import {
   applySessionOverrides,
   isDomainDisabledBySession,
   getDomainOverride,
-} from '../../../src/carl/session-overrides';
-import type { SessionOverrides } from '../../../src/carl/session-overrides';
+} from '../../../src/opencarl/session-overrides';
+import type { SessionOverrides } from '../../../src/opencarl/session-overrides';
 import { createTestSessionOverrides } from '../../helpers/session-state-factory';
 
 describe('session-overrides.ts', () => {

@@ -1,5 +1,5 @@
-import { matchDomainsForTurn } from "../src/carl/matcher";
-import type { CarlMatchDomainConfig, CarlMatchRequest } from "../src/carl/types";
+import { matchDomainsForTurn } from "../src/opencarl/matcher";
+import type { OpencarlMatchDomainConfig, OpencarlMatchRequest } from "../src/opencarl/types";
 
 function assert(condition: boolean, message: string) {
   if (!condition) {
@@ -7,14 +7,14 @@ function assert(condition: boolean, message: string) {
   }
 }
 
-function buildDomains(domains: CarlMatchDomainConfig[]) {
-  return domains.reduce<Record<string, CarlMatchDomainConfig>>((acc, domain) => {
+function buildDomains(domains: OpencarlMatchDomainConfig[]) {
+  return domains.reduce<Record<string, OpencarlMatchDomainConfig>>((acc, domain) => {
     acc[domain.name] = domain;
     return acc;
   }, {});
 }
 
-function runFixture(name: string, request: CarlMatchRequest, check: () => void) {
+function runFixture(name: string, request: OpencarlMatchRequest, check: () => void) {
   try {
     matchDomainsForTurn(request);
     check();

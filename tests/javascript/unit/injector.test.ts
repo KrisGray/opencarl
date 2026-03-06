@@ -3,8 +3,8 @@
  * Tests for buildCarlInjection - rule composer and injector
  */
 
-import { buildCarlInjection } from '../../../src/carl/injector';
-import type { OpencarlInjectionInput } from '../../../src/carl/injector';
+import { buildCarlInjection } from '../../../src/opencarl/injector';
+import type { OpencarlInjectionInput } from '../../../src/opencarl/injector';
 import { createTestDomainPayload } from '../../helpers/domain-factory';
 import {
   createTestBracketData,

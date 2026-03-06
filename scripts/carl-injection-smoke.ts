@@ -1,6 +1,6 @@
-import { buildCarlInjection } from "../src/carl/injector";
-import type { CarlRuleDomainPayload } from "../src/carl/types";
-import { computeContextBracketData } from "../src/carl/context-brackets";
+import { buildCarlInjection } from "../src/opencarl/injector";
+import type { OpencarlRuleDomainPayload } from "../src/opencarl/types";
+import { computeContextBracketData } from "../src/opencarl/context-brackets";
 
 function assert(condition: boolean, message: string): void {
   if (!condition) {
@@ -8,7 +8,7 @@ function assert(condition: boolean, message: string): void {
   }
 }
 
-const payloads: Record<string, CarlRuleDomainPayload> = {
+const payloads: Record<string, OpencarlRuleDomainPayload> = {
   GLOBAL: {
     domain: "GLOBAL",
     scope: "global",
@@ -93,7 +93,7 @@ assert(output.includes("[DEV] RULES:"), "Matched domain rules missing");
 console.log("[carl] Testing context bracket filtering...");
 
 // Test CONTEXT domain with bracket rules
-const contextPayloads: Record<string, CarlRuleDomainPayload> = {
+const contextPayloads: Record<string, OpencarlRuleDomainPayload> = {
   GLOBAL: {
     domain: "GLOBAL",
     scope: "global",

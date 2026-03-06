@@ -1,14 +1,14 @@
-import { resolveCarlCommandSignals, type CarlCommandResolutionInput } from '../../../src/carl/command-parity';
-import type { OpencarlRuleDomainPayload } from '../../../src/carl/types';
+import { resolveOpencarlCommandSignals, type OpencarlCommandResolutionInput } from '../../../src/opencarl/command-parity';
+import type { OpencarlRuleDomainPayload } from '../../../src/opencarl/types';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
 
 describe('command-parity.ts', () => {
-  describe('resolveCarlCommandSignals', () => {
+  describe('resolveOpencarlCommandSignals', () => {
     describe('star command detection', () => {
       it('should detect *carl in prompt text', () => {
-        const result = resolveCarlCommandSignals({
+        const result = resolveOpencarlCommandSignals({
           promptText: 'Please help *carl with my code',
         });
 
@@ -16,7 +16,7 @@ describe('command-parity.ts', () => {
       });
 
       it('should detect multiple star commands (*carl *brief *dev)', () => {
-        const result = resolveCarlCommandSignals({
+        const result = resolveOpencarlCommandSignals({
           promptText: 'I need *carl *brief *dev to work together',
         });
 
@@ -27,7 +27,7 @@ describe('command-parity.ts', () => {
       });
 
       it('should extract command token from *carl', () => {
-        const result = resolveCarlCommandSignals({
+        const result = resolveOpencarlCommandSignals({
           promptText: 'Hey *carl can you help?',
         });
 
@@ -35,7 +35,7 @@ describe('command-parity.ts', () => {
       });
 
       it('should return empty array for prompt without star commands', () => {
-        const result = resolveCarlCommandSignals({
+        const result = resolveOpencarlCommandSignals({
           promptText: 'Please help me with my code',
         })
 
@@ -43,7 +43,7 @@ describe('command-parity.ts', () => {
       });
 
       it('should handle empty prompt text', () => {
-        const result = resolveCarlCommandSignals({
+        const result = resolveOpencarlCommandSignals({
           promptText: '',
         })
 
@@ -53,7 +53,7 @@ describe('command-parity.ts', () => {
       });
 
       it('should handle undefined prompt text', () => {
-        const result = resolveCarlCommandSignals({
+        const result = resolveOpencarlCommandSignals({
           promptText: undefined,
         })
 
@@ -61,7 +61,7 @@ describe('command-parity.ts', () => {
       });
 
       it('should normalize tokens to uppercase', () => {
-        const result = resolveCarlCommandSignals({
+        const result = resolveOpencarlCommandSignals({
           promptText: '*carl *Brief *DEV',
         })
 
@@ -99,7 +99,7 @@ describe('command-parity.ts', () => {
           exclude: [],
         };
 
-        const result = resolveCarlCommandSignals({
+        const result = resolveOpencarlCommandSignals({
           promptText: '*carl docs please',
           commandsPayload,
           commandFilePath: commandsPath,
@@ -129,7 +129,7 @@ describe('command-parity.ts', () => {
           exclude: [],
         };
 
-        const result = resolveCarlCommandSignals({
+        const result = resolveOpencarlCommandSignals({
           promptText: '*carl help me',
           commandsPayload,
           commandFilePath: commandsPath,
@@ -156,7 +156,7 @@ describe('command-parity.ts', () => {
           exclude: [],
         };
 
-        const result = resolveCarlCommandSignals({
+        const result = resolveOpencarlCommandSignals({
           promptText: '*carl',
           commandsPayload,
           commandFilePath: commandsPath,
@@ -198,7 +198,7 @@ describe('command-parity.ts', () => {
           exclude: [],
         };
 
-        const result = resolveCarlCommandSignals({
+        const result = resolveOpencarlCommandSignals({
           promptText: '*carl',
           commandsPayload,
           commandFilePath: commandsPath,
@@ -226,7 +226,7 @@ describe('command-parity.ts', () => {
           exclude: [],
         };
 
-        const result = resolveCarlCommandSignals({
+        const result = resolveOpencarlCommandSignals({
           promptText: '*brief *dev',
           commandsPayload,
           commandFilePath: commandsPath,
@@ -255,7 +255,7 @@ describe('command-parity.ts', () => {
           exclude: [],
         };
 
-        const result = resolveCarlCommandSignals({
+        const result = resolveOpencarlCommandSignals({
           promptText: '*carl *unknowncommand *anotherunknown',
           commandsPayload,
           commandFilePath: commandsPath,
@@ -283,7 +283,7 @@ describe('command-parity.ts', () => {
           exclude: [],
         };
 
-        const result = resolveCarlCommandSignals({
+        const result = resolveOpencarlCommandSignals({
           promptText: '',
           commandOverrides: ['carl', 'brief'],
           commandsPayload,
@@ -297,7 +297,7 @@ describe('command-parity.ts', () => {
       });
 
       it('should deduplicate tokens (uniqInOrder)', () => {
-        const result = resolveCarlCommandSignals({
+        const result = resolveOpencarlCommandSignals({
           promptText: '*carl *carl *carl *brief *brief',
         });
 
@@ -321,7 +321,7 @@ describe('command-parity.ts', () => {
           exclude: [],
         };
 
-        const result = resolveCarlCommandSignals({
+        const result = resolveOpencarlCommandSignals({
           promptText: '*carl *dev',
           commandOverrides: ['carl', 'brief'],
           commandsPayload,
@@ -349,7 +349,7 @@ describe('command-parity.ts', () => {
       });
 
       it('should handle undefined commandsPayload gracefully', () => {
-        const result = resolveCarlCommandSignals({
+        const result = resolveOpencarlCommandSignals({
           promptText: '*carl',
           commandsPayload: undefined,
         });
@@ -371,7 +371,7 @@ describe('command-parity.ts', () => {
           exclude: [],
         };
 
-        const result = resolveCarlCommandSignals({
+        const result = resolveOpencarlCommandSignals({
           promptText: '*carl',
           commandsPayload,
         });
@@ -393,7 +393,7 @@ describe('command-parity.ts', () => {
           exclude: [],
         };
 
-        const result = resolveCarlCommandSignals({
+        const result = resolveOpencarlCommandSignals({
           promptText: '*carl',
           commandsPayload,
         });
@@ -403,7 +403,7 @@ describe('command-parity.ts', () => {
       });
 
       it('should handle empty commandTokens array', () => {
-        const result = resolveCarlCommandSignals({
+        const result = resolveOpencarlCommandSignals({
           promptText: '',
           commandOverrides: [],
         });
@@ -415,7 +415,7 @@ describe('command-parity.ts', () => {
       });
 
       it('should preserve original case in commandTokens (normalized internally)', () => {
-        const result = resolveCarlCommandSignals({
+        const result = resolveOpencarlCommandSignals({
           promptText: '*CaRl *BrIeF',
         });
 
@@ -425,7 +425,7 @@ describe('command-parity.ts', () => {
       it('should handle special characters in prompt (*carl-test, *carl_123)', () => {
         // *carl-test should match CARL (stops at first -)
         // *carl_123 should match CARL (stops at first _)
-        const result = resolveCarlCommandSignals({
+        const result = resolveOpencarlCommandSignals({
           promptText: '*carl-test *carl_123',
         });
 
@@ -435,7 +435,7 @@ describe('command-parity.ts', () => {
 
       it('should handle very long prompts with many star commands', () => {
         const longPrompt = Array(50).fill('*carl ').join('') + '*brief';
-        const result = resolveCarlCommandSignals({
+        const result = resolveOpencarlCommandSignals({
           promptText: longPrompt,
         });
 
@@ -444,7 +444,7 @@ describe('command-parity.ts', () => {
       });
 
       it('should handle duplicate star commands (only once in result)', () => {
-        const result = resolveCarlCommandSignals({
+        const result = resolveOpencarlCommandSignals({
           promptText: '*carl *carl *carl',
         });
 
@@ -463,7 +463,7 @@ describe('command-parity.ts', () => {
           exclude: [],
         };
 
-        const result = resolveCarlCommandSignals({
+        const result = resolveOpencarlCommandSignals({
           promptText: '*carl',
           commandsPayload,
           commandFilePath: '/nonexistent/path/commands',
@@ -488,7 +488,7 @@ describe('command-parity.ts', () => {
           exclude: [],
         };
 
-        const result = resolveCarlCommandSignals({
+        const result = resolveOpencarlCommandSignals({
           promptText: '*carl',
           commandsPayload,
           commandFilePath: commandsPath,
@@ -515,7 +515,7 @@ describe('command-parity.ts', () => {
           exclude: [],
         };
 
-        const result = resolveCarlCommandSignals({
+        const result = resolveOpencarlCommandSignals({
           promptText: '*carl',
           commandsPayload,
           commandFilePath: commandsPath,
@@ -542,7 +542,7 @@ describe('command-parity.ts', () => {
           exclude: [],
         };
 
-        const result = resolveCarlCommandSignals({
+        const result = resolveOpencarlCommandSignals({
           promptText: '*carl',
           commandsPayload,
           commandFilePath: commandsPath,
@@ -553,7 +553,7 @@ describe('command-parity.ts', () => {
       });
 
       it('should handle null commandsPayload', () => {
-        const result = resolveCarlCommandSignals({
+        const result = resolveOpencarlCommandSignals({
           promptText: '*carl',
           commandsPayload: null,
         });
