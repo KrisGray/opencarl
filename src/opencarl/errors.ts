@@ -11,7 +11,7 @@ export type OpencarlErrorCategory = "config" | "manifest" | "runtime" | "permiss
 /**
  * Base URL for OpenCARL documentation.
  */
-const DOCS_BASE_URL = "https://github.com/krisjg/carl/blob/main/docs";
+const DOCS_BASE_URL = "https://github.com/KrisGray/opencarl/blob/main/docs";
 
 /**
  * Structured error class for OpenCARL-specific errors.
