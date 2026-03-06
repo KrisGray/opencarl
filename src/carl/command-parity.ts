@@ -1,12 +1,12 @@
 import * as fs from "fs";
 import * as path from "path";
-import type { CarlRuleDomainPayload } from "./types";
+import type { OpencarlRuleDomainPayload } from "./types";
 import { buildCarlDocsGuidance } from "./help-text";
 
 export interface CarlCommandResolutionInput {
   promptText?: string;
   commandOverrides?: string[];
-  commandsPayload?: CarlRuleDomainPayload | null;
+  commandsPayload?: OpencarlRuleDomainPayload | null;
   commandFilePath?: string;
   helpGuidance?: string;
   getHelpGuidance?: () => string;
@@ -15,7 +15,7 @@ export interface CarlCommandResolutionInput {
 export interface CarlCommandResolutionResult {
   commandTokens: string[];
   commandDomains: string[];
-  commandPayloads: Record<string, CarlRuleDomainPayload>;
+  commandPayloads: Record<string, OpencarlRuleDomainPayload>;
   unresolvedTokens: string[];
 }
 
@@ -58,7 +58,7 @@ function detectStarCommands(promptText: string): string[] {
 }
 
 function resolveCommandFilePath(
-  payload?: CarlRuleDomainPayload | null,
+  payload?: OpencarlRuleDomainPayload | null,
   overridePath?: string
 ): string | null {
   if (overridePath) {
@@ -157,7 +157,7 @@ export function resolveCarlCommandSignals(
   }
 
   const commandRuleMap = parseCommandRules(commandFilePath);
-  const commandPayloads: Record<string, CarlRuleDomainPayload> = {};
+  const commandPayloads: Record<string, OpencarlRuleDomainPayload> = {};
   const unresolvedTokens: string[] = [];
   const commandDomains: string[] = [];
 

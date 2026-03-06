@@ -18,14 +18,14 @@ import {
   type ParsedManifest,
 } from "./validate";
 import type {
-  CarlRuleDiscoveryResult,
-  CarlRuleDiscoveryWarning,
-  CarlRuleDomainPayload,
-  CarlRuleSource,
-  CarlProjectStatus,
+  OpencarlRuleDiscoveryResult,
+  OpencarlRuleDiscoveryWarning,
+  OpencarlRuleDomainPayload,
+  OpencarlRuleSource,
+  OpencarlProjectStatus,
 } from "./types";
 import {
-  CarlError,
+  OpencarlError,
   configReadError,
   domainLoadError,
   permissionError,
@@ -50,7 +50,7 @@ export interface CarlRuleDiscoveryOptions {
 }
 
 interface ResolvedSource {
-  scope: CarlRuleSource["scope"];
+  scope: OpencarlRuleSource["scope"];
   path: CarlSourcePath;
   manifest: ParsedManifest;
 }
@@ -58,8 +58,8 @@ interface ResolvedSource {
 interface ProjectLoadResult {
   source: ResolvedSource | null;
   domains: string[];
-  payloads: CarlRuleDomainPayload[];
-  warnings: CarlRuleDiscoveryWarning[];
+  payloads: OpencarlRuleDomainPayload[];
+  warnings: OpencarlRuleDiscoveryWarning[];
   isValid: boolean;
 }
 
@@ -77,9 +77,9 @@ function resolveSourceFromOverride(carlDir?: string): CarlSourcePath | null {
 }
 
 function resolveManifest(
-  scope: CarlRuleSource["scope"],
+  scope: OpencarlRuleSource["scope"],
   sourcePath: CarlSourcePath | null,
-  warnings: CarlRuleDiscoveryWarning[]
+  warnings: OpencarlRuleDiscoveryWarning[]
 ): ResolvedSource | null {
   if (!sourcePath) {
     return null;
@@ -123,9 +123,9 @@ function getActiveDomains(manifest: ParsedManifest): string[] {
 function loadDomainPayloads(
   source: ResolvedSource,
   domains: string[],
-  warnings: CarlRuleDiscoveryWarning[]
-): CarlRuleDomainPayload[] {
-  const payloads: CarlRuleDomainPayload[] = [];
+  warnings: OpencarlRuleDiscoveryWarning[]
+): OpencarlRuleDomainPayload[] {
+  const payloads: OpencarlRuleDomainPayload[] = [];
 
   for (const domain of domains) {
     const domainPath = resolveDomainFile(source.path.carlDir, domain, warnings);
@@ -154,7 +154,7 @@ function loadDomainPayloads(
 
     const manifestConfig = source.manifest.domains[domain];
 
-    const payload: CarlRuleDomainPayload = {
+    const payload: OpencarlRuleDomainPayload = {
       domain,
       scope: source.scope,
       sourcePath: source.path.carlDir,
@@ -180,7 +180,7 @@ function loadDomainPayloads(
 function toSourceEntry(
   source: ResolvedSource,
   domains: string[]
-): CarlRuleSource {
+): OpencarlRuleSource {
   return {
     scope: source.scope,
     path: source.path.carlDir,
@@ -194,9 +194,9 @@ function toSourceEntry(
  */
 function loadProjectRules(
   projectPath: CarlSourcePath | null,
-  allWarnings: CarlRuleDiscoveryWarning[]
+  allWarnings: OpencarlRuleDiscoveryWarning[]
 ): ProjectLoadResult {
-  const projectWarnings: CarlRuleDiscoveryWarning[] = [];
+  const projectWarnings: OpencarlRuleDiscoveryWarning[] = [];
 
   if (!projectPath) {
     return {
@@ -267,8 +267,8 @@ function loadProjectRules(
 
 export function loadCarlRules(
   options: CarlRuleDiscoveryOptions = {}
-): CarlRuleDiscoveryResult {
-  const warnings: CarlRuleDiscoveryWarning[] = [];
+): OpencarlRuleDiscoveryResult {
+  const warnings: OpencarlRuleDiscoveryWarning[] = [];
   const cwd = options.cwd ?? process.cwd();
   const homeDir = options.homeDir ?? os.homedir();
   const projectRoot = options.projectRoot ?? cwd;
@@ -287,13 +287,13 @@ export function loadCarlRules(
 
   const globalSource = resolveManifest("global", globalPath, warnings);
 
-  const sources: CarlRuleSource[] = [];
-  const finalDomains = new Map<string, CarlRuleSource["scope"]>();
-  const domainPayloads = new Map<string, CarlRuleDomainPayload>();
+  const sources: OpencarlRuleSource[] = [];
+  const finalDomains = new Map<string, OpencarlRuleSource["scope"]>();
+  const domainPayloads = new Map<string, OpencarlRuleDomainPayload>();
 
   // Determine project status
-  let projectStatus: CarlProjectStatus = "none";
-  let projectWarnings: CarlRuleDiscoveryWarning[] = [];
+  let projectStatus: OpencarlProjectStatus = "none";
+  let projectWarnings: OpencarlRuleDiscoveryWarning[] = [];
 
   // Load project rules with opt-in check
   const projectResult = loadProjectRules(
@@ -315,7 +315,7 @@ export function loadCarlRules(
 
   // Load global rules
   let loadedGlobalDomains: string[] | null = null;
-  let loadedGlobalPayloads: CarlRuleDomainPayload[] | null = null;
+  let loadedGlobalPayloads: OpencarlRuleDomainPayload[] | null = null;
 
   if (globalSource) {
     const globalDomains = getActiveDomains(globalSource.manifest);

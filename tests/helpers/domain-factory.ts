@@ -1,11 +1,11 @@
-import type { CarlRuleDomainPayload, CarlMatchDomainConfig } from '../../src/carl/types';
+import type { OpencarlRuleDomainPayload, OpencarlMatchDomainConfig } from '../../src/carl/types';
 
 /**
  * Create a test domain payload with sensible defaults
  */
 export function createTestDomainPayload(
-  overrides?: Partial<CarlRuleDomainPayload>
-): CarlRuleDomainPayload {
+  overrides?: Partial<OpencarlRuleDomainPayload>
+): OpencarlRuleDomainPayload {
   return {
     domain: 'DEVELOPMENT',
     scope: 'project',
@@ -23,8 +23,8 @@ export function createTestDomainPayload(
  * Create a test domain config for matching
  */
 export function createTestDomainConfig(
-  overrides?: Partial<CarlMatchDomainConfig>
-): CarlMatchDomainConfig {
+  overrides?: Partial<OpencarlMatchDomainConfig>
+): OpencarlMatchDomainConfig {
   return {
     name: 'DEVELOPMENT',
     state: true,

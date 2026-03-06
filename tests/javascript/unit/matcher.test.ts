@@ -1,8 +1,8 @@
 import { matchDomainsForTurn } from '../../../src/carl/matcher';
 import type {
-  CarlMatchRequest,
-  CarlMatchDomainConfig,
-  CarlSessionSignals
+  OpencarlMatchRequest,
+  OpencarlMatchDomainConfig,
+  OpencarlSessionSignals
 } from '../../../src/carl/types';
 import { createTestMatchRequest, createTestSignals } from '../../helpers/match-factory';
 import { createTestDomainConfig } from '../../helpers/domain-factory';

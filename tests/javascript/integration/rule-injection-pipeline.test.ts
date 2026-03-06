@@ -12,7 +12,7 @@ import { loadCarlRules } from '../../../src/carl/loader';
 import { matchDomainsForTurn } from '../../../src/carl/matcher';
 import { buildCarlInjection } from '../../../src/carl/injector';
 import { computeContextBracketData } from '../../../src/carl/context-brackets';
-import type { CarlInjectionInput } from '../../../src/carl/injector';
+import type { OpencarlInjectionInput } from '../../../src/carl/injector';
 
 const fixturesRoot = path.join(
   __dirname,
@@ -201,7 +201,7 @@ describe('rule injection pipeline - integration', () => {
         globalExclude: loadResult.globalExclude,
       });
 
-      const injectionInput: CarlInjectionInput = {
+      const injectionInput: OpencarlInjectionInput = {
         domainPayloads: loadResult.domainPayloads,
         matchedDomains: matchResult.matchedDomains,
         contextBracket: computeContextBracketData(40000, 200000), // FRESH: 80% remaining
@@ -232,7 +232,7 @@ describe('rule injection pipeline - integration', () => {
       expect(loadResult.domainPayloads.CONTEXT.bracketFlags).toBeDefined();
       expect(loadResult.domainPayloads.CONTEXT.bracketRules).toBeDefined();
 
-      const injectionInput: CarlInjectionInput = {
+      const injectionInput: OpencarlInjectionInput = {
         domainPayloads: loadResult.domainPayloads,
         matchedDomains: [],
         contextBracket: computeContextBracketData(40000, 200000), // FRESH: 80% remaining
@@ -261,7 +261,7 @@ describe('rule injection pipeline - integration', () => {
         },
       });
 
-      const injectionInput: CarlInjectionInput = {
+      const injectionInput: OpencarlInjectionInput = {
         domainPayloads: loadResult.domainPayloads,
         matchedDomains: [],
         contextBracket: computeContextBracketData(100000, 200000), // MODERATE: 50% remaining
@@ -290,7 +290,7 @@ describe('rule injection pipeline - integration', () => {
         },
       });
 
-      const injectionInput: CarlInjectionInput = {
+      const injectionInput: OpencarlInjectionInput = {
         domainPayloads: loadResult.domainPayloads,
         matchedDomains: [],
         contextBracket: computeContextBracketData(160000, 200000), // CRITICAL: 20% remaining, uses DEPLETED rules
@@ -336,7 +336,7 @@ describe('rule injection pipeline - integration', () => {
         globalExclude: loadResult.globalExclude,
       });
 
-      const injectionInput: CarlInjectionInput = {
+      const injectionInput: OpencarlInjectionInput = {
         domainPayloads: loadResult.domainPayloads,
         matchedDomains: matchResult.matchedDomains,
         contextBracket: computeContextBracketData(40000, 200000), // FRESH: 80% remaining
@@ -378,7 +378,7 @@ describe('rule injection pipeline - integration', () => {
       expect(matchResult.matchedDomains).toEqual([]);
 
       // CONTEXT is alwaysOn, so it should still produce injection
-      const injectionInput: CarlInjectionInput = {
+      const injectionInput: OpencarlInjectionInput = {
         domainPayloads: loadResult.domainPayloads,
         matchedDomains: matchResult.matchedDomains,
         contextBracket: computeContextBracketData(40000, 200000),
@@ -403,7 +403,7 @@ describe('rule injection pipeline - integration', () => {
       });
 
       // Empty everything
-      const injectionInput: CarlInjectionInput = {
+      const injectionInput: OpencarlInjectionInput = {
         domainPayloads: {},
         matchedDomains: [],
       };

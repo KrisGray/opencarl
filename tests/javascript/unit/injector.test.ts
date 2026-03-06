@@ -4,7 +4,7 @@
  */
 
 import { buildCarlInjection } from '../../../src/carl/injector';
-import type { CarlInjectionInput } from '../../../src/carl/injector';
+import type { OpencarlInjectionInput } from '../../../src/carl/injector';
 import { createTestDomainPayload } from '../../helpers/domain-factory';
 import {
   createTestBracketData,
@@ -18,7 +18,7 @@ describe('injector.ts', () => {
   describe('buildCarlInjection', () => {
     describe('single domain', () => {
       it('should inject single matched domain', () => {
-        const input: CarlInjectionInput = {
+        const input: OpencarlInjectionInput = {
           domainPayloads: {
             DEVELOPMENT: createTestDomainPayload({
               domain: 'DEVELOPMENT',
@@ -38,7 +38,7 @@ describe('injector.ts', () => {
       });
 
       it('should include domain name in output', () => {
-        const input: CarlInjectionInput = {
+        const input: OpencarlInjectionInput = {
           domainPayloads: {
             CONTENT: createTestDomainPayload({
               domain: 'CONTENT',
@@ -54,7 +54,7 @@ describe('injector.ts', () => {
       });
 
       it('should number rules sequentially', () => {
-        const input: CarlInjectionInput = {
+        const input: OpencarlInjectionInput = {
           domainPayloads: {
             DEVELOPMENT: createTestDomainPayload({
               domain: 'DEVELOPMENT',
@@ -72,7 +72,7 @@ describe('injector.ts', () => {
       });
 
       it('should not inject inactive domain', () => {
-        const input: CarlInjectionInput = {
+        const input: OpencarlInjectionInput = {
           domainPayloads: {
             DEVELOPMENT: createTestDomainPayload({
               domain: 'DEVELOPMENT',
@@ -89,7 +89,7 @@ describe('injector.ts', () => {
       });
 
       it('should not inject domain with empty rules', () => {
-        const input: CarlInjectionInput = {
+        const input: OpencarlInjectionInput = {
           domainPayloads: {
             DEVELOPMENT: createTestDomainPayload({
               domain: 'DEVELOPMENT',
@@ -105,7 +105,7 @@ describe('injector.ts', () => {
       });
 
       it('should sort domains alphabetically', () => {
-        const input: CarlInjectionInput = {
+        const input: OpencarlInjectionInput = {
           domainPayloads: {
             ZEBRA: createTestDomainPayload({ domain: 'ZEBRA', rules: ['Z rule'] }),
             ALPHA: createTestDomainPayload({ domain: 'ALPHA', rules: ['A rule'] }),
@@ -127,7 +127,7 @@ describe('injector.ts', () => {
 
     describe('multiple domains', () => {
       it('should combine rules from multiple matched domains', () => {
-        const input: CarlInjectionInput = {
+        const input: OpencarlInjectionInput = {
           domainPayloads: {
             DEVELOPMENT: createTestDomainPayload({
               domain: 'DEVELOPMENT',
@@ -151,7 +151,7 @@ describe('injector.ts', () => {
       });
 
       it('should separate domains with headers', () => {
-        const input: CarlInjectionInput = {
+        const input: OpencarlInjectionInput = {
           domainPayloads: {
             ALPHA: createTestDomainPayload({ domain: 'ALPHA', rules: ['A rule'] }),
             BETA: createTestDomainPayload({ domain: 'BETA', rules: ['B rule'] }),
@@ -171,7 +171,7 @@ describe('injector.ts', () => {
       });
 
       it('should maintain domain separation (not merge rules)', () => {
-        const input: CarlInjectionInput = {
+        const input: OpencarlInjectionInput = {
           domainPayloads: {
             DOMAIN_A: createTestDomainPayload({
               domain: 'DOMAIN_A',
@@ -203,7 +203,7 @@ describe('injector.ts', () => {
       });
 
       it('should handle three or more domains', () => {
-        const input: CarlInjectionInput = {
+        const input: OpencarlInjectionInput = {
           domainPayloads: {
             ALPHA: createTestDomainPayload({ domain: 'ALPHA', rules: ['Rule A'] }),
             BETA: createTestDomainPayload({ domain: 'BETA', rules: ['Rule B'] }),
@@ -226,7 +226,7 @@ describe('injector.ts', () => {
       });
 
       it('should filter matchedDomains not in domainPayloads', () => {
-        const input: CarlInjectionInput = {
+        const input: OpencarlInjectionInput = {
           domainPayloads: {
             DEVELOPMENT: createTestDomainPayload({
               domain: 'DEVELOPMENT',
@@ -247,7 +247,7 @@ describe('injector.ts', () => {
 
     describe('global rules', () => {
       it('should always include GLOBAL domain', () => {
-        const input: CarlInjectionInput = {
+        const input: OpencarlInjectionInput = {
           domainPayloads: {
             GLOBAL: createTestDomainPayload({
               domain: 'GLOBAL',
@@ -266,7 +266,7 @@ describe('injector.ts', () => {
       });
 
       it('should include GLOBAL even with matched domains', () => {
-        const input: CarlInjectionInput = {
+        const input: OpencarlInjectionInput = {
           domainPayloads: {
             GLOBAL: createTestDomainPayload({
               domain: 'GLOBAL',
@@ -289,7 +289,7 @@ describe('injector.ts', () => {
       });
 
       it('should place GLOBAL in ALWAYS-ON DOMAINS section', () => {
-        const input: CarlInjectionInput = {
+        const input: OpencarlInjectionInput = {
           domainPayloads: {
             GLOBAL: createTestDomainPayload({
               domain: 'GLOBAL',
@@ -308,7 +308,7 @@ describe('injector.ts', () => {
 
     describe('always-on domains', () => {
       it('should include ALWAYS_ON domain even without match', () => {
-        const input: CarlInjectionInput = {
+        const input: OpencarlInjectionInput = {
           domainPayloads: {
             ALWAYS_ON_DOMAIN: createTestDomainPayload({
               domain: 'ALWAYS_ON_DOMAIN',
@@ -326,7 +326,7 @@ describe('injector.ts', () => {
       });
 
       it('should not duplicate ALWAYS_ON domain in matched section', () => {
-        const input: CarlInjectionInput = {
+        const input: OpencarlInjectionInput = {
           domainPayloads: {
             ALWAYS_ON_DOMAIN: createTestDomainPayload({
               domain: 'ALWAYS_ON_DOMAIN',
@@ -346,7 +346,7 @@ describe('injector.ts', () => {
       });
 
       it('should filter inactive ALWAYS_ON domains', () => {
-        const input: CarlInjectionInput = {
+        const input: OpencarlInjectionInput = {
           domainPayloads: {
             ALWAYS_ON_DOMAIN: createTestDomainPayload({
               domain: 'ALWAYS_ON_DOMAIN',
@@ -364,7 +364,7 @@ describe('injector.ts', () => {
       });
 
       it('should separate ALWAYS-ON from MATCHED sections', () => {
-        const input: CarlInjectionInput = {
+        const input: OpencarlInjectionInput = {
           domainPayloads: {
             DEVELOPMENT: createTestDomainPayload({
               domain: 'DEVELOPMENT',
@@ -391,7 +391,7 @@ describe('injector.ts', () => {
 
     describe('command domains', () => {
       it('should include command domains in COMMAND section', () => {
-        const input: CarlInjectionInput = {
+        const input: OpencarlInjectionInput = {
           domainPayloads: {
             BRIEF: createTestDomainPayload({
               domain: 'BRIEF',
@@ -408,7 +408,7 @@ describe('injector.ts', () => {
       });
 
       it('should prioritize command over matched domains', () => {
-        const input: CarlInjectionInput = {
+        const input: OpencarlInjectionInput = {
           domainPayloads: {
             BRIEF: createTestDomainPayload({
               domain: 'BRIEF',
@@ -428,7 +428,7 @@ describe('injector.ts', () => {
       });
 
       it('should prioritize command over alwaysOn', () => {
-        const input: CarlInjectionInput = {
+        const input: OpencarlInjectionInput = {
           domainPayloads: {
             BRIEF: createTestDomainPayload({
               domain: 'BRIEF',
@@ -449,7 +449,7 @@ describe('injector.ts', () => {
       });
 
       it('should handle multiple command domains', () => {
-        const input: CarlInjectionInput = {
+        const input: OpencarlInjectionInput = {
           domainPayloads: {
             BRIEF: createTestDomainPayload({
               domain: 'BRIEF',
@@ -471,7 +471,7 @@ describe('injector.ts', () => {
       });
 
       it('should filter inactive command domains', () => {
-        const input: CarlInjectionInput = {
+        const input: OpencarlInjectionInput = {
           domainPayloads: {
             BRIEF: createTestDomainPayload({
               domain: 'BRIEF',
@@ -488,7 +488,7 @@ describe('injector.ts', () => {
       });
 
       it('should normalize domain names (case-insensitive)', () => {
-        const input: CarlInjectionInput = {
+        const input: OpencarlInjectionInput = {
           domainPayloads: {
             BRIEF: createTestDomainPayload({
               domain: 'BRIEF',
@@ -507,7 +507,7 @@ describe('injector.ts', () => {
 
     describe('context brackets', () => {
       it('should include CONTEXT bracket header when context data provided', () => {
-        const input: CarlInjectionInput = {
+        const input: OpencarlInjectionInput = {
           domainPayloads: {
             CONTEXT: createTestDomainPayload({
               domain: 'CONTEXT',
@@ -533,7 +533,7 @@ describe('injector.ts', () => {
       });
 
       it('should filter CONTEXT rules by bracket', () => {
-        const input: CarlInjectionInput = {
+        const input: OpencarlInjectionInput = {
           domainPayloads: {
             CONTEXT: createTestDomainPayload({
               domain: 'CONTEXT',
@@ -562,7 +562,7 @@ describe('injector.ts', () => {
       });
 
       it('should show percentage remaining in header', () => {
-        const input: CarlInjectionInput = {
+        const input: OpencarlInjectionInput = {
           domainPayloads: {
             CONTEXT: createTestDomainPayload({
               domain: 'CONTEXT',
@@ -581,7 +581,7 @@ describe('injector.ts', () => {
       });
 
       it('should show fresh session message for null contextRemaining', () => {
-        const input: CarlInjectionInput = {
+        const input: OpencarlInjectionInput = {
           domainPayloads: {
             CONTEXT: createTestDomainPayload({
               domain: 'CONTEXT',
@@ -604,7 +604,7 @@ describe('injector.ts', () => {
       });
 
       it('should include critical warning for CRITICAL bracket', () => {
-        const input: CarlInjectionInput = {
+        const input: OpencarlInjectionInput = {
           domainPayloads: {
             CONTEXT: createTestDomainPayload({
               domain: 'CONTEXT',
@@ -628,7 +628,7 @@ describe('injector.ts', () => {
       });
 
       it('should use DEPLETED rules for CRITICAL state', () => {
-        const input: CarlInjectionInput = {
+        const input: OpencarlInjectionInput = {
           domainPayloads: {
             CONTEXT: createTestDomainPayload({
               domain: 'CONTEXT',
@@ -654,7 +654,7 @@ describe('injector.ts', () => {
       });
 
       it('should not include CONTEXT if bracket rules disabled', () => {
-        const input: CarlInjectionInput = {
+        const input: OpencarlInjectionInput = {
           domainPayloads: {
             CONTEXT: createTestDomainPayload({
               domain: 'CONTEXT',

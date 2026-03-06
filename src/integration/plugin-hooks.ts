@@ -6,7 +6,7 @@ import path from "path";
 // In production runtime, the actual @opencode-ai/plugin Hooks type will be used
 type Hooks = any;
 import { computeContextBracketData, type ContextBracketData } from "../carl/context-brackets";
-import type { CarlRuleDomainPayload, CarlMatchDomainConfig } from "../carl/types";
+import type { OpencarlRuleDomainPayload, OpencarlMatchDomainConfig } from "../carl/types";
 import { resolveCarlCommandSignals } from "../carl/command-parity";
 import { checkSetupNeeded, buildSetupPrompt, runSetup, runIntegration, integrateOpencode } from "../carl/setup";
 import {
@@ -109,9 +109,9 @@ function extractPromptText(message?: MessageLike, parts?: PartLike[]): string {
 }
 
 function buildMatchDomains(
-  payloads: Record<string, CarlRuleDomainPayload>,
-): Record<string, CarlMatchDomainConfig> {
-  const configs: Record<string, CarlMatchDomainConfig> = {};
+  payloads: Record<string, OpencarlRuleDomainPayload>,
+): Record<string, OpencarlMatchDomainConfig> {
+  const configs: Record<string, OpencarlMatchDomainConfig> = {};
 
   for (const payload of Object.values(payloads)) {
     configs[payload.domain] = {

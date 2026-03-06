@@ -4,7 +4,7 @@ import { createTestManifestPath } from '../../helpers/manifest-factory';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
-import type { CarlRuleDiscoveryWarning } from '../../../src/carl/types';
+import type { OpencarlRuleDiscoveryWarning } from '../../../src/carl/types';
 
 describe('validate.ts', () => {
   describe('parseManifest', () => {
@@ -592,7 +592,7 @@ DEVELOPMENT_RULE_2=Another rule`;
 
   describe('resolveDomainFile', () => {
     let tempDir: string;
-    let warnings: CarlRuleDiscoveryWarning[];
+    let warnings: OpencarlRuleDiscoveryWarning[];
 
     beforeEach(() => {
       tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'carl-test-'));
@@ -661,8 +661,8 @@ DEVELOPMENT_RULE_2=Another rule`;
         fs.writeFileSync(path.join(carlDir, 'development'), 'DEVELOPMENT_RULE_1=test', 'utf8');
         fs.writeFileSync(path.join(carlDir, 'context'), 'CONTEXT_RULE_1=test', 'utf8');
 
-        const warnings1: CarlRuleDiscoveryWarning[] = [];
-        const warnings2: CarlRuleDiscoveryWarning[] = [];
+        const warnings1: OpencarlRuleDiscoveryWarning[] = [];
+        const warnings2: OpencarlRuleDiscoveryWarning[] = [];
 
         const result1 = resolveDomainFile(carlDir, 'DEVELOPMENT', warnings1);
         const result2 = resolveDomainFile(carlDir, 'CONTEXT', warnings2);

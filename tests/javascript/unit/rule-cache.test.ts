@@ -1,4 +1,4 @@
-import type { CarlRuleDiscoveryResult } from '../../../src/carl/types';
+import type { OpencarlRuleDiscoveryResult } from '../../../src/carl/types';
 
 type LoadCarlRulesFn = typeof import('../../../src/carl/loader').loadCarlRules;
 
@@ -8,7 +8,7 @@ jest.mock('../../../src/carl/loader', () => ({
 
 let mockLoadCarlRules: jest.MockedFunction<LoadCarlRulesFn>;
 
-function createResult(domains: string[] = []): CarlRuleDiscoveryResult {
+function createResult(domains: string[] = []): OpencarlRuleDiscoveryResult {
   return {
     sources: [],
     domains,

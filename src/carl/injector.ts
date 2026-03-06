@@ -1,9 +1,9 @@
-import type { CarlRuleDomainPayload } from "./types";
+import type { OpencarlRuleDomainPayload } from "./types";
 import type { ContextBracket, ContextBracketData } from "./context-brackets";
 import { getRulesBracket, selectBracketRules, formatCriticalWarning } from "./context-brackets";
 
-export interface CarlInjectionInput {
-  domainPayloads: Record<string, CarlRuleDomainPayload>;
+export interface OpencarlInjectionInput {
+  domainPayloads: Record<string, OpencarlRuleDomainPayload>;
   matchedDomains?: string[];
   commandDomains?: string[];
   /** Context bracket data for CONTEXT rule filtering */
@@ -14,13 +14,13 @@ function normalizeDomainName(domain: string): string {
   return domain.trim().toUpperCase();
 }
 
-function sortPayloads(payloads: CarlRuleDomainPayload[]): CarlRuleDomainPayload[] {
+function sortPayloads(payloads: OpencarlRuleDomainPayload[]): OpencarlRuleDomainPayload[] {
   return [...payloads].sort((left, right) =>
     left.domain.localeCompare(right.domain)
   );
 }
 
-function renderDomainRules(payload: CarlRuleDomainPayload): string[] {
+function renderDomainRules(payload: OpencarlRuleDomainPayload): string[] {
   const lines: string[] = [];
   lines.push(`[${payload.domain}] RULES:`);
 
@@ -36,7 +36,7 @@ function renderDomainRules(payload: CarlRuleDomainPayload): string[] {
  * Only includes rules for the active bracket.
  */
 function renderContextRules(
-  payload: CarlRuleDomainPayload,
+  payload: OpencarlRuleDomainPayload,
   contextBracket?: ContextBracketData
 ): string[] {
   const lines: string[] = [];
@@ -81,7 +81,7 @@ function renderContextRules(
   return lines;
 }
 
-export function buildCarlInjection(input: CarlInjectionInput): string | null {
+export function buildCarlInjection(input: OpencarlInjectionInput): string | null {
   const payloadMap = input.domainPayloads ?? {};
   const commandSet = new Set(
     (input.commandDomains ?? []).map((domain) => normalizeDomainName(domain))
@@ -94,7 +94,7 @@ export function buildCarlInjection(input: CarlInjectionInput): string | null {
   const commandPayloads = sortPayloads(
     Array.from(commandSet)
       .map((domain) => payloadMap[domain])
-      .filter((payload): payload is CarlRuleDomainPayload => Boolean(payload))
+      .filter((payload): payload is OpencarlRuleDomainPayload => Boolean(payload))
       .filter((payload) => payload.state)
       .filter((payload) => payload.rules.length > 0)
   );
@@ -110,7 +110,7 @@ export function buildCarlInjection(input: CarlInjectionInput): string | null {
   const matchedPayloads = sortPayloads(
     Array.from(matchedSet)
       .map((domain) => payloadMap[domain])
-      .filter((payload): payload is CarlRuleDomainPayload => Boolean(payload))
+      .filter((payload): payload is OpencarlRuleDomainPayload => Boolean(payload))
       .filter((payload) => payload.state)
       .filter((payload) => !commandSet.has(payload.domain))
       .filter((payload) => !(payload.alwaysOn || payload.domain === "GLOBAL"))

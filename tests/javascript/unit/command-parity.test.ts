@@ -1,5 +1,5 @@
 import { resolveCarlCommandSignals, type CarlCommandResolutionInput } from '../../../src/carl/command-parity';
-import type { CarlRuleDomainPayload } from '../../../src/carl/types';
+import type { OpencarlRuleDomainPayload } from '../../../src/carl/types';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
@@ -88,7 +88,7 @@ describe('command-parity.ts', () => {
           'CARL_RULE_1=You are CARL, a helpful assistant.\nCARL_RULE_2=Follow best practices.\n'
         );
 
-        const commandsPayload: CarlRuleDomainPayload = {
+        const commandsPayload: OpencarlRuleDomainPayload = {
           domain: 'COMMANDS',
           scope: 'project',
           sourcePath: tempDir,
@@ -118,7 +118,7 @@ describe('command-parity.ts', () => {
           'CARL_RULE_1=You are CARL.\n'
         );
 
-        const commandsPayload: CarlRuleDomainPayload = {
+        const commandsPayload: OpencarlRuleDomainPayload = {
           domain: 'COMMANDS',
           scope: 'project',
           sourcePath: tempDir,
@@ -145,7 +145,7 @@ describe('command-parity.ts', () => {
           'CARL_RULE_1=You are CARL.\n'
         );
 
-        const commandsPayload: CarlRuleDomainPayload = {
+        const commandsPayload: OpencarlRuleDomainPayload = {
           domain: 'COMMANDS',
           scope: 'project',
           sourcePath: tempDir,
@@ -187,7 +187,7 @@ describe('command-parity.ts', () => {
           'CARL_RULE_1=You are CARL.\nCARL_RULE_2=Be helpful.\n'
         );
 
-        const commandsPayload: CarlRuleDomainPayload = {
+        const commandsPayload: OpencarlRuleDomainPayload = {
           domain: 'COMMANDS',
           scope: 'project',
           sourcePath: tempDir,
@@ -215,7 +215,7 @@ describe('command-parity.ts', () => {
           'BRIEF_RULE_1=Be concise.\nDEV_RULE_1=Focus on code.\n'
         );
 
-        const commandsPayload: CarlRuleDomainPayload = {
+        const commandsPayload: OpencarlRuleDomainPayload = {
           domain: 'COMMANDS',
           scope: 'project',
           sourcePath: tempDir,
@@ -244,7 +244,7 @@ describe('command-parity.ts', () => {
           'CARL_RULE_1=You are CARL.\n'
         );
 
-        const commandsPayload: CarlRuleDomainPayload = {
+        const commandsPayload: OpencarlRuleDomainPayload = {
           domain: 'COMMANDS',
           scope: 'project',
           sourcePath: tempDir,
@@ -272,7 +272,7 @@ describe('command-parity.ts', () => {
           'CARL_RULE_1=You are CARL.\nBRIEF_RULE_1=Be brief.\n'
         );
 
-        const commandsPayload: CarlRuleDomainPayload = {
+        const commandsPayload: OpencarlRuleDomainPayload = {
           domain: 'COMMANDS',
           scope: 'project',
           sourcePath: tempDir,
@@ -310,7 +310,7 @@ describe('command-parity.ts', () => {
           'CARL_RULE_1=You are CARL.\nBRIEF_RULE_1=Be brief.\nDEV_RULE_1=Dev mode.\n'
         );
 
-        const commandsPayload: CarlRuleDomainPayload = {
+        const commandsPayload: OpencarlRuleDomainPayload = {
           domain: 'COMMANDS',
           scope: 'project',
           sourcePath: tempDir,
@@ -360,7 +360,7 @@ describe('command-parity.ts', () => {
       });
 
       it('should handle commandsPayload with state: false', () => {
-        const commandsPayload: CarlRuleDomainPayload = {
+        const commandsPayload: OpencarlRuleDomainPayload = {
           domain: 'COMMANDS',
           scope: 'project',
           sourcePath: tempDir,
@@ -382,7 +382,7 @@ describe('command-parity.ts', () => {
       });
 
       it('should handle missing commandFilePath', () => {
-        const commandsPayload: CarlRuleDomainPayload = {
+        const commandsPayload: OpencarlRuleDomainPayload = {
           domain: 'COMMANDS',
           scope: 'project',
           sourcePath: undefined as unknown as string,
@@ -452,7 +452,7 @@ describe('command-parity.ts', () => {
       });
 
       it('should handle non-existent commands file path', () => {
-        const commandsPayload: CarlRuleDomainPayload = {
+        const commandsPayload: OpencarlRuleDomainPayload = {
           domain: 'COMMANDS',
           scope: 'project',
           sourcePath: tempDir,
@@ -477,7 +477,7 @@ describe('command-parity.ts', () => {
       it('should handle empty commands file', () => {
         fs.writeFileSync(commandsPath, '');
 
-        const commandsPayload: CarlRuleDomainPayload = {
+        const commandsPayload: OpencarlRuleDomainPayload = {
           domain: 'COMMANDS',
           scope: 'project',
           sourcePath: tempDir,
@@ -504,7 +504,7 @@ describe('command-parity.ts', () => {
           '# This is a comment\n# Another comment\n'
         );
 
-        const commandsPayload: CarlRuleDomainPayload = {
+        const commandsPayload: OpencarlRuleDomainPayload = {
           domain: 'COMMANDS',
           scope: 'project',
           sourcePath: tempDir,
@@ -531,7 +531,7 @@ describe('command-parity.ts', () => {
           'CARL_RULE_1=Valid rule\nINVALID_LINE\nCARL_RULE_2=Another valid\nNO_EQUALS_HERE\n'
         );
 
-        const commandsPayload: CarlRuleDomainPayload = {
+        const commandsPayload: OpencarlRuleDomainPayload = {
           domain: 'COMMANDS',
           scope: 'project',
           sourcePath: tempDir,

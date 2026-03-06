@@ -1,34 +1,34 @@
-export type CarlRuleSourceScope = "project" | "global" | "fallback";
+export type OpencarlRuleSourceScope = "project" | "global" | "fallback";
 
-export interface CarlRuleSource {
-  scope: CarlRuleSourceScope;
+export interface OpencarlRuleSource {
+  scope: OpencarlRuleSourceScope;
   path: string;
   domains: string[];
 }
 
-export interface CarlRuleDiscoveryWarning {
+export interface OpencarlRuleDiscoveryWarning {
   message: string;
   path?: string;
   domain?: string;
-  scope?: CarlRuleSourceScope;
+  scope?: OpencarlRuleSourceScope;
 }
 
-export type CarlProjectStatus = "valid" | "invalid" | "none";
+export type OpencarlProjectStatus = "valid" | "invalid" | "none";
 
-export interface CarlRuleDiscoveryResult {
-  sources: CarlRuleSource[];
+export interface OpencarlRuleDiscoveryResult {
+  sources: OpencarlRuleSource[];
   domains: string[];
-  warnings: CarlRuleDiscoveryWarning[];
-  domainPayloads: Record<string, CarlRuleDomainPayload>;
+  warnings: OpencarlRuleDiscoveryWarning[];
+  domainPayloads: Record<string, OpencarlRuleDomainPayload>;
   globalExclude: string[];
   devmode: boolean;
-  projectStatus: CarlProjectStatus;
-  projectWarnings: CarlRuleDiscoveryWarning[];
+  projectStatus: OpencarlProjectStatus;
+  projectWarnings: OpencarlRuleDiscoveryWarning[];
 }
 
-export interface CarlRuleDomainPayload {
+export interface OpencarlRuleDomainPayload {
   domain: string;
-  scope: CarlRuleSourceScope;
+  scope: OpencarlRuleSourceScope;
   sourcePath: string;
   rules: string[];
   state: boolean;
@@ -41,16 +41,16 @@ export interface CarlRuleDomainPayload {
   bracketRules?: Record<string, string[]>;
 }
 
-export type CarlSignalSource = "prompt" | "tool" | "path";
+export type OpencarlSignalSource = "prompt" | "tool" | "path";
 
-export interface CarlSessionSignals {
+export interface OpencarlSessionSignals {
   promptTokens: string[];
   promptHistory: string[];
   toolTokens: string[];
   pathTokens: string[];
 }
 
-export interface CarlMatchDomainConfig {
+export interface OpencarlMatchDomainConfig {
   name: string;
   state: boolean;
   recall: string[];
@@ -58,30 +58,30 @@ export interface CarlMatchDomainConfig {
   alwaysOn: boolean;
 }
 
-export interface CarlMatchRequest {
+export interface OpencarlMatchRequest {
   promptText: string;
-  signals: CarlSessionSignals;
-  domains: Record<string, CarlMatchDomainConfig>;
+  signals: OpencarlSessionSignals;
+  domains: Record<string, OpencarlMatchDomainConfig>;
   globalExclude: string[];
 }
 
-export type CarlExclusionSource = "global" | "domain";
+export type OpencarlExclusionSource = "global" | "domain";
 
-export interface CarlDomainMatchResult {
+export interface OpencarlDomainMatchResult {
   domain: string;
   matchedKeywords: string[];
   excludedKeywords: string[];
-  exclusionSource?: CarlExclusionSource;
+  exclusionSource?: OpencarlExclusionSource;
 }
 
-export interface CarlGlobalExcludeResult {
+export interface OpencarlGlobalExcludeResult {
   matchedKeywords: string[];
   triggered: boolean;
 }
 
-export interface CarlMatchResult {
-  globalExclude: CarlGlobalExcludeResult;
+export interface OpencarlMatchResult {
+  globalExclude: OpencarlGlobalExcludeResult;
   matchedDomains: string[];
   excludedDomains: string[];
-  domainResults: CarlDomainMatchResult[];
+  domainResults: OpencarlDomainMatchResult[];
 }

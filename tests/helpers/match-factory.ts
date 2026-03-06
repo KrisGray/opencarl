@@ -1,11 +1,11 @@
-import type { CarlMatchRequest, CarlSessionSignals } from '../../src/carl/types';
+import type { OpencarlMatchRequest, OpencarlSessionSignals } from '../../src/carl/types';
 
 /**
  * Create a test match request with sensible defaults
  */
 export function createTestMatchRequest(
-  overrides?: Partial<CarlMatchRequest>
-): CarlMatchRequest {
+  overrides?: Partial<OpencarlMatchRequest>
+): OpencarlMatchRequest {
   return {
     promptText: 'Write a function to add two numbers',
     signals: {
@@ -32,8 +32,8 @@ export function createTestMatchRequest(
  * Create test session signals with sensible defaults
  */
 export function createTestSignals(
-  overrides?: Partial<CarlSessionSignals>
-): CarlSessionSignals {
+  overrides?: Partial<OpencarlSessionSignals>
+): OpencarlSessionSignals {
   return {
     promptTokens: ['token1', 'token2'],
     promptHistory: ['history1'],

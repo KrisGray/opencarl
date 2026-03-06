@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import { createRequire } from "module";
-import type { CarlRuleDiscoveryWarning } from "./types";
+import type { OpencarlRuleDiscoveryWarning } from "./types";
 
 export interface ManifestDomainConfig {
   name: string;
@@ -15,13 +15,13 @@ export interface ParsedManifest {
   domains: Record<string, ManifestDomainConfig>;
   devmode: boolean;
   globalExclude: string[];
-  warnings: CarlRuleDiscoveryWarning[];
+  warnings: OpencarlRuleDiscoveryWarning[];
   isValid: boolean;
 }
 
 export interface ParsedDomainRules {
   rules: string[];
-  warnings: CarlRuleDiscoveryWarning[];
+  warnings: OpencarlRuleDiscoveryWarning[];
   /** CONTEXT domain: bracket enable/disable flags */
   bracketFlags?: Record<string, boolean>;
   /** CONTEXT domain: rules organized by bracket */
@@ -48,7 +48,7 @@ const keyValueSchema = z.object({
 const domainKeyPattern = /^([A-Z0-9_]+)_(STATE|RECALL|EXCLUDE|ALWAYS_ON)$/;
 
 function warn(
-  warnings: CarlRuleDiscoveryWarning[],
+  warnings: OpencarlRuleDiscoveryWarning[],
   message: string,
   details?: { path?: string; domain?: string }
 ): void {
@@ -88,7 +88,7 @@ function ensureDomain(domains: Record<string, ManifestDomainConfig>, name: strin
 }
 
 export function parseManifest(manifestPath: string): ParsedManifest {
-  const warnings: CarlRuleDiscoveryWarning[] = [];
+  const warnings: OpencarlRuleDiscoveryWarning[] = [];
   const domains: Record<string, ManifestDomainConfig> = {};
   let devmode = false;
   let globalExclude: string[] = [];
@@ -243,7 +243,7 @@ function isValidDomainRuleKey(domain: string, key: string): boolean {
 }
 
 export function parseDomainRules(domainPath: string, domain: string): ParsedDomainRules {
-  const warnings: CarlRuleDiscoveryWarning[] = [];
+  const warnings: OpencarlRuleDiscoveryWarning[] = [];
   const rules: string[] = [];
   let bracketFlags: Record<string, boolean> | undefined;
   let bracketRules: Record<string, string[]> | undefined;
@@ -334,7 +334,7 @@ export function parseDomainRules(domainPath: string, domain: string): ParsedDoma
 export function resolveDomainFile(
   carlDir: string,
   domain: string,
-  warnings: CarlRuleDiscoveryWarning[]
+  warnings: OpencarlRuleDiscoveryWarning[]
 ): string | null {
   const expectedName = domain.toLowerCase();
   const expectedPath = path.join(carlDir, expectedName);

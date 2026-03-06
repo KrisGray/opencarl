@@ -1,8 +1,8 @@
 import type {
-  CarlDomainMatchResult,
-  CarlMatchDomainConfig,
-  CarlMatchRequest,
-  CarlMatchResult,
+  OpencarlDomainMatchResult,
+  OpencarlMatchDomainConfig,
+  OpencarlMatchRequest,
+  OpencarlMatchResult,
 } from "./types";
 import { debugRuleMatch } from "./debug";
 
@@ -18,7 +18,7 @@ function keywordMatchesSignals(keyword: string, signals: string[]): boolean {
   return signals.some((entry) => entry.includes(keyword));
 }
 
-function collectSignalHaystack(request: CarlMatchRequest): string[] {
+function collectSignalHaystack(request: OpencarlMatchRequest): string[] {
   const haystack = new Set<string>();
   const promptText = request.promptText.trim().toLowerCase();
   if (promptText) {
@@ -42,13 +42,13 @@ function collectSignalHaystack(request: CarlMatchRequest): string[] {
   return Array.from(haystack);
 }
 
-function getDomainEntries(domains: Record<string, CarlMatchDomainConfig>) {
+function getDomainEntries(domains: Record<string, OpencarlMatchDomainConfig>) {
   return Object.values(domains)
     .filter((domain) => domain.state)
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
-export function matchDomainsForTurn(request: CarlMatchRequest): CarlMatchResult {
+export function matchDomainsForTurn(request: OpencarlMatchRequest): OpencarlMatchResult {
   const haystack = collectSignalHaystack(request);
   const globalExcludeMatches = request.globalExclude
     .map((entry) => normalizeKeyword(entry))
@@ -67,7 +67,7 @@ export function matchDomainsForTurn(request: CarlMatchRequest): CarlMatchResult 
     };
   }
 
-  const domainResults: CarlDomainMatchResult[] = [];
+  const domainResults: OpencarlDomainMatchResult[] = [];
   const matchedDomains: string[] = [];
   const excludedDomains: string[] = [];
 

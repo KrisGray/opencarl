@@ -1,6 +1,6 @@
 import * as os from "os";
 import { loadCarlRules, type CarlRuleDiscoveryOptions } from "./loader";
-import type { CarlRuleDiscoveryResult, CarlRuleSourceScope } from "./types";
+import type { OpencarlRuleDiscoveryResult, OpencarlRuleSourceScope } from "./types";
 
 /**
  * Session-scoped rule cache with dirty tracking for live reload support.
@@ -8,7 +8,7 @@ import type { CarlRuleDiscoveryResult, CarlRuleSourceScope } from "./types";
  */
 
 interface RuleCacheEntry {
-  result: CarlRuleDiscoveryResult;
+  result: OpencarlRuleDiscoveryResult;
   lastLoadedAt: number;
   options: CarlRuleDiscoveryOptions;
 }
@@ -100,7 +100,7 @@ export function clearSessionWarning(sessionId: string): void {
  */
 export function getCachedRules(
   options: CarlRuleDiscoveryOptions = {}
-): CarlRuleDiscoveryResult {
+): OpencarlRuleDiscoveryResult {
   const now = Date.now();
   const homeDir = options.homeDir ?? os.homedir();
   const cwd = options.cwd ?? process.cwd();

@@ -6,7 +6,7 @@
 /**
  * Categories of errors that can occur in the CARL plugin.
  */
-export type CarlErrorCategory = "config" | "manifest" | "runtime" | "permission";
+export type OpencarlErrorCategory = "config" | "manifest" | "runtime" | "permission";
 
 /**
  * Base URL for CARL documentation.
@@ -17,8 +17,8 @@ const DOCS_BASE_URL = "https://github.com/krisjg/carl/blob/main/docs";
  * Structured error class for CARL-specific errors.
  * Provides rich context to help users understand and fix issues.
  */
-export class CarlError extends Error {
-  public readonly category: CarlErrorCategory;
+export class OpencarlError extends Error {
+  public readonly category: OpencarlErrorCategory;
   public readonly context: string;
   public readonly location: string;
   public readonly fix: string;
@@ -26,14 +26,14 @@ export class CarlError extends Error {
 
   constructor(
     message: string,
-    category: CarlErrorCategory,
+    category: OpencarlErrorCategory,
     context: string,
     location: string,
     fix: string,
     docsLink?: string
   ) {
     super(message);
-    this.name = "CarlError";
+    this.name = "OpencarlError";
     this.category = category;
     this.context = context;
     this.location = location;
@@ -42,20 +42,20 @@ export class CarlError extends Error {
 
     // Maintain proper stack trace in V8 environments
     if (Error.captureStackTrace) {
-      Error.captureStackTrace(this, CarlError);
+      Error.captureStackTrace(this, OpencarlError);
     }
   }
 }
 
 /**
  * Format an error for display to the user via console.error.
- * Handles both CarlError instances and generic errors.
+ * Handles both OpencarlError instances and generic errors.
  *
- * @param error - The error to format (can be CarlError or any other error type)
+ * @param error - The error to format (can be OpencarlError or any other error type)
  * @returns A formatted string suitable for console.error output
  */
 export function formatError(error: unknown): string {
-  if (error instanceof CarlError) {
+  if (error instanceof OpencarlError) {
     const lines: string[] = [
       `[carl] ERROR: ${error.context}`,
       `  Location: ${error.location}`,
@@ -88,7 +88,7 @@ export function formatError(error: unknown): string {
 /**
  * Documentation links for error categories.
  */
-const DOCS_LINKS: Record<CarlErrorCategory, string> = {
+const DOCS_LINKS: Record<OpencarlErrorCategory, string> = {
   config: `${DOCS_BASE_URL}/troubleshooting.md#configuration-errors`,
   manifest: `${DOCS_BASE_URL}/troubleshooting.md#manifest-errors`,
   runtime: `${DOCS_BASE_URL}/troubleshooting.md#runtime-errors`,
@@ -100,10 +100,10 @@ const DOCS_LINKS: Record<CarlErrorCategory, string> = {
  *
  * @param path - Path to the manifest file that failed to parse
  * @param details - Specific details about what went wrong
- * @returns A CarlError with actionable fix suggestions
+ * @returns A OpencarlError with actionable fix suggestions
  */
-export function manifestParseError(path: string, details: string): CarlError {
-  return new CarlError(
+export function manifestParseError(path: string, details: string): OpencarlError {
+  return new OpencarlError(
     `Failed to parse manifest file: ${details}`,
     "manifest",
     "Loading CARL manifest configuration",
@@ -119,14 +119,14 @@ export function manifestParseError(path: string, details: string): CarlError {
  * @param domain - The domain name that failed to load
  * @param path - Path to the domain file
  * @param details - Specific details about what went wrong
- * @returns A CarlError with actionable fix suggestions
+ * @returns A OpencarlError with actionable fix suggestions
  */
 export function domainLoadError(
   domain: string,
   path: string,
   details: string
-): CarlError {
-  return new CarlError(
+): OpencarlError {
+  return new OpencarlError(
     `Failed to load domain rules: ${details}`,
     "runtime",
     `Loading ${domain} domain rules`,
@@ -141,10 +141,10 @@ export function domainLoadError(
  *
  * @param path - Path to the file with permission issues
  * @param operation - The operation that was attempted (read, write, etc.)
- * @returns A CarlError with actionable fix suggestions
+ * @returns A OpencarlError with actionable fix suggestions
  */
-export function permissionError(path: string, operation: string): CarlError {
-  return new CarlError(
+export function permissionError(path: string, operation: string): OpencarlError {
+  return new OpencarlError(
     `Permission denied while trying to ${operation}`,
     "permission",
     `Accessing ${path}`,
@@ -159,10 +159,10 @@ export function permissionError(path: string, operation: string): CarlError {
  *
  * @param path - Path to the config file that couldn't be read
  * @param details - Specific details about what went wrong
- * @returns A CarlError with actionable fix suggestions
+ * @returns A OpencarlError with actionable fix suggestions
  */
-export function configReadError(path: string, details: string): CarlError {
-  return new CarlError(
+export function configReadError(path: string, details: string): OpencarlError {
+  return new OpencarlError(
     `Failed to read configuration: ${details}`,
     "config",
     "Reading CARL configuration",
@@ -176,10 +176,10 @@ export function configReadError(path: string, details: string): CarlError {
  * Create an error for setup failures.
  *
  * @param details - Specific details about what went wrong during setup
- * @returns A CarlError with actionable fix suggestions
+ * @returns A OpencarlError with actionable fix suggestions
  */
-export function setupError(details: string): CarlError {
-  return new CarlError(
+export function setupError(details: string): OpencarlError {
+  return new OpencarlError(
     `Setup failed: ${details}`,
     "config",
     "Running CARL setup",
@@ -194,10 +194,10 @@ export function setupError(details: string): CarlError {
  *
  * @param targetFile - The file being integrated with (e.g., AGENTS.md)
  * @param details - Specific details about what went wrong
- * @returns A CarlError with actionable fix suggestions
+ * @returns A OpencarlError with actionable fix suggestions
  */
-export function integrationError(targetFile: string, details: string): CarlError {
-  return new CarlError(
+export function integrationError(targetFile: string, details: string): OpencarlError {
+  return new OpencarlError(
     `Integration failed: ${details}`,
     "config",
     `Integrating with ${targetFile}`,

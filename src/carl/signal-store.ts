@@ -1,5 +1,5 @@
 import * as path from "path";
-import type { CarlSessionSignals } from "./types";
+import type { OpencarlSessionSignals } from "./types";
 
 const MAX_SIGNAL_ENTRIES = 20;
 
@@ -174,7 +174,7 @@ export function recordToolSignals(
   pushBounded(store.pathEntries, Array.from(pathTokens));
 }
 
-export function getSessionSignals(sessionId: string): CarlSessionSignals {
+export function getSessionSignals(sessionId: string): OpencarlSessionSignals {
   if (!sessionId) {
     return {
       promptTokens: [],
