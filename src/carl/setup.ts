@@ -95,7 +95,7 @@ export function checkSetupNeeded(options: {
  * Recursively copy template directory to target, skipping existing files.
  * Never overwrites user content.
  */
-export async function seedCarlTemplates(
+export async function seedOpencarlTemplates(
   targetDir: string,
   templateDir: string
 ): Promise<SeedResult> {
@@ -130,7 +130,7 @@ export async function seedCarlTemplates(
 
     if (entry.isDirectory()) {
       // Recurse for directories
-      const subResult = await seedCarlTemplates(destPath, srcPath);
+      const subResult = await seedOpencarlTemplates(destPath, srcPath);
       results.copied.push(...subResult.copied.map((p) => path.join(entry.name, p)));
       results.skipped.push(...subResult.skipped.map((p) => path.join(entry.name, p)));
       results.failed.push(...subResult.failed.map((f) => ({
@@ -227,7 +227,7 @@ export async function runSetup(options: {
 
   // Seed templates
   console.log("[carl] Seeding templates...");
-  const seedResult = await seedCarlTemplates(targetDir, actualTemplateDir);
+  const seedResult = await seedOpencarlTemplates(targetDir, actualTemplateDir);
 
   // Report progress with checkmarks
   for (const file of seedResult.copied) {
@@ -286,7 +286,7 @@ export async function runIntegration(options: {
   const targetAgentsPath = agentsPath || defaultAgentsPath;
 
   // Resolve CARL-AGENTS.md path relative to this module
-  const carlDocsPath = path.resolve(
+  const opencarlDocsPath = path.resolve(
     path.dirname(require.main?.filename || __dirname),
     "..",
     "resources",
@@ -295,7 +295,7 @@ export async function runIntegration(options: {
   );
 
   if (integrate) {
-    return integrateCarl(targetAgentsPath, carlDocsPath);
+    return integrateCarl(targetAgentsPath, opencarlDocsPath);
   }
 
   if (remove) {
@@ -317,7 +317,7 @@ export async function runIntegration(options: {
  * @param options - Configuration options including cwd
  * @returns IntegrationResult with success status and message
  */
-export async function integrateOpencode(options: {
+export async function integrateOpencarl(options: {
   cwd: string;
 }): Promise<IntegrationResult> {
   const { cwd } = options;
@@ -336,7 +336,7 @@ export async function integrateOpencode(options: {
     }
 
     // Resolve CARL-DOCS.md path relative to this module
-    const carlDocsPath = path.resolve(
+    const opencarlDocsPath = path.resolve(
       path.dirname(require.main?.filename || __dirname),
       "..",
       "resources",
@@ -345,7 +345,7 @@ export async function integrateOpencode(options: {
     );
 
     // Relative path for opencode.json instructions
-    // Use path relative to cwd if carlDocsPath is within cwd, otherwise use absolute
+    // Use path relative to cwd if opencarlDocsPath is within cwd, otherwise use absolute
     const relativePath = "./resources/docs/CARL-DOCS.md";
 
     // Merge CARL instructions
@@ -395,26 +395,26 @@ export interface ToggleResult {
 export function runList(options: { cwd: string; homeDir: string }): ListResult {
   const { cwd, homeDir } = options;
 
-  // Find the .carl/ directory (project first, then global)
-  let carlDir: string | null = null;
+  // Find .carl/ directory (project first, then global)
+  let opencarlDir: string | null = null;
   const projectCarl = findProjectCarl(cwd);
   if (projectCarl) {
-    carlDir = projectCarl.carlDir;
+    opencarlDir = projectCarl.carlDir;
   } else {
     const globalCarl = findGlobalCarl(homeDir);
     if (globalCarl) {
-      carlDir = globalCarl.carlDir;
+      opencarlDir = globalCarl.carlDir;
     }
   }
 
-  if (!carlDir) {
+  if (!opencarlDir) {
     return {
       success: false,
       error: "No .carl/ directory found. Run setup first.",
     };
   }
 
-  const manifestPath = path.join(carlDir, "manifest");
+  const manifestPath = path.join(opencarlDir, "manifest");
 
   if (!fs.existsSync(manifestPath)) {
     return {
@@ -481,26 +481,26 @@ export function runToggle(options: {
   // Normalize domain name to uppercase
   const domainName = domain.toUpperCase();
 
-  // Find the .carl/ directory (project first, then global)
-  let carlDir: string | null = null;
+  // Find .carl/ directory (project first, then global)
+  let opencarlDir: string | null = null;
   const projectCarl = findProjectCarl(cwd);
   if (projectCarl) {
-    carlDir = projectCarl.carlDir;
+    opencarlDir = projectCarl.carlDir;
   } else {
     const globalCarl = findGlobalCarl(homeDir);
     if (globalCarl) {
-      carlDir = globalCarl.carlDir;
+      opencarlDir = globalCarl.carlDir;
     }
   }
 
-  if (!carlDir) {
+  if (!opencarlDir) {
     return {
       success: false,
       error: "No .carl/ directory found. Run setup first.",
     };
   }
 
-  const manifestPath = path.join(carlDir, "manifest");
+  const manifestPath = path.join(opencarlDir, "manifest");
 
   if (!fs.existsSync(manifestPath)) {
     return {

@@ -1,9 +1,9 @@
 import * as fs from "fs";
 import * as path from "path";
 import type { OpencarlRuleDomainPayload } from "./types";
-import { buildCarlDocsGuidance } from "./help-text";
+import { buildCarlDocsGuidance as buildOpencarlDocsGuidance } from "./help-text";
 
-export interface CarlCommandResolutionInput {
+export interface OpencarlCommandResolutionInput {
   promptText?: string;
   commandOverrides?: string[];
   commandsPayload?: OpencarlRuleDomainPayload | null;
@@ -12,7 +12,7 @@ export interface CarlCommandResolutionInput {
   getHelpGuidance?: () => string;
 }
 
-export interface CarlCommandResolutionResult {
+export interface OpencarlCommandResolutionResult {
   commandTokens: string[];
   commandDomains: string[];
   commandPayloads: Record<string, OpencarlRuleDomainPayload>;
@@ -123,9 +123,9 @@ function parseCommandRules(commandFilePath: string): CommandRuleMap {
   return rules;
 }
 
-export function resolveCarlCommandSignals(
-  input: CarlCommandResolutionInput
-): CarlCommandResolutionResult {
+export function resolveOpencarlCommandSignals(
+  input: OpencarlCommandResolutionInput
+): OpencarlCommandResolutionResult {
   const promptText = input.promptText ?? "";
   const starTokens = detectStarCommands(promptText);
   const overrideTokens = input.commandOverrides ?? [];
@@ -174,11 +174,11 @@ export function resolveCarlCommandSignals(
       const isDocsRequest = promptText.toLowerCase().includes('docs');
 
       if (isDocsRequest) {
-        const docsGuidance = buildCarlDocsGuidance();
+        const docsGuidance = buildOpencarlDocsGuidance();
         // Use quick reference for initial response
         payloadRules.push(docsGuidance.quickReference);
         // Note about full docs available
-        payloadRules.push("\n\n*For the full guide, see the resources/docs/CARL-DOCS.md file or visit the online documentation.*");
+        payloadRules.push("\n\n*For full guide, see resources/docs/CARL-DOCS.md file or visit online documentation.*");
       } else {
         // Existing help guidance logic
         const guidance =

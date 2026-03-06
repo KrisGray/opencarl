@@ -7,8 +7,8 @@ import path from "path";
 type Hooks = any;
 import { computeContextBracketData, type ContextBracketData } from "../carl/context-brackets";
 import type { OpencarlRuleDomainPayload, OpencarlMatchDomainConfig } from "../carl/types";
-import { resolveCarlCommandSignals } from "../carl/command-parity";
-import { checkSetupNeeded, buildSetupPrompt, runSetup, runIntegration, integrateOpencode } from "../carl/setup";
+import { resolveOpencarlCommandSignals } from "../carl/command-parity";
+import { checkSetupNeeded, buildSetupPrompt, runSetup, runIntegration, integrateOpencarl } from "../carl/setup";
 import {
   registerPluginLoad,
   checkDuplicateLoad,
@@ -259,7 +259,7 @@ export function createCarlPluginHooks(): Hooks {
       // Handle /carl setup --integrate-opencode
       if (commandName === "carl setup --integrate-opencode") {
         try {
-          const result = await integrateOpencode({
+          const result = await integrateOpencarl({
             cwd: process.cwd(),
           });
           console.log(result.message);
@@ -322,7 +322,7 @@ export function createCarlPluginHooks(): Hooks {
       const promptText = getSessionPromptText(sessionId);
       const commandOverrides = consumeCommandSignals(sessionId);
 
-      const commandResolution = resolveCarlCommandSignals({
+      const commandResolution = resolveOpencarlCommandSignals({
         promptText,
         commandOverrides,
         commandsPayload: discovery.domainPayloads.COMMANDS,

@@ -4,7 +4,7 @@ import {
   findFallbackCarl,
   findGlobalCarl,
   findProjectCarl,
-  type CarlSourcePath,
+  type CarlSourcePath as OpencarlSourcePath,
 } from "../integration/paths";
 import {
   loadSessionOverrides,
@@ -32,18 +32,18 @@ import {
 } from "./errors";
 import { debugFileLoad } from "./debug";
 
-export interface CarlRuleDiscoveryOverrides {
-  projectCarlDir?: string;
-  globalCarlDir?: string;
-  fallbackCarlDir?: string;
+export interface OpencarlRuleDiscoveryOverrides {
+  projectOpencarlDir?: string;
+  globalOpencarlDir?: string;
+  fallbackOpencarlDir?: string;
 }
 
-export interface CarlRuleDiscoveryOptions {
+export interface OpencarlRuleDiscoveryOptions {
   cwd?: string;
   homeDir?: string;
   projectRoot?: string;
-  overrides?: CarlRuleDiscoveryOverrides;
-  /** When false, project rules are skipped even if .carl/ exists */
+  overrides?: OpencarlRuleDiscoveryOverrides;
+  /** When false, project rules are skipped even if .opencarl/ exists */
   projectOptIn?: boolean;
   /** Session ID for per-session domain overrides */
   sessionId?: string;
@@ -51,7 +51,7 @@ export interface CarlRuleDiscoveryOptions {
 
 interface ResolvedSource {
   scope: OpencarlRuleSource["scope"];
-  path: CarlSourcePath;
+  path: OpencarlSourcePath;
   manifest: ParsedManifest;
 }
 
@@ -63,22 +63,22 @@ interface ProjectLoadResult {
   isValid: boolean;
 }
 
-function resolveSourceFromOverride(carlDir?: string): CarlSourcePath | null {
-  if (!carlDir) {
+function resolveSourceFromOverride(opencarlDir?: string): OpencarlSourcePath | null {
+  if (!opencarlDir) {
     return null;
   }
 
-  const manifestPath = path.join(carlDir, "manifest");
+  const manifestPath = path.join(opencarlDir, "manifest");
   return {
-    root: path.dirname(carlDir),
-    carlDir,
+    root: path.dirname(opencarlDir),
+    carlDir: opencarlDir,
     manifestPath,
   };
 }
 
 function resolveManifest(
   scope: OpencarlRuleSource["scope"],
-  sourcePath: CarlSourcePath | null,
+  sourcePath: OpencarlSourcePath | null,
   warnings: OpencarlRuleDiscoveryWarning[]
 ): ResolvedSource | null {
   if (!sourcePath) {
@@ -193,7 +193,7 @@ function toSourceEntry(
  * Returns all warnings scoped to "project" for invalid detection.
  */
 function loadProjectRules(
-  projectPath: CarlSourcePath | null,
+  projectPath: OpencarlSourcePath | null,
   allWarnings: OpencarlRuleDiscoveryWarning[]
 ): ProjectLoadResult {
   const projectWarnings: OpencarlRuleDiscoveryWarning[] = [];
@@ -265,8 +265,8 @@ function loadProjectRules(
   };
 }
 
-export function loadCarlRules(
-  options: CarlRuleDiscoveryOptions = {}
+export function loadOpencarlRules(
+  options: OpencarlRuleDiscoveryOptions = {}
 ): OpencarlRuleDiscoveryResult {
   const warnings: OpencarlRuleDiscoveryWarning[] = [];
   const cwd = options.cwd ?? process.cwd();
@@ -276,13 +276,13 @@ export function loadCarlRules(
   const projectOptIn = options.projectOptIn ?? true;
 
   const projectPath =
-    resolveSourceFromOverride(overrides.projectCarlDir) ??
+    resolveSourceFromOverride(overrides.projectOpencarlDir) ??
     findProjectCarl(cwd);
   const globalPath =
-    resolveSourceFromOverride(overrides.globalCarlDir) ??
+    resolveSourceFromOverride(overrides.globalOpencarlDir) ??
     findGlobalCarl(homeDir);
   const fallbackPath =
-    resolveSourceFromOverride(overrides.fallbackCarlDir) ??
+    resolveSourceFromOverride(overrides.fallbackOpencarlDir) ??
     findFallbackCarl(projectRoot);
 
   const globalSource = resolveManifest("global", globalPath, warnings);
@@ -393,15 +393,15 @@ export function loadCarlRules(
   }
 
   // Determine which .carl/ directory to use for session overrides
-  const sessionCarlDir =
+  const sessionOpencarlDir =
     (projectStatus === "valid" ? projectResult.source?.path.carlDir : null) ??
     globalSource?.path.carlDir ??
     fallbackSource?.path.carlDir;
 
   // Load and apply session overrides
   let sessionOverrides: SessionOverrides | null = null;
-  if (options.sessionId && sessionCarlDir) {
-    sessionOverrides = loadSessionOverrides(sessionCarlDir, options.sessionId);
+  if (options.sessionId && sessionOpencarlDir) {
+    sessionOverrides = loadSessionOverrides(sessionOpencarlDir, options.sessionId);
   }
 
   // Apply session overrides to filter domains
