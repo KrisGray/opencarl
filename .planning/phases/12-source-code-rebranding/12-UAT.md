@@ -1,9 +1,9 @@
 ---
-status: complete
+status: diagnosed
 phase: 12-source-code-rebranding
 source: 12-01-SUMMARY.md, 12-02-SUMMARY.md, 12-03-SUMMARY.md, 12-04-SUMMARY.md
 started: 2026-03-06T13:51:55Z
-updated: 2026-03-06T14:11:39Z
+updated: 2026-03-06T14:32:14Z
 ---
 
 ## Current Test
@@ -46,7 +46,10 @@ skipped: 0
   reason: "User reported: In src/opencarl/errors.ts this 'const DOCS_BASE_URL = \"https://github.com/krisjg/carl/blob/main/docs\";' is wrong. krisjg is not my username in github and the project is opencarl see https://github.com/KrisGray/opencarl"
   severity: major
   test: 1
-  root_cause: ""
-  artifacts: []
-  missing: []
-  debug_session: ""
+  root_cause: "DOCS_BASE_URL in src/opencarl/errors.ts was not updated during rebranding and still points to the legacy krisjg/carl repo."
+  artifacts:
+    - path: "src/opencarl/errors.ts"
+      issue: "DOCS_BASE_URL constant still uses https://github.com/krisjg/carl/blob/main/docs"
+  missing:
+    - "Update DOCS_BASE_URL to https://github.com/KrisGray/opencarl/blob/main/docs"
+  debug_session: ".planning/debug/docs-base-url-opencarl.md"
