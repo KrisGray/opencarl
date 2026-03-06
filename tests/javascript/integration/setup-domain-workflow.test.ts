@@ -1,5 +1,5 @@
 import { runSetup, runList, runToggle } from '../../../src/carl/setup';
-import { loadCarlRules } from '../../../src/carl/loader';
+import { loadOpencarlRules } from '../../../src/carl/loader';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
@@ -109,8 +109,8 @@ describe('setup and domain workflow - integration', () => {
       const manifestContent = fs.readFileSync(manifestPath, 'utf8');
       expect(manifestContent).toContain('CONTEXT_STATE=inactive');
 
-      // Verify via loadCarlRules() that CONTEXT domain is not in active list
-      const loadResult = loadCarlRules({ cwd: tempDir, homeDir });
+      // Verify via loadOpencarlRules() that CONTEXT domain is not in active list
+      const loadResult = loadOpencarlRules({ cwd: tempDir, homeDir });
       expect(loadResult.domains).not.toContain('CONTEXT');
     });
   });
@@ -140,8 +140,8 @@ describe('setup and domain workflow - integration', () => {
       const manifestContent = fs.readFileSync(manifestPath, 'utf8');
       expect(manifestContent).toContain('CONTEXT_STATE=active');
 
-      // Verify via loadCarlRules() that CONTEXT domain is in active list
-      const loadResult = loadCarlRules({ cwd: tempDir, homeDir });
+      // Verify via loadOpencarlRules() that CONTEXT domain is in active list
+      const loadResult = loadOpencarlRules({ cwd: tempDir, homeDir });
       expect(loadResult.domains).toContain('CONTEXT');
     });
   });
@@ -197,7 +197,7 @@ describe('setup and domain workflow - integration', () => {
       expect(currentManifest).toBe(originalManifest);
 
       // Verify no invalid MANIFEST entries created
-      const loadResult = loadCarlRules({ cwd: tempDir, homeDir });
+      const loadResult = loadOpencarlRules({ cwd: tempDir, homeDir });
       expect(loadResult.domains).not.toContain('NONEXISTENT');
     });
   });

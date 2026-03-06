@@ -1,6 +1,6 @@
 import {
   checkSetupNeeded,
-  seedCarlTemplates,
+  seedOpencarlTemplates,
   runSetup,
   buildSetupPrompt,
 } from '../../../src/carl/setup';
