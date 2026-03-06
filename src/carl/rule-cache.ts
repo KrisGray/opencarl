@@ -1,5 +1,5 @@
 import * as os from "os";
-import { loadCarlRules, type CarlRuleDiscoveryOptions } from "./loader";
+import { loadOpencarlRules, type OpencarlRuleDiscoveryOptions } from "./loader";
 import type { OpencarlRuleDiscoveryResult, OpencarlRuleSourceScope } from "./types";
 
 /**
@@ -10,7 +10,7 @@ import type { OpencarlRuleDiscoveryResult, OpencarlRuleSourceScope } from "./typ
 interface RuleCacheEntry {
   result: OpencarlRuleDiscoveryResult;
   lastLoadedAt: number;
-  options: CarlRuleDiscoveryOptions;
+  options: OpencarlRuleDiscoveryOptions;
 }
 
 // Global cache entry (shared across sessions)
@@ -99,7 +99,7 @@ export function clearSessionWarning(sessionId: string): void {
  * Get cached rules, reloading only if dirty or cache is empty.
  */
 export function getCachedRules(
-  options: CarlRuleDiscoveryOptions = {}
+  options: OpencarlRuleDiscoveryOptions = {}
 ): OpencarlRuleDiscoveryResult {
   const now = Date.now();
   const homeDir = options.homeDir ?? os.homedir();
@@ -119,7 +119,7 @@ export function getCachedRules(
   }
 
   // Reload and cache
-  const result = loadCarlRules(options);
+  const result = loadOpencarlRules(options);
   globalCache = {
     result,
     lastLoadedAt: now,
@@ -165,8 +165,8 @@ export function getCacheMeta(): {
  * Compare cache options to determine if reload is needed.
  */
 function cacheOptionsDiffer(
-  cached: CarlRuleDiscoveryOptions,
-  fresh: CarlRuleDiscoveryOptions
+  cached: OpencarlRuleDiscoveryOptions,
+  fresh: OpencarlRuleDiscoveryOptions
 ): boolean {
   // Check key paths that affect discovery
   if (cached.cwd !== fresh.cwd && fresh.cwd) return true;
@@ -184,9 +184,9 @@ function cacheOptionsDiffer(
   // Check overrides
   const cachedOverrides = cached.overrides ?? {};
   const freshOverrides = fresh.overrides ?? {};
-  if (cachedOverrides.projectCarlDir !== freshOverrides.projectCarlDir) return true;
-  if (cachedOverrides.globalCarlDir !== freshOverrides.globalCarlDir) return true;
-  if (cachedOverrides.fallbackCarlDir !== freshOverrides.fallbackCarlDir) return true;
+  if (cachedOverrides.projectOpencarlDir !== freshOverrides.projectOpencarlDir) return true;
+  if (cachedOverrides.globalOpencarlDir !== freshOverrides.globalOpencarlDir) return true;
+  if (cachedOverrides.fallbackOpencarlDir !== freshOverrides.fallbackOpencarlDir) return true;
 
   return false;
 }
