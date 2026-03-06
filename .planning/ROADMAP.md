@@ -212,42 +212,45 @@ Plans:
 **Milestone Goal:** Replace all CARL branding with OpenCARL across source code, configuration, commands, environment variables, documentation, and package metadata
 
 #### Phase 12: Source Code Rebranding
-**Goal**: Update all TypeScript type names, function/variable names, and import statements from CARL to OpenCARL
+**Goal**: Update all TypeScript type names, function/variable names, and import statements from CARL to OpenCARL, including renaming src/carl to src/opencarl
 **Depends on**: Phase 11
-**Requirements**: SOURCE-01, SOURCE-02, SOURCE-03, SOURCE-04
+**Requirements**: SOURCE-01, SOURCE-02, SOURCE-03, SOURCE-04, CONFIG-01
 **Success Criteria** (what must be TRUE):
   1. All TypeScript types use "Opencarl" prefix (e.g., CarlRuleDomainPayload → OpencarlRuleDomainPayload)
   2. All functions and variables use "opencarl" prefix throughout the codebase
   3. Import statements reference ./opencarl/* paths instead of ./carl/*
-  4. Internal code comments reference OpenCARL branding consistently
-**Plans**: 4 plans
+  4. src/carl/ directory is renamed to src/opencarl/
+  5. Internal code comments reference OpenCARL branding consistently
+**Plans**: 8 plans
 
 Plans:
-- [ ] 12-01-PLAN.md — Rename type declarations and references (SOURCE-01)
+- [ ] 12-01-PLAN.md — Rename type declarations in source files (SOURCE-01)
 - [ ] 12-02-PLAN.md — Rename function/variable declarations and references (SOURCE-02)
-- [ ] 12-03-PLAN.md — Update import statements to opencarl paths (SOURCE-03)
-- [ ] 12-04-PLAN.md — Update code comments to OpenCARL branding (SOURCE-04)
+- [ ] 12-03-PLAN.md — Update source imports and rename src/carl directory (SOURCE-03, CONFIG-01)
+- [ ] 12-04-PLAN.md — Update source code comments to OpenCARL branding (SOURCE-04)
+- [ ] 12-05-PLAN.md — Update type references in test files (SOURCE-01)
+- [ ] 12-06-PLAN.md — Update test imports to opencarl paths (SOURCE-03)
+- [ ] 12-07-PLAN.md — Update test comments to OpenCARL branding (SOURCE-04)
+- [ ] 12-08-PLAN.md — Fix DOCS_BASE_URL to OpenCARL repo (SOURCE-04)
 
 ---
 
 #### Phase 13: Configuration & Directory Migration
-**Goal**: Rename directories and update all file path references
+**Goal**: Rename configuration directories and update all file path references
 **Depends on**: Phase 12
-**Requirements**: CONFIG-01, CONFIG-02, CONFIG-03, CONFIG-04, CONFIG-05
+**Requirements**: CONFIG-02, CONFIG-03, CONFIG-04, CONFIG-05
 **Success Criteria** (what must be TRUE):
-  1. src/carl/ directory is renamed to src/opencarl/
-  2. .carl/ configuration directory is renamed to .opencarl/
-  3. .carl-template/ directory is renamed to .opencarl-template/
-  4. All file path references in code use new directory names
-  5. Setup flow scaffolds .opencarl/ directory with updated templates
+  1. .carl/ configuration directory is renamed to .opencarl/
+  2. .carl-template/ directory is renamed to .opencarl-template/
+  3. All file path references in code use new directory names
+  4. Setup flow scaffolds .opencarl/ directory with updated templates
 **Plans**: TBD
 
 Plans:
-- [ ] 13-01: Rename src/carl/ to src/opencarl/ (CONFIG-01)
-- [ ] 13-02: Rename .carl/ to .opencarl/ (CONFIG-02)
-- [ ] 13-03: Rename .carl-template/ to .opencarl-template/ (CONFIG-03)
-- [ ] 13-04: Update file path references (CONFIG-04)
-- [ ] 13-05: Update setup scaffolding (CONFIG-05)
+- [ ] 13-01: Rename .carl/ to .opencarl/ (CONFIG-02)
+- [ ] 13-02: Rename .carl-template/ to .opencarl-template/ (CONFIG-03)
+- [ ] 13-03: Update file path references (CONFIG-04)
+- [ ] 13-04: Update setup scaffolding (CONFIG-05)
 
 ---
 
@@ -345,7 +348,7 @@ Plans:
 | 9.1. Close Phase 9 Unit Test Gaps | v1.2 | 2/2 | Complete | 2026-03-05 |
 | 10. Integration Tests | v1.2 | 4/4 | Complete | 2026-03-05 |
 | 11. E2E Tests & Docker | v1.2 | 4/4 | Complete | 2026-03-05 |
-| 12. Source Code Rebranding | 4/4 | Complete   | 2026-03-06 | - |
+| 12. Source Code Rebranding | 5/8 | In Progress|  | - |
 | 13. Configuration & Directory Migration | v1.3 | 0/5 | Not started | - |
 | 14. Command Rebranding | v1.3 | 0/4 | Not started | - |
 | 15. Environment Variable Rebranding | v1.3 | 0/4 | Not started | - |
@@ -358,8 +361,8 @@ Plans:
 
 | Phase | Requirements | Count |
 |-------|--------------|-------|
-| 12 | SOURCE-01, SOURCE-02, SOURCE-03, SOURCE-04 | 4 |
-| 13 | CONFIG-01, CONFIG-02, CONFIG-03, CONFIG-04, CONFIG-05 | 5 |
+| 12 | SOURCE-01, SOURCE-02, SOURCE-03, SOURCE-04, CONFIG-01 | 5 |
+| 13 | CONFIG-02, CONFIG-03, CONFIG-04, CONFIG-05 | 4 |
 | 14 | CMND-01, CMND-02, CMND-03, CMND-04 | 4 |
 | 15 | ENV-01, ENV-02, ENV-03, ENV-04 | 4 |
 | 16 | DOCS-01, DOCS-02, DOCS-03, DOCS-04, DOCS-05 | 5 |
@@ -388,7 +391,7 @@ Phase 17: Package Metadata & CI/CD Finalization
 ```
 
 **Rationale for v1.3 phase ordering:**
-- **Import statements before directories (Phase 12 → 13):** Updating imports first prevents TypeScript compilation errors when directories are renamed
+- **Import statements with src/carl rename (Phase 12):** Update imports and rename src/carl in the same phase to avoid temporary mismatches
 - **Commands after directories (Phase 14):** Command triggers depend on updated internal paths
 - **Environment variables cross-cutting (Phase 15):** Updated after code structure is settled to minimize rework
 - **Documentation last (Phase 16):** Documentation reflects the final state of all code changes
