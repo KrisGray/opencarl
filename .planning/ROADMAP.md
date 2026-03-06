@@ -1,10 +1,11 @@
-# Roadmap: CARL OpenCode Plugin
+# Roadmap: OpenCARL OpenCode Plugin
 
 ## Milestones
 
 - ✅ **v1.0 MVP** - Phases 1-5 (shipped 2026-03-03)
 - ✅ **v1.1 Polish & Complete Integration** - Phase 6 (shipped 2026-03-03)
 - ✅ **v1.2 Testing & QA** - Phases 7-11 (shipped 2026-03-18)
+- 🚧 **v1.3 Branding & Context Migration** - Phases 12-17 (in progress)
 
 ## Phases
 
@@ -206,6 +207,128 @@ Plans:
 
 </details>
 
+### 🚧 v1.3 Branding & Context Migration (In Progress)
+
+**Milestone Goal:** Replace all CARL branding with OpenCARL across source code, configuration, commands, environment variables, documentation, and package metadata
+
+#### Phase 12: Source Code Rebranding
+**Goal**: Update all TypeScript type names, function/variable names, and import statements from CARL to OpenCARL
+**Depends on**: Phase 11
+**Requirements**: SOURCE-01, SOURCE-02, SOURCE-03, SOURCE-04
+**Success Criteria** (what must be TRUE):
+  1. All TypeScript types use "Opencarl" prefix (e.g., CarlRuleDomainPayload → OpencarlRuleDomainPayload)
+  2. All functions and variables use "opencarl" prefix throughout the codebase
+  3. Import statements reference ./opencarl/* paths instead of ./carl/*
+  4. Internal code comments reference OpenCARL branding consistently
+**Plans**: TBD
+
+Plans:
+- [ ] 12-01: Type name rebranding (SOURCE-01)
+- [ ] 12-02: Function/variable name rebranding (SOURCE-02)
+- [ ] 12-03: Import statement updates (SOURCE-03)
+- [ ] 12-04: Code comment updates (SOURCE-04)
+
+---
+
+#### Phase 13: Configuration & Directory Migration
+**Goal**: Rename directories and update all file path references
+**Depends on**: Phase 12
+**Requirements**: CONFIG-01, CONFIG-02, CONFIG-03, CONFIG-04, CONFIG-05
+**Success Criteria** (what must be TRUE):
+  1. src/carl/ directory is renamed to src/opencarl/
+  2. .carl/ configuration directory is renamed to .opencarl/
+  3. .carl-template/ directory is renamed to .opencarl-template/
+  4. All file path references in code use new directory names
+  5. Setup flow scaffolds .opencarl/ directory with updated templates
+**Plans**: TBD
+
+Plans:
+- [ ] 13-01: Rename src/carl/ to src/opencarl/ (CONFIG-01)
+- [ ] 13-02: Rename .carl/ to .opencarl/ (CONFIG-02)
+- [ ] 13-03: Rename .carl-template/ to .opencarl-template/ (CONFIG-03)
+- [ ] 13-04: Update file path references (CONFIG-04)
+- [ ] 13-05: Update setup scaffolding (CONFIG-05)
+
+---
+
+#### Phase 14: Command Rebranding
+**Goal**: Update command triggers from CARL to OpenCARL
+**Depends on**: Phase 13
+**Requirements**: CMND-01, CMND-02, CMND-03, CMND-04
+**Success Criteria** (what must be TRUE):
+  1. *carl command trigger is renamed to *opencarl
+  2. /carl fallback command is renamed to /opencarl
+  3. All test fixtures with *carl or /carl strings are updated
+  4. Help text and command descriptions reference *opencarl and /opencarl
+**Plans**: TBD
+
+Plans:
+- [ ] 14-01: Rename *carl to *opencarl trigger (CMND-01)
+- [ ] 14-02: Rename /carl to /opencarl fallback (CMND-02)
+- [ ] 14-03: Update test fixtures (CMND-03)
+- [ ] 14-04: Update help text and descriptions (CMND-04)
+
+---
+
+#### Phase 15: Environment Variable Rebranding
+**Goal**: Update environment variable from CARL_DEBUG to OPENCARL_DEBUG across all contexts
+**Depends on**: Phase 14
+**Requirements**: ENV-01, ENV-02, ENV-03, ENV-04
+**Success Criteria** (what must be TRUE):
+  1. Code references OPENCARL_DEBUG instead of CARL_DEBUG
+  2. All CI configuration files use OPENCARL_DEBUG
+  3. All test scripts use OPENCARL_DEBUG
+  4. Documentation references OPENCARL_DEBUG instead of CARL_DEBUG
+**Plans**: TBD
+
+Plans:
+- [ ] 15-01: Rename CARL_DEBUG to OPENCARL_DEBUG in code (ENV-01)
+- [ ] 15-02: Update CI configurations (ENV-02)
+- [ ] 15-03: Update test scripts (ENV-03)
+- [ ] 15-04: Update documentation references (ENV-04)
+
+---
+
+#### Phase 16: Documentation Rebranding
+**Goal**: Rename documentation files and update all OpenCARL branding references
+**Depends on**: Phase 15
+**Requirements**: DOCS-01, DOCS-02, DOCS-03, DOCS-04, DOCS-05
+**Success Criteria** (what must be TRUE):
+  1. CARL-DOCS.md is renamed to OPENCARL-DOCS.md
+  2. README.md references OpenCARL branding throughout
+  3. INSTALL.md uses .opencarl/ and *opencarl throughout
+  4. TROUBLESHOOTING.md references OpenCARL and OPENCARL_DEBUG
+  5. All documentation examples use updated naming conventions
+**Plans**: TBD
+
+Plans:
+- [ ] 16-01: Rename CARL-DOCS.md to OPENCARL-DOCS.md (DOCS-01)
+- [ ] 16-02: Update README.md (DOCS-02)
+- [ ] 16-03: Update INSTALL.md (DOCS-03)
+- [ ] 16-04: Update TROUBLESHOOTING.md (DOCS-04)
+- [ ] 16-05: Update all documentation examples (DOCS-05)
+
+---
+
+#### Phase 17: Package Metadata & CI/CD Finalization
+**Goal**: Verify package consistency and update Docker/CI references
+**Depends on**: Phase 16
+**Requirements**: PKG-01, PKG-02, PKG-03, PKG-04, PKG-05
+**Success Criteria** (what must be TRUE):
+  1. Package name @krisgray/opencarl is consistent across all references
+  2. Docker image name is opencode-opencarl:e2e
+  3. GitHub Actions workflows use updated package and Docker references
+  4. package.json metadata reflects OpenCARL branding
+  5. E2E tests pass with updated Docker image
+**Plans**: TBD
+
+Plans:
+- [ ] 17-01: Verify package name consistency (PKG-01)
+- [ ] 17-02: Update Docker image name (PKG-02)
+- [ ] 17-03: Update GitHub Actions workflows (PKG-03)
+- [ ] 17-04: Update package.json metadata (PKG-04)
+- [ ] 17-05: Verify E2E tests pass (PKG-05)
+
 ## Progress
 
 | Phase | Milestone | Plans Complete | Status | Completed |
@@ -222,38 +345,55 @@ Plans:
 | 9.1. Close Phase 9 Unit Test Gaps | v1.2 | 2/2 | Complete | 2026-03-05 |
 | 10. Integration Tests | v1.2 | 4/4 | Complete | 2026-03-05 |
 | 11. E2E Tests & Docker | v1.2 | 4/4 | Complete | 2026-03-05 |
+| 12. Source Code Rebranding | v1.3 | 0/4 | Not started | - |
+| 13. Configuration & Directory Migration | v1.3 | 0/5 | Not started | - |
+| 14. Command Rebranding | v1.3 | 0/4 | Not started | - |
+| 15. Environment Variable Rebranding | v1.3 | 0/4 | Not started | - |
+| 16. Documentation Rebranding | v1.3 | 0/5 | Not started | - |
+| 17. Package Metadata & CI/CD Finalization | v1.3 | 0/5 | Not started | - |
 
 ---
 
-## Coverage Validation (v1.2)
+## Coverage Validation (v1.3)
 
 | Phase | Requirements | Count |
 |-------|--------------|-------|
-| 7 | TEST-01, TEST-02, TEST-03, CI-01, CI-02, CI-04 | 6 |
-| 8 | UNIT-01, UNIT-02, UNIT-04, UNIT-05 | 4 |
-| 9.1 | UNIT-03, UNIT-06, UNIT-07, UNIT-08, UNIT-09 | 5 |
-| 10 | INTG-01, INTG-02, INTG-03, INTG-04 | 4 |
-| 11 | E2E-01, E2E-02, E2E-03, E2E-04, CI-03 | 5 |
+| 12 | SOURCE-01, SOURCE-02, SOURCE-03, SOURCE-04 | 4 |
+| 13 | CONFIG-01, CONFIG-02, CONFIG-03, CONFIG-04, CONFIG-05 | 5 |
+| 14 | CMND-01, CMND-02, CMND-03, CMND-04 | 4 |
+| 15 | ENV-01, ENV-02, ENV-03, ENV-04 | 4 |
+| 16 | DOCS-01, DOCS-02, DOCS-03, DOCS-04, DOCS-05 | 5 |
+| 17 | PKG-01, PKG-02, PKG-03, PKG-04, PKG-05 | 5 |
 
-**Total:** 24/24 requirements mapped ✓
+**Total:** 25/25 requirements mapped ✓
 
 ---
 
 ## Dependencies
 
 ```
-Phase 6 (v1.1) ✓
+Phase 11 (v1.2) ✓
      ↓
-Phase 7 (Test Infrastructure & CI)
+Phase 12: Source Code Rebranding
      ↓
-Phase 8 (Unit Tests - Parsing) ──┬──→ Phase 10 (Integration Tests)
-Phase 9 (Unit Tests - Session) ──┘
-      ↓
-Phase 9.1 (Close Phase 9 Gaps) ──→ Phase 10 (Integration Tests)
-                                     ↓
-                               Phase 11 (E2E Tests & Docker)
+Phase 13: Configuration & Directory Migration
+     ↓
+Phase 14: Command Rebranding
+     ↓
+Phase 15: Environment Variable Rebranding
+     ↓
+Phase 16: Documentation Rebranding
+     ↓
+Phase 17: Package Metadata & CI/CD Finalization
 ```
+
+**Rationale for v1.3 phase ordering:**
+- **Import statements before directories (Phase 12 → 13):** Updating imports first prevents TypeScript compilation errors when directories are renamed
+- **Commands after directories (Phase 14):** Command triggers depend on updated internal paths
+- **Environment variables cross-cutting (Phase 15):** Updated after code structure is settled to minimize rework
+- **Documentation last (Phase 16):** Documentation reflects the final state of all code changes
+- **CI/CD finalization (Phase 17):** Package metadata and Docker images must reflect the final, tested state
 
 ---
 *Roadmap created: 2026-02-25*
-*Last updated: 2026-03-18 after v1.2 milestone completion*
+*Last updated: 2026-03-06 after v1.3 roadmap creation*

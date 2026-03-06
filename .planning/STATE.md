@@ -4,28 +4,25 @@
 
 See: .planning/PROJECT.md (updated 2026-03-18)
 
-**Core value:** Keep OpenCARL's dynamic rule injection working seamlessly inside OpenCode with full parity and minimal user friction.
-**Current focus:** v1.3 Branding & Context Migration - Phase 12
+**Core value:** Keep OpenCARL's dynamic rule injection working seamlessly inside OpenCode with full parity and minimal user friction
+**Current focus:** v1.3 Branding & Context Migration - Phase 12 (Source Code Rebranding)
 
 ## Current Position
 
-**Current Phase:** 12
-**Current Phase Name:** Branding & Context Migration
-**Total Phases:** 12
-**Total Plans in Phase:** TBD
-**Current Plan:** Research complete
-**Status:** v1.3 milestone - Research phase complete
-**Last Activity:** 2026-03-18 — Research completed, 4 parallel agents, 1,870 CARL references identified
+Phase: 12 of 17 (Source Code Rebranding)
+Plan: 0 of 4 in current phase
+Status: Ready to plan
+Last activity: 2026-03-06 — v1.3 roadmap created, 6 phases planned for CARL → OpenCARL rebranding
 
-**Progress:** [██████████] 100%
+Progress: [████████░░░░░░] 71%
 
 ---
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 21 (v1.0: 17, v1.1: 4)
-- Total execution time: ~2 hours
+- Total plans completed: 43 (v1.0: 17, v1.1: 4, v1.2: 22)
+- Total execution time: ~3 hours
 
 **By Phase:**
 
@@ -37,10 +34,12 @@ See: .planning/PROJECT.md (updated 2026-03-18)
 | 4. Setup Flow | 4 | 16 min | 4 min |
 | 5. Rules Integration | 3 | 4 min | 1.3 min |
 | 6. Integration & DX | 4 | 19 min | 4.75 min |
-
-**v1.2 Progress:**
-- Phases: 2/5 (Phase 7 & 8 in progress)
-- Requirements: 8/24 (Phase 7 complete, UNIT-02, UNIT-04 complete)
+| 7. Test Infrastructure & CI Setup | 3 | 15 min | 5 min |
+| 8. Core Unit Tests - Parsing & Matching | 5 | 19 min | 3.8 min |
+| 9. Core Unit Tests - Session & Setup | 5 | 23 min | 4.6 min |
+| 9.1. Close Phase 9 Unit Test Gaps | 2 | 9 min | 4.5 min |
+| 10. Integration Tests | 4 | 18 min | 4.5 min |
+| 11. E2E Tests & Docker | 4 | 17 min | 4.25 min |
 
 ---
 | Phase 07-02 P02 | 3 min | 3 tasks | 8 files |
@@ -58,18 +57,22 @@ See: .planning/PROJECT.md (updated 2026-03-18)
 
 ## Milestone Progress
 
-### v1.2 Testing & QA (Current)
+### v1.3 Branding & Context Migration (Current)
+
+**Milestone Goal:** Replace all CARL branding with OpenCARL across source code, configuration, commands, environment variables, documentation, and package metadata
 
 | Phase | Status | Progress |
 |-------|--------|----------|
-| 7. Test Infrastructure & CI Setup | Complete | ██████████ 100% |
-| 8. Core Unit Tests - Parsing & Matching | Complete | ██████████ 100% |
-| 9. Core Unit Tests - Session & Setup | Complete | ██████████ 100% |
-| 10. Integration Tests | Complete | ██████████ 100% |
-| 11. E2E Tests & Docker | In Progress | ████░░░░░░ 75% |
+| 12. Source Code Rebranding | Not started | ░░░░░░░░░░ 0% |
+| 13. Configuration & Directory Migration | Not started | ░░░░░░░░░░ 0% |
+| 14. Command Rebranding | Not started | ░░░░░░░░░░ 0% |
+| 15. Environment Variable Rebranding | Not started | ░░░░░░░░░░ 0% |
+| 16. Documentation Rebranding | Not started | ░░░░░░░░░░ 0% |
+| 17. Package Metadata & CI/CD Finalization | Not started | ░░░░░░░░░░ 0% |
 
 ### Prior Milestones
 
+- **v1.2 Testing & QA** - Shipped 2026-03-18 ✓ (312 tests, 79.44% coverage)
 - **v1.1 Polish & Complete Integration** - Shipped 2026-03-03 ✓
 - **v1.0 MVP** - Shipped 2026-03-03 ✓
 
@@ -80,6 +83,13 @@ See: .planning/PROJECT.md (updated 2026-03-18)
 ### Decisions
 
 Decisions are logged in PROJECT.md Key Decisions table.
+
+**v1.3 Decisions:**
+- Pure rebranding milestone (no new features)
+- Phase order: imports before directories to prevent compilation errors
+- Environment variables cross-cutting (updated after structure settled)
+- Documentation last (reflects final state)
+- CI/CD finalization (verifies end-to-end with Docker)
 
 **v1.2 Decisions:**
 - Jest with ts-jest preset (TypeScript project, industry standard)
@@ -106,9 +116,9 @@ Decisions are logged in PROJECT.md Key Decisions table.
 
 ### Active Constraints
 
-1. Tests run via shell script and/or GitHub Actions (user requirement)
-2. E2E tests use real OpenCode in Docker container (user requirement)
-3. 80% coverage threshold enforced (user requirement)
+1. All CARL → OpenCARL, carl → opencarl references must be updated (branding consistency)
+2. Import statements must be updated BEFORE renaming directories (prevent breakage)
+3. All 25 v1.3 requirements must be mapped to exactly one phase (coverage validation)
 
 ### Technical Notes
 
@@ -130,14 +140,16 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-05T16:22:22Z
-**Stopped at:** Completed 11-04-PLAN.md
-**Resume file:** None
+Last session: 2026-03-06
+Stopped at: v1.3 roadmap created with 6 phases (12-17) covering SOURCE, CONFIG, CMND, ENV, DOCS, PKG rebranding
+Resume file: None
 
 ### Recent Activity
 
 | Date | Action | Result |
 |------|--------|--------|
+| 2026-03-06 | v1.3 roadmap created | 6 phases (12-17), 25 requirements mapped ✓ |
+| 2026-03-05 | v1.2 completed | 312 tests, 79.44% coverage, shipped ✓ |
 | 2026-03-05 | Plan 11-04 complete | Star-command fixture added (5 files now in fixtures/) |
 | 2026-03-05 | Plan 11-03 complete | GitHub Actions CI for E2E tests (e2e-tests.yml) |
 | 2026-03-05 | Plan 11-02 complete | E2E test suites for setup, keyword, star-command tests |
@@ -145,4 +157,4 @@ None.
 
 ---
 *State initialized: 2026-02-25*
-*Last updated: 2026-03-05 after Plan 11-04 completion*
+*Last updated: 2026-03-06 after v1.3 roadmap creation*
