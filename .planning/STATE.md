@@ -10,7 +10,7 @@ See: .planning/PROJECT.md (updated 2026-03-18)
 ## Current Position
 
 Phase: 12 of 17 (Source Code Rebranding)
-Plan: 2 of 4 in current phase
+Plan: 3 of 4 in current phase
 Status: In progress
 Last activity: 2026-03-06 — v1.3 roadmap created, 6 phases planned for CARL → OpenCARL rebranding
 
@@ -55,6 +55,7 @@ Progress: [████████░░░░░░] 71%
 | Phase 11-e2e-tests-docker P03 | 2 min | 1 task | 1 file |
 | Phase 11-e2e-tests-docker P04 | 0 min | 1 task | 1 file |
 | Phase 12-source-code-rebranding P02 | 13 min | 2 tasks | 9 files |
+| Phase 12-source-code-rebranding P03 | 9 min | 2 tasks | 46 files |
 
 ## Milestone Progress
 
@@ -119,6 +120,8 @@ Decisions are logged in PROJECT.md Key Decisions table.
 - [Phase 12-source-code-rebranding]: Function naming: opencarl prefix (camelCase) — Renamed all functions from carl to opencarl prefix following camelCase convention
 - [Phase 12-source-code-rebranding]: Variable naming: opencarl prefix (camelCase) — Renamed all variables from carl to opencarl prefix following camelCase convention
 - [Phase 12-source-code-rebranding]: Interface renaming: Carl* → Opencarl* — Renamed all interface types from Carl prefix to Opencarl prefix
+- [Phase 12-source-code-rebranding]: Import path updates: src/carl/ → src/opencarl/ — Directory renamed and all import paths updated to match new naming convention
+- [Phase 12-source-code-rebranding]: Variable naming: projectCarlDir → projectOpencarlDir, etc. — Test variables updated to match renamed OpencarlRuleDiscoveryOverrides interface
 
 ### Active Constraints
 
@@ -147,7 +150,7 @@ None.
 ## Session Continuity
 
 Last session: 2026-03-06
-Stopped at: v1.3 roadmap created with 6 phases (12-17) covering SOURCE, CONFIG, CMND, ENV, DOCS, PKG rebranding
+Stopped at: Completed 12-03-PLAN.md - Import paths updated and directory renamed
 Resume file: None
 
 ### Recent Activity

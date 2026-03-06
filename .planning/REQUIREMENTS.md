@@ -11,7 +11,7 @@ Requirements for OpenCARL rebranding milestone. Each maps to roadmap phases.
 
 - [x] **SOURCE-01**: All TypeScript type names using "Carl" prefix are renamed to "Opencarl"
 - [x] **SOURCE-02**: All function/variable names using "carl" prefix are renamed to "opencarl"
-- [ ] **SOURCE-03**: All import statements referencing `./carl/*` are updated to `./opencarl/*`
+- [x] **SOURCE-03**: All import statements referencing `./carl/*` are updated to `./opencarl/*`
 - [ ] **SOURCE-04**: All internal code comments referencing CARL are updated to OpenCARL
 
 ### Configuration & Directory Migration
@@ -81,7 +81,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 |-------------|-------|--------|
 | SOURCE-01 | Phase 12 | Complete |
 | SOURCE-02 | Phase 12 | Complete |
-| SOURCE-03 | Phase 12 | Pending |
+| SOURCE-03 | Phase 12 | Complete |
 | SOURCE-04 | Phase 12 | Pending |
 | CONFIG-01 | Phase 13 | Pending |
 | CONFIG-02 | Phase 13 | Pending |
