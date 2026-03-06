@@ -3,7 +3,7 @@ import path from "path";
 /**
  * Duplicate Plugin Detection Module
  *
- * Detects when CARL is loaded from multiple paths (e.g., project + global plugins).
+ * Detects when OpenCARL is loaded from multiple paths (e.g., project + global plugins).
  * Uses session-scoped warning guard to warn once per session, not every turn.
  * First load wins - plugin continues normally after warning.
  */
@@ -91,15 +91,15 @@ export function checkDuplicateLoad(
  *
  * @param currentPath - Path of the current plugin instance
  * @param existingPath - Path of the first loaded plugin instance
- * @returns Formatted warning message with [carl] prefix
+ * @returns Formatted warning message with [opencarl] prefix
  */
 export function getDuplicateWarning(
   currentPath: string,
   existingPath: string
 ): string {
-  return `[carl] Duplicate plugin detected
+  return `[opencarl] Duplicate plugin detected
 
-Multiple CARL plugins are loaded:
+Multiple OpenCARL plugins are loaded:
   - ${existingPath}
   - ${currentPath}
 

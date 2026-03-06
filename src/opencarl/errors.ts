@@ -1,20 +1,20 @@
 /**
- * Structured error handling for CARL plugin.
+ * Structured error handling for OpenCARL plugin.
  * Provides clear, actionable error messages with context and fix suggestions.
  */
 
 /**
- * Categories of errors that can occur in the CARL plugin.
+ * Categories of errors that can occur in the OpenCARL plugin.
  */
 export type OpencarlErrorCategory = "config" | "manifest" | "runtime" | "permission";
 
 /**
- * Base URL for CARL documentation.
+ * Base URL for OpenCARL documentation.
  */
 const DOCS_BASE_URL = "https://github.com/krisjg/carl/blob/main/docs";
 
 /**
- * Structured error class for CARL-specific errors.
+ * Structured error class for OpenCARL-specific errors.
  * Provides rich context to help users understand and fix issues.
  */
 export class OpencarlError extends Error {
@@ -57,7 +57,7 @@ export class OpencarlError extends Error {
 export function formatError(error: unknown): string {
   if (error instanceof OpencarlError) {
     const lines: string[] = [
-      `[carl] ERROR: ${error.context}`,
+      `[opencarl] ERROR: ${error.context}`,
       `  Location: ${error.location}`,
       `  Problem: ${error.message}`,
       `  Fix: ${error.fix}`,
@@ -72,14 +72,14 @@ export function formatError(error: unknown): string {
 
   // Handle generic errors with fallback formatting
   if (error instanceof Error) {
-    return `[carl] ERROR: An unexpected error occurred
+    return `[opencarl] ERROR: An unexpected error occurred
   Location: Unknown
   Problem: ${error.message}
   Fix: Check the error message above. If this persists, try running with DEVMODE=true for more details.`;
   }
 
   // Handle non-Error throwables
-  return `[carl] ERROR: An unknown error occurred
+  return `[opencarl] ERROR: An unknown error occurred
   Location: Unknown
   Problem: ${String(error)}
   Fix: Check the error message above. If this persists, try running with DEVMODE=true for more details.`;
@@ -106,7 +106,7 @@ export function manifestParseError(path: string, details: string): OpencarlError
   return new OpencarlError(
     `Failed to parse manifest file: ${details}`,
     "manifest",
-    "Loading CARL manifest configuration",
+    "Loading OpenCARL manifest configuration",
     path,
     `Validate manifest syntax: cat ${path}\nCommon fixes:\n  - Ensure each line follows KEY=value format\n  - Check for typos in domain names (e.g., CONTEXT_STATE not CONTEX_STATE)\n  - Verify boolean values are: true, false, yes, no, 1, or 0`,
     DOCS_LINKS.manifest
@@ -165,9 +165,9 @@ export function configReadError(path: string, details: string): OpencarlError {
   return new OpencarlError(
     `Failed to read configuration: ${details}`,
     "config",
-    "Reading CARL configuration",
+    "Reading OpenCARL configuration",
     path,
-    `Verify configuration exists: ls -la ${path}\nIf file is missing, run: carl setup\nIf file exists, check contents: cat ${path}`,
+    `Verify configuration exists: ls -la ${path}\nIf file is missing, run: opencarl setup\nIf file exists, check contents: cat ${path}`,
     DOCS_LINKS.config
   );
 }
@@ -182,9 +182,9 @@ export function setupError(details: string): OpencarlError {
   return new OpencarlError(
     `Setup failed: ${details}`,
     "config",
-    "Running CARL setup",
+    "Running OpenCARL setup",
     "setup",
-    `Try running setup again: /carl setup\nIf this persists, check:\n  - You have write permissions in the target directory\n  - The .carl/ directory isn't corrupted (try removing and re-running setup)`,
+    `Try running setup again: /opencarl setup\nIf this persists, check:\n  - You have write permissions in the target directory\n  - The .opencarl/ directory isn't corrupted (try removing and re-running setup)`,
     DOCS_LINKS.config
   );
 }
@@ -202,7 +202,7 @@ export function integrationError(targetFile: string, details: string): OpencarlE
     "config",
     `Integrating with ${targetFile}`,
     targetFile,
-    `Check target file: cat ${targetFile}\nIf file has CARL markers, verify they're properly formatted:\n  - <!-- CARL:START -->\n  - <!-- CARL:END -->\nTo remove integration and start fresh: /carl setup --remove`,
+    `Check target file: cat ${targetFile}\nIf file has OpenCARL markers, verify they're properly formatted:\n  - <!-- OPENCARL:START -->\n  - <!-- OPENCARL:END -->\nTo remove integration and start fresh: /opencarl setup --remove`,
     DOCS_LINKS.config
   );
 }

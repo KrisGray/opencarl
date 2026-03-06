@@ -392,7 +392,7 @@ export function loadOpencarlRules(
     }
   }
 
-  // Determine which .carl/ directory to use for session overrides
+  // Determine which .opencarl/ directory to use for session overrides
   const sessionOpencarlDir =
     (projectStatus === "valid" ? projectResult.source?.path.carlDir : null) ??
     globalSource?.path.carlDir ??

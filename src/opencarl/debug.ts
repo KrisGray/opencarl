@@ -1,13 +1,13 @@
 /**
- * Debug logging system for CARL rule matching and injection.
- * 
- * Enable with: CARL_DEBUG=true
- * 
+ * Debug logging system for OpenCARL rule matching and injection.
+ *
+ * Enable with: OPENCARL_DEBUG=true
+ *
  * All functions have zero overhead when debug mode is disabled.
  */
 
 // Cache debug state at module load for zero-overhead when disabled
-const DEBUG_ENABLED = process.env.CARL_DEBUG === "true";
+const DEBUG_ENABLED = process.env.OPENCARL_DEBUG === "true";
 
 /**
  * Check if debug mode is enabled.
@@ -19,10 +19,10 @@ export function isDebugEnabled(): boolean {
 
 /**
  * Log a debug message with category and optional data.
- * 
- * Format: [carl:debug] {timestamp} [{category}] {message}
+ *
+ * Format: [opencarl:debug] {timestamp} [{category}] {message}
  * If data provided, appended as JSON on next line.
- * 
+ *
  * Zero overhead when debug disabled (early return).
  */
 export function debugLog(
@@ -35,7 +35,7 @@ export function debugLog(
   }
 
   const timestamp = new Date().toISOString();
-  const prefix = `[carl:debug] ${timestamp} [${category}]`;
+  const prefix = `[opencarl:debug] ${timestamp} [${category}]`;
   
   if (data) {
     console.log(`${prefix} ${message}`);

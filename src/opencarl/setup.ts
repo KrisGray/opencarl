@@ -40,8 +40,8 @@ export interface IntegrationOptions {
 }
 
 /**
- * Check if setup is needed by looking for project and global .carl/ directories.
- * Priority: project .carl/ first, fallback to ~/.carl/
+ * Check if setup is needed by looking for project and global .opencarl/ directories.
+ * Priority: project .opencarl/ first, fallback to ~/.opencarl/
  */
 export function checkSetupNeeded(options: {
   cwd: string;
@@ -49,28 +49,28 @@ export function checkSetupNeeded(options: {
 }): SetupCheckResult {
   const { cwd, homeDir } = options;
 
-  // Check for project .carl/
+  // Check for project .opencarl/
   const projectCarl = findProjectCarl(cwd);
   if (projectCarl) {
     return {
       needed: false,
       targetDir: projectCarl.carlDir,
-      reason: "Project .carl/ already exists",
+      reason: "Project .opencarl/ already exists",
     };
   }
 
-  // Check for global ~/.carl/
+  // Check for global ~/.opencarl/
   const globalCarl = findGlobalCarl(homeDir);
   if (globalCarl) {
     return {
       needed: false,
       targetDir: globalCarl.carlDir,
-      reason: "Global ~/.carl/ already exists",
+      reason: "Global ~/.opencarl/ already exists",
     };
   }
 
-  // No .carl/ found - determine target directory
-  const targetDir = path.join(cwd, ".carl");
+  // No .opencarl/ found - determine target directory
+  const targetDir = path.join(cwd, ".opencarl");
 
   // Check if project directory is writable
   try {
@@ -78,15 +78,15 @@ export function checkSetupNeeded(options: {
     return {
       needed: true,
       targetDir,
-      reason: "No .carl/ found - setup will seed to project directory",
+      reason: "No .opencarl/ found - setup will seed to project directory",
     };
   } catch {
     // Project not writable, fallback to global
-    const globalTarget = path.join(homeDir, ".carl");
+    const globalTarget = path.join(homeDir, ".opencarl");
     return {
       needed: true,
       targetDir: globalTarget,
-      reason: "No .carl/ found - project not writable, setup will seed to global ~/.carl/",
+      reason: "No .opencarl/ found - project not writable, setup will seed to global ~/.opencarl/",
     };
   }
 }
@@ -159,16 +159,16 @@ export async function seedOpencarlTemplates(
 }
 
 /**
- * Build the setup prompt message shown when .carl/ is missing.
+ * Build the setup prompt message shown when .opencarl/ is missing.
  * Keep under 500 chars for visibility.
  */
 export function buildSetupPrompt(): string {
-  return `[carl] Setup Required
+  return `[opencarl] Setup Required
 
-No .carl/ configuration found. To use CARL:
+No .opencarl/ configuration found. To use OpenCARL:
 
-1. Type: /carl setup
-2. Or run: npx carl-core
+1. Type: /opencarl setup
+2. Or run: npx opencarl-core
 
 This seeds starter templates to your project or home directory.`;
 }
@@ -188,7 +188,7 @@ export async function runSetup(options: {
   const defaultTemplateDir = path.resolve(
     path.dirname(require.main?.filename || __dirname),
     "..",
-    ".carl-template"
+    ".opencarl-template"
   );
   const actualTemplateDir = templateDir || defaultTemplateDir;
 
@@ -212,7 +212,7 @@ export async function runSetup(options: {
     };
   }
 
-  console.log(`[carl] Setting up .carl/ at ${targetDir}`);
+  console.log(`[opencarl] Setting up .opencarl/ at ${targetDir}`);
 
   // Check template directory exists
   try {
@@ -226,7 +226,7 @@ export async function runSetup(options: {
   }
 
   // Seed templates
-  console.log("[carl] Seeding templates...");
+  console.log("[opencarl] Seeding templates...");
   const seedResult = await seedOpencarlTemplates(targetDir, actualTemplateDir);
 
   // Report progress with checkmarks
@@ -285,13 +285,13 @@ export async function runIntegration(options: {
   const defaultAgentsPath = path.join(cwd, "AGENTS.md");
   const targetAgentsPath = agentsPath || defaultAgentsPath;
 
-  // Resolve CARL-AGENTS.md path relative to this module
+  // Resolve OpenCARL-AGENTS.md path relative to this module
   const opencarlDocsPath = path.resolve(
     path.dirname(require.main?.filename || __dirname),
     "..",
     "resources",
     "docs",
-    "CARL-AGENTS.md"
+    "OpenCARL-AGENTS.md"
   );
 
   if (integrate) {
@@ -304,14 +304,14 @@ export async function runIntegration(options: {
 
   return {
     success: false,
-    message: "[carl] No integration action specified (use --integrate or --remove)",
+    message: "[opencarl] No integration action specified (use --integrate or --remove)",
   };
 }
 
 /**
- * Integrate CARL documentation references into opencode.json.
+ * Integrate OpenCARL documentation references into opencode.json.
  * - Reads existing opencode.json (or creates default)
- * - Merges CARL doc paths into instructions field
+ * - Merges OpenCARL doc paths into instructions field
  * - Idempotent - won't duplicate entries
  *
  * @param options - Configuration options including cwd
@@ -335,20 +335,20 @@ export async function integrateOpencarl(options: {
       };
     }
 
-    // Resolve CARL-DOCS.md path relative to this module
+    // Resolve OpenCARL-DOCS.md path relative to this module
     const opencarlDocsPath = path.resolve(
       path.dirname(require.main?.filename || __dirname),
       "..",
       "resources",
       "docs",
-      "CARL-DOCS.md"
+      "OpenCARL-DOCS.md"
     );
 
     // Relative path for opencode.json instructions
     // Use path relative to cwd if opencarlDocsPath is within cwd, otherwise use absolute
-    const relativePath = "./resources/docs/CARL-DOCS.md";
+    const relativePath = "./resources/docs/OpenCARL-DOCS.md";
 
-    // Merge CARL instructions
+    // Merge OpenCARL instructions
     const mergedConfig = mergeCarlInstructions(config, [relativePath]);
 
     // Write updated config
@@ -364,13 +364,13 @@ export async function integrateOpencarl(options: {
 
     return {
       success: true,
-      message: `[carl] CARL documentation added to opencode.json instructions`,
+      message: `[opencarl] OpenCARL documentation added to opencode.json instructions`,
     };
   } catch (err) {
     const errorMsg = err instanceof Error ? err.message : String(err);
     return {
       success: false,
-      message: `[carl] OpenCode integration failed: ${errorMsg}`,
+      message: `[opencarl] OpenCode integration failed: ${errorMsg}`,
     };
   }
 }
@@ -395,7 +395,7 @@ export interface ToggleResult {
 export function runList(options: { cwd: string; homeDir: string }): ListResult {
   const { cwd, homeDir } = options;
 
-  // Find .carl/ directory (project first, then global)
+  // Find .opencarl/ directory (project first, then global)
   let opencarlDir: string | null = null;
   const projectCarl = findProjectCarl(cwd);
   if (projectCarl) {
@@ -410,7 +410,7 @@ export function runList(options: { cwd: string; homeDir: string }): ListResult {
   if (!opencarlDir) {
     return {
       success: false,
-      error: "No .carl/ directory found. Run setup first.",
+      error: "No .opencarl/ directory found. Run setup first.",
     };
   }
 
@@ -481,7 +481,7 @@ export function runToggle(options: {
   // Normalize domain name to uppercase
   const domainName = domain.toUpperCase();
 
-  // Find .carl/ directory (project first, then global)
+  // Find .opencarl/ directory (project first, then global)
   let opencarlDir: string | null = null;
   const projectCarl = findProjectCarl(cwd);
   if (projectCarl) {
@@ -496,7 +496,7 @@ export function runToggle(options: {
   if (!opencarlDir) {
     return {
       success: false,
-      error: "No .carl/ directory found. Run setup first.",
+      error: "No .opencarl/ directory found. Run setup first.",
     };
   }
 

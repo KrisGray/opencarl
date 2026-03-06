@@ -21,7 +21,7 @@ export interface OpencarlCommandResolutionResult {
 
 type CommandRuleMap = Record<string, string[]>;
 
-// Matches CARL star-command triggers like *carl, *brief, *dev
+// Matches OpenOpenCARL star-command triggers like *opencarl, *brief, *dev
 const STAR_COMMAND_PATTERN = /\*([a-zA-Z]+)/g;
 const COMMAND_RULE_PATTERN = /^([A-Z0-9]+)_RULE_(\d+)$/;
 
@@ -169,7 +169,7 @@ export function resolveOpencarlCommandSignals(
     }
 
     const payloadRules = [...rules];
-    if (token === "CARL") {
+    if (token === "OpenCARL") {
       // Check for docs subcommand in prompt text
       const isDocsRequest = promptText.toLowerCase().includes('docs');
 
@@ -178,7 +178,7 @@ export function resolveOpencarlCommandSignals(
         // Use quick reference for initial response
         payloadRules.push(docsGuidance.quickReference);
         // Note about full docs available
-        payloadRules.push("\n\n*For full guide, see resources/docs/CARL-DOCS.md file or visit online documentation.*");
+        payloadRules.push("\n\n*For full guide, see resources/docs/OpenCARL-DOCS.md file or visit online documentation.*");
       } else {
         // Existing help guidance logic
         const guidance =

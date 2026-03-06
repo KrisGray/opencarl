@@ -4,7 +4,7 @@ import type { OpencarlRuleDiscoveryResult, OpencarlRuleSourceScope } from "./typ
 
 /**
  * Session-scoped rule cache with dirty tracking for live reload support.
- * Rules are cached and only reloaded when .carl/ files change.
+ * Rules are cached and only reloaded when .opencarl/ files change.
  */
 
 interface RuleCacheEntry {
@@ -19,8 +19,8 @@ let globalCache: RuleCacheEntry | null = null;
 // Dirty flag - when true, cache needs refresh on next access
 let isDirty = false;
 
-// Track which paths are under .carl/ for dirty detection
-const CARL_DIR_NAMES = [".carl", ".opencode/carl"];
+// Track which paths are under .opencarl/ for dirty detection
+const CARL_DIR_NAMES = [".opencarl", ".opencode/opencarl"];
 
 // Per-session warning guard: tracks which sessions have been warned about invalid project rules
 const sessionWarningGuard = new Set<string>();
@@ -29,7 +29,7 @@ const sessionWarningGuard = new Set<string>();
 const sessionProjectOptIn = new Map<string, boolean>();
 
 /**
- * Check if a file path is inside a .carl/ directory.
+ * Check if a file path is inside a .opencarl/ directory.
  */
 export function isCarlPath(filePath: string): boolean {
   const normalized = filePath.replace(/\\/g, "/");
@@ -37,7 +37,7 @@ export function isCarlPath(filePath: string): boolean {
     if (normalized.includes(`/${carlDir}/`) || normalized.endsWith(`/${carlDir}`)) {
       return true;
     }
-    // Also handle paths that start with .carl/
+    // Also handle paths that start with .opencarl/
     if (normalized.startsWith(`${carlDir}/`) || normalized === carlDir) {
       return true;
     }
@@ -46,8 +46,8 @@ export function isCarlPath(filePath: string): boolean {
 }
 
 /**
- * Mark the rule cache as dirty, triggering a reload on next access.
- * Call this when .carl/ files are modified.
+ * Mark rule cache as dirty, triggering a reload on next access.
+ * Call this when .opencarl/ files are modified.
  */
 export function markRulesDirty(): void {
   isDirty = true;

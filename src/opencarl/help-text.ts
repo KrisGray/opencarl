@@ -38,12 +38,12 @@ export function buildCarlHelpGuidance(options?: {
       process.cwd(),
       "resources",
       "skills",
-      "carl-help",
-      "CARL-OVERVIEW.md"
+      "opencarl-help",
+      "OpenCARL-OVERVIEW.md"
     );
   const managerPath =
     options?.managerPath ??
-    path.resolve(process.cwd(), "resources", "commands", "carl", "manager.md");
+    path.resolve(process.cwd(), "resources", "commands", "opencarl", "manager.md");
 
   const overview = readFileSafe(overviewPath);
   const manager = stripFrontmatter(readFileSafe(managerPath));
@@ -71,7 +71,7 @@ export function buildCarlDocsGuidance(options?: {
       process.cwd(),
       "resources",
       "docs",
-      "CARL-DOCS.md"
+      "OpenCARL-DOCS.md"
     );
 
   const fullContent = readFileSafe(docsPath);
