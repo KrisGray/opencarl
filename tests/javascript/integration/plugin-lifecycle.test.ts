@@ -49,7 +49,7 @@ jest.mock('../../../src/opencarl/injector', () => ({
 }));
 
 jest.mock('../../../src/opencarl/command-parity', () => ({
-  resolveCarlCommandSignals: jest.fn(),
+  resolveOpencarlCommandSignals: jest.fn(),
 }));
 
 jest.mock('../../../src/opencarl/setup', () => ({
@@ -79,7 +79,7 @@ describe('plugin-hooks.ts - integration', () => {
   let mockGetCachedRules: jest.Mock;
   let mockMatchDomainsForTurn: jest.Mock;
   let mockBuildCarlInjection: jest.Mock;
-  let mockResolveCarlCommandSignals: jest.Mock;
+  let mockResolveOpencarlCommandSignals: jest.Mock;
   let signalStore: typeof import('../../../src/opencarl/signal-store');
 
   function loadAllModules() {
@@ -99,7 +99,7 @@ describe('plugin-hooks.ts - integration', () => {
       mockBuildCarlInjection = injector.buildCarlInjection;
 
       const commandParity = require('../../../src/opencarl/command-parity');
-      mockResolveCarlCommandSignals = commandParity.resolveCarlCommandSignals;
+      mockResolveOpencarlCommandSignals = commandParity.resolveOpencarlCommandSignals;
 
       // Default mock return values
       mockGetCachedRules.mockReturnValue({
@@ -127,7 +127,7 @@ describe('plugin-hooks.ts - integration', () => {
 
       mockBuildCarlInjection.mockReturnValue('<carl-rules>\n[DEVELOPMENT] RULES:\n1. Use early returns\n2. Prefer small functions\n</carl-rules>');
 
-      mockResolveCarlCommandSignals.mockReturnValue({
+      mockResolveOpencarlCommandSignals.mockReturnValue({
         commandPayloads: {},
         commandDomains: [],
       });
