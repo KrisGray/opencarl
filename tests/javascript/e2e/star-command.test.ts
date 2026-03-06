@@ -88,7 +88,7 @@ describe('E2E: Star-Commands', () => {
 
   describe('Test 5: Star-command flow', () => {
     beforeEach(() => {
-      // Setup .carl/ with default domains
+      // Setup .opencarl/ with default domains
       setupTestManifest('setup-manifest.txt');
     });
 

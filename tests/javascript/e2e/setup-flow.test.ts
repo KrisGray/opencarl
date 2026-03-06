@@ -99,13 +99,13 @@ describe('E2E: Setup Flow', () => {
     });
 
     it('should create .carl/ directory with valid structure on setup', () => {
-      // Execute: carl setup
+      // Execute: opencarl setup
       const result = dockerExec(`cd ${WORKSPACE_DIR} && carl setup`);
 
       // Verify command executed successfully
       expect(result.exitCode).toBe(0);
 
-      // Primary assertion (file system): .carl/ directory structure
+      // Primary assertion (file system): .opencarl/ directory structure
       expect(directoryExists('.carl')).toBe(true);
       expect(fileExists('.carl/manifest')).toBe(true);
       expect(fileExists('.carl/global')).toBe(true);
@@ -229,7 +229,7 @@ EOF`);
       // First setup run
       dockerExec(`cd ${WORKSPACE_DIR} && carl setup`);
 
-      // Check file count in .carl/ directory
+      // Check file count in .opencarl/ directory
       const firstFileCount = dockerExec(`find ${WORKSPACE_DIR}/.carl -type f | wc -l`).stdout.trim();
 
       // Second setup run

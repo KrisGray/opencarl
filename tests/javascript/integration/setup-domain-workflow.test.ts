@@ -10,7 +10,7 @@ describe('setup and domain workflow - integration', () => {
   let templateDir: string;
 
   beforeEach(() => {
-    // Create temp working directory for .carl/
+    // Create temp working directory for .opencarl/
     tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'carl-integration-test-'));
     projectOpencarlDir = path.join(tempDir, '.carl');
     // Set template directory to the actual .carl-template directory
@@ -32,7 +32,7 @@ describe('setup and domain workflow - integration', () => {
       // Verify success
       expect(result.success).toBe(true);
 
-      // Assert .carl/ directory exists
+      // Assert .opencarl/ directory exists
       expect(fs.existsSync(projectOpencarlDir)).toBe(true);
 
       // Assert MANIFEST file exists
@@ -56,7 +56,7 @@ describe('setup and domain workflow - integration', () => {
     it('displays all domains with active/inactive states', async () => {
       const homeDir = os.homedir();
 
-      // Run setup to create .carl/ directory
+      // Run setup to create .opencarl/ directory
       await runSetup({ cwd: tempDir, homeDir, templateDir });
 
       // Run list
@@ -87,7 +87,7 @@ describe('setup and domain workflow - integration', () => {
     it('changes CONTEXT domain state and persists to MANIFEST', async () => {
       const homeDir = os.homedir();
 
-      // Run setup to create .carl/ directory
+      // Run setup to create .opencarl/ directory
       await runSetup({ cwd: tempDir, homeDir, templateDir });
 
       // Verify initial state is active

@@ -69,31 +69,31 @@ describe('setup.ts', () => {
     it('should return needed: false when project .carl/ exists', () => {
       mockFindProjectCarl.mockReturnValue({
         root: testCwd,
-        carlDir: path.join(testCwd, '.carl'),
-        manifestPath: path.join(testCwd, '.carl', 'manifest'),
+        carlDir: path.join(testCwd, '.opencarl'),
+        manifestPath: path.join(testCwd, '.opencarl', 'manifest'),
       });
       mockFindGlobalCarl.mockReturnValue(null);
 
       const result = checkSetupNeeded({ cwd: testCwd, homeDir: testHomeDir });
 
       expect(result.needed).toBe(false);
-      expect(result.targetDir).toBe(path.join(testCwd, '.carl'));
-      expect(result.reason).toContain('Project .carl/');
+      expect(result.targetDir).toBe(path.join(testCwd, '.opencarl'));
+      expect(result.reason).toContain('Project .opencarl/');
     });
 
-    it('should return needed: false when global ~/.carl/ exists', () => {
+    it('should return needed: false when global ~/.opencarl/ exists', () => {
       mockFindProjectCarl.mockReturnValue(null);
       mockFindGlobalCarl.mockReturnValue({
         root: testHomeDir,
-        carlDir: path.join(testHomeDir, '.carl'),
-        manifestPath: path.join(testHomeDir, '.carl', 'manifest'),
+        carlDir: path.join(testHomeDir, '.opencarl'),
+        manifestPath: path.join(testHomeDir, '.opencarl', 'manifest'),
       });
 
       const result = checkSetupNeeded({ cwd: testCwd, homeDir: testHomeDir });
 
       expect(result.needed).toBe(false);
-      expect(result.targetDir).toBe(path.join(testHomeDir, '.carl'));
-      expect(result.reason).toContain('Global ~/.carl/');
+      expect(result.targetDir).toBe(path.join(testHomeDir, '.opencarl'));
+      expect(result.reason).toContain('Global ~/.opencarl/');
     });
 
     it('should return needed: true when no .carl/ found', () => {
@@ -103,26 +103,26 @@ describe('setup.ts', () => {
 
       const result = checkSetupNeeded({ cwd: testCwd, homeDir: testHomeDir });
       expect(result.needed).toBe(true);
-      expect(result.targetDir).toBe(path.join(testCwd, '.carl'));
-      expect(result.reason).toContain('No .carl/');
+      expect(result.targetDir).toBe(path.join(testCwd, '.opencarl'));
+      expect(result.reason).toContain('No .opencarl/');
     });
 
-    it('should prefer project .carl/ over global', () => {
+    it('should prefer project .opencarl/ over global', () => {
       mockFindProjectCarl.mockReturnValue({
         root: testCwd,
-        carlDir: path.join(testCwd, '.carl'),
-        manifestPath: path.join(testCwd, '.carl', 'manifest'),
+        carlDir: path.join(testCwd, '.opencarl'),
+        manifestPath: path.join(testCwd, '.opencarl', 'manifest'),
       });
       mockFindGlobalCarl.mockReturnValue({
         root: testHomeDir,
-        carlDir: path.join(testHomeDir, '.carl'),
-        manifestPath: path.join(testHomeDir, '.carl', 'manifest'),
+        carlDir: path.join(testHomeDir, '.opencarl'),
+        manifestPath: path.join(testHomeDir, '.opencarl', 'manifest'),
       });
 
       const result = checkSetupNeeded({ cwd: testCwd, homeDir: testHomeDir });
 
       expect(result.needed).toBe(false);
-      expect(result.targetDir).toBe(path.join(testCwd, '.carl'));
+      expect(result.targetDir).toBe(path.join(testCwd, '.opencarl'));
       expect(result.reason).toContain('Project');
     });
 
@@ -134,8 +134,8 @@ describe('setup.ts', () => {
       const result = checkSetupNeeded({ cwd: testCwd, homeDir: testHomeDir });
 
       expect(result.needed).toBe(true);
-      expect(result.targetDir).toBe(path.join(testCwd, '.carl'));
-      expect(result.reason).toContain('No .carl/');
+      expect(result.targetDir).toBe(path.join(testCwd, '.opencarl'));
+      expect(result.reason).toContain('No .opencarl/');
     });
 
     it('should fallback to global when project not writable', () => {
@@ -148,8 +148,8 @@ describe('setup.ts', () => {
       const result = checkSetupNeeded({ cwd: testCwd, homeDir: testHomeDir });
 
       expect(result.needed).toBe(true);
-      expect(result.targetDir).toBe(path.join(testHomeDir, '.carl'));
-      expect(result.reason).toContain('global ~/.carl/');
+      expect(result.targetDir).toBe(path.join(testHomeDir, '.opencarl'));
+      expect(result.reason).toContain('global ~/.opencarl/');
     });
   });
 });

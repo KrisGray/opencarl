@@ -27,7 +27,7 @@ import {
 import { createTestDomainPayload } from '../../helpers/domain-factory';
 import { createTestBracketData } from '../../helpers/bracket-factory';
 
-// Mock file system operations for temp .carl/ directory
+// Mock file system operations for temp .opencarl/ directory
 let tempCarlDir: string;
 
 // Mock loaders and dependencies
@@ -139,7 +139,7 @@ describe('plugin-hooks.ts - integration', () => {
   }
 
   beforeEach(() => {
-    // Create temp .carl/ directory for each test
+    // Create temp .opencarl/ directory for each test
     tempCarlDir = fs.mkdtempSync(path.join(os.tmpdir(), 'carl-test-'));
 
     // Load all modules in isolation
@@ -147,7 +147,7 @@ describe('plugin-hooks.ts - integration', () => {
   });
 
   afterEach(() => {
-    // Clean up temp .carl/ directory
+    // Clean up temp .opencarl/ directory
     if (fs.existsSync(tempCarlDir)) {
       fs.rmSync(tempCarlDir, { recursive: true, force: true });
     }

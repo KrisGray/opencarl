@@ -43,7 +43,7 @@ describe('file system operations - integration', () => {
 
   describe('manifest change detection and reload', () => {
     it('should detect manifest changes and reload rules', () => {
-      // Setup temp .carl/ with DEVELOPMENT domain active
+      // Setup temp .opencarl/ with DEVELOPMENT domain active
       copyFixture('full', projectOpencarlDir);
 
       // Load rules and cache result
@@ -96,7 +96,7 @@ describe('file system operations - integration', () => {
 
   describe('domain file change detection and reload', () => {
     it('should detect domain file changes and reload rules', () => {
-      // Setup temp .carl/ with development domain file containing rules
+      // Setup temp .opencarl/ with development domain file containing rules
       copyFixture('minimal', projectOpencarlDir);
 
       // Load rules and cache result
@@ -149,10 +149,10 @@ describe('file system operations - integration', () => {
 
   describe('session override application from session files', () => {
     it('should apply session overrides from session files', () => {
-      // Setup temp .carl/ with multiple active domains (DEVELOPMENT, CONTENT, CONTEXT)
+      // Setup temp .opencarl/ with multiple active domains (DEVELOPMENT, CONTENT, CONTEXT)
       copyFixture('full', projectOpencarlDir);
 
-      // Create session file: .carl/sessions/test-session.json
+      // Create session file: .opencarl/sessions/test-session.json
       const sessionsDir = path.join(projectOpencarlDir, 'sessions');
       fs.mkdirSync(sessionsDir, { recursive: true });
       const sessionContent = JSON.stringify({
@@ -190,7 +190,7 @@ describe('file system operations - integration', () => {
 
   describe('project over global rule precedence', () => {
     it('should prefer project rules over global rules with same domain name', () => {
-      // Setup global .carl/ with DEVELOPMENT domain containing global rules
+      // Setup global .opencarl/ with DEVELOPMENT domain containing global rules
       copyFixture('full', globalOpencarlDir);
 
       // Modify global development to have distinct rules
@@ -201,7 +201,7 @@ describe('file system operations - integration', () => {
         'utf8'
       );
 
-      // Setup project .carl/ with DEVELOPMENT domain containing project rules
+      // Setup project .opencarl/ with DEVELOPMENT domain containing project rules
       copyFixture('minimal', projectOpencarlDir);
 
       // Load rules with both project and global paths
@@ -235,7 +235,7 @@ describe('file system operations - integration', () => {
 
   describe('fallback rules when project and global are missing', () => {
     it('should load fallback rules when project and global are missing', () => {
-      // Setup fallback .carl/ with minimal CONTENT domain
+      // Setup fallback .opencarl/ with minimal CONTENT domain
       copyFixture('minimal', fallbackOpencarlDir);
 
       // Modify manifest to have CONTENT instead of DEVELOPMENT
@@ -280,7 +280,7 @@ describe('file system operations - integration', () => {
 
   describe('corrupted session file graceful handling', () => {
     it('should handle corrupted session file gracefully', () => {
-      // Setup temp .carl/ with domains
+      // Setup temp .opencarl/ with domains
       copyFixture('full', projectOpencarlDir);
 
       // Create session file with invalid JSON: .carl/sessions/bad-session.json

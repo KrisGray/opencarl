@@ -423,13 +423,13 @@ describe('command-parity.ts', () => {
       });
 
       it('should handle special characters in prompt (*carl-test, *carl_123)', () => {
-        // *carl-test should match CARL (stops at first -)
-        // *carl_123 should match CARL (stops at first _)
+        // *opencarl-test should match OpenCARL (stops at first -)
+        // *opencarl_123 should match OpenCARL (stops at first _)
         const result = resolveOpencarlCommandSignals({
           promptText: '*carl-test *carl_123',
         });
 
-        // Only CARL should be extracted (the regex stops at non-letter chars, then deduplicates)
+        // Only OpenCARL should be extracted (the regex stops at non-letter chars, then deduplicates)
         expect(result.commandTokens).toEqual(['CARL']);
       });
 
@@ -439,7 +439,7 @@ describe('command-parity.ts', () => {
           promptText: longPrompt,
         });
 
-        // Should have deduplicated CARL and BRIEF
+        // Should have deduplicated OpenCARL and BRIEF
         expect(result.commandTokens).toEqual(['CARL', 'BRIEF']);
       });
 
