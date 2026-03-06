@@ -5,17 +5,17 @@ import path from "path";
 // Note: Using 'any' for Hooks to support Jest/ts-jest compatibility
 // In production runtime, the actual @opencode-ai/plugin Hooks type will be used
 type Hooks = any;
-import { computeContextBracketData, type ContextBracketData } from "../carl/context-brackets";
-import type { OpencarlRuleDomainPayload, OpencarlMatchDomainConfig } from "../carl/types";
-import { resolveOpencarlCommandSignals } from "../carl/command-parity";
-import { checkSetupNeeded, buildSetupPrompt, runSetup, runIntegration, integrateOpencarl } from "../carl/setup";
+import { computeContextBracketData, type ContextBracketData } from "../opencarl/context-brackets";
+import type { OpencarlRuleDomainPayload, OpencarlMatchDomainConfig } from "../opencarl/types";
+import { resolveOpencarlCommandSignals } from "../opencarl/command-parity";
+import { checkSetupNeeded, buildSetupPrompt, runSetup, runIntegration, integrateOpencarl } from "../opencarl/setup";
 import {
   registerPluginLoad,
   checkDuplicateLoad,
   getDuplicateWarning,
-} from "../carl/duplicate-detector";
-import { buildCarlHelpGuidance } from "../carl/help-text";
-import { buildCarlInjection } from "../carl/injector";
+} from "../opencarl/duplicate-detector";
+import { buildCarlHelpGuidance } from "../opencarl/help-text";
+import { buildCarlInjection } from "../opencarl/injector";
 import {
   getCachedRules,
   hasSessionWarned,
@@ -23,9 +23,9 @@ import {
   markRulesDirty,
   markSessionWarned,
   clearSessionWarning,
-} from "../carl/rule-cache";
-import { matchDomainsForTurn } from "../carl/matcher";
-import { debugInjection } from "../carl/debug";
+} from "../opencarl/rule-cache";
+import { matchDomainsForTurn } from "../opencarl/matcher";
+import { debugInjection } from "../opencarl/debug";
 import {
   recordPromptSignals,
   recordToolSignals,
@@ -33,8 +33,8 @@ import {
   getSessionSignals,
   getSessionPromptText,
   consumeCommandSignals,
-} from "../carl/signal-store";
-import { formatError } from "../carl/errors";
+} from "../opencarl/signal-store";
+import { formatError } from "../opencarl/errors";
 
 // Resolve plugin path at module initialization for duplicate detection
 const PLUGIN_PATH = __dirname;

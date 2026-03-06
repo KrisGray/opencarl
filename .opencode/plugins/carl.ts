@@ -1,7 +1,7 @@
 import fs from "fs";
 import os from "os";
 import path from "path";
-import { loadCarlRules } from "../../src/carl/loader";
+import { loadCarlRules } from "../../src/opencarl/loader";
 import { createCarlPluginHooks } from "../../src/integration/plugin-hooks";
 
 const PROJECT_PLUGIN_PATH = path.resolve(process.cwd(), ".opencode/plugins/carl.ts");
