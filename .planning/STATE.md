@@ -113,6 +113,8 @@ Decisions are logged in PROJECT.md Key Decisions table.
 - [Phase 08-04]: Fixed test destructuring order to match actual parseContextFile return type [bracketFlags, bracketRules]
 - [Phase 08-05]: Context bracket tests must match rulesBracket rules, not bracket name — buildCarlInjection uses rulesBracket to select rules, not the display bracket
 - [Phase 09-01]: Use namespace imports (* as fs) with esModuleInterop for TypeScript compatibility — Default imports (import fs from 'fs') incompatible with TypeScript configuration; namespace imports work with esModuleInterop enabled
+- [Phase 12]: Compound names: CarlRuleDomainPayload → OpencarlRuleDomainPayload (lowercase 'c' after prefix) — Maintains readable naming convention
+- [Phase 12]: Use 'Opencarl' prefix (CamelCase, lowercase 'carl') — Rebranding from CARL to OpenCARL requires type prefix updates
 
 ### Active Constraints
 
