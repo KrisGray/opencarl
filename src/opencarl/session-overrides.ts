@@ -38,7 +38,7 @@ function parseOverrideValue(value: unknown): SessionOverrideValue {
 }
 
 /**
- * Load per-session overrides from `.opencarl/sessions/{session_id}.json`.
+ * Load per-session overrides in `.opencarl/sessions/{session_id}.json`.
  * Returns default (all inherit) if file doesn't exist.
  */
 export function loadSessionOverrides(
