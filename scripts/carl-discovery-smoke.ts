@@ -22,10 +22,10 @@ function countWarnings(warnings, predicate) {
 
 const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "carl-discovery-"));
 const projectRoot = path.join(tempRoot, "project");
-const projectOpencarlDir = path.join(projectRoot, ".carl");
+const projectOpencarlDir = path.join(projectRoot, ".opencarl");
 const fallbackOpencarlDir = path.join(projectRoot, ".opencode", "carl");
 const globalHome = path.join(tempRoot, "home");
-const globalOpencarlDir = path.join(globalHome, ".carl");
+const globalOpencarlDir = path.join(globalHome, ".opencarl");
 
 try {
   writeManifest(

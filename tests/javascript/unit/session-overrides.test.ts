@@ -16,7 +16,7 @@ describe('session-overrides.ts', () => {
 
   beforeEach(() => {
     tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'carl-session-test-'));
-    carlDir = path.join(tempDir, '.carl');
+    carlDir = path.join(tempDir, '.opencarl');
     fs.mkdirSync(carlDir, { recursive: true });
   });
 
@@ -26,7 +26,7 @@ describe('session-overrides.ts', () => {
 
   describe('loadSessionOverrides', () => {
     describe('file loading', () => {
-      it('should load session overrides from .carl/sessions/{id}.json', () => {
+      it('should load session overrides from .opencarl/sessions/{id}.json', () => {
         const sessionsDir = path.join(carlDir, 'sessions');
         fs.mkdirSync(sessionsDir, { recursive: true });
         fs.writeFileSync(
@@ -425,7 +425,7 @@ describe('session-overrides.ts', () => {
 
     beforeEach(() => {
       edgeTempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'carl-edge-test-'));
-      edgeCarlDir = path.join(edgeTempDir, '.carl');
+      edgeCarlDir = path.join(edgeTempDir, '.opencarl');
       fs.mkdirSync(edgeCarlDir, { recursive: true });
     });
 
@@ -440,7 +440,7 @@ describe('session-overrides.ts', () => {
       expect(result.domains).toEqual({});
     });
 
-    it('should handle .carl directory does not exist', () => {
+    it('should handle .opencarl directory does not exist', () => {
       const nonExistentCarlDir = path.join(edgeTempDir, 'non-existent');
       const result = loadSessionOverrides(nonExistentCarlDir, 'test-session');
 
@@ -448,7 +448,7 @@ describe('session-overrides.ts', () => {
       expect(result.domains).toEqual({});
     });
 
-    it('should handle .carl directory does not exist', () => {
+    it('should handle .opencarl directory does not exist', () => {
       const result = loadSessionOverrides('/nonexistent/path', 'test');
 
       expect(result.exists).toBe(false);

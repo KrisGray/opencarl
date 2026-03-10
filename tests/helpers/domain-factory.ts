@@ -9,7 +9,7 @@ export function createTestDomainPayload(
   return {
     domain: 'DEVELOPMENT',
     scope: 'project',
-    sourcePath: '.carl/development',
+    sourcePath: '.opencarl/development',
     rules: ['Use early returns', 'Prefer small functions'],
     state: true,
     alwaysOn: false,

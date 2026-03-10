@@ -17,7 +17,7 @@ function copyFixture(
   fixtureName: 'minimal' | 'full',
   targetOpencarlDir: string
 ): void {
-  const sourceOpencarlDir = path.join(fixturesRoot, fixtureName, '.carl');
+  const sourceOpencarlDir = path.join(fixturesRoot, fixtureName, '.opencarl');
   fs.mkdirSync(path.dirname(targetOpencarlDir), { recursive: true });
   fs.cpSync(sourceOpencarlDir, targetOpencarlDir, { recursive: true });
 }
@@ -31,9 +31,9 @@ describe('file system operations - integration', () => {
 
   beforeEach(() => {
     tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'carl-file-ops-test-'));
-    projectOpencarlDir = path.join(tempDir, 'project', '.carl');
-    globalOpencarlDir = path.join(tempDir, 'global', '.carl');
-    fallbackOpencarlDir = path.join(tempDir, 'fallback', '.carl');
+    projectOpencarlDir = path.join(tempDir, 'project', '.opencarl');
+    globalOpencarlDir = path.join(tempDir, 'global', '.opencarl');
+    fallbackOpencarlDir = path.join(tempDir, 'fallback', '.opencarl');
 
     // Reset cache before each test
     resetRulesCache();
@@ -260,8 +260,8 @@ describe('file system operations - integration', () => {
       // Load rules with fallback path
       const result = loadOpencarlRules({
         overrides: {
-          projectOpencarlDir: path.join(tempDir, 'missing-project', '.carl'),
-          globalOpencarlDir: path.join(tempDir, 'missing-global', '.carl'),
+          projectOpencarlDir: path.join(tempDir, 'missing-project', '.opencarl'),
+          globalOpencarlDir: path.join(tempDir, 'missing-global', '.opencarl'),
           fallbackOpencarlDir,
         },
       });

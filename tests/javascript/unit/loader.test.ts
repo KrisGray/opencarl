@@ -15,7 +15,7 @@ function copyFixture(
   fixtureName: 'minimal' | 'full',
   targetOpencarlDir: string
 ): void {
-  const sourceOpencarlDir = path.join(fixturesRoot, fixtureName, '.carl');
+  const sourceOpencarlDir = path.join(fixturesRoot, fixtureName, '.opencarl');
   fs.mkdirSync(path.dirname(targetOpencarlDir), { recursive: true });
   fs.cpSync(sourceOpencarlDir, targetOpencarlDir, { recursive: true });
 }
@@ -41,9 +41,9 @@ describe('loader.ts', () => {
 
   beforeEach(() => {
     tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'carl-loader-test-'));
-    projectOpencarlDir = path.join(tempDir, 'project', '.carl');
-    globalOpencarlDir = path.join(tempDir, 'global', '.carl');
-    fallbackOpencarlDir = path.join(tempDir, 'fallback', '.carl');
+    projectOpencarlDir = path.join(tempDir, 'project', '.opencarl');
+    globalOpencarlDir = path.join(tempDir, 'global', '.opencarl');
+    fallbackOpencarlDir = path.join(tempDir, 'fallback', '.opencarl');
   });
 
   afterEach(() => {
@@ -108,7 +108,7 @@ describe('loader.ts', () => {
         expect(projectSource?.domains).toEqual(['DEVELOPMENT']);
       });
 
-      it('honors projectOptIn=false by ignoring project rules even when project .carl/ exists', () => {
+      it('honors projectOptIn=false by ignoring project rules even when project .opencarl/ exists', () => {
         copyFixture('minimal', projectOpencarlDir);
         copyFixture('full', globalOpencarlDir);
 
@@ -132,9 +132,9 @@ describe('loader.ts', () => {
         expect(result.domainPayloads.DEVELOPMENT.sourcePath).toBe(globalOpencarlDir);
       });
 
-      it('falls back to fallback .carl/ only when both project and global are missing', () => {
-        const missingProject = path.join(tempDir, 'missing-project', '.carl');
-        const missingGlobal = path.join(tempDir, 'missing-global', '.carl');
+      it('falls back to fallback .opencarl/ only when both project and global are missing', () => {
+        const missingProject = path.join(tempDir, 'missing-project', '.opencarl');
+        const missingGlobal = path.join(tempDir, 'missing-global', '.opencarl');
         copyFixture('full', fallbackOpencarlDir);
 
         const result = loadOpencarlRules({
@@ -152,7 +152,7 @@ describe('loader.ts', () => {
       });
 
       it('does not use fallback when global rules are available', () => {
-        const missingProject = path.join(tempDir, 'missing-project', '.carl');
+        const missingProject = path.join(tempDir, 'missing-project', '.opencarl');
         copyFixture('full', globalOpencarlDir);
         copyFixture('minimal', fallbackOpencarlDir);
 

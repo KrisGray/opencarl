@@ -23,7 +23,7 @@ const fixturesRoot = path.join(
 );
 
 function copyFixture(fixtureName: 'minimal' | 'full', targetCarlDir: string): void {
-  const sourceCarlDir = path.join(fixturesRoot, fixtureName, '.carl');
+  const sourceCarlDir = path.join(fixturesRoot, fixtureName, '.opencarl');
   fs.mkdirSync(path.dirname(targetCarlDir), { recursive: true });
   fs.cpSync(sourceCarlDir, targetCarlDir, { recursive: true });
 }
@@ -54,9 +54,9 @@ describe('rule injection pipeline - integration', () => {
 
   beforeEach(() => {
     tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'carl-pipeline-integration-'));
-    projectOpencarlDir = path.join(tempDir, 'project', '.carl');
-    globalOpencarlDir = path.join(tempDir, 'global', '.carl');
-    fallbackOpencarlDir = path.join(tempDir, 'fallback', '.carl');
+    projectOpencarlDir = path.join(tempDir, 'project', '.opencarl');
+    globalOpencarlDir = path.join(tempDir, 'global', '.opencarl');
+    fallbackOpencarlDir = path.join(tempDir, 'fallback', '.opencarl');
   });
 
   afterEach(() => {

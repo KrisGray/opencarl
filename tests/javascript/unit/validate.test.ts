@@ -607,7 +607,7 @@ DEVELOPMENT_RULE_2=Another rule`;
 
     describe('domain file resolution', () => {
       it('should return path when domain file exists with lowercase name', () => {
-        const carlDir = path.join(tempDir, '.carl');
+        const carlDir = path.join(tempDir, '.opencarl');
         fs.mkdirSync(carlDir);
         fs.writeFileSync(path.join(carlDir, 'development'), 'DEVELOPMENT_RULE_1=test', 'utf8');
 
@@ -618,7 +618,7 @@ DEVELOPMENT_RULE_2=Another rule`;
       });
 
       it('should return null when domain file does not exist', () => {
-        const carlDir = path.join(tempDir, '.carl');
+        const carlDir = path.join(tempDir, '.opencarl');
         fs.mkdirSync(carlDir);
 
         const result = resolveDomainFile(carlDir, 'DEVELOPMENT', warnings);
@@ -629,7 +629,7 @@ DEVELOPMENT_RULE_2=Another rule`;
       });
 
       it('should warn when domain file has wrong case (UPPERCASE instead of lowercase)', () => {
-        const carlDir = path.join(tempDir, '.carl');
+        const carlDir = path.join(tempDir, '.opencarl');
         fs.mkdirSync(carlDir);
         // Create file with uppercase name (should be lowercase)
         fs.writeFileSync(path.join(carlDir, 'DEVELOPMENT'), 'DEVELOPMENT_RULE_1=test', 'utf8');
@@ -644,8 +644,8 @@ DEVELOPMENT_RULE_2=Another rule`;
     });
 
     describe('edge cases', () => {
-      it('should warn when .carl directory does not exist', () => {
-        const carlDir = path.join(tempDir, '.carl');
+      it('should warn when .opencarl directory does not exist', () => {
+        const carlDir = path.join(tempDir, '.opencarl');
         // Don't create .opencarl directory
 
         const result = resolveDomainFile(carlDir, 'DEVELOPMENT', warnings);
@@ -656,7 +656,7 @@ DEVELOPMENT_RULE_2=Another rule`;
       });
 
       it('should handle multiple domain lookups independently', () => {
-        const carlDir = path.join(tempDir, '.carl');
+        const carlDir = path.join(tempDir, '.opencarl');
         fs.mkdirSync(carlDir);
         fs.writeFileSync(path.join(carlDir, 'development'), 'DEVELOPMENT_RULE_1=test', 'utf8');
         fs.writeFileSync(path.join(carlDir, 'context'), 'CONTEXT_RULE_1=test', 'utf8');

@@ -26,7 +26,7 @@ function runFixture(name: string, check: () => void) {
 const commandsPayload: OpencarlRuleDomainPayload = {
   domain: "COMMANDS",
   scope: "fallback",
-  sourcePath: path.resolve(".carl-template"),
+  sourcePath: path.resolve(".opencarl-template"),
   rules: [],
   state: true,
   alwaysOn: false,
