@@ -221,17 +221,24 @@ Plans:
   3. Import statements reference ./opencarl/* paths instead of ./carl/*
   4. src/carl/ directory is renamed to src/opencarl/
   5. Internal code comments reference OpenCARL branding consistently
-**Plans**: 8 plans
+**Plans**: 15 plans
 
 Plans:
 - [ ] 12-01-PLAN.md — Rename type declarations in source files (SOURCE-01)
-- [ ] 12-02-PLAN.md — Rename function/variable declarations and references (SOURCE-02)
-- [ ] 12-03-PLAN.md — Update source imports and rename src/carl directory (SOURCE-03, CONFIG-01)
-- [ ] 12-04-PLAN.md — Update source code comments to OpenCARL branding (SOURCE-04)
+- [ ] 12-02-PLAN.md — Rename function/variable declarations in source files (SOURCE-02)
+- [ ] 12-03-PLAN.md — Update source imports and rename src/carl directory (batch A) (SOURCE-03, CONFIG-01)
+- [ ] 12-04-PLAN.md — Update source code comments (batch A) (SOURCE-04)
 - [ ] 12-05-PLAN.md — Update type references in test files (SOURCE-01)
-- [ ] 12-06-PLAN.md — Update test imports to opencarl paths (SOURCE-03)
-- [ ] 12-07-PLAN.md — Update test comments to OpenCARL branding (SOURCE-04)
+- [ ] 12-06-PLAN.md — Update test imports to opencarl paths (unit batch A) (SOURCE-03)
+- [ ] 12-07-PLAN.md — Update test comments to OpenCARL branding (unit batch A) (SOURCE-04)
 - [ ] 12-08-PLAN.md — Fix DOCS_BASE_URL to OpenCARL repo (SOURCE-04)
+- [ ] 12-09-PLAN.md — Update test imports to opencarl paths (batch B) (SOURCE-03)
+- [ ] 12-10-PLAN.md — Update test comments to OpenCARL branding (batch B) (SOURCE-04)
+- [ ] 12-11-PLAN.md — Update test imports to opencarl paths (integration/e2e batch A) (SOURCE-03)
+- [ ] 12-12-PLAN.md — Update test comments to OpenCARL branding (integration/e2e batch A) (SOURCE-04)
+- [ ] 12-13-PLAN.md — Update test function/variable references (SOURCE-02)
+- [ ] 12-14-PLAN.md — Update remaining source imports (SOURCE-03)
+- [ ] 12-15-PLAN.md — Update remaining source comments (SOURCE-04)
 
 ---
 
@@ -348,7 +355,7 @@ Plans:
 | 9.1. Close Phase 9 Unit Test Gaps | v1.2 | 2/2 | Complete | 2026-03-05 |
 | 10. Integration Tests | v1.2 | 4/4 | Complete | 2026-03-05 |
 | 11. E2E Tests & Docker | v1.2 | 4/4 | Complete | 2026-03-05 |
-| 12. Source Code Rebranding | 5/8 | In Progress|  | - |
+| 12. Source Code Rebranding | 6/15 | In Progress|  | - |
 | 13. Configuration & Directory Migration | v1.3 | 0/5 | Not started | - |
 | 14. Command Rebranding | v1.3 | 0/4 | Not started | - |
 | 15. Environment Variable Rebranding | v1.3 | 0/4 | Not started | - |
