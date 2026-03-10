@@ -31,7 +31,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 6: Integration & Developer Experience** - Complete opencode.json integration and troubleshooting/diagnostic tools.
 
-### Phase 6: Integration & Developer Experience
+**Phase 6: Integration & Developer Experience**
 **Goal**: Users have complete OpenCode configuration integration and can troubleshoot plugin issues independently
 **Depends on**: Phase 5
 **Requirements**: INTE-02, DX-01, DX-02, DX-03
@@ -62,7 +62,7 @@ See [.planning/milestones/v1.2-ROADMAP.md](.planning/milestones/v1.2-ROADMAP.md)
 - [x] **Phase 10: Integration Tests** - Plugin lifecycle, rule injection pipeline, domain workflow, and file system operations tests
 - [x] **Phase 11: E2E Tests & Docker** - Docker container setup, full workflow E2E tests with real OpenCode, and CI E2E execution
 
-### Phase 7: Test Infrastructure & CI Setup
+**Phase 7: Test Infrastructure & CI Setup**
 
 **Goal**: Developers have working test infrastructure with automated CI that validates code on every change.
 
@@ -81,7 +81,7 @@ See [.planning/milestones/v1.2-ROADMAP.md](.planning/milestones/v1.2-ROADMAP.md)
 
 ---
 
-### Phase 8: Core Unit Tests - Parsing & Matching
+**Phase 8: Core Unit Tests - Parsing & Matching**
 
 **Goal**: Core parsing and matching logic is validated with comprehensive unit test coverage.
 
@@ -106,7 +106,7 @@ Plans:
 
 ---
 
-### Phase 9: Core Unit Tests - Session & Setup
+**Phase 9: Core Unit Tests - Session & Setup**
 
 **Goal**: Session management, setup, and validation logic is validated with comprehensive unit test coverage.
 
@@ -132,7 +132,7 @@ Plans:
 
 ---
 
-### Phase 9.1 (INSERTED): Close Phase 9 Unit Test Gaps
+**Phase 9.1 (INSERTED): Close Phase 9 Unit Test Gaps**
 
 **Goal**: Phase 9 unit test requirements are fully satisfied and verified.
 
@@ -158,7 +158,7 @@ Plans:
 
 ---
 
-### Phase 10: Integration Tests
+**Phase 10: Integration Tests**
 
 **Goal**: Plugin components work together correctly across full workflows.
 
@@ -182,7 +182,7 @@ Plans:
 
 ---
 
-### Phase 11: E2E Tests & Docker
+**Phase 11: E2E Tests & Docker**
 
 **Goal**: Real OpenCode in Docker validates complete user workflows automatically in CI.
 
@@ -251,13 +251,13 @@ Plans:
   2. .carl-template/ directory is renamed to .opencarl-template/
   3. All file path references in code use new directory names
   4. Setup flow scaffolds .opencarl/ directory with updated templates
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
-- [ ] 13-01: Rename .carl/ to .opencarl/ (CONFIG-02)
-- [ ] 13-02: Rename .carl-template/ to .opencarl-template/ (CONFIG-03)
-- [ ] 13-03: Update file path references (CONFIG-04)
-- [ ] 13-04: Update setup scaffolding (CONFIG-05)
+- [ ] 13-01-PLAN.md — Rename template directory and update package.json (CONFIG-03, CONFIG-05)
+- [ ] 13-02-PLAN.md — Update path resolution in source code (CONFIG-02, CONFIG-04)
+- [ ] 13-03-PLAN.md — Update test path references (CONFIG-04)
+- [ ] 13-04-PLAN.md — Update script path references (CONFIG-04)
 
 ---
 
