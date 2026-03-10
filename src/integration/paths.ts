@@ -28,7 +28,7 @@ export function findProjectOpencarl(cwd: string): OpencarlSourcePath | null {
   let searchPath = path.resolve(cwd);
 
   for (let i = 0; i < 10; i += 1) {
-    const opencarlDir = path.join(searchPath, ".carl");
+    const opencarlDir = path.join(searchPath, ".opencarl");
     const resolved = resolveOpencarlDirectory(opencarlDir, searchPath);
     if (resolved) {
       return resolved;
@@ -48,7 +48,7 @@ export function findProjectOpencarl(cwd: string): OpencarlSourcePath | null {
 export function findGlobalOpencarl(homeDir: string): OpencarlSourcePath | null {
   const resolvedHome = path.resolve(homeDir);
   return resolveOpencarlDirectory(
-    path.join(resolvedHome, ".carl"),
+    path.join(resolvedHome, ".opencarl"),
     resolvedHome
   );
 }
