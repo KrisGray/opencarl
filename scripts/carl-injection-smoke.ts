@@ -12,7 +12,7 @@ const payloads: Record<string, OpencarlRuleDomainPayload> = {
   GLOBAL: {
     domain: "GLOBAL",
     scope: "global",
-    sourcePath: "/tmp/.carl",
+    sourcePath: "/tmp/.opencarl",
     rules: ["Global rule"],
     state: true,
     alwaysOn: true,
@@ -22,7 +22,7 @@ const payloads: Record<string, OpencarlRuleDomainPayload> = {
   OPS: {
     domain: "OPS",
     scope: "global",
-    sourcePath: "/tmp/.carl",
+    sourcePath: "/tmp/.opencarl",
     rules: ["Ops rule"],
     state: true,
     alwaysOn: true,
@@ -32,7 +32,7 @@ const payloads: Record<string, OpencarlRuleDomainPayload> = {
   DEV: {
     domain: "DEV",
     scope: "project",
-    sourcePath: "/tmp/.carl",
+    sourcePath: "/tmp/.opencarl",
     rules: ["Dev rule"],
     state: true,
     alwaysOn: false,
@@ -42,7 +42,7 @@ const payloads: Record<string, OpencarlRuleDomainPayload> = {
   COMMANDS: {
     domain: "COMMANDS",
     scope: "project",
-    sourcePath: "/tmp/.carl",
+    sourcePath: "/tmp/.opencarl",
     rules: ["Command rule"],
     state: true,
     alwaysOn: false,
@@ -97,7 +97,7 @@ const contextPayloads: Record<string, OpencarlRuleDomainPayload> = {
   GLOBAL: {
     domain: "GLOBAL",
     scope: "global",
-    sourcePath: "/tmp/.carl",
+    sourcePath: "/tmp/.opencarl",
     rules: ["Global rule"],
     state: true,
     alwaysOn: true,
@@ -107,7 +107,7 @@ const contextPayloads: Record<string, OpencarlRuleDomainPayload> = {
   CONTEXT: {
     domain: "CONTEXT",
     scope: "global",
-    sourcePath: "/tmp/.carl",
+    sourcePath: "/tmp/.opencarl",
     rules: ["Fresh rule", "Moderate rule", "Depleted rule"],
     state: true,
     alwaysOn: false,

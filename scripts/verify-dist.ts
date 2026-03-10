@@ -11,7 +11,7 @@ const requiredFiles = [
   "carl/setup.js",
 ];
 
-const requiredDirs = [".carl-template", "resources"];
+const requiredDirs = [".opencarl-template", "resources"];
 
 export function verifyDist(): { success: boolean; errors: string[] } {
   const errors: string[] = [];

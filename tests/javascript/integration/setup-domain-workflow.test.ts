@@ -12,9 +12,9 @@ describe('setup and domain workflow - integration', () => {
   beforeEach(() => {
     // Create temp working directory for .opencarl/
     tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'carl-integration-test-'));
-    projectOpencarlDir = path.join(tempDir, '.carl');
+    projectOpencarlDir = path.join(tempDir, '.opencarl');
     // Set template directory to the actual .opencarl-template directory
-    templateDir = path.resolve(__dirname, '../../..', '.carl-template');
+    templateDir = path.resolve(__dirname, '../../..', '.opencarl-template');
   });
 
   afterEach(() => {
@@ -22,8 +22,8 @@ describe('setup and domain workflow - integration', () => {
     fs.rmSync(tempDir, { recursive: true, force: true });
   });
 
-  describe('should scaffold .carl/ directory with setup command', () => {
-    it('creates complete .carl directory structure', async () => {
+  describe('should scaffold .opencarl/ directory with setup command', () => {
+    it('creates complete .opencarl directory structure', async () => {
       const homeDir = os.homedir();
 
       // Run setup with template directory

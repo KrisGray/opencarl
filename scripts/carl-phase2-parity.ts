@@ -467,7 +467,7 @@ function runCriticalLinks(): void {
     GLOBAL: {
       domain: "GLOBAL",
       scope: "global",
-      sourcePath: "/tmp/.carl",
+      sourcePath: "/tmp/.opencarl",
       rules: ["Global rule"],
       state: true,
       alwaysOn: true,
@@ -477,7 +477,7 @@ function runCriticalLinks(): void {
     DEV: {
       domain: "DEV",
       scope: "project",
-      sourcePath: "/tmp/.carl",
+      sourcePath: "/tmp/.opencarl",
       rules: ["Dev rule"],
       state: true,
       alwaysOn: false,

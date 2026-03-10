@@ -70,7 +70,7 @@ describe('setup.ts', () => {
     const testCwd = '/test/project';
     const testHomeDir = '/home/user';
 
-    it('should return needed: false when project .carl/ exists', () => {
+    it('should return needed: false when project .opencarl/ exists', () => {
       mockFindProjectOpencarl.mockReturnValue({
         root: testCwd,
         opencarlDir: path.join(testCwd, '.opencarl'),
@@ -100,7 +100,7 @@ describe('setup.ts', () => {
       expect(result.reason).toContain('Global ~/.opencarl/');
     });
 
-    it('should return needed: true when no .carl/ found', () => {
+    it('should return needed: true when no .opencarl/ found', () => {
       mockFindProjectOpencarl.mockReturnValue(null);
       mockFindGlobalOpencarl.mockReturnValue(null);
       mockAccessSync.mockReturnValue(undefined);

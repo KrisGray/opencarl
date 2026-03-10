@@ -4,7 +4,7 @@
       "GLOBAL": {
         "domain": "GLOBAL",
         "scope": "global",
-        "sourcePath": "/tmp/.carl",
+        "sourcePath": "/tmp/.opencarl",
         "rules": ["Global rule"],
         "state": true,
         "alwaysOn": true,
@@ -14,7 +14,7 @@
       "OPS": {
         "domain": "OPS",
         "scope": "global",
-        "sourcePath": "/tmp/.carl",
+        "sourcePath": "/tmp/.opencarl",
         "rules": ["Ops rule"],
         "state": true,
         "alwaysOn": true,
@@ -24,7 +24,7 @@
       "DEV": {
         "domain": "DEV",
         "scope": "project",
-        "sourcePath": "/tmp/.carl",
+        "sourcePath": "/tmp/.opencarl",
         "rules": ["Dev rule"],
         "state": true,
         "alwaysOn": false,
@@ -34,7 +34,7 @@
       "COMMANDS": {
         "domain": "COMMANDS",
         "scope": "project",
-        "sourcePath": "/tmp/.carl",
+        "sourcePath": "/tmp/.opencarl",
         "rules": ["Command rule"],
         "state": true,
         "alwaysOn": false,
