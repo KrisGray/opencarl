@@ -1,5 +1,5 @@
 /**
- * Unit tests for src/carl/injector.ts
+ * Unit tests for src/opencarl/injector.ts
  * Tests for buildCarlInjection - rule composer and injector
  */
 

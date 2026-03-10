@@ -646,7 +646,7 @@ DEVELOPMENT_RULE_2=Another rule`;
     describe('edge cases', () => {
       it('should warn when .carl directory does not exist', () => {
         const carlDir = path.join(tempDir, '.carl');
-        // Don't create .carl directory
+        // Don't create .opencarl directory
 
         const result = resolveDomainFile(carlDir, 'DEVELOPMENT', warnings);
 
