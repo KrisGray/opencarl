@@ -3,7 +3,7 @@ import * as path from "path";
 
 /**
  * Per-session override file loader.
- * Reads `.carl/sessions/{session_id}.json` to allow disabling domains per-session.
+ * Reads `.opencarl/sessions/{session_id}.json` to allow disabling domains per-session.
  */
 
 export type SessionOverrideValue = "inherit" | "true" | "false";
@@ -38,7 +38,7 @@ function parseOverrideValue(value: unknown): SessionOverrideValue {
 }
 
 /**
- * Load per-session overrides from `.carl/sessions/{session_id}.json`.
+ * Load per-session overrides from `.opencarl/sessions/{session_id}.json`.
  * Returns default (all inherit) if file doesn't exist.
  */
 export function loadSessionOverrides(

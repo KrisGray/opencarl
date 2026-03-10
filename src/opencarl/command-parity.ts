@@ -21,7 +21,7 @@ export interface OpencarlCommandResolutionResult {
 
 type CommandRuleMap = Record<string, string[]>;
 
-// Matches OpenOpenCARL star-command triggers like *opencarl, *brief, *dev
+// Matches OpenCARL star-command triggers like *opencarl, *brief, *dev
 const STAR_COMMAND_PATTERN = /\*([a-zA-Z]+)/g;
 const COMMAND_RULE_PATTERN = /^([A-Z0-9]+)_RULE_(\d+)$/;
 
