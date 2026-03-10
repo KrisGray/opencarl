@@ -2,7 +2,7 @@
  * Integration tests for the complete rule injection pipeline.
  *
  * Tests the full workflow: manifest loading → keyword matching → rule loading → composition → injection.
- * Uses real .carl/ directories with full fixture data and snapshot testing for regression detection.
+ * Uses real .opencarl/ directories with full fixture data and snapshot testing for regression detection.
  */
 
 import * as fs from 'fs';

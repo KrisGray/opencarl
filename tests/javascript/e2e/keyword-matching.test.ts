@@ -58,7 +58,7 @@ describe('E2E: Keyword Matching', () => {
   }
 
   /**
-   * Helper: Setup .carl/ with test manifest
+   * Helper: Setup .opencarl/ with test manifest
    */
   function setupTestManifest(fixtureName: string): void {
     dockerExec(`mkdir -p ${WORKSPACE_DIR}/.carl`);
@@ -66,7 +66,7 @@ describe('E2E: Keyword Matching', () => {
   }
 
   /**
-   * Helper: Cleanup .carl directory
+   * Helper: Cleanup .opencarl directory
    */
   function cleanupOpencarlDir(): void {
     dockerExec(`rm -rf ${WORKSPACE_DIR}/.carl`);

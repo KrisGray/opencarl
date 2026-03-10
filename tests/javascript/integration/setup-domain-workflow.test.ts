@@ -13,7 +13,7 @@ describe('setup and domain workflow - integration', () => {
     // Create temp working directory for .opencarl/
     tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'carl-integration-test-'));
     projectOpencarlDir = path.join(tempDir, '.carl');
-    // Set template directory to the actual .carl-template directory
+    // Set template directory to the actual .opencarl-template directory
     templateDir = path.resolve(__dirname, '../../..', '.carl-template');
   });
 
@@ -192,7 +192,7 @@ describe('setup and domain workflow - integration', () => {
       expect(toggleResult.success).toBe(false);
       expect(toggleResult.error).toContain('not found in manifest');
 
-      // Assert .carl/ directory structure unchanged
+      // Assert .opencarl/ directory structure unchanged
       const currentManifest = fs.readFileSync(manifestPath, 'utf8');
       expect(currentManifest).toBe(originalManifest);
 
