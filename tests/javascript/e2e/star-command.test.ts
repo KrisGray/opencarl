@@ -60,15 +60,15 @@ describe('E2E: Star-Commands', () => {
    * Helper: Setup .opencarl/ with test manifest
    */
   function setupTestManifest(fixtureName: string): void {
-    dockerExec(`mkdir -p ${WORKSPACE_DIR}/.carl`);
-    dockerExec(`cp ${FIXTURES_DIR}/${fixtureName} ${WORKSPACE_DIR}/.carl/manifest`);
+    dockerExec(`mkdir -p ${WORKSPACE_DIR}/.opencarl`);
+    dockerExec(`cp ${FIXTURES_DIR}/${fixtureName} ${WORKSPACE_DIR}/.opencarl/manifest`);
   }
 
   /**
    * Helper: Cleanup .opencarl directory
    */
   function cleanupOpencarlDir(): void {
-    dockerExec(`rm -rf ${WORKSPACE_DIR}/.carl`);
+    dockerExec(`rm -rf ${WORKSPACE_DIR}/.opencarl`);
   }
 
   // Check if container is running before all tests
@@ -103,7 +103,7 @@ describe('E2E: Star-Commands', () => {
         const result = dockerExec(`cd ${WORKSPACE_DIR} && carl status`);
 
         // Primary assertion (file system): Verify manifest state unchanged
-        const manifestContent = readFileContent('.carl/manifest');
+        const manifestContent = readFileContent('.opencarl/manifest');
         expect(manifestContent).toContain('GLOBAL_STATE=active');
         expect(manifestContent).toContain('CONTEXT_STATE=active');
         expect(manifestContent).toContain('COMMANDS_STATE=active');
@@ -126,7 +126,7 @@ describe('E2E: Star-Commands', () => {
         const result = dockerExec(`cd ${WORKSPACE_DIR} && carl status`);
 
         // Primary assertion: Manifest has active domains
-        const manifestContent = readFileContent('.carl/manifest');
+        const manifestContent = readFileContent('.opencarl/manifest');
         expect(manifestContent).toContain('GLOBAL_STATE=active');
         expect(manifestContent).toContain('CONTEXT_STATE=active');
         expect(manifestContent).toContain('COMMANDS_STATE=active');
@@ -149,8 +149,8 @@ describe('E2E: Star-Commands', () => {
         const result = dockerExec(`cd ${WORKSPACE_DIR} && carl list`);
 
         // Primary assertion: File system unchanged (read-only command)
-        const manifestContentBefore = readFileContent('.carl/manifest');
-        const manifestContentAfter = readFileContent('.carl/manifest');
+        const manifestContentBefore = readFileContent('.opencarl/manifest');
+        const manifestContentAfter = readFileContent('.opencarl/manifest');
         expect(manifestContentBefore).toBe(manifestContentAfter);
 
         // Secondary assertion (output): Shows all domains from manifest
@@ -172,7 +172,7 @@ describe('E2E: Star-Commands', () => {
         const result = dockerExec(`cd ${WORKSPACE_DIR} && carl list`);
 
         // Primary assertion: Manifest contains domain configurations
-        const manifestContent = readFileContent('.carl/manifest');
+        const manifestContent = readFileContent('.opencarl/manifest');
         expect(manifestContent).toContain('GLOBAL_STATE');
         expect(manifestContent).toContain('CONTEXT_STATE');
         expect(manifestContent).toContain('COMMANDS_STATE');
@@ -195,7 +195,7 @@ describe('E2E: Star-Commands', () => {
         const result = dockerExec(`cd ${WORKSPACE_DIR} && carl toggle GLOBAL inactive`);
 
         // Primary assertion (file system): Manifest STATE updated to inactive
-        const manifestContent = readFileContent('.carl/manifest');
+        const manifestContent = readFileContent('.opencarl/manifest');
         expect(manifestContent).toContain('GLOBAL_STATE=inactive');
 
         // Secondary assertion (output): Confirmation message
@@ -216,14 +216,14 @@ describe('E2E: Star-Commands', () => {
         dockerExec(`cd ${WORKSPACE_DIR} && carl toggle CONTEXT inactive`);
 
         // Verify it's inactive
-        let manifestContent = readFileContent('.carl/manifest');
+        let manifestContent = readFileContent('.opencarl/manifest');
         expect(manifestContent).toContain('CONTEXT_STATE=inactive');
 
         // Execute: opencarl toggle CONTEXT active
         const result = dockerExec(`cd ${WORKSPACE_DIR} && carl toggle CONTEXT active`);
 
         // Primary assertion: Manifest STATE updated to active
-        manifestContent = readFileContent('.carl/manifest');
+        manifestContent = readFileContent('.opencarl/manifest');
         expect(manifestContent).toContain('CONTEXT_STATE=active');
 
         // Secondary assertion: Confirmation message
@@ -241,14 +241,14 @@ describe('E2E: Star-Commands', () => {
 
       it('should update manifest without affecting other domains', () => {
         // Get initial manifest content
-        const initialManifest = readFileContent('.carl/manifest');
+        const initialManifest = readFileContent('.opencarl/manifest');
         const initialContextState = initialManifest.match(/CONTEXT_STATE=(active|inactive)/)?.[1];
 
         // Execute: opencarl toggle GLOBAL inactive
         dockerExec(`cd ${WORKSPACE_DIR} && carl toggle GLOBAL inactive`);
 
         // Get updated manifest content
-        const updatedManifest = readFileContent('.carl/manifest');
+        const updatedManifest = readFileContent('.opencarl/manifest');
 
         // Primary assertion: GLOBAL state changed, CONTEXT state unchanged
         expect(updatedManifest).toContain('GLOBAL_STATE=inactive');
@@ -267,7 +267,7 @@ describe('E2E: Star-Commands', () => {
         const result = dockerExec(`cd ${WORKSPACE_DIR} && carl toggle INVALID_DOMAIN active`);
 
         // Primary assertion: Manifest unchanged for valid domains
-        const manifestContent = readFileContent('.carl/manifest');
+        const manifestContent = readFileContent('.opencarl/manifest');
         expect(manifestContent).toContain('GLOBAL_STATE');
         expect(manifestContent).toContain('CONTEXT_STATE');
         expect(manifestContent).toContain('COMMANDS_STATE');
@@ -289,7 +289,7 @@ describe('E2E: Star-Commands', () => {
         const result = dockerExec(`cd ${WORKSPACE_DIR} && *carl nonexistent-command`);
 
         // Primary assertion: Manifest unchanged
-        const manifestExists = fileExists('.carl/manifest');
+        const manifestExists = fileExists('.opencarl/manifest');
         expect(manifestExists).toBe(true);
 
         // Secondary assertion: Either command fails or returns help/error
@@ -303,9 +303,9 @@ describe('E2E: Star-Commands', () => {
         const result = dockerExec(`cd ${WORKSPACE_DIR} && carl toggle`);
 
         // Primary assertion: Manifest unchanged (if it exists)
-        if (fileExists('.carl/manifest')) {
-          const manifestBefore = readFileContent('.carl/manifest');
-          const manifestAfter = readFileContent('.carl/manifest');
+        if (fileExists('.opencarl/manifest')) {
+          const manifestBefore = readFileContent('.opencarl/manifest');
+          const manifestAfter = readFileContent('.opencarl/manifest');
           expect(manifestBefore).toBe(manifestAfter);
         }
 
