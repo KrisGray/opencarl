@@ -18,9 +18,9 @@ Requirements for OpenCARL rebranding milestone. Each maps to roadmap phases.
 
 - [ ] **CONFIG-01**: `src/carl/` directory is renamed to `src/opencarl/`
 - [ ] **CONFIG-02**: `.carl/` configuration directory is renamed to `.opencarl/`
-- [ ] **CONFIG-03**: `.carl-template/` directory is renamed to `.opencarl-template/`
+- [x] **CONFIG-03**: `.carl-template/` directory is renamed to `.opencarl-template/`
 - [ ] **CONFIG-04**: All file path references in code are updated to use new directory names
-- [ ] **CONFIG-05**: Setup/initializer scaffolds `.opencarl/` directory with templates
+- [x] **CONFIG-05**: Setup/initializer scaffolds `.opencarl/` directory with templates
 
 ### Command Rebranding
 
@@ -85,9 +85,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SOURCE-04 | Phase 12 | Complete |
 | CONFIG-01 | Phase 13 | Pending |
 | CONFIG-02 | Phase 13 | Pending |
-| CONFIG-03 | Phase 13 | Pending |
+| CONFIG-03 | Phase 13 | Complete |
 | CONFIG-04 | Phase 13 | Pending |
-| CONFIG-05 | Phase 13 | Pending |
+| CONFIG-05 | Phase 13 | Complete |
 | CMND-01 | Phase 14 | Pending |
 | CMND-02 | Phase 14 | Pending |
 | CMND-03 | Phase 14 | Pending |
