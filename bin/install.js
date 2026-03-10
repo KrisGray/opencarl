@@ -248,18 +248,18 @@ function install(isGlobal, doIntegrate = false) {
     ? path.join(os.homedir(), '.opencode')
     : path.join(process.cwd(), '.opencode');
 
-  const carlDir = isGlobal
-    ? path.join(os.homedir(), '.carl')
-    : path.join(process.cwd(), '.carl');
+  const opencarlDir = isGlobal
+    ? path.join(os.homedir(), '.opencarl')
+    : path.join(process.cwd(), '.opencarl');
 
   const agentsPath = isGlobal
     ? path.join(os.homedir(), 'AGENTS.md')
     : path.join(process.cwd(), 'AGENTS.md');
 
   const opencodeLabel = opencodeDir.replace(os.homedir(), '~');
-  const carlLabel = carlDir.replace(os.homedir(), '~');
+  const opencarlLabel = opencarlDir.replace(os.homedir(), '~');
 
-  console.log(`  Installing to ${amber}${opencodeLabel}${reset} and ${amber}${carlLabel}${reset}\n`);
+  console.log(`  Installing to ${amber}${opencodeLabel}${reset} and ${amber}${opencarlLabel}${reset}\n`);
 
   // 1. Copy commands
   const commandsDir = path.join(opencodeDir, 'commands');
@@ -282,13 +282,13 @@ function install(isGlobal, doIntegrate = false) {
     console.log(`  ${green}✓${reset} Installed skills`);
   }
 
-  // 3. Copy .carl-template to .carl (if not exists)
-  const carlTemplateSrc = path.join(src, '.carl-template');
-  if (!fs.existsSync(carlDir)) {
-    copyDir(carlTemplateSrc, carlDir);
-    console.log(`  ${green}✓${reset} Created ${carlLabel}`);
+  // 3. Copy .opencarl-template to .opencarl (if not exists)
+  const opencarlTemplateSrc = path.join(src, '.opencarl-template');
+  if (!fs.existsSync(opencarlDir)) {
+    copyDir(opencarlTemplateSrc, opencarlDir);
+    console.log(`  ${green}✓${reset} Created ${opencarlLabel}`);
   } else {
-    console.log(`  ${dim}${carlLabel} already exists, skipping${reset}`);
+    console.log(`  ${dim}${opencarlLabel} already exists, skipping${reset}`);
   }
 
   // 4. Check opencode.json
