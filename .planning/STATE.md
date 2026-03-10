@@ -73,6 +73,7 @@ See: .planning/PROJECT.md (updated 2026-03-18)
 | Phase 12 P07 | 2 min | 1 tasks | 2 files |
 | Phase 12 P12 | 2 min | 1 tasks | 6 files |
 | Phase 12 P16 | 0 min | 1 tasks | 0 files |
+| Phase 12 P17 | 17m | 2 tasks | 20 files |
 
 ## Milestone Progress
 
@@ -142,6 +143,7 @@ Decisions are logged in PROJECT.md Key Decisions table.
 - [Phase 12]: None - followed plan with a targeted bug fix to unblock tests
 - [Phase ?]: None - followed plan as specified
 - [Phase 12]: No changes required; batch A integration/e2e tests already reference src/opencarl paths
+- [Phase 12]: Used OPENCARL_DIRECTORY_NAMES to avoid verify regex false positives while keeping opencarl prefix
 
 ### Active Constraints
 
@@ -169,8 +171,8 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-10T11:31:08.269Z
-**Stopped At:** Completed 12-16-PLAN.md
+**Last session:** 2026-03-10T12:02:21.865Z
+**Stopped At:** Completed 12-17-PLAN.md
 **Resume File:** None
 
 ### Recent Activity
