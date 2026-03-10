@@ -61,22 +61,22 @@ describe('E2E: Keyword Matching', () => {
    * Helper: Setup .opencarl/ with test manifest
    */
   function setupTestManifest(fixtureName: string): void {
-    dockerExec(`mkdir -p ${WORKSPACE_DIR}/.carl`);
-    dockerExec(`cp ${FIXTURES_DIR}/${fixtureName} ${WORKSPACE_DIR}/.carl/manifest`);
+    dockerExec(`mkdir -p ${WORKSPACE_DIR}/.opencarl`);
+    dockerExec(`cp ${FIXTURES_DIR}/${fixtureName} ${WORKSPACE_DIR}/.opencarl/manifest`);
   }
 
   /**
    * Helper: Cleanup .opencarl directory
    */
   function cleanupOpencarlDir(): void {
-    dockerExec(`rm -rf ${WORKSPACE_DIR}/.carl`);
+    dockerExec(`rm -rf ${WORKSPACE_DIR}/.opencarl`);
   }
 
   /**
    * Helper: Cleanup sessions
    */
   function cleanupSessions(): void {
-    dockerExec(`rm -rf ${WORKSPACE_DIR}/.carl/sessions/*`);
+    dockerExec(`rm -rf ${WORKSPACE_DIR}/.opencarl/sessions/*`);
   }
 
   // Check if container is running before all tests
@@ -107,7 +107,7 @@ describe('E2E: Keyword Matching', () => {
 
     it('should detect "fix bug" keyword and load DEVELOPMENT domain', () => {
       // Setup: Verify manifest contains "fix bug" keyword
-      const manifestContent = readFileContent('.carl/manifest');
+      const manifestContent = readFileContent('.opencarl/manifest');
       expect(manifestContent).toContain('fix bug');
       expect(manifestContent).toContain('DEVELOPMENT_STATE=active');
       expect(manifestContent).toContain('DEVELOPMENT_RECALL=fix bug');
@@ -132,7 +132,7 @@ describe('E2E: Keyword Matching', () => {
 
     it('should detect multiple keywords (debug, test code)', () => {
       // Setup: Verify manifest contains multiple keywords
-      const manifestContent = readFileContent('.carl/manifest');
+      const manifestContent = readFileContent('.opencarl/manifest');
       expect(manifestContent).toContain('fix bug');
       expect(manifestContent).toContain('debug');
       expect(manifestContent).toContain('test code');
@@ -156,7 +156,7 @@ describe('E2E: Keyword Matching', () => {
     it('should load correct domain when keyword matches', () => {
       // Setup: Manifest with DEVELOPMENT domain
       setupTestManifest('keyword-manifest.txt');
-      const manifestContent = readFileContent('.carl/manifest');
+      const manifestContent = readFileContent('.opencarl/manifest');
 
       // Verify DEVELOPMENT domain configuration
       expect(manifestContent).toContain('DEVELOPMENT_STATE=active');
@@ -191,7 +191,7 @@ describe('E2E: Keyword Matching', () => {
     });
 
     it('should match "FIX BUG" (uppercase) keyword', () => {
-      const manifestContent = readFileContent('.carl/manifest');
+      const manifestContent = readFileContent('.opencarl/manifest');
 
       // Execute: Send message with uppercase keyword
       const result = dockerExec(`cd ${WORKSPACE_DIR} && echo "FIX BUG in my code"`);
@@ -207,7 +207,7 @@ describe('E2E: Keyword Matching', () => {
     });
 
     it('should match "Fix Bug" (mixed case) keyword', () => {
-      const manifestContent = readFileContent('.carl/manifest');
+      const manifestContent = readFileContent('.opencarl/manifest');
 
       // Execute: Send message with mixed case keyword
       const result = dockerExec(`cd ${WORKSPACE_DIR} && echo "Fix Bug in my code"`);
@@ -222,7 +222,7 @@ describe('E2E: Keyword Matching', () => {
     });
 
     it('should match "fIx BuG" (random case) keyword', () => {
-      const manifestContent = readFileContent('.carl/manifest');
+      const manifestContent = readFileContent('.opencarl/manifest');
 
       // Execute: Send message with random case keyword
       const result = dockerExec(`cd ${WORKSPACE_DIR} && echo "fIx BuG in my code"`);
@@ -237,7 +237,7 @@ describe('E2E: Keyword Matching', () => {
     });
 
     it('should match "debug" (lowercase) and "DEBUG" (uppercase) equally', () => {
-      const manifestContent = readFileContent('.carl/manifest');
+      const manifestContent = readFileContent('.opencarl/manifest');
 
       // Execute: Send message with lowercase keyword
       const result1 = dockerExec(`cd ${WORKSPACE_DIR} && echo "I need to debug this"`);
@@ -256,7 +256,7 @@ describe('E2E: Keyword Matching', () => {
     });
 
     it('should match "test code" (lowercase) and "TEST CODE" (uppercase) equally', () => {
-      const manifestContent = readFileContent('.carl/manifest');
+      const manifestContent = readFileContent('.opencarl/manifest');
 
       // Execute: Send message with lowercase keyword phrase
       const result1 = dockerExec(`cd ${WORKSPACE_DIR} && echo "I should test code more"`);
