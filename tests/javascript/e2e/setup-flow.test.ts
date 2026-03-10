@@ -68,7 +68,7 @@ describe('E2E: Setup Flow', () => {
    * Helper: Cleanup .opencarl directory
    */
   function cleanupOpencarlDir(): void {
-    dockerExec(`rm -rf ${WORKSPACE_DIR}/.carl`);
+    dockerExec(`rm -rf ${WORKSPACE_DIR}/.opencarl`);
   }
 
   // Check if container is running before all tests
@@ -98,7 +98,7 @@ describe('E2E: Setup Flow', () => {
       cleanupOpencarlDir();
     });
 
-    it('should create .carl/ directory with valid structure on setup', () => {
+    it('should create .opencarl/ directory with valid structure on setup', () => {
       // Execute: opencarl setup
       const result = dockerExec(`cd ${WORKSPACE_DIR} && carl setup`);
 
@@ -106,15 +106,15 @@ describe('E2E: Setup Flow', () => {
       expect(result.exitCode).toBe(0);
 
       // Primary assertion (file system): .opencarl/ directory structure
-      expect(directoryExists('.carl')).toBe(true);
-      expect(fileExists('.carl/manifest')).toBe(true);
-      expect(fileExists('.carl/global')).toBe(true);
-      expect(fileExists('.carl/commands')).toBe(true);
-      expect(fileExists('.carl/context')).toBe(true);
-      expect(directoryExists('.carl/sessions')).toBe(true);
+      expect(directoryExists('.opencarl')).toBe(true);
+      expect(fileExists('.opencarl/manifest')).toBe(true);
+      expect(fileExists('.opencarl/global')).toBe(true);
+      expect(fileExists('.opencarl/commands')).toBe(true);
+      expect(fileExists('.opencarl/context')).toBe(true);
+      expect(directoryExists('.opencarl/sessions')).toBe(true);
 
       // Verify manifest is valid content (contains expected keys)
-      const manifestContent = readFileContent('.carl/manifest');
+      const manifestContent = readFileContent('.opencarl/manifest');
       expect(manifestContent).toContain('DEVMODE');
       expect(manifestContent).toContain('GLOBAL_STATE');
       expect(manifestContent).toContain('CONTEXT_STATE');
@@ -126,7 +126,7 @@ describe('E2E: Setup Flow', () => {
       expect(hasSetupMessage).toBe(true);
       expect(result.stdout.toLowerCase()).not.toContain('error');
 
-      console.log('✓ Setup flow test passed - .carl/ directory created with valid structure');
+      console.log('✓ Setup flow test passed - .opencarl/ directory created with valid structure');
     });
 
     it('should create manifest with default domain configurations', () => {
@@ -136,7 +136,7 @@ describe('E2E: Setup Flow', () => {
       expect(result.exitCode).toBe(0);
 
       // Verify manifest contains default domains from template
-      const manifestContent = readFileContent('.carl/manifest');
+      const manifestContent = readFileContent('.opencarl/manifest');
 
       // Check for default GLOBAL domain
       expect(manifestContent).toContain('GLOBAL_STATE=active');
@@ -174,14 +174,14 @@ describe('E2E: Setup Flow', () => {
       expect(firstResult.exitCode).toBe(0);
 
       // Capture manifest content after first run
-      const manifestContent1 = readFileContent('.carl/manifest');
+      const manifestContent1 = readFileContent('.opencarl/manifest');
 
       // Second setup run
       const secondResult = dockerExec(`cd ${WORKSPACE_DIR} && carl setup`);
       expect(secondResult.exitCode).toBe(0);
 
       // Capture manifest content after second run
-      const manifestContent2 = readFileContent('.carl/manifest');
+      const manifestContent2 = readFileContent('.opencarl/manifest');
 
       // Primary assertion: Manifest content unchanged
       expect(manifestContent1).toBe(manifestContent2);
@@ -202,23 +202,23 @@ describe('E2E: Setup Flow', () => {
       dockerExec(`cd ${WORKSPACE_DIR} && carl setup`);
 
       // Make a custom change to the manifest
-      const customManifest = readFileContent('.carl/manifest');
+      const customManifest = readFileContent('.opencarl/manifest');
       const modifiedManifest = customManifest.replace('DEVMODE=true', 'DEVMODE=false');
 
       // Write the modified manifest back
-      dockerExec(`cat > ${WORKSPACE_DIR}/.carl/manifest << 'EOF'
+      dockerExec(`cat > ${WORKSPACE_DIR}/.opencarl/manifest << 'EOF'
 ${modifiedManifest}
 EOF`);
 
       // Verify the change was written
-      const beforeReSetup = readFileContent('.carl/manifest');
+      const beforeReSetup = readFileContent('.opencarl/manifest');
       expect(beforeReSetup).toContain('DEVMODE=false');
 
       // Second setup run
       dockerExec(`cd ${WORKSPACE_DIR} && carl setup`);
 
       // Verify the custom change is preserved
-      const afterReSetup = readFileContent('.carl/manifest');
+      const afterReSetup = readFileContent('.opencarl/manifest');
       expect(afterReSetup).toContain('DEVMODE=false');
       expect(afterReSetup).not.toContain('DEVMODE=true');
 
@@ -230,13 +230,13 @@ EOF`);
       dockerExec(`cd ${WORKSPACE_DIR} && carl setup`);
 
       // Check file count in .opencarl/ directory
-      const firstFileCount = dockerExec(`find ${WORKSPACE_DIR}/.carl -type f | wc -l`).stdout.trim();
+      const firstFileCount = dockerExec(`find ${WORKSPACE_DIR}/.opencarl -type f | wc -l`).stdout.trim();
 
       // Second setup run
       dockerExec(`cd ${WORKSPACE_DIR} && carl setup`);
 
       // Check file count again
-      const secondFileCount = dockerExec(`find ${WORKSPACE_DIR}/.carl -type f | wc -l`).stdout.trim();
+      const secondFileCount = dockerExec(`find ${WORKSPACE_DIR}/.opencarl -type f | wc -l`).stdout.trim();
 
       // Primary assertion: File count unchanged
       expect(parseInt(firstFileCount)).toBe(parseInt(secondFileCount));
@@ -244,7 +244,7 @@ EOF`);
       // Verify no duplicate files exist
       expect(parseInt(firstFileCount)).toBeGreaterThan(0);
 
-      console.log(`✓ No duplicate files created (${firstFileCount} files in .carl/)`);
+      console.log(`✓ No duplicate files created (${firstFileCount} files in .opencarl/)`);
     });
   });
 });
