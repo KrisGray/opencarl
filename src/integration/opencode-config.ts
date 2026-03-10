@@ -42,18 +42,18 @@ export async function readOpenCodeConfig(cwd: string): Promise<OpenCodeConfig> {
 }
 
 /**
- * Merge CARL documentation paths into the OpenCode config's instructions.
+ * Merge OpenCARL documentation paths into the OpenCode config's instructions.
  * - Converts string instructions to array if needed
- * - Checks for existing CARL references (idempotent)
+ * - Checks for existing OpenCARL references (idempotent)
  * - Preserves all existing instructions
  *
  * @param config - Existing OpenCode configuration
- * @param carlDocPaths - Paths to CARL documentation files to add
- * @returns Updated config with CARL instructions merged
+ * @param opencarlDocPaths - Paths to OpenCARL documentation files to add
+ * @returns Updated config with OpenCARL instructions merged
  */
-export function mergeCarlInstructions(
+export function mergeOpencarlInstructions(
   config: OpenCodeConfig,
-  carlDocPaths: string[]
+  opencarlDocPaths: string[]
 ): OpenCodeConfig {
   // Normalize instructions to array
   let instructions: string[];
@@ -65,16 +65,16 @@ export function mergeCarlInstructions(
     instructions = [...config.instructions];
   }
 
-  // Add CARL doc paths if not already present
-  for (const carlPath of carlDocPaths) {
+  // Add OpenCARL doc paths if not already present
+  for (const opencarlPath of opencarlDocPaths) {
     // Check for both exact match and path-only match (handles cases where user might have edited)
     const alreadyExists = instructions.some((existing) => {
       // Check for exact match or if the path appears in the instruction
-      return existing === carlPath || existing.includes(carlPath);
+      return existing === opencarlPath || existing.includes(opencarlPath);
     });
 
     if (!alreadyExists) {
-      instructions.push(carlPath);
+      instructions.push(opencarlPath);
     }
   }
 

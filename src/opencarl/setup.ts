@@ -2,13 +2,13 @@ import * as fs from "fs";
 import * as path from "path";
 import { findProjectOpencarl, findGlobalOpencarl } from "../integration/paths";
 import {
-  integrateCarl,
-  removeCarlIntegration,
+  integrateOpencarl,
+  removeOpencarlIntegration,
   IntegrationResult,
 } from "../integration/agents-writer";
 import {
   readOpenCodeConfig,
-  mergeCarlInstructions,
+  mergeOpencarlInstructions,
   writeOpenCodeConfig,
 } from "../integration/opencode-config";
 
@@ -295,11 +295,11 @@ export async function runIntegration(options: {
   );
 
   if (integrate) {
-    return integrateCarl(targetAgentsPath, opencarlDocsPath);
+    return integrateOpencarl(targetAgentsPath, opencarlDocsPath);
   }
 
   if (remove) {
-    return removeCarlIntegration(targetAgentsPath);
+    return removeOpencarlIntegration(targetAgentsPath);
   }
 
   return {
@@ -349,7 +349,7 @@ export async function integrateOpencarl(options: {
     const relativePath = "./resources/docs/OpenCARL-DOCS.md";
 
     // Merge OpenCARL instructions
-    const mergedConfig = mergeCarlInstructions(config, [relativePath]);
+    const mergedConfig = mergeOpencarlInstructions(config, [relativePath]);
 
     // Write updated config
     try {
