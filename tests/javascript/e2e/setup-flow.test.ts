@@ -2,10 +2,10 @@
  * E2E tests for setup flow with real OpenCode in Docker container
  *
  * Tests:
- * 1. Setup flow (happy path) - Fresh install creates .carl/ with valid defaults
+ * 1. Setup flow (happy path) - Fresh install creates .opencarl/ with valid defaults
  * 2. Idempotency (happy path) - Re-running setup preserves valid config
  *
- * Primary validation: File system verification (.carl/ structure, manifest content)
+ * Primary validation: File system verification (.opencarl/ structure, manifest content)
  * Secondary validation: Output parsing (stdout/stderr messages)
  */
 
@@ -65,7 +65,7 @@ describe('E2E: Setup Flow', () => {
   }
 
   /**
-   * Helper: Cleanup .carl directory
+   * Helper: Cleanup .opencarl directory
    */
   function cleanupOpencarlDir(): void {
     dockerExec(`rm -rf ${WORKSPACE_DIR}/.carl`);
@@ -83,7 +83,7 @@ describe('E2E: Setup Flow', () => {
 
   // Cleanup after all tests
   afterAll(() => {
-    // Optional: Clean up .carl directory after all tests
+    // Optional: Clean up .opencarl directory after all tests
     // cleanupOpencarlDir();
   });
 

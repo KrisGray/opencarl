@@ -286,7 +286,7 @@ describe('file system operations - integration', () => {
       // Setup temp .opencarl/ with domains
       copyFixture('full', projectOpencarlDir);
 
-      // Create session file with invalid JSON: .carl/sessions/bad-session.json
+      // Create session file with invalid JSON: .opencarl/sessions/bad-session.json
       const sessionsDir = path.join(projectOpencarlDir, 'sessions');
       fs.mkdirSync(sessionsDir, { recursive: true });
       const badSessionId = 'bad-session';
