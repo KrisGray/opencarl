@@ -13,10 +13,13 @@ const fixturesRoot = path.join(
   'carl-directories'
 );
 
-function copyFixture(fixtureName: 'minimal' | 'full', targetCarlDir: string): void {
-  const sourceCarlDir = path.join(fixturesRoot, fixtureName, '.carl');
-  fs.mkdirSync(path.dirname(targetCarlDir), { recursive: true });
-  fs.cpSync(sourceCarlDir, targetCarlDir, { recursive: true });
+function copyFixture(
+  fixtureName: 'minimal' | 'full',
+  targetOpencarlDir: string
+): void {
+  const sourceOpencarlDir = path.join(fixturesRoot, fixtureName, '.carl');
+  fs.mkdirSync(path.dirname(targetOpencarlDir), { recursive: true });
+  fs.cpSync(sourceOpencarlDir, targetOpencarlDir, { recursive: true });
 }
 
 describe('file system operations - integration', () => {

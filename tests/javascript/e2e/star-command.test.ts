@@ -67,7 +67,7 @@ describe('E2E: Star-Commands', () => {
   /**
    * Helper: Cleanup .carl directory
    */
-  function cleanupCarlDir(): void {
+  function cleanupOpencarlDir(): void {
     dockerExec(`rm -rf ${WORKSPACE_DIR}/.carl`);
   }
 
@@ -83,7 +83,7 @@ describe('E2E: Star-Commands', () => {
 
   // Cleanup after all tests
   afterAll(() => {
-    cleanupCarlDir();
+    cleanupOpencarlDir();
   });
 
   describe('Test 5: Star-command flow', () => {
@@ -94,7 +94,7 @@ describe('E2E: Star-Commands', () => {
 
     afterEach(() => {
       // Cleanup after each test
-      cleanupCarlDir();
+      cleanupOpencarlDir();
     });
 
     describe('carl status', () => {

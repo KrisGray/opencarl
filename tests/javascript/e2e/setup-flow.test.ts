@@ -67,7 +67,7 @@ describe('E2E: Setup Flow', () => {
   /**
    * Helper: Cleanup .carl directory
    */
-  function cleanupCarlDir(): void {
+  function cleanupOpencarlDir(): void {
     dockerExec(`rm -rf ${WORKSPACE_DIR}/.carl`);
   }
 
@@ -84,18 +84,18 @@ describe('E2E: Setup Flow', () => {
   // Cleanup after all tests
   afterAll(() => {
     // Optional: Clean up .carl directory after all tests
-    // cleanupCarlDir();
+    // cleanupOpencarlDir();
   });
 
   describe('Test 1: Setup flow (happy path)', () => {
     beforeEach(() => {
       // Ensure clean state before test
-      cleanupCarlDir();
+      cleanupOpencarlDir();
     });
 
     afterEach(() => {
       // Cleanup after test
-      cleanupCarlDir();
+      cleanupOpencarlDir();
     });
 
     it('should create .carl/ directory with valid structure on setup', () => {
@@ -160,12 +160,12 @@ describe('E2E: Setup Flow', () => {
   describe('Test 2: Idempotency (happy path)', () => {
     beforeEach(() => {
       // Ensure clean state before test
-      cleanupCarlDir();
+      cleanupOpencarlDir();
     });
 
     afterEach(() => {
       // Cleanup after test
-      cleanupCarlDir();
+      cleanupOpencarlDir();
     });
 
     it('should preserve existing manifest on second setup run', () => {

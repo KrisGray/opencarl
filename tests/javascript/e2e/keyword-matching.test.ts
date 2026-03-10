@@ -68,7 +68,7 @@ describe('E2E: Keyword Matching', () => {
   /**
    * Helper: Cleanup .carl directory
    */
-  function cleanupCarlDir(): void {
+  function cleanupOpencarlDir(): void {
     dockerExec(`rm -rf ${WORKSPACE_DIR}/.carl`);
   }
 
@@ -91,7 +91,7 @@ describe('E2E: Keyword Matching', () => {
 
   // Cleanup after all tests
   afterAll(() => {
-    cleanupCarlDir();
+    cleanupOpencarlDir();
   });
 
   describe('Test 3: Keyword matching (happy path)', () => {

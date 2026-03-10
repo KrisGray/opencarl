@@ -33,8 +33,12 @@ jest.mock('../../../src/integration/paths', () => ({
 
 import { findProjectCarl, findGlobalCarl } from '../../../src/integration/paths';
 
-const mockFindProjectCarl = findProjectCarl as jest.MockedFunction<typeof findProjectCarl>;
-const mockFindGlobalCarl = findGlobalCarl as jest.MockedFunction<typeof findGlobalCarl>;
+const mockFindProjectOpencarl = findProjectCarl as jest.MockedFunction<
+  typeof findProjectCarl
+>;
+const mockFindGlobalOpencarl = findGlobalCarl as jest.MockedFunction<
+  typeof findGlobalCarl
+>;
 
 // Helper to create mock Dirent
 function createMockDirent(name: string, isDirectory: boolean): fs.Dirent {
@@ -67,12 +71,12 @@ describe('setup.ts', () => {
     const testHomeDir = '/home/user';
 
     it('should return needed: false when project .carl/ exists', () => {
-      mockFindProjectCarl.mockReturnValue({
+      mockFindProjectOpencarl.mockReturnValue({
         root: testCwd,
         carlDir: path.join(testCwd, '.opencarl'),
         manifestPath: path.join(testCwd, '.opencarl', 'manifest'),
       });
-      mockFindGlobalCarl.mockReturnValue(null);
+      mockFindGlobalOpencarl.mockReturnValue(null);
 
       const result = checkSetupNeeded({ cwd: testCwd, homeDir: testHomeDir });
 
@@ -82,8 +86,8 @@ describe('setup.ts', () => {
     });
 
     it('should return needed: false when global ~/.opencarl/ exists', () => {
-      mockFindProjectCarl.mockReturnValue(null);
-      mockFindGlobalCarl.mockReturnValue({
+      mockFindProjectOpencarl.mockReturnValue(null);
+      mockFindGlobalOpencarl.mockReturnValue({
         root: testHomeDir,
         carlDir: path.join(testHomeDir, '.opencarl'),
         manifestPath: path.join(testHomeDir, '.opencarl', 'manifest'),
@@ -97,8 +101,8 @@ describe('setup.ts', () => {
     });
 
     it('should return needed: true when no .carl/ found', () => {
-      mockFindProjectCarl.mockReturnValue(null);
-      mockFindGlobalCarl.mockReturnValue(null);
+      mockFindProjectOpencarl.mockReturnValue(null);
+      mockFindGlobalOpencarl.mockReturnValue(null);
       mockAccessSync.mockReturnValue(undefined);
 
       const result = checkSetupNeeded({ cwd: testCwd, homeDir: testHomeDir });
@@ -108,12 +112,12 @@ describe('setup.ts', () => {
     });
 
     it('should prefer project .opencarl/ over global', () => {
-      mockFindProjectCarl.mockReturnValue({
+      mockFindProjectOpencarl.mockReturnValue({
         root: testCwd,
         carlDir: path.join(testCwd, '.opencarl'),
         manifestPath: path.join(testCwd, '.opencarl', 'manifest'),
       });
-      mockFindGlobalCarl.mockReturnValue({
+      mockFindGlobalOpencarl.mockReturnValue({
         root: testHomeDir,
         carlDir: path.join(testHomeDir, '.opencarl'),
         manifestPath: path.join(testHomeDir, '.opencarl', 'manifest'),
@@ -127,8 +131,8 @@ describe('setup.ts', () => {
     });
 
     it('should return project path when writable', () => {
-      mockFindProjectCarl.mockReturnValue(null);
-      mockFindGlobalCarl.mockReturnValue(null);
+      mockFindProjectOpencarl.mockReturnValue(null);
+      mockFindGlobalOpencarl.mockReturnValue(null);
       mockAccessSync.mockReturnValue(undefined);
 
       const result = checkSetupNeeded({ cwd: testCwd, homeDir: testHomeDir });
@@ -139,8 +143,8 @@ describe('setup.ts', () => {
     });
 
     it('should fallback to global when project not writable', () => {
-      mockFindProjectCarl.mockReturnValue(null);
-      mockFindGlobalCarl.mockReturnValue(null);
+      mockFindProjectOpencarl.mockReturnValue(null);
+      mockFindGlobalOpencarl.mockReturnValue(null);
       mockAccessSync.mockImplementation(() => {
         throw new Error('EACCES: permission denied');
       });

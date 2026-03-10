@@ -11,18 +11,21 @@ const fixturesRoot = path.join(
   'carl-directories'
 );
 
-function copyFixture(fixtureName: 'minimal' | 'full', targetCarlDir: string): void {
-  const sourceCarlDir = path.join(fixturesRoot, fixtureName, '.carl');
-  fs.mkdirSync(path.dirname(targetCarlDir), { recursive: true });
-  fs.cpSync(sourceCarlDir, targetCarlDir, { recursive: true });
+function copyFixture(
+  fixtureName: 'minimal' | 'full',
+  targetOpencarlDir: string
+): void {
+  const sourceOpencarlDir = path.join(fixturesRoot, fixtureName, '.carl');
+  fs.mkdirSync(path.dirname(targetOpencarlDir), { recursive: true });
+  fs.cpSync(sourceOpencarlDir, targetOpencarlDir, { recursive: true });
 }
 
 function writeSessionOverride(
-  carlDir: string,
+  opencarlDir: string,
   sessionId: string,
   domains: Record<string, string>
 ): void {
-  const sessionsDir = path.join(carlDir, 'sessions');
+  const sessionsDir = path.join(opencarlDir, 'sessions');
   fs.mkdirSync(sessionsDir, { recursive: true });
   fs.writeFileSync(
     path.join(sessionsDir, `${sessionId}.json`),
