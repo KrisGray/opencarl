@@ -8,15 +8,16 @@ See: .planning/PROJECT.md
 
 **Milestone:** v1.0 Branding & Context Migration
 **Current phase:** 13-config-directory-migration
-**Current Plan:** 4
-**Total Plans in Phase:** 4
-**Status:** Phase complete — ready for verification
-**Progress:** [█████████░] 86%
+**Current Plan:** 5
+**Total Plans in Phase:** 6
+**Status:** In progress — 5 of 6 plans complete
+**Progress:** [██████████] 96%
 
 ## Decisions
 
 - Phase 13: Used git mv to preserve file history during template directory rename
 - [Phase 13-config-directory-migration]: Preserved command triggers (*carl, /carl) unchanged for Phase 14 — Command trigger renaming is separate scope
+- [Phase 13-config-directory-migration]: Fixture directory rename completed in 8059c30 as part of 13-06 execution
 
 ## Performance Metrics
 
