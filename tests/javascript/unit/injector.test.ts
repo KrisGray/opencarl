@@ -1,9 +1,9 @@
 /**
  * Unit tests for src/opencarl/injector.ts
- * Tests for buildCarlInjection - rule composer and injector
+ * Tests for buildOpencarlInjection - rule composer and injector
  */
 
-import { buildCarlInjection } from '../../../src/opencarl/injector';
+import { buildOpencarlInjection } from '../../../src/opencarl/injector';
 import type { OpencarlInjectionInput } from '../../../src/opencarl/injector';
 import { createTestDomainPayload } from '../../helpers/domain-factory';
 import {
@@ -15,7 +15,7 @@ import {
 } from '../../helpers/bracket-factory';
 
 describe('injector.ts', () => {
-  describe('buildCarlInjection', () => {
+  describe('buildOpencarlInjection', () => {
     describe('single domain', () => {
       it('should inject single matched domain', () => {
         const input: OpencarlInjectionInput = {
@@ -28,13 +28,13 @@ describe('injector.ts', () => {
           matchedDomains: ['DEVELOPMENT'],
         };
 
-        const result = buildCarlInjection(input);
+        const result = buildOpencarlInjection(input);
 
         expect(result).not.toBeNull();
         expect(result).toContain('<carl-rules>');
         expect(result).toContain('DEVELOPMENT');
         expect(result).toContain('Use early returns');
-        expect(result).toContain('</carl-rules>');
+        expect(result).toContain('</' + 'carl-rules>');
       });
 
       it('should include domain name in output', () => {
@@ -48,7 +48,7 @@ describe('injector.ts', () => {
           matchedDomains: ['CONTENT'],
         };
 
-        const result = buildCarlInjection(input);
+        const result = buildOpencarlInjection(input);
 
         expect(result).toContain('[CONTENT] RULES:');
       });
@@ -64,7 +64,7 @@ describe('injector.ts', () => {
           matchedDomains: ['DEVELOPMENT'],
         };
 
-        const result = buildCarlInjection(input);
+        const result = buildOpencarlInjection(input);
 
         expect(result).toContain('1. Rule one');
         expect(result).toContain('2. Rule two');
@@ -83,7 +83,7 @@ describe('injector.ts', () => {
           matchedDomains: ['DEVELOPMENT'],
         };
 
-        const result = buildCarlInjection(input);
+        const result = buildOpencarlInjection(input);
 
         expect(result).toBeNull();
       });
@@ -99,7 +99,7 @@ describe('injector.ts', () => {
           matchedDomains: ['DEVELOPMENT'],
         };
 
-        const result = buildCarlInjection(input);
+        const result = buildOpencarlInjection(input);
 
         expect(result).toBeNull();
       });
@@ -114,7 +114,7 @@ describe('injector.ts', () => {
           matchedDomains: ['ZEBRA', 'ALPHA', 'MIDDLE'],
         };
 
-        const result = buildCarlInjection(input);
+        const result = buildOpencarlInjection(input);
 
         expect(result).not.toBeNull();
         const alphaPos = result!.indexOf('[ALPHA]');
@@ -141,7 +141,7 @@ describe('injector.ts', () => {
           matchedDomains: ['DEVELOPMENT', 'CONTENT'],
         };
 
-        const result = buildCarlInjection(input);
+        const result = buildOpencarlInjection(input);
 
         expect(result).not.toBeNull();
         expect(result).toContain('[DEVELOPMENT] RULES:');
@@ -159,7 +159,7 @@ describe('injector.ts', () => {
           matchedDomains: ['ALPHA', 'BETA'],
         };
 
-        const result = buildCarlInjection(input);
+        const result = buildOpencarlInjection(input);
 
         expect(result).toContain('[ALPHA] RULES:');
         expect(result).toContain('[BETA] RULES:');
@@ -185,7 +185,7 @@ describe('injector.ts', () => {
           matchedDomains: ['DOMAIN_A', 'DOMAIN_B'],
         };
 
-        const result = buildCarlInjection(input);
+        const result = buildOpencarlInjection(input);
 
         // Rules should be in separate sections, not combined
         const lines = result!.split('\n');
@@ -213,7 +213,7 @@ describe('injector.ts', () => {
           matchedDomains: ['ALPHA', 'BETA', 'GAMMA', 'DELTA'],
         };
 
-        const result = buildCarlInjection(input);
+        const result = buildOpencarlInjection(input);
 
         expect(result).toContain('[ALPHA] RULES:');
         expect(result).toContain('[BETA] RULES:');
@@ -236,7 +236,7 @@ describe('injector.ts', () => {
           matchedDomains: ['DEVELOPMENT', 'UNKNOWN_DOMAIN'],
         };
 
-        const result = buildCarlInjection(input);
+        const result = buildOpencarlInjection(input);
 
         expect(result).not.toBeNull();
         expect(result).toContain('[DEVELOPMENT] RULES:');
@@ -258,7 +258,7 @@ describe('injector.ts', () => {
           matchedDomains: [],
         };
 
-        const result = buildCarlInjection(input);
+        const result = buildOpencarlInjection(input);
 
         expect(result).not.toBeNull();
         expect(result).toContain('[GLOBAL] RULES:');
@@ -281,7 +281,7 @@ describe('injector.ts', () => {
           matchedDomains: ['DEVELOPMENT'],
         };
 
-        const result = buildCarlInjection(input);
+        const result = buildOpencarlInjection(input);
 
         expect(result).toContain('[GLOBAL] RULES:');
         expect(result).toContain('[DEVELOPMENT] RULES:');
@@ -299,7 +299,7 @@ describe('injector.ts', () => {
           matchedDomains: [],
         };
 
-        const result = buildCarlInjection(input);
+        const result = buildOpencarlInjection(input);
 
         expect(result).toContain('ALWAYS-ON DOMAINS');
         expect(result).toContain('[GLOBAL] RULES:');
@@ -319,7 +319,7 @@ describe('injector.ts', () => {
           matchedDomains: [],
         };
 
-        const result = buildCarlInjection(input);
+        const result = buildOpencarlInjection(input);
 
         expect(result).toContain('[ALWAYS_ON_DOMAIN] RULES:');
         expect(result).toContain('Always rule');
@@ -337,7 +337,7 @@ describe('injector.ts', () => {
           matchedDomains: ['ALWAYS_ON_DOMAIN'],
         };
 
-        const result = buildCarlInjection(input);
+        const result = buildOpencarlInjection(input);
 
         // Should appear only once in ALWAYS-ON section
         const matches = result!.match(/\[ALWAYS_ON_DOMAIN\]/g);
@@ -358,7 +358,7 @@ describe('injector.ts', () => {
           matchedDomains: [],
         };
 
-        const result = buildCarlInjection(input);
+        const result = buildOpencarlInjection(input);
 
         expect(result).toBeNull();
       });
@@ -380,7 +380,7 @@ describe('injector.ts', () => {
           matchedDomains: ['DEVELOPMENT'],
         };
 
-        const result = buildCarlInjection(input);
+        const result = buildOpencarlInjection(input);
 
         expect(result).toContain('ALWAYS-ON DOMAINS');
         expect(result).toContain('MATCHED DOMAINS');
@@ -401,7 +401,7 @@ describe('injector.ts', () => {
           commandDomains: ['BRIEF'],
         };
 
-        const result = buildCarlInjection(input);
+        const result = buildOpencarlInjection(input);
 
         expect(result).toContain('COMMAND DOMAINS (explicit)');
         expect(result).toContain('[BRIEF] RULES:');
@@ -419,7 +419,7 @@ describe('injector.ts', () => {
           commandDomains: ['BRIEF'],
         };
 
-        const result = buildCarlInjection(input);
+        const result = buildOpencarlInjection(input);
 
         expect(result).toContain('COMMAND DOMAINS (explicit)');
         expect(result).toContain('[BRIEF] RULES:');
@@ -439,7 +439,7 @@ describe('injector.ts', () => {
           commandDomains: ['BRIEF'],
         };
 
-        const result = buildCarlInjection(input);
+        const result = buildOpencarlInjection(input);
 
         expect(result).toContain('COMMAND DOMAINS (explicit)');
         expect(result).toContain('[BRIEF] RULES:');
@@ -463,7 +463,7 @@ describe('injector.ts', () => {
           commandDomains: ['BRIEF', 'DETAILED'],
         };
 
-        const result = buildCarlInjection(input);
+        const result = buildOpencarlInjection(input);
 
         expect(result).toContain('[BRIEF] RULES:');
         expect(result).toContain('[DETAILED] RULES:');
@@ -482,7 +482,7 @@ describe('injector.ts', () => {
           commandDomains: ['BRIEF'],
         };
 
-        const result = buildCarlInjection(input);
+        const result = buildOpencarlInjection(input);
 
         expect(result).toBeNull();
       });
@@ -498,7 +498,7 @@ describe('injector.ts', () => {
           commandDomains: ['brief'], // lowercase
         };
 
-        const result = buildCarlInjection(input);
+        const result = buildOpencarlInjection(input);
 
         expect(result).toContain('[BRIEF] RULES:');
         expect(result).toContain('Brief rule');
@@ -525,7 +525,7 @@ describe('injector.ts', () => {
           contextBracket: createFreshBracketData(),
         };
 
-        const result = buildCarlInjection(input);
+        const result = buildOpencarlInjection(input);
 
         expect(result).toContain('CONTEXT BRACKET: [FRESH]');
         expect(result).toContain('80% remaining');
@@ -553,7 +553,7 @@ describe('injector.ts', () => {
           contextBracket: createFreshBracketData(),
         };
 
-        const result = buildCarlInjection(input);
+        const result = buildOpencarlInjection(input);
 
         expect(result).toContain('fresh rule 1');
         expect(result).toContain('fresh rule 2');
@@ -574,7 +574,7 @@ describe('injector.ts', () => {
           contextBracket: createModerateBracketData(), // 50% remaining, rulesBracket: 'MODERATE'
         };
 
-        const result = buildCarlInjection(input);
+        const result = buildOpencarlInjection(input);
 
         expect(result).toContain('50% remaining');
         expect(result).toContain('[MODERATE] CONTEXT RULES:');
@@ -598,7 +598,7 @@ describe('injector.ts', () => {
           },
         };
 
-        const result = buildCarlInjection(input);
+        const result = buildOpencarlInjection(input);
 
         expect(result).toContain('fresh session');
       });
@@ -620,7 +620,7 @@ describe('injector.ts', () => {
           contextBracket: createCriticalBracketData(), // 15% remaining, isCritical: true
         };
 
-        const result = buildCarlInjection(input);
+        const result = buildOpencarlInjection(input);
 
         expect(result).toContain('CONTEXT CRITICAL');
         expect(result).toContain('15% remaining');
@@ -646,7 +646,7 @@ describe('injector.ts', () => {
           contextBracket: createCriticalBracketData(), // isCritical, true, rulesBracket: 'DEPLETED'
         };
 
-        const result = buildCarlInjection(input);
+        const result = buildOpencarlInjection(input);
 
         expect(result).toContain('depleted rule for critical');
         expect(result).not.toContain('fresh rule');
@@ -670,7 +670,7 @@ describe('injector.ts', () => {
           contextBracket: createFreshBracketData(),
         };
 
-        const result = buildCarlInjection(input);
+        const result = buildOpencarlInjection(input);
 
         expect(result).toBeNull();
       });
