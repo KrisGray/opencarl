@@ -14,12 +14,12 @@ import {
   checkDuplicateLoad,
   getDuplicateWarning,
 } from "../opencarl/duplicate-detector";
-import { buildCarlHelpGuidance } from "../opencarl/help-text";
-import { buildCarlInjection } from "../opencarl/injector";
+import { buildOpencarlHelpGuidance } from "../opencarl/help-text";
+import { buildOpencarlInjection } from "../opencarl/injector";
 import {
   getCachedRules,
   hasSessionWarned,
-  isCarlPath,
+  isOpencarlPath,
   markRulesDirty,
   markSessionWarned,
   clearSessionWarning,
@@ -189,7 +189,7 @@ async function getContextBracketFromSession(
   }
 }
 
-export function createCarlPluginHooks(): Hooks {
+export function createOpencarlPluginHooks(): Hooks {
   return {
     "chat.message": async (input, output) => {
       if (output.message?.role !== "user") {
@@ -326,7 +326,7 @@ export function createCarlPluginHooks(): Hooks {
         promptText,
         commandOverrides,
         commandsPayload: discovery.domainPayloads.COMMANDS,
-        getHelpGuidance: () => buildCarlHelpGuidance().combined,
+        getHelpGuidance: () => buildOpencarlHelpGuidance().combined,
       });
 
       const matchResult = matchDomainsForTurn({
@@ -356,7 +356,7 @@ export function createCarlPluginHooks(): Hooks {
         );
       }
 
-      const injection = buildCarlInjection({
+      const injection = buildOpencarlInjection({
         domainPayloads: {
           ...discovery.domainPayloads,
           ...commandResolution.commandPayloads,

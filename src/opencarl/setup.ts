@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import { findProjectCarl, findGlobalCarl } from "../integration/paths";
+import { findProjectOpencarl, findGlobalOpencarl } from "../integration/paths";
 import {
   integrateCarl,
   removeCarlIntegration,
@@ -50,21 +50,21 @@ export function checkSetupNeeded(options: {
   const { cwd, homeDir } = options;
 
   // Check for project .opencarl/
-  const projectCarl = findProjectCarl(cwd);
-  if (projectCarl) {
+  const projectOpencarl = findProjectOpencarl(cwd);
+  if (projectOpencarl) {
     return {
       needed: false,
-      targetDir: projectCarl.carlDir,
+      targetDir: projectOpencarl.opencarlDir,
       reason: "Project .opencarl/ already exists",
     };
   }
 
   // Check for global ~/.opencarl/
-  const globalCarl = findGlobalCarl(homeDir);
-  if (globalCarl) {
+  const globalOpencarl = findGlobalOpencarl(homeDir);
+  if (globalOpencarl) {
     return {
       needed: false,
-      targetDir: globalCarl.carlDir,
+      targetDir: globalOpencarl.opencarlDir,
       reason: "Global ~/.opencarl/ already exists",
     };
   }
@@ -397,13 +397,13 @@ export function runList(options: { cwd: string; homeDir: string }): ListResult {
 
   // Find .opencarl/ directory (project first, then global)
   let opencarlDir: string | null = null;
-  const projectCarl = findProjectCarl(cwd);
-  if (projectCarl) {
-    opencarlDir = projectCarl.carlDir;
+  const projectOpencarl = findProjectOpencarl(cwd);
+  if (projectOpencarl) {
+    opencarlDir = projectOpencarl.opencarlDir;
   } else {
-    const globalCarl = findGlobalCarl(homeDir);
-    if (globalCarl) {
-      opencarlDir = globalCarl.carlDir;
+    const globalOpencarl = findGlobalOpencarl(homeDir);
+    if (globalOpencarl) {
+      opencarlDir = globalOpencarl.opencarlDir;
     }
   }
 
@@ -483,13 +483,13 @@ export function runToggle(options: {
 
   // Find .opencarl/ directory (project first, then global)
   let opencarlDir: string | null = null;
-  const projectCarl = findProjectCarl(cwd);
-  if (projectCarl) {
-    opencarlDir = projectCarl.carlDir;
+  const projectOpencarl = findProjectOpencarl(cwd);
+  if (projectOpencarl) {
+    opencarlDir = projectOpencarl.opencarlDir;
   } else {
-    const globalCarl = findGlobalCarl(homeDir);
-    if (globalCarl) {
-      opencarlDir = globalCarl.carlDir;
+    const globalOpencarl = findGlobalOpencarl(homeDir);
+    if (globalOpencarl) {
+      opencarlDir = globalOpencarl.opencarlDir;
     }
   }
 

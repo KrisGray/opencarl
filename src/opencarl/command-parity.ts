@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import type { OpencarlRuleDomainPayload } from "./types";
-import { buildCarlDocsGuidance as buildOpencarlDocsGuidance } from "./help-text";
+import { buildOpencarlDocsGuidance } from "./help-text";
 
 export interface OpencarlCommandResolutionInput {
   promptText?: string;

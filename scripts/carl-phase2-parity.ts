@@ -2,9 +2,9 @@ import fs from "fs";
 import os from "os";
 import path from "path";
 import { matchDomainsForTurn } from "../src/opencarl/matcher";
-import { buildCarlInjection } from "../src/opencarl/injector";
-import { resolveCarlCommandSignals } from "../src/opencarl/command-parity";
-import { buildCarlHelpGuidance } from "../src/opencarl/help-text";
+import { buildOpencarlInjection } from "../src/opencarl/injector";
+import { resolveOpencarlCommandSignals } from "../src/opencarl/command-parity";
+import { buildOpencarlHelpGuidance } from "../src/opencarl/help-text";
 import type {
   OpencarlMatchDomainConfig,
   OpencarlMatchRequest,
@@ -292,7 +292,7 @@ function runInjectionFixtures(): void {
 
   runCategory("Injection", fixture.cases, (fixtureCase) => {
     const payloads = fixture.payloadSets[fixtureCase.payloadSet] ?? {};
-    const output = buildCarlInjection({
+    const output = buildOpencarlInjection({
       domainPayloads: payloads,
       matchedDomains: fixtureCase.input.matchedDomains,
       commandDomains: fixtureCase.input.commandDomains,
@@ -345,7 +345,7 @@ function runCommandFixtures(): void {
     "commands.json"
   );
   const fixture = readFixture<CommandFixture>(fixturePath);
-  const guidance = buildCarlHelpGuidance();
+  const guidance = buildOpencarlHelpGuidance();
 
   runCategory("Commands", fixture.cases, (fixtureCase) => {
     const commandLines = fixture.commandFiles[fixtureCase.commandFile] ?? [];
@@ -362,7 +362,7 @@ function runCommandFixtures(): void {
         exclude: [],
       };
 
-      const result = resolveCarlCommandSignals({
+      const result = resolveOpencarlCommandSignals({
         promptText: fixtureCase.input.promptText,
         commandOverrides: fixtureCase.input.commandOverrides,
         commandsPayload,
@@ -401,7 +401,7 @@ function runCommandFixtures(): void {
       }
 
       if (expected.parityWithStarPrompt) {
-        const starResult = resolveCarlCommandSignals({
+        const starResult = resolveOpencarlCommandSignals({
           promptText: expected.parityWithStarPrompt,
           commandsPayload,
           commandFilePath: filePath,
@@ -486,11 +486,11 @@ function runCriticalLinks(): void {
     },
   };
 
-  const first = buildCarlInjection({
+  const first = buildOpencarlInjection({
     domainPayloads: payloads,
     matchedDomains: ["DEV"],
   });
-  const second = buildCarlInjection({
+  const second = buildOpencarlInjection({
     domainPayloads: payloads,
     matchedDomains: ["DEV"],
   });
@@ -502,7 +502,7 @@ function runCriticalLinks(): void {
     detail: injectionOk ? undefined : "Injection output changed between runs",
   });
 
-  const guidance = buildCarlHelpGuidance();
+  const guidance = buildOpencarlHelpGuidance();
   const { dir, filePath } = writeCommandFile([
     "CARL_RULE_1=Open the CARL manager UI",
   ]);
@@ -519,14 +519,14 @@ function runCriticalLinks(): void {
       exclude: [],
     };
 
-    const starResult = resolveCarlCommandSignals({
+    const starResult = resolveOpencarlCommandSignals({
       promptText: "*carl help",
       commandsPayload,
       commandFilePath: filePath,
       helpGuidance: guidance.combined,
     });
 
-    const slashResult = resolveCarlCommandSignals({
+    const slashResult = resolveOpencarlCommandSignals({
       promptText: "",
       commandOverrides: ["carl"],
       commandsPayload,

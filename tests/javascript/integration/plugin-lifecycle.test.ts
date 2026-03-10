@@ -7,7 +7,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
-import { createCarlPluginHooks } from '../../../src/integration/plugin-hooks';
+import { createOpencarlPluginHooks } from '../../../src/integration/plugin-hooks';
 
 // Local type definition for Hooks to avoid ES module import issues
 type Hooks = {
@@ -37,7 +37,7 @@ jest.mock('../../../src/opencarl/rule-cache', () => ({
   markSessionWarned: jest.fn(),
   clearSessionWarning: jest.fn(),
   markRulesDirty: jest.fn(),
-  isCarlPath: jest.fn(() => true),
+  isOpencarlPath: jest.fn(() => true),
 }));
 
 jest.mock('../../../src/opencarl/matcher', () => ({
@@ -45,7 +45,7 @@ jest.mock('../../../src/opencarl/matcher', () => ({
 }));
 
 jest.mock('../../../src/opencarl/injector', () => ({
-  buildCarlInjection: jest.fn(),
+  buildOpencarlInjection: jest.fn(),
 }));
 
 jest.mock('../../../src/opencarl/command-parity', () => ({
@@ -71,14 +71,14 @@ jest.mock('../../../src/opencarl/duplicate-detector', () => ({
 }));
 
 jest.mock('../../../src/opencarl/help-text', () => ({
-  buildCarlHelpGuidance: jest.fn(() => ({ combined: 'Help guidance' })),
+  buildOpencarlHelpGuidance: jest.fn(() => ({ combined: 'Help guidance' })),
 }));
 
 describe('plugin-hooks.ts - integration', () => {
   let hooks: Hooks;
   let mockGetCachedRules: jest.Mock;
   let mockMatchDomainsForTurn: jest.Mock;
-  let mockBuildCarlInjection: jest.Mock;
+  let mockBuildOpencarlInjection: jest.Mock;
   let mockResolveOpencarlCommandSignals: jest.Mock;
   let signalStore: typeof import('../../../src/opencarl/signal-store');
 
@@ -96,7 +96,7 @@ describe('plugin-hooks.ts - integration', () => {
       mockMatchDomainsForTurn = matcher.matchDomainsForTurn;
 
       const injector = require('../../../src/opencarl/injector');
-      mockBuildCarlInjection = injector.buildCarlInjection;
+      mockBuildOpencarlInjection = injector.buildOpencarlInjection;
 
       const commandParity = require('../../../src/opencarl/command-parity');
       mockResolveOpencarlCommandSignals = commandParity.resolveOpencarlCommandSignals;
@@ -125,7 +125,7 @@ describe('plugin-hooks.ts - integration', () => {
         domainResults: [],
       });
 
-      mockBuildCarlInjection.mockReturnValue('<carl-rules>\n[DEVELOPMENT] RULES:\n1. Use early returns\n2. Prefer small functions\n</carl-rules>');
+      mockBuildOpencarlInjection.mockReturnValue('<carl-rules>\n[DEVELOPMENT] RULES:\n1. Use early returns\n2. Prefer small functions\n</carl-rules>');
 
       mockResolveOpencarlCommandSignals.mockReturnValue({
         commandPayloads: {},
@@ -133,7 +133,7 @@ describe('plugin-hooks.ts - integration', () => {
       });
 
       // Create hooks after mocks are set up
-      const { createCarlPluginHooks: createHooks } = require('../../../src/integration/plugin-hooks');
+      const { createOpencarlPluginHooks: createHooks } = require('../../../src/integration/plugin-hooks');
       hooks = createHooks();
     });
   }
@@ -307,7 +307,7 @@ describe('plugin-hooks.ts - integration', () => {
       // Verify injection pipeline executed
       expect(mockGetCachedRules).toHaveBeenCalledWith({ sessionId: 'test-session-7' });
       expect(mockMatchDomainsForTurn).toHaveBeenCalled();
-      expect(mockBuildCarlInjection).toHaveBeenCalled();
+      expect(mockBuildOpencarlInjection).toHaveBeenCalled();
 
       // Verify output.system contains injection
       expect(output.system.length).toBeGreaterThan(0);
@@ -343,7 +343,7 @@ describe('plugin-hooks.ts - integration', () => {
       }
 
       // Verify injection was called with context bracket
-      expect(mockBuildCarlInjection).toHaveBeenCalledWith(
+      expect(mockBuildOpencarlInjection).toHaveBeenCalledWith(
         expect.objectContaining({
           contextBracket: expect.any(Object),
         })
@@ -367,7 +367,7 @@ describe('plugin-hooks.ts - integration', () => {
       }
 
       // Verify injection still occurred
-      expect(mockBuildCarlInjection).toHaveBeenCalled();
+      expect(mockBuildOpencarlInjection).toHaveBeenCalled();
     });
 
     it('should handle missing client.session.messages gracefully', async () => {
@@ -387,7 +387,7 @@ describe('plugin-hooks.ts - integration', () => {
       }
 
       // Verify injection still occurred with fallback context bracket
-      expect(mockBuildCarlInjection).toHaveBeenCalled();
+      expect(mockBuildOpencarlInjection).toHaveBeenCalled();
     });
 
     it('should inject rules when matched domains exist', async () => {
@@ -424,7 +424,7 @@ describe('plugin-hooks.ts - integration', () => {
         domainResults: [],
       });
 
-      mockBuildCarlInjection.mockReturnValue(null);
+      mockBuildOpencarlInjection.mockReturnValue(null);
 
       const input = createMockHooksInput({
         sessionID: 'test-session-12',

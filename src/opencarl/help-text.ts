@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 
-export interface CarlHelpGuidance {
+export interface OpencarlHelpGuidance {
   overview: string;
   manager: string;
   combined: string;
@@ -28,10 +28,10 @@ function stripFrontmatter(markdown: string): string {
   return markdown.slice(closingIndex + 4).trim();
 }
 
-export function buildCarlHelpGuidance(options?: {
+export function buildOpencarlHelpGuidance(options?: {
   overviewPath?: string;
   managerPath?: string;
-}): CarlHelpGuidance {
+}): OpencarlHelpGuidance {
   const overviewPath =
     options?.overviewPath ??
     path.resolve(
@@ -56,15 +56,15 @@ export function buildCarlHelpGuidance(options?: {
   };
 }
 
-export interface CarlDocsGuidance {
+export interface OpencarlDocsGuidance {
   quickReference: string;
   fullGuide: string;
   combined: string;
 }
 
-export function buildCarlDocsGuidance(options?: {
+export function buildOpencarlDocsGuidance(options?: {
   docsPath?: string;
-}): CarlDocsGuidance {
+}): OpencarlDocsGuidance {
   const docsPath =
     options?.docsPath ??
     path.resolve(

@@ -1,5 +1,5 @@
-import { createCarlPluginHooks } from "./integration/plugin-hooks";
+import { createOpencarlPluginHooks } from "./integration/plugin-hooks";
 
 export default {
-  hooks: createCarlPluginHooks(),
+  hooks: createOpencarlPluginHooks(),
 };

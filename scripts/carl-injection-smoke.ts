@@ -1,4 +1,4 @@
-import { buildCarlInjection } from "../src/opencarl/injector";
+import { buildOpencarlInjection } from "../src/opencarl/injector";
 import type { OpencarlRuleDomainPayload } from "../src/opencarl/types";
 import { computeContextBracketData } from "../src/opencarl/context-brackets";
 
@@ -57,8 +57,8 @@ const input = {
   commandDomains: ["COMMANDS"],
 };
 
-const first = buildCarlInjection(input);
-const second = buildCarlInjection(input);
+const first = buildOpencarlInjection(input);
+const second = buildOpencarlInjection(input);
 
 assert(Boolean(first), "Expected injection output to be non-empty");
 assert(first === second, "Injection output is not deterministic");
@@ -132,7 +132,7 @@ const freshInput = {
   matchedDomains: ["CONTEXT"],
   contextBracket: freshBracket,
 };
-const freshOutput = buildCarlInjection(freshInput) ?? "";
+const freshOutput = buildOpencarlInjection(freshInput) ?? "";
 assert(freshOutput.includes("CONTEXT BRACKET: [FRESH]"), "Missing FRESH bracket header");
 assert(freshOutput.includes("Fresh context: full memory available"), "Missing FRESH rule");
 assert(!freshOutput.includes("CONTEXT CRITICAL"), "Should not have CRITICAL warning in FRESH");
@@ -141,7 +141,7 @@ assert(!freshOutput.includes("CONTEXT CRITICAL"), "Should not have CRITICAL warn
 const moderateBracket = computeContextBracketData(100000); // 50% remaining
 assert(moderateBracket.bracket === "MODERATE", "Should be MODERATE bracket at 50%");
 
-const moderateOutput = buildCarlInjection({
+const moderateOutput = buildOpencarlInjection({
   domainPayloads: contextPayloads,
   matchedDomains: ["CONTEXT"],
   contextBracket: moderateBracket,
@@ -153,7 +153,7 @@ assert(moderateOutput.includes("Moderate context: prioritize key info"), "Missin
 const depletedBracket = computeContextBracketData(150000); // 25% remaining
 assert(depletedBracket.bracket === "DEPLETED", "Should be DEPLETED bracket at 25%");
 
-const depletedOutput = buildCarlInjection({
+const depletedOutput = buildOpencarlInjection({
   domainPayloads: contextPayloads,
   matchedDomains: ["CONTEXT"],
   contextBracket: depletedBracket,
@@ -167,7 +167,7 @@ assert(criticalBracket.bracket === "CRITICAL", "Should be CRITICAL bracket at 10
 assert(criticalBracket.isCritical === true, "isCritical should be true");
 assert(criticalBracket.rulesBracket === "DEPLETED", "CRITICAL should use DEPLETED rules");
 
-const criticalOutput = buildCarlInjection({
+const criticalOutput = buildOpencarlInjection({
   domainPayloads: contextPayloads,
   matchedDomains: ["CONTEXT"],
   contextBracket: criticalBracket,

@@ -1,10 +1,10 @@
 import * as os from "os";
 import * as path from "path";
 import {
-  findFallbackCarl,
-  findGlobalCarl,
-  findProjectCarl,
-  type CarlSourcePath as OpencarlSourcePath,
+  findFallbackOpencarl,
+  findGlobalOpencarl,
+  findProjectOpencarl,
+  type OpencarlSourcePath,
 } from "../integration/paths";
 import {
   loadSessionOverrides,
@@ -71,7 +71,7 @@ function resolveSourceFromOverride(opencarlDir?: string): OpencarlSourcePath | n
   const manifestPath = path.join(opencarlDir, "manifest");
   return {
     root: path.dirname(opencarlDir),
-    carlDir: opencarlDir,
+    opencarlDir,
     manifestPath,
   };
 }
@@ -128,7 +128,7 @@ function loadDomainPayloads(
   const payloads: OpencarlRuleDomainPayload[] = [];
 
   for (const domain of domains) {
-    const domainPath = resolveDomainFile(source.path.carlDir, domain, warnings);
+    const domainPath = resolveDomainFile(source.path.opencarlDir, domain, warnings);
     if (!domainPath) {
       continue;
     }
@@ -157,7 +157,7 @@ function loadDomainPayloads(
     const payload: OpencarlRuleDomainPayload = {
       domain,
       scope: source.scope,
-      sourcePath: source.path.carlDir,
+      sourcePath: source.path.opencarlDir,
       rules: parsed.rules,
       state: manifestConfig?.state ?? false,
       alwaysOn: manifestConfig?.alwaysOn ?? false,
@@ -183,7 +183,7 @@ function toSourceEntry(
 ): OpencarlRuleSource {
   return {
     scope: source.scope,
-    path: source.path.carlDir,
+    path: source.path.opencarlDir,
     domains: [...domains].sort(),
   };
 }
@@ -277,13 +277,13 @@ export function loadOpencarlRules(
 
   const projectPath =
     resolveSourceFromOverride(overrides.projectOpencarlDir) ??
-    findProjectCarl(cwd);
+    findProjectOpencarl(cwd);
   const globalPath =
     resolveSourceFromOverride(overrides.globalOpencarlDir) ??
-    findGlobalCarl(homeDir);
+    findGlobalOpencarl(homeDir);
   const fallbackPath =
     resolveSourceFromOverride(overrides.fallbackOpencarlDir) ??
-    findFallbackCarl(projectRoot);
+    findFallbackOpencarl(projectRoot);
 
   const globalSource = resolveManifest("global", globalPath, warnings);
 
@@ -394,9 +394,9 @@ export function loadOpencarlRules(
 
   // Determine which .opencarl/ directory to use for session overrides
   const sessionOpencarlDir =
-    (projectStatus === "valid" ? projectResult.source?.path.carlDir : null) ??
-    globalSource?.path.carlDir ??
-    fallbackSource?.path.carlDir;
+    (projectStatus === "valid" ? projectResult.source?.path.opencarlDir : null) ??
+    globalSource?.path.opencarlDir ??
+    fallbackSource?.path.opencarlDir;
 
   // Load and apply session overrides
   let sessionOverrides: SessionOverrides | null = null;

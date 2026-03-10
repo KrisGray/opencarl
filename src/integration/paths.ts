@@ -1,14 +1,17 @@
 import * as fs from "fs";
 import * as path from "path";
 
-export interface CarlSourcePath {
+export interface OpencarlSourcePath {
   root: string;
-  carlDir: string;
+  opencarlDir: string;
   manifestPath: string;
 }
 
-function resolveCarlDirectory(carlDir: string, root: string): CarlSourcePath | null {
-  const manifestPath = path.join(carlDir, "manifest");
+function resolveOpencarlDirectory(
+  opencarlDir: string,
+  root: string
+): OpencarlSourcePath | null {
+  const manifestPath = path.join(opencarlDir, "manifest");
 
   if (!fs.existsSync(manifestPath)) {
     return null;
@@ -16,17 +19,17 @@ function resolveCarlDirectory(carlDir: string, root: string): CarlSourcePath | n
 
   return {
     root,
-    carlDir,
+    opencarlDir,
     manifestPath,
   };
 }
 
-export function findProjectCarl(cwd: string): CarlSourcePath | null {
+export function findProjectOpencarl(cwd: string): OpencarlSourcePath | null {
   let searchPath = path.resolve(cwd);
 
   for (let i = 0; i < 10; i += 1) {
-    const carlDir = path.join(searchPath, ".carl");
-    const resolved = resolveCarlDirectory(carlDir, searchPath);
+    const opencarlDir = path.join(searchPath, ".carl");
+    const resolved = resolveOpencarlDirectory(opencarlDir, searchPath);
     if (resolved) {
       return resolved;
     }
@@ -42,14 +45,19 @@ export function findProjectCarl(cwd: string): CarlSourcePath | null {
   return null;
 }
 
-export function findGlobalCarl(homeDir: string): CarlSourcePath | null {
+export function findGlobalOpencarl(homeDir: string): OpencarlSourcePath | null {
   const resolvedHome = path.resolve(homeDir);
-  return resolveCarlDirectory(path.join(resolvedHome, ".carl"), resolvedHome);
+  return resolveOpencarlDirectory(
+    path.join(resolvedHome, ".carl"),
+    resolvedHome
+  );
 }
 
-export function findFallbackCarl(projectRoot: string): CarlSourcePath | null {
+export function findFallbackOpencarl(
+  projectRoot: string
+): OpencarlSourcePath | null {
   const resolvedRoot = path.resolve(projectRoot);
-  return resolveCarlDirectory(
+  return resolveOpencarlDirectory(
     path.join(resolvedRoot, ".opencode/carl"),
     resolvedRoot
   );

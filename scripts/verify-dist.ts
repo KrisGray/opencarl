@@ -45,8 +45,8 @@ export function verifyDist(): { success: boolean; errors: string[] } {
     if (content.length < 100) {
       errors.push("dist/plugin.js appears to be empty or incomplete");
     }
-    if (!content.includes("createCarlPluginHooks")) {
-      errors.push("dist/plugin.js does not export CARL hooks");
+    if (!content.includes("createOpencarlPluginHooks")) {
+      errors.push("dist/plugin.js does not export OpenCARL hooks");
     }
   }
 

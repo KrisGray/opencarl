@@ -81,7 +81,9 @@ function renderContextRules(
   return lines;
 }
 
-export function buildCarlInjection(input: OpencarlInjectionInput): string | null {
+export function buildOpencarlInjection(
+  input: OpencarlInjectionInput
+): string | null {
   const payloadMap = input.domainPayloads ?? {};
   const commandSet = new Set(
     (input.commandDomains ?? []).map((domain) => normalizeDomainName(domain))

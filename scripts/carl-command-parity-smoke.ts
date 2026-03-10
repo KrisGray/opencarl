@@ -1,7 +1,7 @@
 import path from "path";
-import { buildCarlHelpGuidance } from "../src/opencarl/help-text";
+import { buildOpencarlHelpGuidance } from "../src/opencarl/help-text";
 import {
-  resolveCarlCommandSignals,
+  resolveOpencarlCommandSignals,
   type OpencarlCommandResolutionResult,
 } from "../src/opencarl/command-parity";
 import type { OpencarlRuleDomainPayload } from "../src/opencarl/types";
@@ -34,10 +34,10 @@ const commandsPayload: OpencarlRuleDomainPayload = {
   exclude: [],
 };
 
-const guidance = buildCarlHelpGuidance();
+const guidance = buildOpencarlHelpGuidance();
 
 function resolveWithPrompt(promptText: string): OpencarlCommandResolutionResult {
-  return resolveCarlCommandSignals({
+  return resolveOpencarlCommandSignals({
     promptText,
     commandsPayload,
     helpGuidance: guidance.combined,
@@ -80,7 +80,7 @@ runFixture("multi-command ordering", () => {
 
 runFixture("/carl fallback parity", () => {
   const starResult = resolveWithPrompt("*carl");
-  const slashResult = resolveCarlCommandSignals({
+  const slashResult = resolveOpencarlCommandSignals({
     promptText: "",
     commandOverrides: ["carl"],
     commandsPayload,

@@ -19,10 +19,10 @@ function buildPluginEntrypoint(loaderImportPath, pluginHooksImportPath) {
     "`[carl] Warning: ${warning.message}${domain}${warningPath}`";
 
   return `import fs from "fs";
-import os from "os";
-import path from "path";
-import { loadCarlRules } from "${loaderImportPath}";
-import { createCarlPluginHooks } from "${pluginHooksImportPath}";
+ import os from "os";
+ import path from "path";
+ import { loadOpencarlRules } from "${loaderImportPath}";
+ import { createOpencarlPluginHooks } from "${pluginHooksImportPath}";
 
 const PROJECT_PLUGIN_PATH = path.resolve(process.cwd(), ".opencode/plugins/carl.ts");
 const GLOBAL_PLUGIN_PATH = path.join(
@@ -45,8 +45,8 @@ function warnIfDuplicatePluginPlacement() {
   }
 }
 
-function logDiscoverySummary() {
-  const result = loadCarlRules();
+ function logDiscoverySummary() {
+   const result = loadOpencarlRules();
 
   console.log(${summaryTemplate});
 
@@ -57,12 +57,12 @@ function logDiscoverySummary() {
   }
 }
 
-export default function carlPlugin(input) {
+ export default function opencarlPlugin(input) {
   warnIfDuplicatePluginPlacement();
   logDiscoverySummary();
-  return createCarlPluginHooks();
-}
-`;
+   return createOpencarlPluginHooks();
+ }
+ `;
 }
 
 function writeFileIfChanged(targetPath, content) {
@@ -80,7 +80,7 @@ function writeFileIfChanged(targetPath, content) {
 }
 
 function installGlobalPlugin() {
-  const loaderPath = path.resolve(process.cwd(), "src", "carl", "loader");
+  const loaderPath = path.resolve(process.cwd(), "src", "opencarl", "loader");
   const pluginHooksPath = path.resolve(
     process.cwd(),
     "src",

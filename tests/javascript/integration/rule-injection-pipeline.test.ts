@@ -10,7 +10,7 @@ import * as path from 'path';
 import * as os from 'os';
 import { loadOpencarlRules } from '../../../src/opencarl/loader';
 import { matchDomainsForTurn } from '../../../src/opencarl/matcher';
-import { buildCarlInjection } from '../../../src/opencarl/injector';
+import { buildOpencarlInjection } from '../../../src/opencarl/injector';
 import { computeContextBracketData } from '../../../src/opencarl/context-brackets';
 import type { OpencarlInjectionInput } from '../../../src/opencarl/injector';
 
@@ -207,7 +207,7 @@ describe('rule injection pipeline - integration', () => {
         contextBracket: computeContextBracketData(40000, 200000), // FRESH: 80% remaining
       };
 
-      const injection = buildCarlInjection(injectionInput);
+      const injection = buildOpencarlInjection(injectionInput);
 
       expect(injection).not.toBeNull();
       expect(injection).toContain('<carl-rules>');
@@ -238,7 +238,7 @@ describe('rule injection pipeline - integration', () => {
         contextBracket: computeContextBracketData(40000, 200000), // FRESH: 80% remaining
       };
 
-      const injection = buildCarlInjection(injectionInput);
+      const injection = buildOpencarlInjection(injectionInput);
 
       expect(injection).not.toBeNull();
       expect(injection).toContain('CONTEXT BRACKET: [FRESH]');
@@ -267,7 +267,7 @@ describe('rule injection pipeline - integration', () => {
         contextBracket: computeContextBracketData(100000, 200000), // MODERATE: 50% remaining
       };
 
-      const injection = buildCarlInjection(injectionInput);
+      const injection = buildOpencarlInjection(injectionInput);
 
       expect(injection).not.toBeNull();
       expect(injection).toContain('CONTEXT BRACKET: [MODERATE]');
@@ -296,7 +296,7 @@ describe('rule injection pipeline - integration', () => {
         contextBracket: computeContextBracketData(160000, 200000), // CRITICAL: 20% remaining, uses DEPLETED rules
       };
 
-      const injection = buildCarlInjection(injectionInput);
+      const injection = buildOpencarlInjection(injectionInput);
 
       expect(injection).not.toBeNull();
       expect(injection).toContain('CONTEXT CRITICAL');
@@ -342,7 +342,7 @@ describe('rule injection pipeline - integration', () => {
         contextBracket: computeContextBracketData(40000, 200000), // FRESH: 80% remaining
       };
 
-      const injection = buildCarlInjection(injectionInput);
+      const injection = buildOpencarlInjection(injectionInput);
 
       expect(injection).toMatchSnapshot();
     });
@@ -384,7 +384,7 @@ describe('rule injection pipeline - integration', () => {
         contextBracket: computeContextBracketData(40000, 200000),
       };
 
-      const injection = buildCarlInjection(injectionInput);
+      const injection = buildOpencarlInjection(injectionInput);
 
       // CONTEXT should still be injected (alwaysOn)
       expect(injection).not.toBeNull();
@@ -408,7 +408,7 @@ describe('rule injection pipeline - integration', () => {
         matchedDomains: [],
       };
 
-      const injection = buildCarlInjection(injectionInput);
+      const injection = buildOpencarlInjection(injectionInput);
 
       expect(injection).toBeNull();
     });

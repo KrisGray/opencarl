@@ -1,7 +1,7 @@
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
-const { loadCarlRules } = require("../src/opencarl/loader");
+const { loadOpencarlRules } = require("../src/opencarl/loader");
 
 function writeFile(targetPath, content) {
   fs.mkdirSync(path.dirname(targetPath), { recursive: true });
@@ -22,14 +22,14 @@ function countWarnings(warnings, predicate) {
 
 const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "carl-discovery-"));
 const projectRoot = path.join(tempRoot, "project");
-const projectCarlDir = path.join(projectRoot, ".carl");
-const fallbackCarlDir = path.join(projectRoot, ".opencode", "carl");
+const projectOpencarlDir = path.join(projectRoot, ".carl");
+const fallbackOpencarlDir = path.join(projectRoot, ".opencode", "carl");
 const globalHome = path.join(tempRoot, "home");
-const globalCarlDir = path.join(globalHome, ".carl");
+const globalOpencarlDir = path.join(globalHome, ".carl");
 
 try {
   writeManifest(
-    projectCarlDir,
+    projectOpencarlDir,
     [
       "GLOBAL_STATE=active",
       "GLOBAL_ALWAYS_ON=true",
@@ -40,33 +40,33 @@ try {
   );
 
   writeDomain(
-    projectCarlDir,
+    projectOpencarlDir,
     "global",
     ["GLOBAL_RULE_0=Project rule", "GLOBAL_BAD=Invalid"].join("\n")
   );
 
   writeManifest(
-    globalCarlDir,
+    globalOpencarlDir,
     ["GLOBAL_STATE=active", "GLOBAL_ALWAYS_ON=true"].join("\n")
   );
 
-  writeDomain(globalCarlDir, "global", "GLOBAL_RULE_0=Global rule");
+  writeDomain(globalOpencarlDir, "global", "GLOBAL_RULE_0=Global rule");
 
   writeManifest(
-    fallbackCarlDir,
+    fallbackOpencarlDir,
     ["GLOBAL_STATE=active", "GLOBAL_ALWAYS_ON=true"].join("\n")
   );
 
-  writeDomain(fallbackCarlDir, "global", "GLOBAL_RULE_0=Fallback rule");
+  writeDomain(fallbackOpencarlDir, "global", "GLOBAL_RULE_0=Fallback rule");
 
-  const result = loadCarlRules({
+  const result = loadOpencarlRules({
     cwd: projectRoot,
     homeDir: globalHome,
     projectRoot,
     overrides: {
-      projectCarlDir,
-      globalCarlDir,
-      fallbackCarlDir,
+      projectOpencarlDir,
+      globalOpencarlDir,
+      fallbackOpencarlDir,
     },
   });
 

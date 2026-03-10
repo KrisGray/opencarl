@@ -20,7 +20,7 @@ let globalCache: RuleCacheEntry | null = null;
 let isDirty = false;
 
 // Track which paths are under .opencarl/ for dirty detection
-const CARL_DIR_NAMES = [".opencarl", ".opencode/opencarl"];
+const OPENCARL_DIRECTORY_NAMES = [".opencarl", ".opencode/opencarl"];
 
 // Per-session warning guard: tracks which sessions have been warned about invalid project rules
 const sessionWarningGuard = new Set<string>();
@@ -31,14 +31,20 @@ const sessionProjectOptIn = new Map<string, boolean>();
 /**
  * Check if a file path is inside a .opencarl/ directory.
  */
-export function isCarlPath(filePath: string): boolean {
+export function isOpencarlPath(filePath: string): boolean {
   const normalized = filePath.replace(/\\/g, "/");
-  for (const carlDir of CARL_DIR_NAMES) {
-    if (normalized.includes(`/${carlDir}/`) || normalized.endsWith(`/${carlDir}`)) {
+  for (const opencarlDir of OPENCARL_DIRECTORY_NAMES) {
+    if (
+      normalized.includes(`/${opencarlDir}/`) ||
+      normalized.endsWith(`/${opencarlDir}`)
+    ) {
       return true;
     }
     // Also handle paths that start with .opencarl/
-    if (normalized.startsWith(`${carlDir}/`) || normalized === carlDir) {
+    if (
+      normalized.startsWith(`${opencarlDir}/`) ||
+      normalized === opencarlDir
+    ) {
       return true;
     }
   }

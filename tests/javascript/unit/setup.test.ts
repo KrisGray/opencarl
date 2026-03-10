@@ -27,17 +27,17 @@ jest.mock('fs', () => ({
 
 // Mock the paths module
 jest.mock('../../../src/integration/paths', () => ({
-  findProjectCarl: jest.fn(),
-  findGlobalCarl: jest.fn(),
+  findProjectOpencarl: jest.fn(),
+  findGlobalOpencarl: jest.fn(),
 }));
 
-import { findProjectCarl, findGlobalCarl } from '../../../src/integration/paths';
+import { findProjectOpencarl, findGlobalOpencarl } from '../../../src/integration/paths';
 
-const mockFindProjectOpencarl = findProjectCarl as jest.MockedFunction<
-  typeof findProjectCarl
+const mockFindProjectOpencarl = findProjectOpencarl as jest.MockedFunction<
+  typeof findProjectOpencarl
 >;
-const mockFindGlobalOpencarl = findGlobalCarl as jest.MockedFunction<
-  typeof findGlobalCarl
+const mockFindGlobalOpencarl = findGlobalOpencarl as jest.MockedFunction<
+  typeof findGlobalOpencarl
 >;
 
 // Helper to create mock Dirent
@@ -73,7 +73,7 @@ describe('setup.ts', () => {
     it('should return needed: false when project .carl/ exists', () => {
       mockFindProjectOpencarl.mockReturnValue({
         root: testCwd,
-        carlDir: path.join(testCwd, '.opencarl'),
+        opencarlDir: path.join(testCwd, '.opencarl'),
         manifestPath: path.join(testCwd, '.opencarl', 'manifest'),
       });
       mockFindGlobalOpencarl.mockReturnValue(null);
@@ -89,7 +89,7 @@ describe('setup.ts', () => {
       mockFindProjectOpencarl.mockReturnValue(null);
       mockFindGlobalOpencarl.mockReturnValue({
         root: testHomeDir,
-        carlDir: path.join(testHomeDir, '.opencarl'),
+        opencarlDir: path.join(testHomeDir, '.opencarl'),
         manifestPath: path.join(testHomeDir, '.opencarl', 'manifest'),
       });
 
@@ -114,12 +114,12 @@ describe('setup.ts', () => {
     it('should prefer project .opencarl/ over global', () => {
       mockFindProjectOpencarl.mockReturnValue({
         root: testCwd,
-        carlDir: path.join(testCwd, '.opencarl'),
+        opencarlDir: path.join(testCwd, '.opencarl'),
         manifestPath: path.join(testCwd, '.opencarl', 'manifest'),
       });
       mockFindGlobalOpencarl.mockReturnValue({
         root: testHomeDir,
-        carlDir: path.join(testHomeDir, '.opencarl'),
+        opencarlDir: path.join(testHomeDir, '.opencarl'),
         manifestPath: path.join(testHomeDir, '.opencarl', 'manifest'),
       });
 
