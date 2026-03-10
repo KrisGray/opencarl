@@ -4,7 +4,7 @@
  * OpenCARL Setup Script for OpenCode
  * 
  * This script sets up OpenCARL for use with OpenCode:
- * - Seeds .carl/ directory with templates
+ * - Seeds .opencarl/ directory with templates
  * - Copies commands and skills to .opencode/
  * - Optionally integrates with AGENTS.md
  * - Checks opencode.json plugin configuration
@@ -57,12 +57,12 @@ OpenCARL provides dynamic rule injection for this project. Rules load automatica
 | \`*carl\` | Enter CARL help mode |
 | \`*carl docs\` | View full CARL documentation |
 | \`/carl\` | Domain management commands |
-| \`.carl/\` directory | Your rule definitions |
+| \`.opencarl/\` directory | Your rule definitions |
 
 ### Quick Reference
 
 \`\`\`
-.carl/
+.opencarl/
 ├── manifest        # Domain registry (states + recall keywords)
 ├── global          # Always-loaded rules
 ├── commands        # Star-command definitions
@@ -87,8 +87,8 @@ if (hasHelp) {
   console.log(`  ${yellow}Usage:${reset} npx @krisgray/opencode-carl-plugin [options]
 
   ${yellow}Options:${reset}
-    ${amber}-g, --global${reset}       Install globally (to ~/.opencode and ~/.carl)
-    ${amber}-l, --local${reset}        Install locally (to ./.opencode and ./.carl)
+    ${amber}-g, --global${reset}       Install globally (to ~/.opencode and ~/.opencarl)
+    ${amber}-l, --local${reset}        Install locally (to ./.opencode and ./.opencarl)
     ${amber}-i, --integrate${reset}    Add CARL section to AGENTS.md
     ${amber}-r, --remove${reset}       Remove CARL section from AGENTS.md
     ${amber}-h, --help${reset}         Show this help message
@@ -110,7 +110,7 @@ if (hasHelp) {
   ${yellow}What gets installed:${reset}
     .opencode/commands/carl/   - Slash commands (/carl list, /carl view, etc.)
     .opencode/skills/carl-*/   - Domain management helpers
-    .carl/                     - Your rule configuration (if not exists)
+    .opencarl/                 - Your rule configuration (if not exists)
     AGENTS.md                  - CARL integration section (optional)
 `);
   process.exit(0);
@@ -357,8 +357,8 @@ function promptLocation() {
 
   console.log(`  ${yellow}Where would you like to install?${reset}
 
-  ${amber}1${reset}) Global ${dim}(${globalLabel} + ~/.carl)${reset} - available in all projects
-  ${amber}2${reset}) Local  ${dim}(./.opencode + ./.carl)${reset} - this project only
+  ${amber}1${reset}) Global ${dim}(${globalLabel} + ~/.opencarl)${reset} - available in all projects
+  ${amber}2${reset}) Local  ${dim}(./.opencode + ./.opencarl)${reset} - this project only
 `);
 
   rl.question(`  Choice ${dim}[1]${reset}: `, (answer) => {
