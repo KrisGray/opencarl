@@ -169,7 +169,7 @@ export function resolveOpencarlCommandSignals(
     }
 
     const payloadRules = [...rules];
-    if (token === "OpenCARL") {
+    if (token === "CARL") {
       // Check for docs subcommand in prompt text
       const isDocsRequest = promptText.toLowerCase().includes('docs');
 
