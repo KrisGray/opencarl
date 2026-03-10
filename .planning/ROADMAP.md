@@ -251,13 +251,15 @@ Plans:
   2. .carl-template/ directory is renamed to .opencarl-template/
   3. All file path references in code use new directory names
   4. Setup flow scaffolds .opencarl/ directory with updated templates
-**Plans**: 4 plans
+**Plans**: 6 plans (4 original + 2 gap closure)
 
 Plans:
-- [ ] 13-01-PLAN.md — Rename template directory and update package.json (CONFIG-03, CONFIG-05)
-- [ ] 13-02-PLAN.md — Update path resolution in source code (CONFIG-02, CONFIG-04)
-- [ ] 13-03-PLAN.md — Update test path references (CONFIG-04)
-- [ ] 13-04-PLAN.md — Update script path references (CONFIG-04)
+- [x] 13-01-PLAN.md — Rename template directory and update package.json (CONFIG-03, CONFIG-05)
+- [x] 13-02-PLAN.md — Update path resolution in source code (CONFIG-02, CONFIG-04)
+- [x] 13-03-PLAN.md — Update test path references (CONFIG-04)
+- [x] 13-04-PLAN.md — Update script path references (CONFIG-04)
+- [ ] 13-05-PLAN.md — Rename test fixture directories (CONFIG-04) [GAP CLOSURE]
+- [ ] 13-06-PLAN.md — Update bin/install.js documentation (CONFIG-02, CONFIG-04, CONFIG-05) [GAP CLOSURE]
 
 ---
 
@@ -356,7 +358,7 @@ Plans:
 | 10. Integration Tests | v1.2 | 4/4 | Complete | 2026-03-05 |
 | 11. E2E Tests & Docker | v1.2 | 4/4 | Complete | 2026-03-05 |
 | 12. Source Code Rebranding | 17/17 | Complete   | 2026-03-10 | - |
-| 13. Configuration & Directory Migration | 2/4 | In Progress|  | - |
+| 13. Configuration & Directory Migration | 4/6 | Gap Closure | 2026-03-10 | - |
 | 14. Command Rebranding | v1.3 | 0/4 | Not started | - |
 | 15. Environment Variable Rebranding | v1.3 | 0/4 | Not started | - |
 | 16. Documentation Rebranding | v1.3 | 0/5 | Not started | - |
