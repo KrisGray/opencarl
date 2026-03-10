@@ -42,12 +42,12 @@ function parseOverrideValue(value: unknown): SessionOverrideValue {
  * Returns default (all inherit) if file doesn't exist.
  */
 export function loadSessionOverrides(
-  carlDir: string,
+  opencarlDir: string,
   sessionId: string
 ): SessionOverrides {
   const domains: Record<string, SessionOverrideValue> = {};
 
-  if (!sessionId || !carlDir) {
+  if (!sessionId || !opencarlDir) {
     return {
       sessionId: sessionId ?? "",
       domains,
@@ -55,7 +55,7 @@ export function loadSessionOverrides(
     };
   }
 
-  const overridePath = path.join(carlDir, OVERRIDE_DIR, `${sessionId}.json`);
+  const overridePath = path.join(opencarlDir, OVERRIDE_DIR, `${sessionId}.json`);
 
   if (!fs.existsSync(overridePath)) {
     return {

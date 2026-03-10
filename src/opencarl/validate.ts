@@ -332,14 +332,14 @@ export function parseDomainRules(domainPath: string, domain: string): ParsedDoma
 }
 
 export function resolveDomainFile(
-  carlDir: string,
+  opencarlDir: string,
   domain: string,
   warnings: OpencarlRuleDiscoveryWarning[]
 ): string | null {
   const expectedName = domain.toLowerCase();
-  const expectedPath = path.join(carlDir, expectedName);
+  const expectedPath = path.join(opencarlDir, expectedName);
 
-  if (!fs.existsSync(carlDir)) {
+  if (!fs.existsSync(opencarlDir)) {
     warn(warnings, `Missing domain file for ${domain}`, {
       path: expectedPath,
       domain,
@@ -348,7 +348,7 @@ export function resolveDomainFile(
   }
 
   // Check for exact case match (important for case-insensitive filesystems like macOS)
-  const entries = fs.readdirSync(carlDir, { withFileTypes: true });
+  const entries = fs.readdirSync(opencarlDir, { withFileTypes: true });
   const exactMatch = entries.find((entry) => {
     if (!entry.isFile()) {
       return false;
@@ -370,7 +370,7 @@ export function resolveDomainFile(
 
   if (mismatch) {
     warn(warnings, `Domain file must be lowercase: ${mismatch.name}`, {
-      path: path.join(carlDir, mismatch.name),
+      path: path.join(opencarlDir, mismatch.name),
       domain,
     });
     return null;
