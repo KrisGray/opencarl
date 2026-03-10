@@ -33,7 +33,7 @@ export async function readOpenCodeConfig(cwd: string): Promise<OpenCodeConfig> {
 
     // Malformed JSON - provide clear error
     if (err instanceof SyntaxError) {
-      throw new Error(`[carl] opencode.json is malformed: ${err.message}`);
+      throw new Error(`[opencarl] opencode.json is malformed: ${err.message}`);
     }
 
     // Re-throw other errors
@@ -105,6 +105,6 @@ export async function writeOpenCodeConfig(
     await fs.writeFile(configPath, content, "utf-8");
   } catch (err) {
     const errorMsg = err instanceof Error ? err.message : String(err);
-    throw new Error(`[carl] Failed to write opencode.json: ${errorMsg}`);
+    throw new Error(`[opencarl] Failed to write opencode.json: ${errorMsg}`);
   }
 }

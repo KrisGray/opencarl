@@ -213,11 +213,11 @@ export function createOpencarlPluginHooks(): Hooks {
         .replace(/^\//, "")
         .toLowerCase();
       if (commandName === "carl") {
-        // /carl fallback should mirror *carl command-mode guidance
+        // /carl fallback should mirror *opencarl command-mode guidance
         recordCommandSignals(input.sessionID, ["carl"]);
       }
-      // Handle /carl setup command
-      if (commandName === "carl setup" || commandName === "carl-setup") {
+      // Handle /opencarl setup command
+      if (commandName === "opencarl setup" || commandName === "opencarl-setup") {
         try {
           const result = await runSetup({
             cwd: process.cwd(),
@@ -225,15 +225,15 @@ export function createOpencarlPluginHooks(): Hooks {
           });
           console.log(
             result.success
-              ? "[carl] Setup complete"
-              : `[carl] Setup failed: ${result.error}`,
+              ? "[opencarl] Setup complete"
+              : `[opencarl] Setup failed: ${result.error}`,
           );
         } catch (error) {
           console.error(formatError(error));
         }
       }
-      // Handle /carl setup --integrate
-      if (commandName === "carl setup --integrate") {
+      // Handle /opencarl setup --integrate
+      if (commandName === "opencarl setup --integrate") {
         try {
           const result = await runIntegration({
             cwd: process.cwd(),
@@ -244,8 +244,8 @@ export function createOpencarlPluginHooks(): Hooks {
           console.error(formatError(error));
         }
       }
-      // Handle /carl setup --remove
-      if (commandName === "carl setup --remove") {
+      // Handle /opencarl setup --remove
+      if (commandName === "opencarl setup --remove") {
         try {
           const result = await runIntegration({
             cwd: process.cwd(),
@@ -256,8 +256,8 @@ export function createOpencarlPluginHooks(): Hooks {
           console.error(formatError(error));
         }
       }
-      // Handle /carl setup --integrate-opencode
-      if (commandName === "carl setup --integrate-opencode") {
+      // Handle /opencarl setup --integrate-opencode
+      if (commandName === "opencarl setup --integrate-opencode") {
         try {
           const result = await integrateOpencarl({
             cwd: process.cwd(),
@@ -308,7 +308,7 @@ export function createOpencarlPluginHooks(): Hooks {
             .map((w) => w.message)
             .join("; ");
           console.warn(
-            `[carl] Invalid project rules detected - project rules disabled: ${warningMessages}`,
+            `[opencarl] Invalid project rules detected - project rules disabled: ${warningMessages}`,
           );
           markSessionWarned(sessionId);
         }
@@ -373,7 +373,7 @@ export function createOpencarlPluginHooks(): Hooks {
           .map((payload) => payload.domain)
           .sort();
 
-        console.log("[carl] devmode", {
+        console.log("[opencarl] devmode", {
           matchedDomains: matchResult.matchedDomains,
           commandDomains: commandResolution.commandDomains,
           alwaysOnDomains,
