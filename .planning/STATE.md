@@ -8,9 +8,9 @@ See: .planning/PROJECT.md
 
 **Milestone:** v1.0 Branding & Context Migration
 **Current phase:** 13-config-directory-migration
-**Current Plan:** 5
+**Current Plan:** Not started
 **Total Plans in Phase:** 6
-**Status:** In progress — 5 of 6 plans complete
+**Status:** Ready to plan
 **Progress:** [██████████] 96%
 
 ## Decisions
