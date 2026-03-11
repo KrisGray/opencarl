@@ -7,31 +7,31 @@ import * as os from 'os';
 describe('command-parity.ts', () => {
   describe('resolveOpencarlCommandSignals', () => {
     describe('star command detection', () => {
-      it('should detect *carl in prompt text', () => {
+      it('should detect *opencarl in prompt text', () => {
         const result = resolveOpencarlCommandSignals({
-          promptText: 'Please help *carl with my code',
+          promptText: 'Please help *opencarl with my code',
         });
 
-        expect(result.commandTokens).toContain('CARL');
+        expect(result.commandTokens).toContain('OPENCARL');
       });
 
-      it('should detect multiple star commands (*carl *brief *dev)', () => {
+      it('should detect multiple star commands (*opencarl *brief *dev)', () => {
         const result = resolveOpencarlCommandSignals({
-          promptText: 'I need *carl *brief *dev to work together',
+          promptText: 'I need *opencarl *brief *dev to work together',
         });
 
-        expect(result.commandTokens).toContain('CARL');
+        expect(result.commandTokens).toContain('OPENCARL');
         expect(result.commandTokens).toContain('BRIEF');
         expect(result.commandTokens).toContain('DEV');
         expect(result.commandTokens).toHaveLength(3);
       });
 
-      it('should extract command token from *carl', () => {
+      it('should extract command token from *opencarl', () => {
         const result = resolveOpencarlCommandSignals({
-          promptText: 'Hey *carl can you help?',
+          promptText: 'Hey *opencarl can you help?',
         });
 
-        expect(result.commandTokens).toEqual(['CARL']);
+        expect(result.commandTokens).toEqual(['OPENCARL']);
       });
 
       it('should return empty array for prompt without star commands', () => {
@@ -62,14 +62,14 @@ describe('command-parity.ts', () => {
 
       it('should normalize tokens to uppercase', () => {
         const result = resolveOpencarlCommandSignals({
-          promptText: '*carl *Brief *DEV',
+          promptText: '*opencarl *Brief *DEV',
         })
 
-        expect(result.commandTokens).toEqual(['CARL', 'BRIEF', 'DEV']);
+        expect(result.commandTokens).toEqual(['OPENCARL', 'BRIEF', 'DEV']);
       });
     });
 
-    describe('*carl docs handling', () => {
+    describe('*opencarl docs handling', () => {
       let tempDir: string;
       let commandsPath: string;
 
@@ -82,7 +82,7 @@ describe('command-parity.ts', () => {
         fs.rmSync(tempDir, { recursive: true, force: true });
       });
 
-      it('should include docs guidance when "docs" in prompt with *carl', () => {
+      it('should include docs guidance when "docs" in prompt with *opencarl', () => {
         fs.writeFileSync(
           commandsPath,
           'CARL_RULE_1=You are CARL, a helpful assistant.\nCARL_RULE_2=Follow best practices.\n'
@@ -100,19 +100,19 @@ describe('command-parity.ts', () => {
         };
 
         const result = resolveOpencarlCommandSignals({
-          promptText: '*carl docs please',
+          promptText: '*opencarl docs please',
           commandsPayload,
           commandFilePath: commandsPath,
         });
 
-        expect(result.commandDomains).toContain('CARL');
-        expect(result.commandPayloads['CARL']).toBeDefined();
-        expect(result.commandPayloads['CARL'].rules.length).toBeGreaterThan(2);
-        const combinedRules = result.commandPayloads['CARL'].rules.join(' ');
+        expect(result.commandDomains).toContain('OPENCARL');
+        expect(result.commandPayloads['OPENCARL']).toBeDefined();
+        expect(result.commandPayloads['OPENCARL'].rules.length).toBeGreaterThan(2);
+        const combinedRules = result.commandPayloads['OPENCARL'].rules.join(' ');
         expect(combinedRules).toContain('CARL-DOCS');
       });
 
-      it('should NOT include docs guidance when *carl without "docs"', () => {
+      it('should NOT include docs guidance when *opencarl without "docs"', () => {
         fs.writeFileSync(
           commandsPath,
           'CARL_RULE_1=You are CARL.\n'
@@ -130,13 +130,13 @@ describe('command-parity.ts', () => {
         };
 
         const result = resolveOpencarlCommandSignals({
-          promptText: '*carl help me',
+          promptText: '*opencarl help me',
           commandsPayload,
           commandFilePath: commandsPath,
         });
 
-        expect(result.commandDomains).toContain('CARL');
-        expect(result.commandPayloads['CARL'].rules).toHaveLength(1);
+        expect(result.commandDomains).toContain('OPENCARL');
+        expect(result.commandPayloads['OPENCARL'].rules).toHaveLength(1);
       });
 
       it('should include help guidance when provided via helpGuidance option', () => {
@@ -157,14 +157,14 @@ describe('command-parity.ts', () => {
         };
 
         const result = resolveOpencarlCommandSignals({
-          promptText: '*carl',
+          promptText: '*opencarl',
           commandsPayload,
           commandFilePath: commandsPath,
           helpGuidance: 'Custom help text here',
         });
 
-        expect(result.commandDomains).toContain('CARL');
-        expect(result.commandPayloads['CARL'].rules).toContain('Custom help text here');
+        expect(result.commandDomains).toContain('OPENCARL');
+        expect(result.commandPayloads['OPENCARL'].rules).toContain('Custom help text here');
       });
     });
 
@@ -181,7 +181,7 @@ describe('command-parity.ts', () => {
         fs.rmSync(tempDir, { recursive: true, force: true });
       });
 
-      it('should resolve CARL command to command payload', () => {
+      it('should resolve OPENCARL command to command payload', () => {
         fs.writeFileSync(
           commandsPath,
           'CARL_RULE_1=You are CARL.\nCARL_RULE_2=Be helpful.\n'
@@ -199,14 +199,14 @@ describe('command-parity.ts', () => {
         };
 
         const result = resolveOpencarlCommandSignals({
-          promptText: '*carl',
+          promptText: '*opencarl',
           commandsPayload,
           commandFilePath: commandsPath,
         });
 
-        expect(result.commandPayloads['CARL']).toBeDefined();
-        expect(result.commandPayloads['CARL'].domain).toBe('CARL');
-        expect(result.commandPayloads['CARL'].rules).toHaveLength(2);
+        expect(result.commandPayloads['OPENCARL']).toBeDefined();
+        expect(result.commandPayloads['OPENCARL'].domain).toBe('OPENCARL');
+        expect(result.commandPayloads['OPENCARL'].rules).toHaveLength(2);
       });
 
       it('should return commandPayloads with correct domain', () => {
@@ -256,14 +256,14 @@ describe('command-parity.ts', () => {
         };
 
         const result = resolveOpencarlCommandSignals({
-          promptText: '*carl *unknowncommand *anotherunknown',
+          promptText: '*opencarl *unknowncommand *anotherunknown',
           commandsPayload,
           commandFilePath: commandsPath,
         });
 
         expect(result.unresolvedTokens).toContain('UNKNOWNCOMMAND');
         expect(result.unresolvedTokens).toContain('ANOTHERUNKNOWN');
-        expect(result.unresolvedTokens).not.toContain('CARL');
+        expect(result.unresolvedTokens).not.toContain('OPENCARL');
       });
 
       it('should respect commandOverrides array', () => {
@@ -285,23 +285,23 @@ describe('command-parity.ts', () => {
 
         const result = resolveOpencarlCommandSignals({
           promptText: '',
-          commandOverrides: ['carl', 'brief'],
+          commandOverrides: ['opencarl', 'brief'],
           commandsPayload,
           commandFilePath: commandsPath,
         });
 
-        expect(result.commandTokens).toContain('CARL');
+        expect(result.commandTokens).toContain('OPENCARL');
         expect(result.commandTokens).toContain('BRIEF');
-        expect(result.commandDomains).toContain('CARL');
+        expect(result.commandDomains).toContain('OPENCARL');
         expect(result.commandDomains).toContain('BRIEF');
       });
 
       it('should deduplicate tokens (uniqInOrder)', () => {
         const result = resolveOpencarlCommandSignals({
-          promptText: '*carl *carl *carl *brief *brief',
+          promptText: '*opencarl *opencarl *opencarl *brief *brief',
         });
 
-        expect(result.commandTokens).toEqual(['CARL', 'BRIEF']);
+        expect(result.commandTokens).toEqual(['OPENCARL', 'BRIEF']);
       });
 
       it('should combine star commands and overrides, deduplicating', () => {
@@ -322,14 +322,14 @@ describe('command-parity.ts', () => {
         };
 
         const result = resolveOpencarlCommandSignals({
-          promptText: '*carl *dev',
-          commandOverrides: ['carl', 'brief'],
+          promptText: '*opencarl *dev',
+          commandOverrides: ['opencarl', 'brief'],
           commandsPayload,
           commandFilePath: commandsPath,
         });
 
-        const carlCount = result.commandTokens.filter(t => t === 'CARL').length;
-        expect(carlCount).toBe(1);
+        const opencarlCount = result.commandTokens.filter(t => t === 'OPENCARL').length;
+        expect(opencarlCount).toBe(1);
         expect(result.commandTokens).toContain('BRIEF');
         expect(result.commandTokens).toContain('DEV');
       });
@@ -350,12 +350,12 @@ describe('command-parity.ts', () => {
 
       it('should handle undefined commandsPayload gracefully', () => {
         const result = resolveOpencarlCommandSignals({
-          promptText: '*carl',
+          promptText: '*opencarl',
           commandsPayload: undefined,
         });
 
-        expect(result.commandTokens).toContain('CARL');
-        expect(result.unresolvedTokens).toContain('CARL');
+        expect(result.commandTokens).toContain('OPENCARL');
+        expect(result.unresolvedTokens).toContain('OPENCARL');
         expect(result.commandPayloads).toEqual({});
       });
 
@@ -372,12 +372,12 @@ describe('command-parity.ts', () => {
         };
 
         const result = resolveOpencarlCommandSignals({
-          promptText: '*carl',
+          promptText: '*opencarl',
           commandsPayload,
         });
 
-        expect(result.commandTokens).toContain('CARL');
-        expect(result.unresolvedTokens).toContain('CARL');
+        expect(result.commandTokens).toContain('OPENCARL');
+        expect(result.unresolvedTokens).toContain('OPENCARL');
         expect(result.commandPayloads).toEqual({});
       });
 
@@ -394,12 +394,12 @@ describe('command-parity.ts', () => {
         };
 
         const result = resolveOpencarlCommandSignals({
-          promptText: '*carl',
+          promptText: '*opencarl',
           commandsPayload,
         });
 
-        expect(result.commandTokens).toContain('CARL');
-        expect(result.unresolvedTokens).toContain('CARL');
+        expect(result.commandTokens).toContain('OPENCARL');
+        expect(result.unresolvedTokens).toContain('OPENCARL');
       });
 
       it('should handle empty commandTokens array', () => {
@@ -416,39 +416,39 @@ describe('command-parity.ts', () => {
 
       it('should preserve original case in commandTokens (normalized internally)', () => {
         const result = resolveOpencarlCommandSignals({
-          promptText: '*CaRl *BrIeF',
+          promptText: '*OpEnCaRl *BrIeF',
         });
 
-        expect(result.commandTokens).toEqual(['CARL', 'BRIEF']);
+        expect(result.commandTokens).toEqual(['OPENCARL', 'BRIEF']);
       });
 
-      it('should handle special characters in prompt (*carl-test, *carl_123)', () => {
-        // *opencarl-test should match OpenCARL (stops at first -)
-        // *opencarl_123 should match OpenCARL (stops at first _)
+      it('should handle special characters in prompt (*opencarl-test, *opencarl_123)', () => {
+        // *opencarl-test should match OPENCARL (stops at first -)
+        // *opencarl_123 should match OPENCARL (stops at first _)
         const result = resolveOpencarlCommandSignals({
-          promptText: '*carl-test *carl_123',
+          promptText: '*opencarl-test *opencarl_123',
         });
 
-        // Only OpenCARL should be extracted (the regex stops at non-letter chars, then deduplicates)
-        expect(result.commandTokens).toEqual(['CARL']);
+        // Only OPENCARL should be extracted (the regex stops at non-letter chars, then deduplicates)
+        expect(result.commandTokens).toEqual(['OPENCARL']);
       });
 
       it('should handle very long prompts with many star commands', () => {
-        const longPrompt = Array(50).fill('*carl ').join('') + '*brief';
+        const longPrompt = Array(50).fill('*opencarl ').join('') + '*brief';
         const result = resolveOpencarlCommandSignals({
           promptText: longPrompt,
         });
 
-        // Should have deduplicated OpenCARL and BRIEF
-        expect(result.commandTokens).toEqual(['CARL', 'BRIEF']);
+        // Should have deduplicated OPENCARL and BRIEF
+        expect(result.commandTokens).toEqual(['OPENCARL', 'BRIEF']);
       });
 
       it('should handle duplicate star commands (only once in result)', () => {
         const result = resolveOpencarlCommandSignals({
-          promptText: '*carl *carl *carl',
+          promptText: '*opencarl *opencarl *opencarl',
         });
 
-        expect(result.commandTokens).toEqual(['CARL']);
+        expect(result.commandTokens).toEqual(['OPENCARL']);
       });
 
       it('should handle non-existent commands file path', () => {
@@ -464,13 +464,13 @@ describe('command-parity.ts', () => {
         };
 
         const result = resolveOpencarlCommandSignals({
-          promptText: '*carl',
+          promptText: '*opencarl',
           commandsPayload,
           commandFilePath: '/nonexistent/path/commands',
         });
 
-        expect(result.commandTokens).toContain('CARL');
-        expect(result.unresolvedTokens).toContain('CARL');
+        expect(result.commandTokens).toContain('OPENCARL');
+        expect(result.unresolvedTokens).toContain('OPENCARL');
         expect(result.commandPayloads).toEqual({});
       });
 
@@ -489,13 +489,13 @@ describe('command-parity.ts', () => {
         };
 
         const result = resolveOpencarlCommandSignals({
-          promptText: '*carl',
+          promptText: '*opencarl',
           commandsPayload,
           commandFilePath: commandsPath,
         });
 
-        expect(result.commandTokens).toContain('CARL');
-        expect(result.unresolvedTokens).toContain('CARL');
+        expect(result.commandTokens).toContain('OPENCARL');
+        expect(result.unresolvedTokens).toContain('OPENCARL');
       });
 
       it('should handle commands file with only comments', () => {
@@ -516,13 +516,13 @@ describe('command-parity.ts', () => {
         };
 
         const result = resolveOpencarlCommandSignals({
-          promptText: '*carl',
+          promptText: '*opencarl',
           commandsPayload,
           commandFilePath: commandsPath,
         });
 
-        expect(result.commandTokens).toContain('CARL');
-        expect(result.unresolvedTokens).toContain('CARL');
+        expect(result.commandTokens).toContain('OPENCARL');
+        expect(result.unresolvedTokens).toContain('OPENCARL');
       });
 
       it('should handle malformed rule lines in commands file', () => {
@@ -543,23 +543,23 @@ describe('command-parity.ts', () => {
         };
 
         const result = resolveOpencarlCommandSignals({
-          promptText: '*carl',
+          promptText: '*opencarl',
           commandsPayload,
           commandFilePath: commandsPath,
         });
 
-        expect(result.commandDomains).toContain('CARL');
-        expect(result.commandPayloads['CARL'].rules).toHaveLength(2);
+        expect(result.commandDomains).toContain('OPENCARL');
+        expect(result.commandPayloads['OPENCARL'].rules).toHaveLength(2);
       });
 
       it('should handle null commandsPayload', () => {
         const result = resolveOpencarlCommandSignals({
-          promptText: '*carl',
+          promptText: '*opencarl',
           commandsPayload: null,
         });
 
-        expect(result.commandTokens).toContain('CARL');
-        expect(result.unresolvedTokens).toContain('CARL');
+        expect(result.commandTokens).toContain('OPENCARL');
+        expect(result.unresolvedTokens).toContain('OPENCARL');
         expect(result.commandPayloads).toEqual({});
       });
     });
