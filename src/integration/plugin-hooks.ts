@@ -212,9 +212,9 @@ export function createOpencarlPluginHooks(): Hooks {
       const commandName = (input.command ?? "")
         .replace(/^\//, "")
         .toLowerCase();
-      if (commandName === "carl") {
-        // /carl fallback should mirror *opencarl command-mode guidance
-        recordCommandSignals(input.sessionID, ["carl"]);
+      if (commandName === "opencarl") {
+        // /opencarl fallback should mirror *opencarl command-mode guidance
+        recordCommandSignals(input.sessionID, ["opencarl"]);
       }
       // Handle /opencarl setup command
       if (commandName === "opencarl setup" || commandName === "opencarl-setup") {
