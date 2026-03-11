@@ -10,8 +10,8 @@ See: .planning/PROJECT.md
 **Current phase:** 14-command-rebranding
 **Current Plan:** 4
 **Total Plans in Phase:** 4
-**Status:** Ready to execute
-**Progress:** [██████████] 97%
+**Status:** Phase complete — ready for verification
+**Progress:** [██████████] 100%
 
 ## Decisions
 
@@ -21,6 +21,7 @@ See: .planning/PROJECT.md
 - [12-20]: User selected complete rebranding (option-a) for output format markers — full consistency over backward compatibility
 - [Phase 14-02]: Renamed /carl fallback to /opencarl for consistency with Phase 12 rebranding
 - [Phase 14-01]: Star command token renamed from CARL to OPENCARL in command-parity.ts — Consistent with Phase 12 rebranding effort
+- [Phase 14-command-rebranding]: Test fixtures must use OPENCARL_RULE_ prefix to match token extraction pattern in source code
 
 ## Performance Metrics
 
@@ -33,6 +34,7 @@ See: .planning/PROJECT.md
 | Phase 14-command-rebranding P02 | 1min | 1 tasks | 1 files |
 | 14-command-rebranding | 04 | 1 min | 2 | 2 | 2026-03-11 |
 | Phase 14-command-rebranding P03 | 1 min | 4 tasks | 4 files |
+| Phase 14-command-rebranding P05 | 2 min | 3 tasks | 2 files |
 
 ## Session Log
 
