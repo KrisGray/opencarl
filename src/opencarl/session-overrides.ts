@@ -93,7 +93,7 @@ export function loadSessionOverrides(
   } catch (error) {
     // Invalid JSON - treat as non-existent
     console.warn(
-      `[carl] Failed to parse session overrides for ${sessionId}: ${error}`
+      `[opencarl] Failed to parse session overrides for ${sessionId}: ${error}`
     );
     return {
       sessionId,
