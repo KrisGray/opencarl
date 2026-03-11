@@ -140,7 +140,7 @@ describe('E2E: Star-Commands', () => {
       });
     });
 
-    describe('opencarl list', () => {
+      describe('opencarl list', () => {
         // Execute: opencarl list
         const result = dockerExec(`cd ${WORKSPACE_DIR} && opencarl list`);
 
