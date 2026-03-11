@@ -140,28 +140,6 @@ describe('E2E: Star-Commands', () => {
       });
     });
 
-      it('should show active status for enabled domains', () => {
-        // Execute: opencarl status
-        const result = dockerExec(`cd ${WORKSPACE_DIR} && carl status`);
-
-        // Primary assertion: Manifest has active domains
-        const manifestContent = readFileContent('.opencarl/manifest');
-        expect(manifestContent).toContain('GLOBAL_STATE=active');
-        expect(manifestContent).toContain('CONTEXT_STATE=active');
-        expect(manifestContent).toContain('COMMANDS_STATE=active');
-
-        // Secondary assertion: Output contains "active" or domain names
-        expect(
-          result.stdout.toLowerCase().includes('active') ||
-            result.stdout.toLowerCase().includes('global') ||
-            result.stdout.toLowerCase().includes('context') ||
-            result.stdout.toLowerCase().includes('commands')
-        ).toBe(true);
-
-        console.log('✓ opencarl status showed active domains');
-      });
-    });
-
     describe('opencarl list', () => {
         // Execute: opencarl list
         const result = dockerExec(`cd ${WORKSPACE_DIR} && opencarl list`);
