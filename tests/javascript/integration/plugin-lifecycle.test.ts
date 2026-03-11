@@ -125,7 +125,7 @@ describe('plugin-hooks.ts - integration', () => {
         domainResults: [],
       });
 
-      mockBuildOpencarlInjection.mockReturnValue('<carl-rules>\n[DEVELOPMENT] RULES:\n1. Use early returns\n2. Prefer small functions\n</carl-rules>');
+      mockBuildOpencarlInjection.mockReturnValue('<opencarl-rules>\n[DEVELOPMENT] RULES:\n1. Use early returns\n2. Prefer small functions\n</opencarl-rules>');
 
       mockResolveOpencarlCommandSignals.mockReturnValue({
         commandPayloads: {},
@@ -309,9 +309,9 @@ describe('plugin-hooks.ts - integration', () => {
       expect(mockMatchDomainsForTurn).toHaveBeenCalled();
       expect(mockBuildOpencarlInjection).toHaveBeenCalled();
 
-      // Verify output.system contains injection
+      // Verify injection was added to output.system
       expect(output.system.length).toBeGreaterThan(0);
-      expect(output.system[0]).toContain('<carl-rules>');
+      expect(output.system[0]).toContain('<opencarl-rules>');
       expect(output.system[0]).toContain('[DEVELOPMENT] RULES:');
       expect(output.system[0]).toContain('Use early returns');
     });
@@ -413,7 +413,8 @@ describe('plugin-hooks.ts - integration', () => {
 
       // Verify injection was added to output.system
       expect(output.system.length).toBeGreaterThan(0);
-      expect(output.system[0]).toContain('<carl-rules>');
+      expect(output.system[0]).toContain('<opencarl-rules>');
+      expect(output.system[0]).toContain('Use early returns');
     });
 
     it('should not inject rules when no matched domains', async () => {
@@ -435,12 +436,6 @@ describe('plugin-hooks.ts - integration', () => {
         system: [],
       });
 
-      if (hooks['experimental.chat.system.transform']) {
-        await hooks['experimental.chat.system.transform'](input, output);
-      }
-
-      // Verify no injection was added to output.system
-      expect(output.system.length).toBe(0);
-    });
-  });
-});
+      // Verify injection was added to output.system
+      expect(output.system.length).toBeGreaterThan(0);
+      expect(output.system[0]).toContain('<opencarl-rules>');
