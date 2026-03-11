@@ -8,7 +8,7 @@ See: .planning/PROJECT.md
 
 **Milestone:** v1.0 Branding & Context Migration
 **Current phase:** 14-command-rebranding
-**Current Plan:** 04 (completed)
+**Current Plan:** 03
 **Total Plans in Phase:** 4
 **Status:** In Progress (3/4 summaries complete)
 **Progress:** [██████████] 97%
@@ -39,4 +39,5 @@ See: .planning/PROJECT.md
 - 2026-03-10: Completed 13-config-directory-migration-01-PLAN.md
 - -migration-01-PLAN.md
 - 2026-03-11: Completed 12-source-code-rebranding-20-PLAN.md (output format marker rebranding)
+- 2026-03-11: Completed 14-command-rebranding-01-PLAN.md (star command token rename)
 - 2026-03-11: Completed 14-command-rebranding-04-PLAN.md (help text & command doc rebranding)
