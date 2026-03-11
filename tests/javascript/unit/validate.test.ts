@@ -607,21 +607,21 @@ DEVELOPMENT_RULE_2=Another rule`;
 
     describe('domain file resolution', () => {
       it('should return path when domain file exists with lowercase name', () => {
-        const carlDir = path.join(tempDir, '.opencarl');
-        fs.mkdirSync(carlDir);
-        fs.writeFileSync(path.join(carlDir, 'development'), 'DEVELOPMENT_RULE_1=test', 'utf8');
+        const opencarlDir = path.join(tempDir, '.opencarl');
+        fs.mkdirSync(opencarlDir);
+        fs.writeFileSync(path.join(opencarlDir, 'development'), 'DEVELOPMENT_RULE_1=test', 'utf8');
 
-        const result = resolveDomainFile(carlDir, 'DEVELOPMENT', warnings);
+        const result = resolveDomainFile(opencarlDir, 'DEVELOPMENT', warnings);
 
-        expect(result).toBe(path.join(carlDir, 'development'));
+        expect(result).toBe(path.join(opencarlDir, 'development'));
         expect(warnings).toHaveLength(0);
       });
 
       it('should return null when domain file does not exist', () => {
-        const carlDir = path.join(tempDir, '.opencarl');
-        fs.mkdirSync(carlDir);
+        const opencarlDir = path.join(tempDir, '.opencarl');
+        fs.mkdirSync(opencarlDir);
 
-        const result = resolveDomainFile(carlDir, 'DEVELOPMENT', warnings);
+        const result = resolveDomainFile(opencarlDir, 'DEVELOPMENT', warnings);
 
         expect(result).toBeNull();
         expect(warnings).toHaveLength(1);
@@ -629,12 +629,12 @@ DEVELOPMENT_RULE_2=Another rule`;
       });
 
       it('should warn when domain file has wrong case (UPPERCASE instead of lowercase)', () => {
-        const carlDir = path.join(tempDir, '.opencarl');
-        fs.mkdirSync(carlDir);
+        const opencarlDir = path.join(tempDir, '.opencarl');
+        fs.mkdirSync(opencarlDir);
         // Create file with uppercase name (should be lowercase)
-        fs.writeFileSync(path.join(carlDir, 'DEVELOPMENT'), 'DEVELOPMENT_RULE_1=test', 'utf8');
+        fs.writeFileSync(path.join(opencarlDir, 'DEVELOPMENT'), 'DEVELOPMENT_RULE_1=test', 'utf8');
 
-        const result = resolveDomainFile(carlDir, 'DEVELOPMENT', warnings);
+        const result = resolveDomainFile(opencarlDir, 'DEVELOPMENT', warnings);
 
         expect(result).toBeNull();
         expect(warnings).toHaveLength(1);
@@ -645,10 +645,10 @@ DEVELOPMENT_RULE_2=Another rule`;
 
     describe('edge cases', () => {
       it('should warn when .opencarl directory does not exist', () => {
-        const carlDir = path.join(tempDir, '.opencarl');
+        const opencarlDir = path.join(tempDir, '.opencarl');
         // Don't create .opencarl directory
 
-        const result = resolveDomainFile(carlDir, 'DEVELOPMENT', warnings);
+        const result = resolveDomainFile(opencarlDir, 'DEVELOPMENT', warnings);
 
         expect(result).toBeNull();
         expect(warnings).toHaveLength(1);
@@ -656,19 +656,19 @@ DEVELOPMENT_RULE_2=Another rule`;
       });
 
       it('should handle multiple domain lookups independently', () => {
-        const carlDir = path.join(tempDir, '.opencarl');
-        fs.mkdirSync(carlDir);
-        fs.writeFileSync(path.join(carlDir, 'development'), 'DEVELOPMENT_RULE_1=test', 'utf8');
-        fs.writeFileSync(path.join(carlDir, 'context'), 'CONTEXT_RULE_1=test', 'utf8');
+        const opencarlDir = path.join(tempDir, '.opencarl');
+        fs.mkdirSync(opencarlDir);
+        fs.writeFileSync(path.join(opencarlDir, 'development'), 'DEVELOPMENT_RULE_1=test', 'utf8');
+        fs.writeFileSync(path.join(opencarlDir, 'context'), 'CONTEXT_RULE_1=test', 'utf8');
 
         const warnings1: OpencarlRuleDiscoveryWarning[] = [];
         const warnings2: OpencarlRuleDiscoveryWarning[] = [];
 
-        const result1 = resolveDomainFile(carlDir, 'DEVELOPMENT', warnings1);
-        const result2 = resolveDomainFile(carlDir, 'CONTEXT', warnings2);
+        const result1 = resolveDomainFile(opencarlDir, 'DEVELOPMENT', warnings1);
+        const result2 = resolveDomainFile(opencarlDir, 'CONTEXT', warnings2);
 
-        expect(result1).toBe(path.join(carlDir, 'development'));
-        expect(result2).toBe(path.join(carlDir, 'context'));
+        expect(result1).toBe(path.join(opencarlDir, 'development'));
+        expect(result2).toBe(path.join(opencarlDir, 'context'));
         expect(warnings1).toHaveLength(0);
         expect(warnings2).toHaveLength(0);
       });
