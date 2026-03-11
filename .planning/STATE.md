@@ -8,10 +8,10 @@ See: .planning/PROJECT.md
 
 **Milestone:** v1.0 Branding & Context Migration
 **Current phase:** 14-command-rebranding
-**Current Plan:** 4
-**Total Plans in Phase:** 4
-**Status:** Phase complete — ready for verification
-**Progress:** [██████████] 100%
+**Current Plan:** 6
+**Total Plans in Phase:** 7
+**Status:** In Progress
+**Progress:** [█████████░] 85%
 
 ## Decisions
 
@@ -35,6 +35,7 @@ See: .planning/PROJECT.md
 | 14-command-rebranding | 04 | 1 min | 2 | 2 | 2026-03-11 |
 | Phase 14-command-rebranding P03 | 1 min | 4 tasks | 4 files |
 | Phase 14-command-rebranding P05 | 2 min | 3 tasks | 2 files |
+| Phase 14-command-rebranding P06 | 5 min | 6 tasks | 1 file | 2026-03-11 |
 
 ## Session Log
 
@@ -45,3 +46,4 @@ See: .planning/PROJECT.md
 - 2026-03-11: Completed 14-command-rebranding-01-PLAN.md (star command token rename)
 - 2026-03-11: Completed 14-command-rebranding-04-PLAN.md (help text & command doc rebranding)
 mmand doc rebranding)
+- 2026-03-11: Completed 14-command-rebranding-06-PLAN.md (E2E test file structural fix)
