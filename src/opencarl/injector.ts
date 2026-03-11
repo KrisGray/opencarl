@@ -140,7 +140,7 @@ export function buildOpencarlInjection(
     return null;
   }
 
-  const lines: string[] = ["<carl-rules>"];
+  const lines: string[] = ["<opencarl-rules>"];
 
   // Context bracket header (if CONTEXT domain is active)
   if (hasContextRules && contextBracket) {
@@ -223,6 +223,6 @@ export function buildOpencarlInjection(
     }
   }
 
-  lines.push("</carl-rules>");
+  lines.push("</opencarl-rules>");
   return `${lines.join("\n")}\n`;
 }

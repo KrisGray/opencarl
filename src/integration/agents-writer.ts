@@ -1,8 +1,8 @@
 import * as fs from "fs/promises";
 
 const MARKERS = {
-  start: "<!-- CARL-START - DO NOT EDIT -->",
-  end: "<!-- CARL-END - DO NOT EDIT -->",
+  start: "<!-- OPENCARL-START - DO NOT EDIT -->",
+  end: "<!-- OPENCARL-END - DO NOT EDIT -->",
 };
 
 export interface IntegrationResult {
@@ -90,7 +90,7 @@ export async function removeOpencarlIntegration(
     }
     }
 
-    // Remove CARL section
+    // Remove OpenCARL section
     const before = content.substring(0, startIndex).trimEnd();
     const after = content.substring(endIndex + MARKERS.end.length).trimStart();
     const newContent = before + (before && after ? "\n\n" : "") + after;
