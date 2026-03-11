@@ -58,7 +58,7 @@ export function findFallbackOpencarl(
 ): OpencarlSourcePath | null {
   const resolvedRoot = path.resolve(projectRoot);
   return resolveOpencarlDirectory(
-    path.join(resolvedRoot, ".opencode/carl"),
+    path.join(resolvedRoot, ".opencode/opencarl"),
     resolvedRoot
   );
 }
