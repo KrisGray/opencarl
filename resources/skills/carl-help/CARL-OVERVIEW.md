@@ -151,10 +151,10 @@ QUICK_RULE_2=Minimal output
 
 ## Getting Help
 
-- `*carl` - Enter help mode (this guide)
-- `/carl` - Domain management (create, edit, toggle)
-- `/carl list` - Show all domains
-- `/carl view DOMAIN` - Show rules in a domain
+- `*opencarl` - Enter help mode (this guide)
+- `/opencarl` - Domain management (create, edit, toggle)
+- `/opencarl list` - Show all domains
+- `/opencarl view DOMAIN` - Show rules in a domain
 
 ## Troubleshooting
 
