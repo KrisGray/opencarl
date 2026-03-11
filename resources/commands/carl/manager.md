@@ -4,7 +4,7 @@ description: Full CARL domain and rule management. Invoke when user needs to man
 argument-hint: "[list|add|create|edit|toggle|view]"
 ---
 
-# /carl:manager - CARL Domain & Rule Manager
+# /opencarl:manager - CARL Domain & Rule Manager
 
 ## Activation Instructions
 1. Read THIS FILE completely
