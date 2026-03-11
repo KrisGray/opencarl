@@ -31,10 +31,10 @@ describe('injector.ts', () => {
         const result = buildOpencarlInjection(input);
 
         expect(result).not.toBeNull();
-        expect(result).toContain('<carl-rules>');
+        expect(result).toContain('<opencarl-rules>');
         expect(result).toContain('DEVELOPMENT');
         expect(result).toContain('Use early returns');
-        expect(result).toContain('</' + 'carl-rules>');
+        expect(result).toContain('</opencarl-rules>');
       });
 
       it('should include domain name in output', () => {
