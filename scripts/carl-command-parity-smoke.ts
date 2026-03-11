@@ -45,55 +45,55 @@ function resolveWithPrompt(promptText: string): OpencarlCommandResolutionResult 
 }
 
 runFixture("*carl help guidance", () => {
-  const result = resolveWithPrompt("*carl show me help");
-  const carlPayload = result.commandPayloads.CARL;
+  const result = resolveWithPrompt("*opencarl show me help");
+  const opencarlPayload = result.commandPayloads.OPENCARL;
 
-  assert(result.commandDomains[0] === "CARL", "Expected CARL command first");
-  assert(Boolean(carlPayload), "Expected CARL payload to be present");
+  assert(result.commandDomains[0] === "OPENCARL", "Expected OPENCARL command first");
+  assert(Boolean(opencarlPayload), "Expected OPENCARL payload to be present");
   assert(
-    carlPayload.rules.join("\n").includes("Context Augmentation & Reinforcement Layer"),
-    "Expected CARL guidance from docs"
+    opencarlPayload.rules.join("\n").includes("Context Augmentation & Reinforcement Layer"),
+    "Expected OPENCARL guidance from docs"
   );
 });
 
 runFixture("*brief command rules", () => {
-  const result = resolveWithPrompt("*brief response only");
-  const briefPayload = result.commandPayloads.BRIEF;
+  const result = resolveWithPrompt("*opencarl response only");
+  const opencarlPayload = result.commandPayloads.OPENCARL;
 
-  assert(result.commandDomains.includes("BRIEF"), "Expected BRIEF command");
-  assert(Boolean(briefPayload), "Expected BRIEF payload to be present");
+  assert(result.commandDomains.includes("OPENCARL"), "Expected OPENCARL command");
+  assert(Boolean(opencarlPayload), "Expected OPENCARL payload to be present");
   assert(
-    briefPayload.rules.some((rule) =>
+    opencarlPayload.rules.some((rule) =>
       rule.includes("Bullet points only - no prose paragraphs")
     ),
-    "Expected BRIEF rules from commands file"
+    "Expected OPENCARL rules from commands file"
   );
 });
 
 runFixture("multi-command ordering", () => {
-  const result = resolveWithPrompt("*brief and *dev please");
-  assert(
-    result.commandDomains.join(",") === "BRIEF,DEV",
-    "Expected command order to follow prompt order"
+  const result = resolveWithPrompt("*opencarl and *dev please");
+    assert(
+    result.commandDomains.join(",") === "OPENCARL,DEV",
+    "Expected command order in follow prompt order"
   );
 });
 
-runFixture("/carl fallback parity", () => {
-  const starResult = resolveWithPrompt("*carl");
+runFixture("/opencarl fallback parity", () => {
+  const starResult = resolveWithPrompt("*opencarl");
   const slashResult = resolveOpencarlCommandSignals({
     promptText: "",
-    commandOverrides: ["carl"],
+    commandOverrides: ["opencarl"],
     commandsPayload,
     helpGuidance: guidance.combined,
   });
 
   assert(
     starResult.commandDomains.join(",") === slashResult.commandDomains.join(","),
-    "Expected /carl to match *carl command domains"
+    "Expected /opencarl to match *opencarl command domains"
   );
   assert(
-    Boolean(slashResult.commandPayloads.CARL),
-    "Expected /carl to resolve CARL payload"
+    Boolean(slashResult.commandPayloads.OPENCARL),
+    "Expected /opencarl to resolve OPENCARL payload"
   );
 });
 
