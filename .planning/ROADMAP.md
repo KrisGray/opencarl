@@ -239,8 +239,8 @@ Plans:
 - [ ] 12-13-PLAN.md — Update test function/variable references (SOURCE-02)
 - [ ] 12-14-PLAN.md — Update remaining source imports (SOURCE-03)
 - [ ] 12-15-PLAN.md — Update remaining source comments (SOURCE-04)
-- [ ] 12-21-PLAN.md — Fix critical test assertion failures (SOURCE-04) [GAP CLOSURE]
-- [ ] 12-22-PLAN.md — Fix doc comments and variable names (SOURCE-02, SOURCE-04) [GAP CLOSURE]
+- [x] 12-21-PLAN.md — Fix critical test assertion failures (SOURCE-04) [GAP CLOSURE]
+- [x] 12-22-PLAN.md — Fix doc comments and variable names (SOURCE-02, SOURCE-04) [GAP CLOSURE]
 
 ---
 
