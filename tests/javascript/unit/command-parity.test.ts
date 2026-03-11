@@ -85,7 +85,7 @@ describe('command-parity.ts', () => {
       it('should include docs guidance when "docs" in prompt with *opencarl', () => {
         fs.writeFileSync(
           commandsPath,
-          'CARL_RULE_1=You are CARL, a helpful assistant.\nCARL_RULE_2=Follow best practices.\n'
+          'OPENCARL_RULE_1=You are CARL, a helpful assistant.\nOPENCARL_RULE_2=Follow best practices.\n'
         );
 
         const commandsPayload: OpencarlRuleDomainPayload = {
@@ -115,7 +115,7 @@ describe('command-parity.ts', () => {
       it('should NOT include docs guidance when *opencarl without "docs"', () => {
         fs.writeFileSync(
           commandsPath,
-          'CARL_RULE_1=You are CARL.\n'
+          'OPENCARL_RULE_1=You are CARL.\n'
         );
 
         const commandsPayload: OpencarlRuleDomainPayload = {
@@ -142,7 +142,7 @@ describe('command-parity.ts', () => {
       it('should include help guidance when provided via helpGuidance option', () => {
         fs.writeFileSync(
           commandsPath,
-          'CARL_RULE_1=You are CARL.\n'
+          'OPENCARL_RULE_1=You are CARL.\n'
         );
 
         const commandsPayload: OpencarlRuleDomainPayload = {
@@ -184,7 +184,7 @@ describe('command-parity.ts', () => {
       it('should resolve OPENCARL command to command payload', () => {
         fs.writeFileSync(
           commandsPath,
-          'CARL_RULE_1=You are CARL.\nCARL_RULE_2=Be helpful.\n'
+          'OPENCARL_RULE_1=You are CARL.\nOPENCARL_RULE_2=Be helpful.\n'
         );
 
         const commandsPayload: OpencarlRuleDomainPayload = {
@@ -241,7 +241,7 @@ describe('command-parity.ts', () => {
       it('should track unresolved tokens for unknown commands', () => {
         fs.writeFileSync(
           commandsPath,
-          'CARL_RULE_1=You are CARL.\n'
+          'OPENCARL_RULE_1=You are CARL.\n'
         );
 
         const commandsPayload: OpencarlRuleDomainPayload = {
@@ -269,7 +269,7 @@ describe('command-parity.ts', () => {
       it('should respect commandOverrides array', () => {
         fs.writeFileSync(
           commandsPath,
-          'CARL_RULE_1=You are CARL.\nBRIEF_RULE_1=Be brief.\n'
+          'OPENCARL_RULE_1=You are CARL.\nBRIEF_RULE_1=Be brief.\n'
         );
 
         const commandsPayload: OpencarlRuleDomainPayload = {
@@ -307,7 +307,7 @@ describe('command-parity.ts', () => {
       it('should combine star commands and overrides, deduplicating', () => {
         fs.writeFileSync(
           commandsPath,
-          'CARL_RULE_1=You are CARL.\nBRIEF_RULE_1=Be brief.\nDEV_RULE_1=Dev mode.\n'
+          'OPENCARL_RULE_1=You are CARL.\nBRIEF_RULE_1=Be brief.\nDEV_RULE_1=Dev mode.\n'
         );
 
         const commandsPayload: OpencarlRuleDomainPayload = {
@@ -528,7 +528,7 @@ describe('command-parity.ts', () => {
       it('should handle malformed rule lines in commands file', () => {
         fs.writeFileSync(
           commandsPath,
-          'CARL_RULE_1=Valid rule\nINVALID_LINE\nCARL_RULE_2=Another valid\nNO_EQUALS_HERE\n'
+          'OPENCARL_RULE_1=Valid rule\nINVALID_LINE\nOPENCARL_RULE_2=Another valid\nNO_EQUALS_HERE\n'
         );
 
         const commandsPayload: OpencarlRuleDomainPayload = {
