@@ -83,3 +83,9 @@ None - no external service configuration required.
 ---
 *Phase: 13-config-directory-migration*
 *Completed: 2026-03-10*
+
+## Self-Check: PASSED
+- SUMMARY.md exists at expected path
+- Commit e748317 created
+- Tests verified passing (9/9)
+- No .carl directories remain in fixtures

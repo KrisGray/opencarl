@@ -6,7 +6,7 @@
 <domain>
 ## Phase Boundary
 
-Update all TypeScript type names, function/variable names, and import statements from CARL to OpenCARL. This phase focuses on source code rebranding only. Directory renaming, command triggers, environment variables, and documentation are handled in later phases (13-17).
+Update all TypeScript type names, function/variable names, and import statements from CARL to OpenCARL. This phase includes the `src/carl/` → `src/opencarl/` directory rename performed atomically with import updates. Other directory renames (.carl/, .carl-template/), command triggers, environment variables, and documentation remain in later phases (13-17).
 
 </domain>
 
