@@ -306,5 +306,4 @@ describe('E2E: Star-Commands', () => {
         }
       });
     });
-  });
 });
