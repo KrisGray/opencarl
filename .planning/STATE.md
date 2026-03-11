@@ -8,10 +8,10 @@ See: .planning/PROJECT.md
 
 **Milestone:** v1.0 Branding & Context Migration
 **Current phase:** 14-command-rebranding
-**Current Plan:** 6
+**Current Plan:** 7
 **Total Plans in Phase:** 7
-**Status:** In Progress
-**Progress:** [█████████░] 85%
+**Status:** Complete
+**Progress:** [██████████] 100%
 
 ## Decisions
 
@@ -45,5 +45,8 @@ See: .planning/PROJECT.md
 - 2026-03-11: Completed 12-source-code-rebranding-20-PLAN.md (output format marker rebranding)
 - 2026-03-11: Completed 14-command-rebranding-01-PLAN.md (star command token rename)
 - 2026-03-11: Completed 14-command-rebranding-04-PLAN.md (help text & command doc rebranding)
-mmand doc rebranding)
+- mmand doc rebranding)
+- 2026-03-11: Completed 14-command-rebranding-05-PLAN.md (test fixtures OPENCARL_RULE_ prefix)
 - 2026-03-11: Completed 14-command-rebranding-06-PLAN.md (E2E test file structural fix)
+- 2026-03-11: Completed 14-command-rebranding-07-PLAN.md (phase verification)
+- 2026-03-11: Completed 14-command-rebranding-07-PLAN.md (phase verification)
