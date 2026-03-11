@@ -22,10 +22,10 @@ const fixturesRoot = path.join(
   'carl-directories'
 );
 
-function copyFixture(fixtureName: 'minimal' | 'full', targetCarlDir: string): void {
-  const sourceCarlDir = path.join(fixturesRoot, fixtureName, '.opencarl');
-  fs.mkdirSync(path.dirname(targetCarlDir), { recursive: true });
-  fs.cpSync(sourceCarlDir, targetCarlDir, { recursive: true });
+function copyFixture(fixtureName: 'minimal' | 'full', targetOpencarlDir: string): void {
+  const sourceOpencarlDir = path.join(fixturesRoot, fixtureName, '.opencarl');
+  fs.mkdirSync(path.dirname(targetOpencarlDir), { recursive: true });
+  fs.cpSync(sourceOpencarlDir, targetOpencarlDir, { recursive: true });
 }
 
 function createDomainConfigsFromPayloads(
@@ -53,7 +53,7 @@ describe('rule injection pipeline - integration', () => {
   let fallbackOpencarlDir: string;
 
   beforeEach(() => {
-    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'carl-pipeline-integration-'));
+    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'opencarl-pipeline-integration-'));
     projectOpencarlDir = path.join(tempDir, 'project', '.opencarl');
     globalOpencarlDir = path.join(tempDir, 'global', '.opencarl');
     fallbackOpencarlDir = path.join(tempDir, 'fallback', '.opencarl');

@@ -28,7 +28,7 @@ import { createTestDomainPayload } from '../../helpers/domain-factory';
 import { createTestBracketData } from '../../helpers/bracket-factory';
 
 // Mock file system operations for temp .opencarl/ directory
-let tempCarlDir: string;
+let tempOpencarlDir: string;
 
 // Mock loaders and dependencies
 jest.mock('../../../src/opencarl/rule-cache', () => ({
@@ -140,7 +140,7 @@ describe('plugin-hooks.ts - integration', () => {
 
   beforeEach(() => {
     // Create temp .opencarl/ directory for each test
-    tempCarlDir = fs.mkdtempSync(path.join(os.tmpdir(), 'carl-test-'));
+    tempOpencarlDir = fs.mkdtempSync(path.join(os.tmpdir(), 'opencarl-test-'));
 
     // Load all modules in isolation
     loadAllModules();
@@ -148,8 +148,8 @@ describe('plugin-hooks.ts - integration', () => {
 
   afterEach(() => {
     // Clean up temp .opencarl/ directory
-    if (fs.existsSync(tempCarlDir)) {
-      fs.rmSync(tempCarlDir, { recursive: true, force: true });
+    if (fs.existsSync(tempOpencarlDir)) {
+      fs.rmSync(tempOpencarlDir, { recursive: true, force: true });
     }
   });
 
