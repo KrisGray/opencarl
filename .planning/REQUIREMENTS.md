@@ -25,9 +25,9 @@ Requirements for OpenCARL rebranding milestone. Each maps to roadmap phases.
 ### Command Rebranding
 
 - [ ] **CMND-01**: `*carl` command trigger is renamed to `*opencarl`
-- [ ] **CMND-02**: `/carl` fallback command is renamed to `/opencarl`
+- [x] **CMND-02**: `/carl` fallback command is renamed to `/opencarl`
 - [ ] **CMND-03**: All test fixtures with `*carl` or `/carl` strings are updated
-- [ ] **CMND-04**: Help text and command descriptions reference `*opencarl` and `/opencarl`
+- [x] **CMND-04**: Help text and command descriptions reference `*opencarl` and `/opencarl`
 
 ### Environment Variable Rebranding
 
@@ -89,9 +89,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CONFIG-04 | Phase 13 | Complete |
 | CONFIG-05 | Phase 13 | Complete |
 | CMND-01 | Phase 14 | Pending |
-| CMND-02 | Phase 14 | Pending |
+| CMND-02 | Phase 14 | Complete |
 | CMND-03 | Phase 14 | Pending |
-| CMND-04 | Phase 14 | Pending |
+| CMND-04 | Phase 14 | Complete |
 | ENV-01 | Phase 15 | Pending |
 | ENV-02 | Phase 15 | Pending |
 | ENV-03 | Phase 15 | Pending |

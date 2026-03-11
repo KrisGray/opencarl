@@ -11,7 +11,7 @@ See: .planning/PROJECT.md
 **Current Plan:** Not started
 **Total Plans in Phase:** 6
 **Status:** Ready to plan
-**Progress:** [██████████] 96%
+**Progress:** [██████████] 97%
 
 ## Decisions
 
@@ -19,6 +19,7 @@ See: .planning/PROJECT.md
 - [Phase 13-config-directory-migration]: Preserved command triggers (*carl, /carl) unchanged for Phase 14 — Command trigger renaming is separate scope
 - [Phase 13-config-directory-migration]: Fixture directory rename completed in 8059c30 as part of 13-06 execution
 - [12-20]: User selected complete rebranding (option-a) for output format markers — full consistency over backward compatibility
+- [Phase 14-02]: Renamed /carl fallback to /opencarl for consistency with Phase 12 rebranding
 
 ## Performance Metrics
 
@@ -28,6 +29,7 @@ See: .planning/PROJECT.md
 | Phase 13-config-directory-migration P02 | 2 min | 2 tasks | 2 files |
 | Phase 12-source-code-rebranding P19 | 3 min | 3 tasks | 3 files |
 | 12-source-code-rebranding | 20 | 1 min | 1 | 2 | 2026-03-11 |
+| Phase 14-command-rebranding P02 | 1min | 1 tasks | 1 files |
 
 ## Session Log
 
