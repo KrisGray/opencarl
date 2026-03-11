@@ -260,8 +260,8 @@ Plans:
 - [x] 13-02-PLAN.md — Update path resolution in source code (CONFIG-02, CONFIG-04)
 - [x] 13-03-PLAN.md — Update test path references (CONFIG-04)
 - [x] 13-04-PLAN.md — Update script path references (CONFIG-04)
-- [ ] 13-05-PLAN.md — Rename test fixture directories (CONFIG-04) [GAP CLOSURE]
-- [ ] 13-06-PLAN.md — Update bin/install.js documentation (CONFIG-02, CONFIG-04, CONFIG-05) [GAP CLOSURE]
+- [x] 13-05-PLAN.md — Rename test fixture directories (CONFIG-04) [GAP CLOSURE]
+- [x] 13-06-PLAN.md — Update bin/install.js documentation (CONFIG-02, CONFIG-04, CONFIG-05) [GAP CLOSURE]
 
 ---
 
@@ -274,13 +274,13 @@ Plans:
   2. /carl fallback command is renamed to /opencarl
   3. All test fixtures with *carl or /carl strings are updated
   4. Help text and command descriptions reference *opencarl and /opencarl
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
-- [ ] 14-01: Rename *carl to *opencarl trigger (CMND-01)
-- [ ] 14-02: Rename /carl to /opencarl fallback (CMND-02)
-- [ ] 14-03: Update test fixtures (CMND-03)
-- [ ] 14-04: Update help text and descriptions (CMND-04)
+- [ ] 14-01-PLAN.md — Rename *carl to *opencarl trigger (CMND-01)
+- [ ] 14-02-PLAN.md — Rename /carl to /opencarl fallback (CMND-02)
+- [ ] 14-03-PLAN.md — Update test fixtures (CMND-03)
+- [ ] 14-04-PLAN.md — Update help text and descriptions (CMND-04)
 
 ---
 
