@@ -13,7 +13,7 @@ export interface IntegrationResult {
 /**
  * Integrate OpenCARL documentation into AGENTS.md using HTML comment markers.
  *
- * - If AGENTS.md already contains CARL-START marker, returns success with "already integrated" message
+ * - If AGENTS.md already contains OPENCARL-START marker, returns success with "already integrated" message
  * - Otherwise, appends OpenCARL section to end of AGENTS.md (creates file if needed)
  * - Always uses UTF-8 encoding, no BOM
  *

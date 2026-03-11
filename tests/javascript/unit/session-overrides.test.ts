@@ -12,12 +12,12 @@ import { createTestSessionOverrides } from '../../helpers/session-state-factory'
 
 describe('session-overrides.ts', () => {
   let tempDir: string;
-  let carlDir: string;
+  let opencarlDir: string;
 
   beforeEach(() => {
     tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'carl-session-test-'));
-    carlDir = path.join(tempDir, '.opencarl');
-    fs.mkdirSync(carlDir, { recursive: true });
+    opencarlDir = path.join(tempDir, '.opencarl');
+    fs.mkdirSync(opencarlDir, { recursive: true });
   });
 
   afterEach(() => {
@@ -27,14 +27,14 @@ describe('session-overrides.ts', () => {
   describe('loadSessionOverrides', () => {
     describe('file loading', () => {
       it('should load session overrides from .opencarl/sessions/{id}.json', () => {
-        const sessionsDir = path.join(carlDir, 'sessions');
+        const sessionsDir = path.join(opencarlDir, 'sessions');
         fs.mkdirSync(sessionsDir, { recursive: true });
         fs.writeFileSync(
           path.join(sessionsDir, 'test-session.json'),
           JSON.stringify({ domains: { DEVELOPMENT: 'false', CONTENT: 'true' } })
         );
 
-        const result = loadSessionOverrides(carlDir, 'test-session');
+        const result = loadSessionOverrides(opencarlDir, 'test-session');
 
         expect(result.exists).toBe(true);
         expect(result.sessionId).toBe('test-session');
@@ -43,7 +43,7 @@ describe('session-overrides.ts', () => {
       });
 
       it('should return default (empty domains) when file does not exist', () => {
-        const result = loadSessionOverrides(carlDir, 'non-existent-session');
+        const result = loadSessionOverrides(opencarlDir, 'non-existent-session');
 
         expect(result.exists).toBe(false);
         expect(result.sessionId).toBe('non-existent-session');
@@ -51,14 +51,14 @@ describe('session-overrides.ts', () => {
       });
 
       it('should return default when sessionId is empty', () => {
-        const result = loadSessionOverrides(carlDir, '');
+        const result = loadSessionOverrides(opencarlDir, '');
 
         expect(result.exists).toBe(false);
         expect(result.sessionId).toBe('');
         expect(result.domains).toEqual({});
       });
 
-      it('should return default when carlDir is empty', () => {
+      it('should return default when opencarlDir is empty', () => {
         const result = loadSessionOverrides('', 'test-session');
 
         expect(result.exists).toBe(false);
@@ -67,20 +67,20 @@ describe('session-overrides.ts', () => {
       });
 
       it('should set exists: true when file exists', () => {
-        const sessionsDir = path.join(carlDir, 'sessions');
+        const sessionsDir = path.join(opencarlDir, 'sessions');
         fs.mkdirSync(sessionsDir, { recursive: true });
         fs.writeFileSync(
           path.join(sessionsDir, 'exists-test.json'),
           JSON.stringify({})
         );
 
-        const result = loadSessionOverrides(carlDir, 'exists-test');
+        const result = loadSessionOverrides(opencarlDir, 'exists-test');
 
         expect(result.exists).toBe(true);
       });
 
       it('should set exists: false when file does not exist', () => {
-        const result = loadSessionOverrides(carlDir, 'no-file');
+        const result = loadSessionOverrides(opencarlDir, 'no-file');
 
         expect(result.exists).toBe(false);
       });
@@ -88,7 +88,7 @@ describe('session-overrides.ts', () => {
 
     describe('override value parsing', () => {
       it('should parse domains with true/false/inherit values', () => {
-        const sessionsDir = path.join(carlDir, 'sessions');
+        const sessionsDir = path.join(opencarlDir, 'sessions');
         fs.mkdirSync(sessionsDir, { recursive: true });
         fs.writeFileSync(
           path.join(sessionsDir, 'values-test.json'),
@@ -101,7 +101,7 @@ describe('session-overrides.ts', () => {
           })
         );
 
-        const result = loadSessionOverrides(carlDir, 'values-test');
+        const result = loadSessionOverrides(opencarlDir, 'values-test');
 
         expect(result.domains.DEVELOPMENT).toBe('true');
         expect(result.domains.CONTENT).toBe('false');
@@ -109,7 +109,7 @@ describe('session-overrides.ts', () => {
       });
 
       it('should normalize domain names to uppercase', () => {
-        const sessionsDir = path.join(carlDir, 'sessions');
+        const sessionsDir = path.join(opencarlDir, 'sessions');
         fs.mkdirSync(sessionsDir, { recursive: true });
         fs.writeFileSync(
           path.join(sessionsDir, 'case-test.json'),
@@ -122,7 +122,7 @@ describe('session-overrides.ts', () => {
           })
         );
 
-        const result = loadSessionOverrides(carlDir, 'case-test');
+        const result = loadSessionOverrides(opencarlDir, 'case-test');
 
         expect(result.domains.DEVELOPMENT).toBe('false');
         expect(result.domains.CONTENT).toBe('true');
@@ -130,7 +130,7 @@ describe('session-overrides.ts', () => {
       });
 
       it('should handle invalid JSON gracefully (console.warn, return empty)', () => {
-        const sessionsDir = path.join(carlDir, 'sessions');
+        const sessionsDir = path.join(opencarlDir, 'sessions');
         fs.mkdirSync(sessionsDir, { recursive: true });
         fs.writeFileSync(
           path.join(sessionsDir, 'invalid.json'),
@@ -138,7 +138,7 @@ describe('session-overrides.ts', () => {
         );
 
         const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
-        const result = loadSessionOverrides(carlDir, 'invalid');
+        const result = loadSessionOverrides(opencarlDir, 'invalid');
 
         expect(result.exists).toBe(false);
         expect(result.domains).toEqual({});
@@ -150,7 +150,7 @@ describe('session-overrides.ts', () => {
       });
 
       it('should handle domains with various truthy values (yes, 1, true)', () => {
-        const sessionsDir = path.join(carlDir, 'sessions');
+        const sessionsDir = path.join(opencarlDir, 'sessions');
         fs.mkdirSync(sessionsDir, { recursive: true });
         fs.writeFileSync(
           path.join(sessionsDir, 'truthy.json'),
@@ -163,7 +163,7 @@ describe('session-overrides.ts', () => {
           })
         );
 
-        const result = loadSessionOverrides(carlDir, 'truthy');
+        const result = loadSessionOverrides(opencarlDir, 'truthy');
 
         expect(result.domains.DOMAIN1).toBe('true');
         expect(result.domains.DOMAIN2).toBe('true');
@@ -171,7 +171,7 @@ describe('session-overrides.ts', () => {
       });
 
       it('should handle domains with various falsy values (no, 0, false)', () => {
-        const sessionsDir = path.join(carlDir, 'sessions');
+        const sessionsDir = path.join(opencarlDir, 'sessions');
         fs.mkdirSync(sessionsDir, { recursive: true });
         fs.writeFileSync(
           path.join(sessionsDir, 'falsy.json'),
@@ -184,7 +184,7 @@ describe('session-overrides.ts', () => {
           })
         );
 
-        const result = loadSessionOverrides(carlDir, 'falsy');
+        const result = loadSessionOverrides(opencarlDir, 'falsy');
 
         expect(result.domains.DOMAIN1).toBe('false');
         expect(result.domains.DOMAIN2).toBe('false');
@@ -192,7 +192,7 @@ describe('session-overrides.ts', () => {
       });
 
       it('should treat unknown values as inherit', () => {
-        const sessionsDir = path.join(carlDir, 'sessions');
+        const sessionsDir = path.join(opencarlDir, 'sessions');
         fs.mkdirSync(sessionsDir, { recursive: true });
         fs.writeFileSync(
           path.join(sessionsDir, 'unknown.json'),
@@ -204,14 +204,14 @@ describe('session-overrides.ts', () => {
           })
         );
 
-        const result = loadSessionOverrides(carlDir, 'unknown');
+        const result = loadSessionOverrides(opencarlDir, 'unknown');
 
         expect(result.domains.DOMAIN1).toBe('inherit');
         expect(result.domains.DOMAIN2).toBe('inherit');
       });
 
       it('should trim and lowercase value strings', () => {
-        const sessionsDir = path.join(carlDir, 'sessions');
+        const sessionsDir = path.join(opencarlDir, 'sessions');
         fs.mkdirSync(sessionsDir, { recursive: true });
         fs.writeFileSync(
           path.join(sessionsDir, 'whitespace.json'),
@@ -223,7 +223,7 @@ describe('session-overrides.ts', () => {
           })
         );
 
-        const result = loadSessionOverrides(carlDir, 'whitespace');
+        const result = loadSessionOverrides(opencarlDir, 'whitespace');
 
         expect(result.domains.DOMAIN1).toBe('true');
         expect(result.domains.DOMAIN2).toBe('false');
@@ -421,12 +421,12 @@ describe('session-overrides.ts', () => {
 
   describe('edge cases', () => {
     let edgeTempDir: string;
-    let edgeCarlDir: string;
+    let edgeOpencarlDir: string;
 
     beforeEach(() => {
       edgeTempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'carl-edge-test-'));
-      edgeCarlDir = path.join(edgeTempDir, '.opencarl');
-      fs.mkdirSync(edgeCarlDir, { recursive: true });
+      edgeOpencarlDir = path.join(edgeTempDir, '.opencarl');
+      fs.mkdirSync(edgeOpencarlDir, { recursive: true });
     });
 
     afterEach(() => {
@@ -434,7 +434,7 @@ describe('session-overrides.ts', () => {
     });
 
     it('should handle sessions directory does not exist', () => {
-      const result = loadSessionOverrides(edgeCarlDir, 'test-session');
+      const result = loadSessionOverrides(edgeOpencarlDir, 'test-session');
 
       expect(result.exists).toBe(false);
       expect(result.domains).toEqual({});
@@ -456,21 +456,21 @@ describe('session-overrides.ts', () => {
     });
 
     it('should handle empty domains object in session file', () => {
-      const sessionsDir = path.join(carlDir, 'sessions');
+      const sessionsDir = path.join(opencarlDir, 'sessions');
       fs.mkdirSync(sessionsDir, { recursive: true });
       fs.writeFileSync(
         path.join(sessionsDir, 'empty-domains.json'),
         JSON.stringify({ domains: {} })
       );
 
-      const result = loadSessionOverrides(carlDir, 'empty-domains');
+      const result = loadSessionOverrides(opencarlDir, 'empty-domains');
 
       expect(result.exists).toBe(true);
       expect(result.domains).toEqual({});
     });
 
     it('should handle extra fields in session file (ignore them)', () => {
-      const sessionsDir = path.join(carlDir, 'sessions');
+      const sessionsDir = path.join(opencarlDir, 'sessions');
       fs.mkdirSync(sessionsDir, { recursive: true });
       fs.writeFileSync(
         path.join(sessionsDir, 'extra-fields.json'),
@@ -481,14 +481,14 @@ describe('session-overrides.ts', () => {
         })
       );
 
-      const result = loadSessionOverrides(carlDir, 'extra-fields');
+      const result = loadSessionOverrides(opencarlDir, 'extra-fields');
 
       expect(result.exists).toBe(true);
       expect(result.domains).toEqual({ DEVELOPMENT: 'false' });
     });
 
     it('should handle domains with various truthy values (yes, 1, true)', () => {
-      const sessionsDir = path.join(carlDir, 'sessions');
+      const sessionsDir = path.join(opencarlDir, 'sessions');
       fs.mkdirSync(sessionsDir, { recursive: true });
       fs.writeFileSync(
         path.join(sessionsDir, 'truthy.json'),
@@ -502,7 +502,7 @@ describe('session-overrides.ts', () => {
         })
       );
 
-      const result = loadSessionOverrides(carlDir, 'truthy');
+      const result = loadSessionOverrides(opencarlDir, 'truthy');
 
       expect(result.domains.DOMAIN1).toBe('true');
       expect(result.domains.DOMAIN2).toBe('true');
@@ -511,7 +511,7 @@ describe('session-overrides.ts', () => {
     });
 
     it('should handle domains with various falsy values (no, 0, false)', () => {
-      const sessionsDir = path.join(carlDir, 'sessions');
+      const sessionsDir = path.join(opencarlDir, 'sessions');
       fs.mkdirSync(sessionsDir, { recursive: true });
       fs.writeFileSync(
         path.join(sessionsDir, 'falsy.json'),
@@ -525,7 +525,7 @@ describe('session-overrides.ts', () => {
         })
       );
 
-      const result = loadSessionOverrides(carlDir, 'falsy');
+      const result = loadSessionOverrides(opencarlDir, 'falsy');
 
       expect(result.domains.DOMAIN1).toBe('false');
       expect(result.domains.DOMAIN2).toBe('false');
@@ -534,7 +534,7 @@ describe('session-overrides.ts', () => {
     });
 
     it('should handle concurrent lookups (different session IDs)', () => {
-      const sessionsDir = path.join(carlDir, 'sessions');
+      const sessionsDir = path.join(opencarlDir, 'sessions');
       fs.mkdirSync(sessionsDir, { recursive: true });
 
       fs.writeFileSync(
@@ -547,22 +547,22 @@ describe('session-overrides.ts', () => {
         JSON.stringify({ domains: { CONTENT: 'true' } })
       );
 
-      const result1 = loadSessionOverrides(carlDir, 'session-1');
-      const result2 = loadSessionOverrides(carlDir, 'session-2');
+      const result1 = loadSessionOverrides(opencarlDir, 'session-1');
+      const result2 = loadSessionOverrides(opencarlDir, 'session-2');
 
       expect(result1.domains).toEqual({ DEVELOPMENT: 'false' });
       expect(result2.domains).toEqual({ CONTENT: 'true' });
     });
 
     it('should handle file read errors', () => {
-      const sessionsDir = path.join(carlDir, 'sessions');
+      const sessionsDir = path.join(opencarlDir, 'sessions');
       fs.mkdirSync(sessionsDir, { recursive: true });
 
       // Create a directory instead of a file to trigger read error
       const sessionPath = path.join(sessionsDir, 'directory.json');
       fs.mkdirSync(sessionPath);
 
-      const result = loadSessionOverrides(carlDir, 'directory');
+      const result = loadSessionOverrides(opencarlDir, 'directory');
 
       // Should handle gracefully
       expect(result.exists).toBe(false);
@@ -570,7 +570,7 @@ describe('session-overrides.ts', () => {
     });
 
     it('should handle null sessionId', () => {
-      const result = loadSessionOverrides(carlDir, null as any);
+      const result = loadSessionOverrides(opencarlDir, null as any);
 
       expect(result.exists).toBe(false);
       expect(result.sessionId).toBe('');
@@ -578,7 +578,7 @@ describe('session-overrides.ts', () => {
     });
 
     it('should handle non-string domain values', () => {
-      const sessionsDir = path.join(carlDir, 'sessions');
+      const sessionsDir = path.join(opencarlDir, 'sessions');
       fs.mkdirSync(sessionsDir, { recursive: true });
       fs.writeFileSync(
         path.join(sessionsDir, 'non-string.json'),
@@ -591,7 +591,7 @@ describe('session-overrides.ts', () => {
         })
       );
 
-      const result = loadSessionOverrides(carlDir, 'non-string');
+      const result = loadSessionOverrides(opencarlDir, 'non-string');
 
       // Non-string values should be treated as inherit
       expect(result.domains.DOMAIN1).toBe('inherit');
@@ -601,7 +601,7 @@ describe('session-overrides.ts', () => {
 
     it('should handle very long session IDs', () => {
       const longId = 'a'.repeat(1000);
-      const result = loadSessionOverrides(carlDir, longId);
+      const result = loadSessionOverrides(opencarlDir, longId);
 
       expect(result.sessionId).toBe(longId);
       expect(result.exists).toBe(false);
