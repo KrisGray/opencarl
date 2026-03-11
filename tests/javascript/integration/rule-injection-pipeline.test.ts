@@ -210,10 +210,10 @@ describe('rule injection pipeline - integration', () => {
       const injection = buildOpencarlInjection(injectionInput);
 
       expect(injection).not.toBeNull();
-      expect(injection).toContain('<carl-rules>');
+      expect(injection).toContain('<opencarl-rules>');
       expect(injection).toContain('[DEVELOPMENT] RULES:');
       expect(injection).toContain('Use early returns');
-      expect(injection).toContain('</carl-rules>');
+      expect(injection).toContain('</opencarl-rules>');
     });
 
     it('should include CONTEXT domain rules with bracket filtering', () => {

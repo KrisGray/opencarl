@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`rule injection pipeline - integration snapshot testing should produce correct injection output (snapshot) 1`] = `
-"<carl-rules>
+"<opencarl-rules>
 CONTEXT BRACKET: [FRESH] (80% remaining)
 
 ALWAYS-ON DOMAINS
@@ -21,6 +21,6 @@ MATCHED DOMAINS
   4. Handle edge cases explicitly
   5. Write self-documenting code
 
-</carl-rules>
+</opencarl-rules>
 "
 `;

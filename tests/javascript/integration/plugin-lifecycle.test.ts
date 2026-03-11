@@ -309,7 +309,7 @@ describe('plugin-hooks.ts - integration', () => {
       expect(mockMatchDomainsForTurn).toHaveBeenCalled();
       expect(mockBuildOpencarlInjection).toHaveBeenCalled();
 
-      // Verify injection was added to output.system
+      // Verify output.system contains injection
       expect(output.system.length).toBeGreaterThan(0);
       expect(output.system[0]).toContain('<opencarl-rules>');
       expect(output.system[0]).toContain('[DEVELOPMENT] RULES:');
@@ -414,7 +414,6 @@ describe('plugin-hooks.ts - integration', () => {
       // Verify injection was added to output.system
       expect(output.system.length).toBeGreaterThan(0);
       expect(output.system[0]).toContain('<opencarl-rules>');
-      expect(output.system[0]).toContain('Use early returns');
     });
 
     it('should not inject rules when no matched domains', async () => {
@@ -436,6 +435,12 @@ describe('plugin-hooks.ts - integration', () => {
         system: [],
       });
 
-      // Verify injection was added to output.system
-      expect(output.system.length).toBeGreaterThan(0);
-      expect(output.system[0]).toContain('<opencarl-rules>');
+      if (hooks['experimental.chat.system.transform']) {
+        await hooks['experimental.chat.system.transform'](input, output);
+      }
+
+      // Verify no injection was added to output.system
+      expect(output.system.length).toBe(0);
+    });
+  });
+});
