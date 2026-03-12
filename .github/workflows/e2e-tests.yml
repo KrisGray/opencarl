@@ -49,7 +49,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -f tests/e2e/Dockerfile -t opencode-carl:e2e \
+          docker build -f tests/e2e/Dockerfile -t opencode-opencarl:e2e \
             --cache-from type=local,src=/tmp/.buildx-cache \
             --cache-to type=local,dest=/tmp/.buildx-cache-new,mode=max \
             .
@@ -93,19 +93,19 @@ jobs:
             /tmp/test*_output.txt
           retention-days: 14
 
-      - name: Upload .carl directory state (on failure)
+      - name: Upload .opencarl directory state (on failure)
         if: failure()
         run: |
-          if [ -d .carl ]; then
-            tar -czf carl-state.tar.gz .carl/
+          if [ -d .opencarl ]; then
+            tar -czf opencarl-state.tar.gz .opencarl/
           fi
 
-      - name: Upload .carl state artifact (on failure)
+      - name: Upload .opencarl state artifact (on failure)
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: carl-state
-          path: carl-state.tar.gz
+          name: opencarl-state
+          path: opencarl-state.tar.gz
           retention-days: 14
 
       - name: Upload OpenCode stdout/stderr (on failure)
