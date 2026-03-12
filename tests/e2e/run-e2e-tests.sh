@@ -20,7 +20,10 @@ FAILED_TESTS=0
 CONTAINER_NAME="carl-e2e"
 
 # Image name
-IMAGE_NAME="opencode-opencarl:e2e"
+IMAGE_NAME='opencode-opencarl:e2e'
+
+# Debug mode
+OPENCARL_DEBUG="true"
 
 # Track test results
 declare -a TEST_RESULTS=()
@@ -60,7 +63,7 @@ start_container() {
     docker rm -f "$CONTAINER_NAME" 2>/dev/null || true
 
     # Start container
-    docker run -d --name "$CONTAINER_NAME" -v "$(pwd):/workspace" "$IMAGE_NAME"
+    docker run -d --name "$CONTAINER_NAME" -v "$(pwd):/workspace" -e OPENCARL_DEBUG="$OPENCARL_DEBUG" "$IMAGE_NAME"
 
     if [ $? -eq 0 ]; then
         log_info "Container started successfully"
