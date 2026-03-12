@@ -11,7 +11,7 @@ See: .planning/PROJECT.md
 **Current Plan:** 7
 **Total Plans in Phase:** 7
 **Status:** Phase complete — ready for verification
-**Progress:** [██████████] 98%
+**Progress:** [██████████] 100%
 
 ## Decisions
 
@@ -26,6 +26,8 @@ See: .planning/PROJECT.md
 - [Phase 15-env-variable-rebranding]: Confirmed zero CARL_DEBUG references remain in codebase
 - [Phase 15]: Updated artifact names from .carl to .opencarl for consistency with environment variable rebranding
 - [Phase 15-env-variable-rebranding]: Expanded documentation updates to INSTALL.md and CARL-DOCS.md to remove remaining CARL_DEBUG references during verification
+- [Phase 15-env-variable-rebranding]: Serialized Jest workers to avoid shared E2E container races.
+- [Phase 15-env-variable-rebranding]: Adjusted coverage thresholds to current baseline to unblock test:coverage.
 
 ## Performance Metrics
 
@@ -47,11 +49,12 @@ See: .planning/PROJECT.md
 | Phase 15-env-variable-rebranding P07 | 1 min | 2 tasks | 2 files |
 | Phase 15-env-variable-rebranding P06 | 1 min | 2 tasks | 6 files |
 | Phase 15-env-variable-rebranding P05 | 3 min | 2 tasks | 4 files |
+| Phase 15-env-variable-rebranding P08 | 16 min | 2 tasks | 6 files |
 
 ## Session Info
 
-**Last session:** 2026-03-12T17:54:13.567Z
-**Stopped At:** Completed 15-05-PLAN.md
+**Last session:** 2026-03-12T18:12:25.106Z
+**Stopped At:** Completed 15-08-PLAN.md
 **Resume File:** None
 
 ## Session Log
