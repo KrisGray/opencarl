@@ -22,6 +22,14 @@
 
 ---
 
+# 🚨 Breaking Change Notice
+
+Environment variable renamed to **OPENCARL_DEBUG** (immediate, no deprecation)
+
+If you previously set the debug environment variable in your environment or CI configuration, you must update to OPENCARL_DEBUG immediately.
+
+See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for debugging options and migration instructions
+
 ## What is OpenCARL?
 
 OpenCARL is a dynamic rule injection plugin for OpenCode that gives your AI assistant persistent memory about how you work. Instead of repeating instructions every session, define rules once and they load automatically when relevant to your current task.
@@ -315,7 +323,7 @@ OpenCARL rules inject alongside your OpenCode AGENTS.md rules. Both apply, with 
 Enable detailed logging to see rule matching decisions:
 
 ```bash
-CARL_DEBUG=true
+OPENCARL_DEBUG=true
 ```
 
 This outputs rule loading, matching, and injection details to help diagnose issues.
@@ -332,7 +340,7 @@ For comprehensive troubleshooting, see [TROUBLESHOOTING.md](TROUBLESHOOTING.md) 
 **Need help?**
 - Type `*carl` for interactive guidance
 - Check `.carl/manifest` for current configuration
-- Run with `CARL_DEBUG=true` for detailed logs
+- Run with `OPENCARL_DEBUG=true` for detailed logs
 
 ---
 
