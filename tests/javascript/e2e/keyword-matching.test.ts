@@ -42,7 +42,7 @@ describe('E2E: Keyword Matching', () => {
    * Helper: Check if file exists in container
    */
   function fileExists(filePath: string): boolean {
-    const result = dockerExec(`[ -f ${WORKSPACE_DIR}${filePath} ] && echo "EXISTS" || echo "NOT_FOUND"`);
+    const result = dockerExec(`[ -f ${WORKSPACE_DIR}/${filePath} ] && echo "EXISTS" || echo "NOT_FOUND"`);
     return result.stdout.includes('EXISTS');
   }
 
@@ -50,7 +50,7 @@ describe('E2E: Keyword Matching', () => {
    * Helper: Read file content from container
    */
   function readFileContent(filePath: string): string {
-    const result = dockerExec(`cat ${WORKSPACE_DIR}${filePath}`);
+    const result = dockerExec(`cat ${WORKSPACE_DIR}/${filePath}`);
     if (result.exitCode !== 0) {
       throw new Error(`Failed to read file ${filePath}: ${result.stderr}`);
     }

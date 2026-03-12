@@ -9,6 +9,7 @@ WORKDIR /workspace
 # This mock CLI simulates OpenCode behavior for testing CARL plugin.
 COPY tests/e2e/mock-opencode-cli /usr/local/bin/carl
 RUN chmod +x /usr/local/bin/carl
+RUN ln -s /usr/local/bin/carl /usr/local/bin/opencarl
 
 # Copy plugin source
 COPY . /workspace

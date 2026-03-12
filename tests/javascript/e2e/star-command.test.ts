@@ -41,7 +41,7 @@ describe('E2E: Star-Commands', () => {
    * Helper: Check if file exists in container
    */
   function fileExists(filePath: string): boolean {
-    const result = dockerExec(`[ -f ${WORKSPACE_DIR}${filePath} ] && echo "EXISTS" || echo "NOT_FOUND"`);
+    const result = dockerExec(`[ -f ${WORKSPACE_DIR}/${filePath} ] && echo "EXISTS" || echo "NOT_FOUND"`);
     return result.stdout.includes('EXISTS');
   }
 
@@ -49,7 +49,7 @@ describe('E2E: Star-Commands', () => {
    * Helper: Read file content from container
    */
   function readFileContent(filePath: string): string {
-    const result = dockerExec(`cat ${WORKSPACE_DIR}${filePath}`);
+    const result = dockerExec(`cat ${WORKSPACE_DIR}/${filePath}`);
     if (result.exitCode !== 0) {
       throw new Error(`Failed to read file ${filePath}: ${result.stderr}`);
     }
@@ -98,14 +98,15 @@ describe('E2E: Star-Commands', () => {
     });
 
     describe('opencarl status', () => {
+      it('should return active domains in manifest and output', () => {
         // Execute: opencarl status
         const result = dockerExec(`cd ${WORKSPACE_DIR} && opencarl status`);
 
         // Primary assertion: Manifest has active domains
         const manifestContent = readFileContent('.opencarl/manifest');
-        expect(manifestContent).toContain('global_state=active');
-        expect(manifestContent).toContain('context_state=active');
-        expect(manifestContent).toContain('commands_state=active');
+        expect(manifestContent).toContain('GLOBAL_STATE=active');
+        expect(manifestContent).toContain('CONTEXT_STATE=active');
+        expect(manifestContent).toContain('COMMANDS_STATE=active');
 
         // Secondary assertion: Output contains "active" or domain names
         expect(
@@ -140,7 +141,8 @@ describe('E2E: Star-Commands', () => {
       });
     });
 
-      describe('opencarl list', () => {
+    describe('opencarl list', () => {
+      it('should list domains without modifying the manifest', () => {
         // Execute: opencarl list
         const result = dockerExec(`cd ${WORKSPACE_DIR} && opencarl list`);
 
@@ -306,4 +308,5 @@ describe('E2E: Star-Commands', () => {
         }
       });
     });
+});
 });
