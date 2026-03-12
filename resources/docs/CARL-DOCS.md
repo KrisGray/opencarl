@@ -67,7 +67,7 @@ Invoke with `*quick` in any prompt.
 ### Debug Mode
 Enable detailed logging to see rule matching decisions:
 ```bash
-CARL_DEBUG=true
+OPENCARL_DEBUG=true
 ```
 Shows: file loads, rule matches, injection events. See [TROUBLESHOOTING.md](../../TROUBLESHOOTING.md) for full guide.
 
@@ -242,7 +242,7 @@ QUICK_RULE_2=Minimal output
 
 **Debug Mode:**
 ```bash
-CARL_DEBUG=true
+OPENCARL_DEBUG=true
 ```
 Enables detailed logging of file loads, rule matches, and injection events.
 

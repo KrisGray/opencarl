@@ -150,7 +150,7 @@ Test with:
 Enable detailed logging:
 
 ```bash
-CARL_DEBUG=true
+OPENCARL_DEBUG=true
 ```
 
 This shows rule matching decisions and injection events.
