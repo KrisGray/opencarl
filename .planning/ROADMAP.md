@@ -293,13 +293,13 @@ Plans:
   2. All CI configuration files use OPENCARL_DEBUG
   3. All test scripts use OPENCARL_DEBUG
   4. Documentation references OPENCARL_DEBUG instead of CARL_DEBUG
-**Plans**: TBD
+**Plans**: 4 plans (complete)
 
 Plans:
-- [ ] 15-01: Rename CARL_DEBUG to OPENCARL_DEBUG in code (ENV-01)
-- [ ] 15-02: Update CI configurations (ENV-02)
-- [ ] 15-03: Update test scripts (ENV-03)
-- [ ] 15-04: Update documentation references (ENV-04)
+- [x] 15-env-variable-rebranding/15-01-PLAN.md — Rename CARL_DEBUG to OPENCARL_DEBUG in code (ENV-01)
+- [x] 15-env-variable-rebranding/15-02-PLAN.md — Update CI configurations (ENV-02)
+- [x] 15-env-variable-rebranding/15-03-PLAN.md — Update test scripts (ENV-03)
+- [x] 15-env-variable-rebranding/15-04-PLAN.md — Update documentation references (ENV-04)
 
 ---
 
@@ -361,8 +361,8 @@ Plans:
 | 11. E2E Tests & Docker | v1.2 | 4/4 | Complete | 2026-03-05 |
 | 12. Source Code Rebranding | 22/22 | Complete    | 2026-03-11 | - |
 | 13. Configuration & Directory Migration | 6/6 | Complete    | 2026-03-11 | - |
-| 14. Command Rebranding | 5/5 | Complete   | 2026-03-11 | - |
-| 15. Environment Variable Rebranding | v1.3 | 0/4 | Not started | - |
+| 14. Command Rebranding | 7/7 | Complete   | 2026-03-11 | - |
+| 15. Environment Variable Rebranding | v1.3 | 4/4 | Complete    | 2026-03-12 | - |
 | 16. Documentation Rebranding | v1.3 | 0/5 | Not started | - |
 | 17. Package Metadata & CI/CD Finalization | v1.3 | 0/5 | Not started | - |
 
