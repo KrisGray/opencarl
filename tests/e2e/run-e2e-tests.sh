@@ -20,7 +20,7 @@ FAILED_TESTS=0
 CONTAINER_NAME="carl-e2e"
 
 # Image name
-IMAGE_NAME="opencode-carl:e2e"
+IMAGE_NAME="opencode-opencarl:e2e"
 
 # Track test results
 declare -a TEST_RESULTS=()
