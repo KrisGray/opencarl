@@ -35,7 +35,7 @@ Expected: At least one domain has `STATE=active`
 **4. Test keyword matching**
 ```bash
 # Enable debug mode
-export CARL_DEBUG=true
+export OPENCARL_DEBUG=true
 # Then trigger OpenCode with a recall keyword like "fix bug"
 ```
 Expected: Debug output shows domain matching
@@ -73,7 +73,7 @@ Expected: All domain files are lowercase with NO extension (e.g., `development` 
 
 3. Check for JavaScript errors:
    ```bash
-   export CARL_DEBUG=true
+   export OPENCARL_DEBUG=true
    # Restart OpenCode and check for error messages
    ```
 
@@ -166,7 +166,7 @@ carl-setup
 
 3. Test with debug mode:
    ```bash
-   export CARL_DEBUG=true
+   export OPENCARL_DEBUG=true
    # Trigger OpenCode with a recall keyword
    ```
 
@@ -219,7 +219,7 @@ cat ~/.carl/manifest | grep -v "^#" | grep -v "="
 ls -la .carl/manifest
 
 # Enable debug to see project status
-export CARL_DEBUG=true
+export OPENCARL_DEBUG=true
 ```
 
 **Solution:**
@@ -488,13 +488,15 @@ chmod 644 .opencode/opencode.json
 
 ## Debug Mode
 
+Breaking change: the debug environment variable is now OPENCARL_DEBUG. See README.md for the breaking change notice and migration details.
+
 CARL includes a debug mode for troubleshooting rule loading and matching.
 
 ### Enable Debug Mode
 
 **Option 1: Environment variable**
 ```bash
-export CARL_DEBUG=true
+export OPENCARL_DEBUG=true
 # Restart OpenCode
 ```
 
@@ -527,7 +529,7 @@ When enabled, CARL logs:
 ### Disable Debug Mode
 
 ```bash
-export CARL_DEBUG=false
+export OPENCARL_DEBUG=false
 # Or remove from manifest
 DEVMODE=false
 ```
@@ -548,7 +550,7 @@ File a GitHub issue if:
 
 1. **Enable debug mode and capture output:**
    ```bash
-   export CARL_DEBUG=true
+   export OPENCARL_DEBUG=true
    # Reproduce the issue
    # Copy debug output
    ```
@@ -584,7 +586,7 @@ File a GitHub issue if:
 
 ### What to Include in Your Issue
 
-1. **Debug output** (with CARL_DEBUG=true)
+1. **Debug output** (with OPENCARL_DEBUG=true)
 2. **Manifest contents** (`cat ~/.carl/manifest`)
 3. **Domain file list** (`ls -la ~/.carl/`)
 4. **OpenCode version** (if relevant)
@@ -634,7 +636,7 @@ File a GitHub issue if:
 | Wrong rules loading | Make recall keywords more specific |
 | Domain file ignored | Filename must be lowercase, no extension |
 | Star-command not working | Ensure `COMMANDS_STATE=active` in manifest |
-| Debug mode | `export CARL_DEBUG=true` |
+| Debug mode | `export OPENCARL_DEBUG=true` |
 | View all domains | `/carl list` |
 | View domain rules | `/carl view DOMAIN` |
 | Enable debug in manifest | `DEVMODE=true` |
