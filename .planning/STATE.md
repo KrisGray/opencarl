@@ -10,8 +10,8 @@ See: .planning/PROJECT.md
 **Current phase:** 14-command-rebranding
 **Current Plan:** 7
 **Total Plans in Phase:** 7
-**Status:** Complete
-**Progress:** [██████████] 100%
+**Status:** Phase complete — ready for verification
+**Progress:** [█████████░] 92%
 
 ## Decisions
 
@@ -22,6 +22,8 @@ See: .planning/PROJECT.md
 - [Phase 14-02]: Renamed /carl fallback to /opencarl for consistency with Phase 12 rebranding
 - [Phase 14-01]: Star command token renamed from CARL to OPENCARL in command-parity.ts — Consistent with Phase 12 rebranding effort
 - [Phase 14-command-rebranding]: Test fixtures must use OPENCARL_RULE_ prefix to match token extraction pattern in source code
+- [Phase 15-env-variable-rebranding]: Verified build process works correctly after environment variable renaming
+- [Phase 15-env-variable-rebranding]: Confirmed zero CARL_DEBUG references remain in codebase
 
 ## Performance Metrics
 
@@ -36,6 +38,7 @@ See: .planning/PROJECT.md
 | Phase 14-command-rebranding P03 | 1 min | 4 tasks | 4 files |
 | Phase 14-command-rebranding P05 | 2 min | 3 tasks | 2 files |
 | Phase 14-command-rebranding P06 | 5 min | 6 tasks | 1 file | 2026-03-11 |
+| Phase 15-env-variable-rebranding P01 | 5min | 3 tasks | 2 files |
 
 ## Session Log
 
