@@ -50,3 +50,4 @@ See: .planning/PROJECT.md
 - 2026-03-11: Completed 14-command-rebranding-06-PLAN.md (E2E test file structural fix)
 - 2026-03-11: Completed 14-command-rebranding-07-PLAN.md (phase verification)
 - 2026-03-11: Completed 14-command-rebranding-07-PLAN.md (phase verification)
+- 2026-03-11: Completed 15-CONTEXT.md (env variable CARL_DEBUG → OPENCARL_DEBUG)
