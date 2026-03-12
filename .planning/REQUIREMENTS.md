@@ -32,7 +32,7 @@ Requirements for OpenCARL rebranding milestone. Each maps to roadmap phases.
 ### Environment Variable Rebranding
 
 - [x] **ENV-01**: `CARL_DEBUG` environment variable is renamed to `OPENCARL_DEBUG`
-- [ ] **ENV-02**: All CI configuration files use `OPENCARL_DEBUG`
+- [x] **ENV-02**: All CI configuration files use `OPENCARL_DEBUG`
 - [ ] **ENV-03**: All test scripts use `OPENCARL_DEBUG`
 - [ ] **ENV-04**: Documentation references `OPENCARL_DEBUG` instead of `CARL_DEBUG`
 
@@ -93,7 +93,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CMND-03 | Phase 14 | Complete |
 | CMND-04 | Phase 14 | Complete |
 | ENV-01 | Phase 15 | Complete |
-| ENV-02 | Phase 15 | Pending |
+| ENV-02 | Phase 15 | Complete |
 | ENV-03 | Phase 15 | Pending |
 | ENV-04 | Phase 15 | Pending |
 | DOCS-01 | Phase 16 | Pending |

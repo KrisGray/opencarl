@@ -11,7 +11,7 @@ See: .planning/PROJECT.md
 **Current Plan:** 7
 **Total Plans in Phase:** 7
 **Status:** Phase complete — ready for verification
-**Progress:** [█████████░] 92%
+**Progress:** [██████████] 95%
 
 ## Decisions
 
@@ -24,6 +24,7 @@ See: .planning/PROJECT.md
 - [Phase 14-command-rebranding]: Test fixtures must use OPENCARL_RULE_ prefix to match token extraction pattern in source code
 - [Phase 15-env-variable-rebranding]: Verified build process works correctly after environment variable renaming
 - [Phase 15-env-variable-rebranding]: Confirmed zero CARL_DEBUG references remain in codebase
+- [Phase 15]: Updated artifact names from .carl to .opencarl for consistency with environment variable rebranding
 
 ## Performance Metrics
 
@@ -39,6 +40,7 @@ See: .planning/PROJECT.md
 | Phase 14-command-rebranding P05 | 2 min | 3 tasks | 2 files |
 | Phase 14-command-rebranding P06 | 5 min | 6 tasks | 1 file | 2026-03-11 |
 | Phase 15-env-variable-rebranding P01 | 5min | 3 tasks | 2 files |
+| Phase 15 P02 | 26 | 2 tasks | 1 files |
 
 ## Session Log
 
