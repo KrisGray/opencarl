@@ -40,7 +40,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. User sees clear, actionable error messages when the plugin fails to load
   3. User can enable debug logging to understand CARL's rule matching decisions
   4. User can reference a troubleshooting guide for common issues
-**Plans**: 4 plans (complete)
+**Plans**: 8 plans (gap closure)
 
 Plans:
 - [x] 06-integration-developer-experience/06-01-PLAN.md — opencode.json instructions integration (INTE-02)
@@ -300,6 +300,10 @@ Plans:
 - [x] 15-env-variable-rebranding/15-02-PLAN.md — Update CI configurations (ENV-02)
 - [x] 15-env-variable-rebranding/15-03-PLAN.md — Update test scripts (ENV-03)
 - [x] 15-env-variable-rebranding/15-04-PLAN.md — Update documentation references (ENV-04)
+- [ ] 15-env-variable-rebranding/15-05-PLAN.md — Gap closure: purge legacy dist/carl artifacts (ENV-01)
+- [ ] 15-env-variable-rebranding/15-06-PLAN.md — Gap closure: CI OPENCARL_DEBUG + test image updates (ENV-02, ENV-03)
+- [ ] 15-env-variable-rebranding/15-07-PLAN.md — Gap closure: deprecation warning + version bump (ENV-01)
+- [ ] 15-env-variable-rebranding/15-08-PLAN.md — Gap closure: repo-wide verification + full tests (ENV-01, ENV-02, ENV-03, ENV-04)
 
 ---
 
@@ -362,7 +366,7 @@ Plans:
 | 12. Source Code Rebranding | 22/22 | Complete    | 2026-03-11 | - |
 | 13. Configuration & Directory Migration | 6/6 | Complete    | 2026-03-11 | - |
 | 14. Command Rebranding | 7/7 | Complete   | 2026-03-11 | - |
-| 15. Environment Variable Rebranding | 4/4 | Complete   | 2026-03-12 | 2026-03-12 | - |
+| 15. Environment Variable Rebranding | 6/8 | In Progress|  | 2026-03-12 | - |
 | 16. Documentation Rebranding | v1.3 | 0/5 | Not started | - |
 | 17. Package Metadata & CI/CD Finalization | v1.3 | 0/5 | Not started | - |
 

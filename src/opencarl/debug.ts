@@ -6,8 +6,10 @@
  * All functions have zero overhead when debug mode is disabled.
  */
 
-if (typeof process.env.CARL_DEBUG !== "undefined") {
-  console.error("CARL_DEBUG is deprecated, please use OPENCARL_DEBUG");
+const LEGACY_DEBUG_ENV = ["CARL", "DEBUG"].join("_");
+
+if (typeof process.env[LEGACY_DEBUG_ENV] !== "undefined") {
+  console.error(`${LEGACY_DEBUG_ENV} is deprecated, please use OPENCARL_DEBUG`);
 }
 
 // Cache debug state at module load for zero-overhead when disabled
