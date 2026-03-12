@@ -15,7 +15,7 @@ import { execSync } from 'child_process';
 
 // Test configuration
 const CONTAINER_NAME = 'carl-e2e';
-const IMAGE_NAME = 'opencode-carl:e2e';
+const IMAGE_NAME = 'opencode-opencarl:e2e';
 const WORKSPACE_DIR = '/workspace';
 
 describe('E2E: Setup Flow', () => {
