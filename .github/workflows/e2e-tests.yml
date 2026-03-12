@@ -83,6 +83,8 @@ jobs:
             echo "Tests failed after $((MAX_RETRIES + 1)) attempts"
             exit 1
           fi
+        env:
+          OPENCARL_DEBUG: "false"
 
       - name: Upload Docker container logs (on failure)
         if: failure()
