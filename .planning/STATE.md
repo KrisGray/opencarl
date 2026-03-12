@@ -11,7 +11,7 @@ See: .planning/PROJECT.md
 **Current Plan:** 7
 **Total Plans in Phase:** 7
 **Status:** Phase complete — ready for verification
-**Progress:** [██████████] 97%
+**Progress:** [██████████] 100%
 
 ## Decisions
 
@@ -25,6 +25,7 @@ See: .planning/PROJECT.md
 - [Phase 15-env-variable-rebranding]: Verified build process works correctly after environment variable renaming
 - [Phase 15-env-variable-rebranding]: Confirmed zero CARL_DEBUG references remain in codebase
 - [Phase 15]: Updated artifact names from .carl to .opencarl for consistency with environment variable rebranding
+- [Phase 15-env-variable-rebranding]: Expanded documentation updates to INSTALL.md and CARL-DOCS.md to remove remaining CARL_DEBUG references during verification
 
 ## Performance Metrics
 
@@ -42,6 +43,7 @@ See: .planning/PROJECT.md
 | Phase 15-env-variable-rebranding P01 | 5min | 3 tasks | 2 files |
 | Phase 15 P02 | 26 | 2 tasks | 1 files |
 | Phase 15-env-variable-rebranding P03 | 2 min | 2 tasks | 1 files |
+| Phase 15-env-variable-rebranding P04 | 5 min | 3 tasks | 4 files |
 
 ## Session Log
 
@@ -58,3 +60,4 @@ See: .planning/PROJECT.md
 - 2026-03-11: Completed 14-command-rebranding-07-PLAN.md (phase verification)
 - 2026-03-11: Completed 15-CONTEXT.md (env variable CARL_DEBUG → OPENCARL_DEBUG)
 - 2026-03-12: Completed 15-env-variable-rebranding-03-PLAN.md (test script env var update)
+- 2026-03-12: Completed 15-env-variable-rebranding-04-PLAN.md (documentation env var update)
