@@ -1,6 +1,6 @@
 {
   "name": "@krisgray/opencarl",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "OpenCARL - Dynamic rule injection for OpenCode. Rules load when relevant, disappear when not. Adapted from CARL by Chris Kahler.",
   "main": "dist/plugin.js",
   "types": "dist/plugin.d.ts",
