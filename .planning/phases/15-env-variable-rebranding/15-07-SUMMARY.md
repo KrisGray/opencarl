@@ -61,7 +61,7 @@ Each task was committed atomically:
 1. **task 1: emit CARL_DEBUG deprecation warning** - `88d02bd` (feat)
 2. **task 2: bump version for breaking change** - `cc955af` (chore)
 
-**Plan metadata:** pending
+**Plan metadata:** `9877fb2` (docs: complete plan)
 
 ## Files Created/Modified
 - `src/opencarl/debug.ts` - Emit CARL_DEBUG deprecation warning at module initialization
