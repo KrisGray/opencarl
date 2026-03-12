@@ -1,5 +1,5 @@
 #!/bin/bash
-# E2E Test Runner for CARL Plugin with OpenCode
+# E2E Test Runner for OpenCARL Plugin with OpenCode
 # =============================================
 # Runs 5 sequential E2E tests in Docker container
 
