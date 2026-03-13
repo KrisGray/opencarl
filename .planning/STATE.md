@@ -8,9 +8,9 @@ See: .planning/PROJECT.md
 
 **Milestone:** v1.3 Branding & Context Migration
 **Current phase:** 16-documentation-rebranding
-**Current Plan:** 3
+**Current Plan:** Not started
 **Total Plans in Phase:** 3
-**Status:** Phase complete — ready for verification
+**Status:** Ready to plan
 **Progress:** [██████████] 100%
 
 ## Decisions
