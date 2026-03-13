@@ -42,8 +42,9 @@ __pycache__/
 *.py[cod]
 *.egg-info/
 
-# CARL session files (auto-generated, local)
+# CARL/OpenCarl session files (auto-generated, local)
 .carl/sessions/*.json
+.opencarl/
 
 # Test coverage
 coverage/

@@ -48,13 +48,17 @@ jobs:
             ${{ runner.os }}-buildx-
 
       - name: Build Docker image
-        run: |
-          docker build -f tests/e2e/Dockerfile -t opencode-opencarl:e2e \
-            --cache-from type=local,src=/tmp/.buildx-cache \
-            --cache-to type=local,dest=/tmp/.buildx-cache-new,mode=max \
-            .
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: tests/e2e/Dockerfile
+          tags: opencode-opencarl:e2e
+          load: true
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
 
-          # Move cache (workaround for cache action)
+      - name: Move Docker cache
+        run: |
           rm -rf /tmp/.buildx-cache
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
