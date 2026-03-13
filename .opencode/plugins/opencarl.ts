@@ -4,13 +4,13 @@ import path from "path";
 import { loadOpencarlRules } from "../../src/opencarl/loader";
 import { createOpencarlPluginHooks } from "../../src/integration/plugin-hooks";
 
-const PROJECT_PLUGIN_PATH = path.resolve(process.cwd(), ".opencode/plugins/carl.ts");
+const PROJECT_PLUGIN_PATH = path.resolve(process.cwd(), ".opencode/plugins/opencarl.ts");
 const GLOBAL_PLUGIN_PATH = path.join(
   os.homedir(),
   ".config",
   "opencode",
   "plugins",
-  "carl.ts"
+  "opencarl.ts"
 );
 
 function warnIfDuplicatePluginPlacement() {
@@ -19,7 +19,7 @@ function warnIfDuplicatePluginPlacement() {
 
   if (hasProjectPlugin && hasGlobalPlugin) {
     console.warn(
-      "[carl] Detected both project and global plugin entrypoints. " +
+      "[opencarl] Detected both project and global plugin entrypoints. " +
         "OpenCode may load both; remove one if this is unintended."
     );
   }
@@ -28,12 +28,12 @@ function warnIfDuplicatePluginPlacement() {
 function logDiscoverySummary() {
   const result = loadOpencarlRules();
 
-  console.log(`[carl] Discovery summary: ${result.sources.length} sources, ${result.domains.length} domains, ${result.warnings.length} warnings.`);
+  console.log(`[opencarl] Discovery summary: ${result.sources.length} sources, ${result.domains.length} domains, ${result.warnings.length} warnings.`);
 
   for (const warning of result.warnings) {
     const domain = warning.domain ? ` domain=${warning.domain}` : "";
     const warningPath = warning.path ? ` path=${warning.path}` : "";
-    console.warn(`[carl] Warning: ${warning.message}${domain}${warningPath}`);
+    console.warn(`[opencarl] Warning: ${warning.message}${domain}${warningPath}`);
   }
 }
 
