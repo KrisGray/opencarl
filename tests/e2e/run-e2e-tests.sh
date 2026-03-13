@@ -83,10 +83,10 @@ cleanup_container() {
     log_info "Container cleaned up"
 }
 
-# Cleanup .carl directory between tests
+# Cleanup .opencarl directory between tests
 cleanup_carl() {
-    log_info "Cleaning up .carl directory..."
-    docker exec "$CONTAINER_NAME" rm -rf /workspace/.carl
+    log_info "Cleaning up .opencarl directory..."
+    docker exec "$CONTAINER_NAME" rm -rf /workspace/.opencarl
 }
 
 # Run command in container
@@ -102,23 +102,23 @@ test_setup_flow() {
     # Run setup
     run_container_cmd "cd /workspace && carl setup" > /tmp/test1_output.txt 2>&1
 
-    # Check if .carl/ directory exists
-    run_container_cmd "[ -d /workspace/.carl ]"
+    # Check if .opencarl/ directory exists
+    run_container_cmd "[ -d /workspace/.opencarl ]"
 
     if [ $? -eq 0 ]; then
-        log_info "✓ .carl/ directory exists"
+        log_info "✓ .opencarl/ directory exists"
 
         # Check if manifest.json exists
-        run_container_cmd "[ -f /workspace/.carl/manifest ]"
+        run_container_cmd "[ -f /workspace/.opencarl/manifest ]"
 
         if [ $? -eq 0 ]; then
             log_info "✓ manifest file exists"
 
             # Check if prompts directory exists
-            run_container_cmd "[ -d /workspace/.carl/prompts ]"
+            run_container_cmd "[ -d /workspace/.opencarl/sessions ]"
 
             if [ $? -eq 0 ]; then
-                log_info "✓ prompts directory exists"
+                log_info "✓ sessions directory exists"
                 log_info "✓ Test 1 PASSED"
                 PASSED_TESTS=$((PASSED_TESTS + 1))
                 TEST_RESULTS+=("Test 1: Setup flow - PASSED")
@@ -143,14 +143,14 @@ test_idempotency() {
 
     # Backup manifest content
     local original_manifest
-    original_manifest=$(run_container_cmd "cat /workspace/.carl/manifest")
+    original_manifest=$(run_container_cmd "cat /workspace/.opencarl/manifest")
 
     # Run setup again
     run_container_cmd "cd /workspace && carl setup" > /tmp/test2_output.txt 2>&1
 
     # Check manifest unchanged
     local new_manifest
-    new_manifest=$(run_container_cmd "cat /workspace/.carl/manifest")
+    new_manifest=$(run_container_cmd "cat /workspace/.opencarl/manifest")
 
     if [ "$original_manifest" = "$new_manifest" ]; then
         log_info "✓ Manifest not overwritten"
@@ -172,12 +172,12 @@ test_keyword_matching() {
     log_test "Test 3: Keyword matching (fix bug)"
 
     # Setup test manifest with DEVELOPMENT domain
-    run_container_cmd "mkdir -p /workspace/.carl"
-    run_container_cmd "cat /workspace/tests/e2e/fixtures/keyword-manifest.txt > /workspace/.carl/manifest"
+    run_container_cmd "mkdir -p /workspace/.opencarl"
+    run_container_cmd "cat /workspace/tests/e2e/fixtures/keyword-manifest.txt > /workspace/.opencarl/manifest"
 
     # Trigger keyword (Note: This is a simplified test - real OpenCode integration would be needed)
     # For E2E testing, we're verifying the domain configuration is loaded
-    run_container_cmd "grep -q 'fix bug' /workspace/.carl/manifest"
+    run_container_cmd "grep -q 'fix bug' /workspace/.opencarl/manifest"
 
     if [ $? -eq 0 ]; then
         log_info "✓ Keyword 'fix bug' found in manifest"
@@ -198,11 +198,11 @@ test_case_insensitive() {
     log_test "Test 4: Case-insensitive keyword matching"
 
     # Setup test manifest first (since test 3 cleaned up)
-    run_container_cmd "mkdir -p /workspace/.carl"
-    run_container_cmd "cat /workspace/tests/e2e/fixtures/keyword-manifest.txt > /workspace/.carl/manifest"
+    run_container_cmd "mkdir -p /workspace/.opencarl"
+    run_container_cmd "cat /workspace/tests/e2e/fixtures/keyword-manifest.txt > /workspace/.opencarl/manifest"
 
     # Verify manifest contains keyword (case should match in manifest)
-    run_container_cmd "grep -qi 'FIX BUG' /workspace/.carl/manifest || grep -qi 'fix bug' /workspace/.carl/manifest"
+    run_container_cmd "grep -qi 'FIX BUG' /workspace/.opencarl/manifest || grep -qi 'fix bug' /workspace/.opencarl/manifest"
 
     if [ $? -eq 0 ]; then
         log_info "✓ Keyword matching is case-insensitive"
