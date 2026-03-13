@@ -4,7 +4,7 @@
 
 ### File Structure
 ```
-.carl/
+.opencarl/
 ├── manifest        # Domain registry (states + recall keywords)
 ├── global          # GLOBAL rules (always loaded)
 ├── commands        # Star-command definitions
@@ -32,23 +32,23 @@
 ### Common Commands
 | Command | Purpose |
 |---------|---------|
-| `*carl` | Enter help mode |
-| `*carl docs` | View documentation |
-| `/carl` | Domain management |
-| `/carl list` | Show all domains |
-| `/carl view DOMAIN` | Show rules in a domain |
-| `/carl toggle DOMAIN active\|inactive` | Enable/disable domain |
-| `/carl setup --integrate` | Add CARL docs to AGENTS.md |
-| `/carl setup --integrate-opencode` | Add CARL docs to opencode.json |
+| `*opencarl` | Enter help mode |
+| `*opencarl docs` | View documentation |
+| `/opencarl` | Domain management |
+| `/opencarl list` | Show all domains |
+| `/opencarl view DOMAIN` | Show rules in a domain |
+| `/opencarl toggle DOMAIN active\|inactive` | Enable/disable domain |
+| `/opencarl setup --integrate` | Add OpenCARL docs to AGENTS.md |
+| `/opencarl setup --integrate-opencode` | Add OpenCARL docs to opencode.json |
 
 ### Quick Example: Add a Rule
-Edit `.carl/development`:
+Edit `.opencarl/development`:
 ```
 DEVELOPMENT_RULE_5=Always use TypeScript strict mode
 ```
 
 ### Quick Example: Create a Star-Command
-Edit `.carl/commands`:
+Edit `.opencarl/commands`:
 ```
 QUICK_RULE_0=*quick - Skip explanations, just show the code
 QUICK_RULE_1=No commentary unless asked
@@ -87,7 +87,7 @@ OpenCARL is a dynamic rule injection plugin for OpenCode that gives your AI assi
 
 **Core value:** Keep OpenCARL's dynamic rule injection working seamlessly with minimal user friction.
 
-OpenCARL is an OpenCode adaptation of CARL (Context Augmentation & Reinforcement Layer), originally created by Chris Kahler for Claude Code.
+OpenCARL is an OpenCode adaptation of Context Augmentation & Reinforcement Layer, originally created by Chris Kahler for Claude Code.
 
 ### How It Works
 
@@ -95,7 +95,7 @@ OpenCARL is an OpenCode adaptation of CARL (Context Augmentation & Reinforcement
 You type: "help me fix this bug"
    |
    v
-CARL scans your prompt for keywords
+OpenCARL scans your prompt for keywords
    |
    v
 Matches "fix bug" -> DEVELOPMENT domain
@@ -131,7 +131,7 @@ Explicit rule triggers using `*commandname`:
 Unlike domains, star-commands only load when you explicitly type them.
 
 #### Context Brackets
-CARL adjusts rule behavior based on session context:
+OpenCARL adjusts rule behavior based on session context:
 - **FRESH** - Full context available, thorough responses
 - **MODERATE** - Balanced detail
 - **DEPLETED** - Minimal injection, explicit warnings
@@ -139,7 +139,7 @@ CARL adjusts rule behavior based on session context:
 ### File Structure Details
 
 ```
-.carl/
+.opencarl/
 ├── manifest        # Domain registry (states + recall keywords)
 ├── global          # GLOBAL rules (always loaded)
 ├── commands        # Star-command definitions
@@ -195,7 +195,7 @@ DEVELOPMENT_ALWAYS_ON=false
 ### Common Patterns
 
 #### Project-Specific Rules
-Put `.carl/` in your project root for repo-specific rules. They override global `~/.carl/` rules.
+Put `.opencarl/` in your project root for repo-specific rules. They override global `~/.opencarl/` rules.
 
 #### Temporary Disable
 Set `DOMAIN_STATE=inactive` in manifest to disable without deleting.
@@ -210,7 +210,7 @@ QUICK_RULE_2=Minimal output
 
 ### Creating a New Domain
 
-1. Create file `.carl/mydomain` (lowercase, no extension)
+1. Create file `.opencarl/mydomain` (lowercase, no extension)
 2. Add rules:
    ```
    MYDOMAIN_RULE_0=First rule
@@ -226,19 +226,19 @@ QUICK_RULE_2=Minimal output
 
 ### Getting Help
 
-- `*carl` - Enter help mode
-- `*carl docs` - View this documentation
-- `/carl` - Domain management
-- `/carl list` - Show all domains
-- `/carl view DOMAIN` - Show rules in a domain
+- `*opencarl` - Enter help mode
+- `*opencarl docs` - View this documentation
+- `/opencarl` - Domain management
+- `/opencarl list` - Show all domains
+- `/opencarl view DOMAIN` - Show rules in a domain
 
 ### Troubleshooting
 
 **Quick Diagnosis Checklist:**
-1. `.carl/manifest` exists and has `STATE=active` for domains
+1. `.opencarl/manifest` exists and has `STATE=active` for domains
 2. Domain filename is lowercase with no extension
 3. Recall keywords match your prompt text
-4. Run `/carl list` to verify domain visibility
+4. Run `/opencarl list` to verify domain visibility
 
 **Debug Mode:**
 ```bash
@@ -265,4 +265,4 @@ See [TROUBLESHOOTING.md](../../TROUBLESHOOTING.md) for:
 ---
 
 *For the latest documentation, visit: [GitHub OpenCARL Repository](https://github.com/KrisGray/opencarl)*
-*This documentation is bundled with your CARL plugin.*
+*This documentation is bundled with your OpenCARL plugin.*
