@@ -6,7 +6,7 @@ See: .planning/PROJECT.md
 
 ## Position
 
-**Milestone:** v1.4 Documentation Site
+**Milestone:** v2.0.2 Documentation Site
 **Current phase:** Not started (defining requirements)
 **Current Plan:** —
 **Total Plans in Phase:** —
@@ -31,4 +31,4 @@ See: .planning/PROJECT.md
 
 ## Session Log
 
-- 2026-03-13: Milestone v1.4 Documentation Site started
+- 2026-03-13: Milestone v2.0.2 Documentation Site started

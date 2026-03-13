@@ -8,7 +8,7 @@ OpenCARL is a dynamic rule injection plugin for OpenCode that gives your AI assi
 
 Keep OpenCARL's dynamic rule injection working seamlessly inside OpenCode with full parity and minimal user friction.
 
-## Current Milestone: v1.4 Documentation Site
+## Current Milestone: v2.0.2 Documentation Site
 
 **Goal:** Add CI/CD-powered HTML API documentation hosted on GitHub Pages.
 
@@ -94,4 +94,4 @@ Keep OpenCARL's dynamic rule injection working seamlessly inside OpenCode with f
 | Complete CARL → OpenCARL rebranding | Brand consistency and broader naming | ✓ Good |
 
 ---
-*Last updated: 2026-03-13 after starting v1.4 Documentation Site milestone*
+*Last updated: 2026-03-13 after starting v2.0.2 Documentation Site milestone*
