@@ -1,6 +1,6 @@
 {
   "name": "opencarl",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "OpenCARL - Dynamic rule injection for OpenCode. Rules load when relevant, disappear when not. Adapted from CARL by Chris Kahler.",
   "main": "dist/plugin.js",
   "types": "dist/plugin.d.ts",
@@ -16,7 +16,7 @@
   "scripts": {
     "build": "npx tsc --project tsconfig.build.json && node -e \"const fs=require('fs'); const p='dist/plugin.js'; if(!fs.existsSync(p)){console.error('ERROR: '+p+' not found');process.exit(1)} console.log('[build] OpenCARL plugin built successfully'); console.log('[build] Output: '+require('path').resolve(p))\"",
     "prepublishOnly": "npm run build && node scripts/verify-dist.js",
-    "publish": "npm run build && npm publish --access public",
+    "release": "npm run build && npm publish --access public",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage --testPathIgnorePatterns='tests/javascript/e2e'",
