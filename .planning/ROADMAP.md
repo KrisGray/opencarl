@@ -317,12 +317,13 @@ Plans:
   3. INSTALL.md uses .opencarl/ and *opencarl throughout
   4. TROUBLESHOOTING.md references OpenCARL and OPENCARL_DEBUG
   5. All documentation examples use updated naming conventions
-**Plans**: 3 plans
+**Plans**: 4 plans
 
 Plans:
 - [ ] 16-documentation-rebranding/16-01-PLAN.md — Rename CARL-DOCS.md to OPENCARL-DOCS.md (DOCS-01)
 - [ ] 16-documentation-rebranding/16-02-PLAN.md — Update README.md and INSTALL.md branding (DOCS-02, DOCS-03)
 - [ ] 16-documentation-rebranding/16-03-PLAN.md — Update TROUBLESHOOTING and remaining doc examples (DOCS-04, DOCS-05)
+- [ ] 16-documentation-rebranding/16-04-PLAN.md — Gap closure: add *opencarl example to fixture README (DOCS-05)
 
 ---
 
@@ -365,7 +366,7 @@ Plans:
 | 13. Configuration & Directory Migration | 6/6 | Complete    | 2026-03-11 | - |
 | 14. Command Rebranding | 7/7 | Complete   | 2026-03-11 | - |
 | 15. Environment Variable Rebranding | 8/8 | Complete    | 2026-03-12 | 2026-03-12 | - |
-| 16. Documentation Rebranding | 3/3 | Complete   | 2026-03-13 | - |
+| 16. Documentation Rebranding | 4/4 | Complete   | 2026-03-13 | - |
 | 17. Package Metadata & CI/CD Finalization | v1.3 | 0/5 | Not started | - |
 
 ---
