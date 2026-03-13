@@ -21,8 +21,7 @@ concurrency:
 
 jobs:
   e2e:
-    # Skip draft PRs
-    if: github.event.pull_request.draft == false
+    if: github.event_name != 'release' && github.event.pull_request.draft != true
 
     runs-on: ubuntu-latest
 
