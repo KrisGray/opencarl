@@ -6,9 +6,9 @@ env:
 on:
   push:
     branches: [main]
+    tags-ignore: ['v*']
   pull_request:
     branches: [main]
-    # Skip draft PRs (per user decision)
     types: [opened, synchronize, reopened, ready_for_review]
 
 # Only run on non-draft PRs
@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
   test:
-    if: github.event_name != 'release' && github.event.pull_request.draft != true
+    if: github.event.pull_request.draft != true
     
     runs-on: ubuntu-latest
     

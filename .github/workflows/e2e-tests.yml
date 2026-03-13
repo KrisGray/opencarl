@@ -6,12 +6,11 @@ env:
 on:
   pull_request:
     branches: [main]
-    # Skip draft PRs (per user decision)
     types: [opened, synchronize, reopened, ready_for_review]
   push:
     branches: [main]
+    tags-ignore: ['v*']
   schedule:
-    # Nightly at 2 AM UTC
     - cron: '0 2 * * *'
 
 # Only run on non-draft PRs
@@ -21,7 +20,7 @@ concurrency:
 
 jobs:
   e2e:
-    if: github.event_name != 'release' && github.event.pull_request.draft != true
+    if: github.event.pull_request.draft != true
 
     runs-on: ubuntu-latest
 
