@@ -2,7 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { findProjectOpencarl, findGlobalOpencarl } from "../integration/paths";
 import {
-  integrateOpencarl,
+  integrateOpencarl as integrateOpencarlAgent,
   removeOpencarlIntegration,
   IntegrationResult,
 } from "../integration/agents-writer";
@@ -295,7 +295,7 @@ export async function runIntegration(options: {
   );
 
   if (integrate) {
-    return integrateOpencarl(targetAgentsPath, opencarlDocsPath);
+    return integrateOpencarlAgent(targetAgentsPath, opencarlDocsPath);
   }
 
   if (remove) {
