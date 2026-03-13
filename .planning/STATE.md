@@ -8,9 +8,9 @@ See: .planning/PROJECT.md
 
 **Milestone:** v1.3 Branding & Context Migration
 **Current phase:** 17-package-metadata-cicd
-**Current Plan:** 04
+**Current Plan:** Not started
 **Total Plans in Phase:** 4
-**Status:** Completed
+**Status:** Milestone complete
 **Progress:** [██████████] 100%
 
 ## Decisions
