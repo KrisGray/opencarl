@@ -41,7 +41,7 @@ OpenCARL is a dynamic rule injection plugin for OpenCode that gives your AI assi
 - 🌐 **Global & project rules** - Share across projects or keep them specific
 - 📝 **AGENTS.md integration** - Optional documentation integration
 
-OpenCARL is an OpenCode adaptation of CARL (Context Augmentation & Reinforcement Layer), originally created by Chris Kahler for Claude Code.
+OpenCARL is an OpenCode adaptation of the Context Augmentation & Reinforcement Layer project, originally created by Chris Kahler for Claude Code.
 
 ---
 
@@ -114,17 +114,17 @@ Add OpenCARL to your `opencode.json` plugin list
 In OpenCode, run
 
 ```
-/carl setup
+/opencarl setup
 ```
 
-This seeds your project with the `.carl/` directory structure and default templates.
+This seeds your project with the `.opencarl/` directory structure and default templates.
 
 ### Optional: AGENTS.md Integration
 
 To add OpenCARL documentation to your project's `AGENTS.md`
 
 ```
-/carl setup --integrate
+/opencarl setup --integrate
 ```
 
 ### Optional: opencode.json Instructions Integration
@@ -132,17 +132,19 @@ To add OpenCARL documentation to your project's `AGENTS.md`
 To add OpenCARL docs to your `opencode.json` instructions field (for global OpenCode context)
 
 ```
-/carl setup --integrate-opencode
+/opencarl setup --integrate-opencode
 ```
 
-This merges CARL documentation into your opencode.json, making it available to OpenCode in every session.
+This merges OpenCARL documentation into your opencode.json, making it available to OpenCode in every session.
+
+For full documentation, see [OPENCARL-DOCS.md](resources/docs/OPENCARL-DOCS.md).
 
 ### Your First Interaction
 
-Type `*carl` in any prompt
+Type `*opencarl` in any prompt
 
 ```
-*carl
+*opencarl
 ```
 
 This activates **OpenCARL Help Mode** — an interactive guide that can
@@ -181,12 +183,12 @@ You type: "help me fix this bug"
     coding preferences baked in
 ```
 
-OpenCARL reads your `.carl/manifest` and injects only the rules that match your current task.
+OpenCARL reads your `.opencarl/manifest` and injects only the rules that match your current task.
 
 ### Project Structure
 
 ```
-.carl/
+.opencarl/
 ├── manifest              # Domain registry (states + keywords)
 ├── global                # Universal rules (always loaded)
 ├── commands              # Star-command definitions
@@ -265,14 +267,14 @@ DEVELOPMENT_RULE_2=Run tests after implementation changes
 
 | Location | Scope | Use Case |
 |----------|-------|----------|
-| `~/.carl/` | All projects | Universal preferences |
-| `./.carl/` | Current project | Project-specific rules |
+| `~/.opencarl/` | All projects | Universal preferences |
+| `./.opencarl/` | Current project | Project-specific rules |
 
 Local rules override global when both exist.
 
 ### Creating Custom Domains
 
-1. Create file `.carl/myworkflow` (lowercase)
+1. Create file `.opencarl/myworkflow` (lowercase)
 2. Add rules with uppercase prefix
    ```
    MYWORKFLOW_RULE_0=First instruction
@@ -284,7 +286,7 @@ Local rules override global when both exist.
    MYWORKFLOW_RECALL=keyword1, keyword2
    ```
 
-Or use `*carl` and say "help me create a domain" for guided setup.
+Or use `*opencarl` and say "help me create a domain" for guided setup.
 
 ---
 
@@ -292,12 +294,12 @@ Or use `*carl` and say "help me create a domain" for guided setup.
 
 | Command | Purpose |
 |---------|---------|
-| `*carl` | Enter help mode |
-| `*carl docs` | View documentation |
-| `/carl` | Domain management |
-| `/carl list` | Show all domains |
-| `/carl view DOMAIN` | Show rules in a domain |
-| `/carl toggle DOMAIN active\|inactive` | Enable/disable domain |
+| `*opencarl` | Enter help mode |
+| `*opencarl docs` | View documentation |
+| `/opencarl` | Domain management |
+| `/opencarl list` | Show all domains |
+| `/opencarl view DOMAIN` | Show rules in a domain |
+| `/opencarl toggle DOMAIN active\|inactive` | Enable/disable domain |
 
 ---
 
@@ -316,7 +318,7 @@ OpenCARL rules inject alongside your OpenCode AGENTS.md rules. Both apply, with 
 | Rules not loading | Check `STATE=active` in manifest |
 | Wrong rules loading | Make recall keywords more specific |
 | Plugin not found | Verify opencode.json plugin path |
-| Commands not available | Run `/carl setup` |
+| Commands not available | Run `/opencarl setup` |
 
 ### Debug Mode
 
@@ -338,8 +340,8 @@ For comprehensive troubleshooting, see [TROUBLESHOOTING.md](TROUBLESHOOTING.md) 
 - Integration configuration
 
 **Need help?**
-- Type `*carl` for interactive guidance
-- Check `.carl/manifest` for current configuration
+- Type `*opencarl` for interactive guidance
+- Check `.opencarl/manifest` for current configuration
 - Run with `OPENCARL_DEBUG=true` for detailed logs
 
 ---
@@ -377,13 +379,13 @@ OpenCARL provides structure, not opinions. The default domains are examples — 
 ```
 @krisgray/opencarl/
 ├── dist/plugin.js          # Plugin entrypoint
-├── .carl-template/         # Default configuration
+├── .opencarl-template/     # Default configuration
 │   ├── manifest            # Domain registry
 │   ├── global              # Universal rules
 │   ├── commands            # Star-command definitions
 │   └── context             # Context bracket rules
 └── resources/              # Commands and skills
-    ├── commands/carl/      # /carl commands
+    ├── commands/opencarl/  # /opencarl commands
     └── skills/             # Domain management helpers
 ```
 
@@ -391,15 +393,14 @@ OpenCARL provides structure, not opinions. The default domains are examples — 
 
 ## Attribution & License
 
-**CARL** (Context Augmentation & Reinforcement Layer) was originally 
+Context Augmentation & Reinforcement Layer was originally 
 created by [Chris Kahler](https://github.com/ChristopherKahler) 
 for Claude Code.
 
 **OpenCARL** is an OpenCode adaptation, maintained by 
 [Kristian Gray](https://github.com/KrisGray).
 
-The original CARL project can be found at
-https://github.com/ChristopherKahler/carl
+The original project can be found on Chris Kahler's GitHub profile.
 
 ---
 
@@ -413,7 +414,7 @@ MIT License. See [LICENSE](LICENSE) for details.
 
 **Kristian Gray** — OpenCARL Maintainer
 
-**Original Author** — Chris Kahler (CARL Creator)
+**Original Author** — Chris Kahler (Context Augmentation & Reinforcement Layer creator)
 
 ---
 
