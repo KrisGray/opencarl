@@ -8,16 +8,11 @@ OpenCARL is a dynamic rule injection plugin for OpenCode that gives your AI assi
 
 Keep OpenCARL's dynamic rule injection working seamlessly inside OpenCode with full parity and minimal user friction.
 
-## Current Milestone: v1.3 Branding & Context Migration (INITIATED2026-03-18)
+## Current Milestone: Planning Next Milestone
 
-**Goal:** Replace all instances of "CARL" with "OpenCARL" and "carl" with "opencarl" throughout the codebase.
+**Status:** v1.3 shipped (2026-03-13). Ready to plan v2.0.
 
-**Target scope:**
-- Source code: src/carl/ → src/opencarl/
-- Configuration: .carl/ → .opencarl/
-- Commands: *carl → *opencarl
-- Documentation: All CARL references → OpenCARL
-- Tests and fixtures: Update all references
+**Next milestone:** Define scope and requirements for next iteration.
 
 ## Requirements
 
@@ -41,17 +36,16 @@ Keep OpenCARL's dynamic rule injection working seamlessly inside OpenCode with f
 - ✓ Integration tests for plugin lifecycle and rule injection pipeline — v1.2 Phase 10
 - ✓ E2E tests with Docker and OpenCode CLI v1.2.15 — v1.2 Phase 11
 - ✓ Full CI/CD pipeline with automated test execution and coverage reporting — v1.2 Phases 7, 11
+- ✓ Complete CARL to OpenCARL rebranding (source code, config, docs, commands) — v1.3 Phases 12-17
+- ✓ Directory migration: src/carl/ → src/opencarl/, .carl/ → .opencarl/ — v1.3 Phase 13
+- ✓ Command rebranding: *carl → *opencarl, /carl → /opencarl — v1.3 Phase 14
+- ✓ Environment variable rebranding: CARL_DEBUG → OPENCARL_DEBUG — v1.3 Phase 15
+- ✓ Documentation rebranding across all files — v1.3 Phase 16
+- ✓ Package metadata and CI/CD updates to @krisgray/opencarl — v1.3 Phase 17
 
 ### Active
 
-- [ ] Rebrand CARL to OpenCARL throughout codebase (source code, config, docs)
-- [ ] Update all import statements and references
-- [ ] Update directory names (src/carl/ → src/opencarl/, .carl/ → .opencarl/)
-- [ ] Update command references (*carl → *opencarl)
-- [ ] Update all test files and fixtures
-- [ ] Update environment variable references (CARL_DEBUG → OPENCARL_DEBUG)
-- [ ] Verify all CARL references replaced
-- [ ] Update documentation and README files
+(No active requirements — milestone complete, ready for next planning phase)
 
 ### Out of Scope
 
@@ -62,35 +56,37 @@ Keep OpenCARL's dynamic rule injection working seamlessly inside OpenCode with f
 
 ## Context
 
-- **Shipped:** v1.2 (2026-03-18) - Comprehensive test infrastructure with 312 tests
-- **Tech stack:** TypeScript, Jest, Docker, OpenCode CLI v1.2.15
+- **Shipped:** v1.3 (2026-03-13) - Complete CARL to OpenCARL rebranding across 6 phases, 51 plans
+- **Previous:** v1.2 (2026-03-18) - Comprehensive test infrastructure with 312 tests
+- **Tech stack:** TypeScript (4,065 LOC), Jest, Docker, OpenCode CLI v1.2.15
 - **Test coverage:** 312 tests (254 unit, 35 integration, 23 E2E), 79.44% overall statements
 - **Key infrastructure:** Jest with ts-jest, GitHub Actions CI, Docker E2E testing
-- **Documentation:** README.md, INSTALL.md, CARL-DOCS.md, TROUBLESHOOTING.md
+- **Documentation:** README.md, INSTALL.md, OPENCARL-DOCS.md, TROUBLESHOOTING.md
+- **Package:** @krisgray/opencarl (npm), Docker: opencode-opencarl:e2e
 
 ## Constraints
 
 - **Plugin API**: Must use OpenCode plugin events and context (per https://opencode.ai/docs/plugins/).
-- **Compatibility**: Preserve existing `.carl/` (to be renamed to `.opencarl/`) directory structure and manifest/domain file semantics.
+- **Compatibility**: Preserve `.opencarl/` directory structure and manifest/domain file semantics.
 - **Distribution**: Prefer local plugin files over npm packaging.
 - **Triggering**: `*opencarl` is preferred; `/opencarl` allowed only as fallback.
 - **Language**: Implement OpenCode plugin in TypeScript.
-- **Branding consistency**: All CARL → OpenCARL, carl → opencarl references must be updated
+- **Branding consistency**: All OpenCARL/opencarl references maintained (rebranding complete)
 
 ## Key Decisions
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
 | Local plugin distribution | Matches OpenCode plugin loading and avoids npm publish | ✓ Good |
-| Keep `.carl/` locations (to be renamed) | Preserve existing CARL workflows and files | ✓ Good |
-| Prefer `*carl` trigger (to be renamed) | Maintains current user experience | ✓ Good |
+| Keep `.carl/` locations (renamed to `.opencarl/`) | Preserve existing workflows and files with updated naming | ✓ Good |
+| Prefer `*opencarl` trigger | Maintains current user experience with updated name | ✓ Good |
 | Integrate with `AGENTS.md` and `opencode.json` | Align with OpenCode rules system | ✓ Good |
 | TypeScript plugin implementation | Aligns with OpenCode plugin types and examples | ✓ Good |
 | Dual-package strategy (carl-core + @krisgray/opencarl) | Support both Claude Code and OpenCode from single repo | ✓ Good |
 | Zero-overhead debug logging | Cache env var check at module load | ✓ Good |
 | Relative path for opencode.json instructions | Works across project setups | ✓ Good |
 | Structured errors with fix suggestions | Users get actionable guidance | ✓ Good |
-| Rebrand CARL → OpenCARL | Brand consistency and broader naming | — Pending |
+| Complete CARL → OpenCARL rebranding | Brand consistency and broader naming | ✓ Good |
 
 ---
-*Last updated: 2026-03-18 after v1.3 milestone initiation*
+*Last updated: 2026-03-13 after v1.3 milestone completion*

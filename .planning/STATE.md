@@ -10,7 +10,7 @@ See: .planning/PROJECT.md
 **Current phase:** 17-package-metadata-cicd
 **Current Plan:** Not started
 **Total Plans in Phase:** 4
-**Status:** Milestone complete
+**Status:** v1.3 milestone complete
 **Progress:** [██████████] 100%
 
 ## Decisions
