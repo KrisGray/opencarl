@@ -41,8 +41,8 @@ Requirements for OpenCARL rebranding milestone. Each maps to roadmap phases.
 - [x] **DOCS-01**: `CARL-DOCS.md` is renamed to `OPENCARL-DOCS.md`
 - [x] **DOCS-02**: README.md references OpenCARL branding throughout
 - [x] **DOCS-03**: INSTALL.md uses `.opencarl/` and `*opencarl` throughout
-- [ ] **DOCS-04**: TROUBLESHOOTING.md references OpenCARL and `OPENCARL_DEBUG`
-- [ ] **DOCS-05**: All documentation examples use updated naming conventions
+- [x] **DOCS-04**: TROUBLESHOOTING.md references OpenCARL and `OPENCARL_DEBUG`
+- [x] **DOCS-05**: All documentation examples use updated naming conventions
 
 ### Package Metadata & CI/CD
 
@@ -99,8 +99,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DOCS-01 | Phase 16 | Complete |
 | DOCS-02 | Phase 16 | Complete |
 | DOCS-03 | Phase 16 | Complete |
-| DOCS-04 | Phase 16 | Pending |
-| DOCS-05 | Phase 16 | Pending |
+| DOCS-04 | Phase 16 | Complete |
+| DOCS-05 | Phase 16 | Complete |
 | PKG-01 | Phase 17 | Pending |
 | PKG-02 | Phase 17 | Pending |
 | PKG-03 | Phase 17 | Pending |
