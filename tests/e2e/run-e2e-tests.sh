@@ -17,10 +17,10 @@ PASSED_TESTS=0
 FAILED_TESTS=0
 
 # Container name
-CONTAINER_NAME="carl-e2e"
+CONTAINER_NAME="opencarl-e2e"
 
-# Image name
-IMAGE_NAME='opencode-opencarl:e2e'
+# Image name (can be overridden via E2E_IMAGE environment variable)
+IMAGE_NAME="${E2E_IMAGE:-opencode-opencarl:e2e}"
 
 # Debug mode
 OPENCARL_DEBUG="true"

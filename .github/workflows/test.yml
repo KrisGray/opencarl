@@ -1,4 +1,4 @@
-name: Test
+name: OpenCARL Tests
 
 on:
   push:
@@ -39,11 +39,11 @@ jobs:
           CI: true
           OPENCARL_DEBUG: "false"
       
-      - name: Upload coverage report (HTML)
+      - name: Upload coverage report (OpenCARL)
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: coverage-report
+          name: opencarl-coverage-report
           path: coverage/lcov-report/
           retention-days: 30
       
