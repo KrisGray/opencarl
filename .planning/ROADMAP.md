@@ -6,10 +6,7 @@
 - ✅ **v1.1 Polish & Complete Integration** - Phase 6 (shipped 2026-03-03)
 - ✅ **v1.2 Testing & QA** - Phases 7-11 (shipped 2026-03-18)
 - ✅ **v1.3 Branding & Context Migration** - Phases 12-17 (shipped 2026-03-13)
-
-## Next Milestone
-
-*Planning phase - run `/gsd-new-milestone` to define scope and requirements for v2.0*
+- 🚧 **v2.0.2 Documentation Site** - Phases 18-19 (in progress)
 
 ## Phases
 
@@ -66,149 +63,6 @@ See [.planning/milestones/v1.2-ROADMAP.md](.planning/milestones/v1.2-ROADMAP.md)
 - [x] **Phase 10: Integration Tests** - Plugin lifecycle, rule injection pipeline, domain workflow, and file system operations tests
 - [x] **Phase 11: E2E Tests & Docker** - Docker container setup, full workflow E2E tests with real OpenCode, and CI E2E execution
 
-**Phase 7: Test Infrastructure & CI Setup**
-
-**Goal**: Developers have working test infrastructure with automated CI that validates code on every change.
-
-**Depends on**: Phase 6 (v1.1 completion)
-
-**Requirements**: TEST-01, TEST-02, TEST-03, CI-01, CI-02, CI-04
-
-**Success Criteria** (what must be TRUE):
-  1. Developer can run `npm test` and see Jest execute tests with ts-jest and Node environment
-  2. Developer can view coverage reports showing branch/function/line/statement percentages
-  3. CI fails build when coverage drops below 80% threshold
-  4. GitHub Actions runs test suite automatically on every PR and push to main
-  5. Coverage report is downloadable as workflow artifact from GitHub Actions
-
-**Plans**: TBD
-
----
-
-**Phase 8: Core Unit Tests - Parsing & Matching**
-
-**Goal**: Core parsing and matching logic is validated with comprehensive unit test coverage.
-
-**Depends on**: Phase 7 (test infrastructure)
-
-**Requirements**: UNIT-01, UNIT-02, UNIT-04, UNIT-05
-
-**Success Criteria** (what must be TRUE):
-  1. Developer can verify manifest parser handles valid/malformed/empty manifests correctly
-  2. Developer can verify keyword scanner matches, excludes, and respects case-insensitivity
-  3. Developer can verify rule composer correctly combines single/multiple domains and global rules
-  4. Developer can verify context bracket logic classifies fresh/moderate/depleted sessions correctly
-
-**Plans**: 5 plans
-
-Plans:
-- [x] 08-01-PLAN.md — Test fixtures and helper factories (Wave 0)
-- [ ] 08-02-PLAN.md — Manifest parser tests -UNIT-01 (Wave 1)
-- [x] 08-03-PLAN.md — Keyword scanner tests -UNIT-02 (Wave 1)
-- [ ] 08-04-PLAN.md — Context bracket tests-UNIT-05 (Wave 1)
-- [ ] 08-05-PLAN.md — Rule composer/injector tests-UNIT-04 (Wave 2)
-
----
-
-**Phase 9: Core Unit Tests - Session & Setup**
-
-**Goal**: Session management, setup, and validation logic is validated with comprehensive unit test coverage.
-
-**Depends on**: Phase 7 (test infrastructure)
-
-**Requirements**: UNIT-03, UNIT-06, UNIT-07, UNIT-08, UNIT-09
-
-**Success Criteria** (what must be TRUE):
-  1. Developer can verify domain manager load/toggle/list/view operations work correctly
-  2. Developer can verify star-command parser handles *carl, *carl docs, and custom commands
-  3. Developer can verify session manager creates, retrieves, updates, and persists sessions
-  4. Developer can verify setup scaffolds .carl/ directory with templates idempotently
-  5. Developer can verify validation module catches manifest and domain errors
-
-**Plans**: 5 plans
-
-Plans:
-- [ ] 09-01-PLAN.md — Test helpers (session-state-factory, setup-mocks) (Wave 0)
-- [ ] 09-02-PLAN.md — Command parity tests - UNIT-06 (Wave 1)
-- [ ] 09-03-PLAN.md — Validation domain rules tests - UNIT-09 (Wave 1)
-- [ ] 09-04-PLAN.md — Session overrides tests - UNIT-03, UNIT-07 (Wave 2)
-- [ ] 09-05-PLAN.md — Setup tests - UNIT-08 (Wave 2)
-
----
-
-**Phase 9.1 (INSERTED): Close Phase 9 Unit Test Gaps**
-
-**Goal**: Phase 9 unit test requirements are fully satisfied and verified.
-
-**Depends on**: Phase 9 (unit test plans executed)
-
-**Requirements**: UNIT-03, UNIT-06, UNIT-07, UNIT-08, UNIT-09
-
-**Gap Closure**: Closes audit gaps from v1.2 milestone audit (Phase 9 unverified + missing tests).
-
-**Success Criteria** (what must be TRUE):
-  1. Domain manager tests exist and cover load/toggle/list/view operations
-  2. Star-command parser tests cover *carl, *carl docs, and custom commands
-  3. Session manager tests cover create/get/update/persist
-  4. Setup/initializer tests cover .carl/ scaffolding and idempotency
-  5. Validation tests cover manifest + domain validation paths
-  6. Phase 9 verification report exists and passes
-
-**Plans**: 2 plans
-
-Plans:
-- [ ] 09.1-01-PLAN.md — Domain/session manager tests (loader, rule-cache, signal-store)
-- [ ] 09.1-02-PLAN.md — Phase 9.1 verification report + requirement evidence
-
----
-
-**Phase 10: Integration Tests**
-
-**Goal**: Plugin components work together correctly across full workflows.
-
-**Depends on**: Phase 8, Phase 9 (unit tests complete)
-
-**Requirements**: INTG-01, INTG-02, INTG-03, INTG-04
-
-**Success Criteria** (what must be TRUE):
-  1. Developer can verify plugin initializes, registers hooks, and processes messages end-to-end
-  2. Developer can verify manifest → scan → load → compose → inject pipeline produces correct rules
-  3. Developer can verify setup → list → toggle workflow operates correctly
-  4. Developer can verify file operations (manifest changes, session persistence, global/local resolution) work correctly
-
-**Plans**: 4 plans
-
-Plans:
-- [ ] 10-01-PLAN.md — Plugin lifecycle tests (INTG-01)
-- [ ] 10-02-PLAN.md — Rule injection pipeline tests (INTG-02)
-- [ ] 10-03-PLAN.md — Setup and domain workflow tests (INTG-03)
-- [ ] 10-04-PLAN.md — File system operations tests (INTG-04)
-
----
-
-**Phase 11: E2E Tests & Docker**
-
-**Goal**: Real OpenCode in Docker validates complete user workflows automatically in CI.
-
-**Depends on**: Phase 10 (integration tests complete)
-
-**Requirements**: E2E-01, E2E-02, E2E-03, E2E-04, CI-03
-
-**Success Criteria** (what must be TRUE):
-  1. Developer can run Docker container with OpenCode and execute E2E tests locally
-  2. Developer can verify full setup flow scaffolds .carl/ and creates valid defaults
-  3. Developer can verify keyword matching triggers correct rule injection with real OpenCode
-  4. Developer can verify star-commands work correctly with real OpenCode
-  5. GitHub Actions runs E2E tests in Docker as part of CI pipeline
-
-**Plans**: 4 plans
-
-Plans:
-- [x] 11-01-PLAN.md — Docker container with OpenCode for E2E testing (E2E-01)
-- [x] 11-02-PLAN.md — E2E tests for setup, keyword matching, and star-commands (E2E-02, E2E-03, E2E-04)
-- [x] 11-03-PLAN.md — GitHub Actions workflow for E2E tests (CI-03)
-- [ ] 11-04-PLAN.md — Add 5th fixture file to close verification gap
-
 </details>
 
 <details>
@@ -224,6 +78,45 @@ See [.planning/milestones/v1.3-ROADMAP.md](.planning/milestones/v1.3-ROADMAP.md)
 - [x] **Phase 17: Package Metadata & CI/CD Finalization** - Package.json, Docker, and CI/CD aligned with @krisgray/opencarl
 
 </details>
+
+### 🚧 v2.0.2 Documentation Site (In Progress)
+
+**Milestone Goal:** Add CI/CD-powered HTML API documentation hosted on GitHub Pages.
+
+- [ ] **Phase 18: TypeDoc Setup** - Configure TypeDoc for local HTML documentation generation
+- [ ] **Phase 19: GitHub Actions Deployment** - Automate docs deployment on release
+
+## Phase Details
+
+### Phase 18: TypeDoc Setup
+**Goal**: Developers can generate complete API documentation locally
+**Depends on**: Phase 17 (rebranding complete)
+**Requirements**: DOCS-01, DOCS-02, DOCS-03
+**Success Criteria** (what must be TRUE):
+  1. Running `npm run docs` generates HTML documentation in docs/ directory
+  2. Documentation includes clickable source code links to GitHub
+  3. README.md appears as the documentation landing page
+  4. All exported TypeScript types and functions appear in the generated docs
+**Plans**: TBD
+
+Plans:
+- [ ] 18-01: Install and configure TypeDoc
+- [ ] 18-02: Add source links and README integration
+
+### Phase 19: GitHub Actions Deployment
+**Goal**: Documentation publishes automatically on release
+**Depends on**: Phase 18
+**Requirements**: CICD-01, CICD-02, CICD-03
+**Success Criteria** (what must be TRUE):
+  1. Publishing a GitHub release triggers docs build and deployment
+  2. gh-pages branch contains only the generated documentation (orphan commits)
+  3. Documentation is publicly accessible at krisgray.github.io/opencarl
+  4. Docs deployment integrates cleanly with existing publish.yml workflow
+**Plans**: TBD
+
+Plans:
+- [ ] 19-01: Add docs job to publish.yml workflow
+- [ ] 19-02: Configure GitHub Pages deployment
 
 ## Progress
 
@@ -247,6 +140,8 @@ See [.planning/milestones/v1.3-ROADMAP.md](.planning/milestones/v1.3-ROADMAP.md)
 | 15. Environment Variable Rebranding | v1.3 | 8/8 | Complete | 2026-03-12 |
 | 16. Documentation Rebranding | v1.3 | 4/4 | Complete | 2026-03-13 |
 | 17. Package Metadata & CI/CD Finalization | v1.3 | 4/4 | Complete | 2026-03-13 |
+| 18. TypeDoc Setup | v2.0.2 | 0/2 | Not started | - |
+| 19. GitHub Actions Deployment | v2.0.2 | 0/2 | Not started | - |
 
 ---
 
@@ -255,6 +150,7 @@ See [.planning/milestones/v1.3-ROADMAP.md](.planning/milestones/v1.3-ROADMAP.md)
 Coverage validation has been archived with each milestone. See:
 - [v1.3 Coverage](.planning/milestones/v1.3-REQUIREMENTS.md)
 - [v1.2 Coverage](.planning/milestones/v1.2-REQUIREMENTS.md)
+- [v2.0.2 Coverage](.planning/REQUIREMENTS.md)
 
 ---
 
@@ -265,10 +161,9 @@ v1.0 Phases 1-5 ✓
 v1.1 Phase 6 ✓
 v1.2 Phases 7-11 ✓
 v1.3 Phases 12-17 ✓
+v2.0.2 Phases 18-19 (in progress)
 ```
-
-All planned milestones complete. Ready for v2.0 planning.
 
 ---
 *Roadmap created: 2026-02-25*
-*Last updated: 2026-03-13 after v1.3 milestone completion*
+*Last updated: 2026-03-13 after v2.0.2 roadmap creation*
