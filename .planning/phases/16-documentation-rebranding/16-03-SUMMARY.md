@@ -59,7 +59,7 @@ Each task was committed atomically:
 2. **task 2: update CARL-AGENTS.md content to OpenCARL naming** - `ffe5423` (docs)
 3. **task 3: update tests/fixtures/README.md examples** - `23c5f1a` (docs)
 
-**Plan metadata:** `TBD` (docs: complete plan)
+**Plan metadata:** `13a6066` (docs: complete plan)
 
 ## Files Created/Modified
 - `TROUBLESHOOTING.md` - rebranded troubleshooting commands, paths, and doc links
@@ -86,3 +86,5 @@ None - no external service configuration required.
 ---
 *Phase: 16-documentation-rebranding*
 *Completed: 2026-03-13*
+
+## Self-Check: PASSED
