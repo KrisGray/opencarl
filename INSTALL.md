@@ -21,11 +21,11 @@ Add OpenCARL to your `opencode.json` plugin list:
 In OpenCode, run:
 
 ```
-/carl setup
+/opencarl setup
 ```
 
 This will:
-1. Seed `.carl/` templates in your project (if missing)
+1. Seed `.opencarl/` templates in your project (if missing)
 2. Copy commands and skills to your `.opencode/` directory
 3. Prepare OpenCARL for use
 
@@ -34,13 +34,13 @@ This will:
 To add OpenCARL documentation to your project's `AGENTS.md`:
 
 ```
-/carl setup --integrate
+/opencarl setup --integrate
 ```
 
 This adds an OpenCARL section with rule precedence documentation. Remove it anytime with:
 
 ```
-/carl setup --remove
+/opencarl setup --remove
 ```
 
 ### Optional: opencode.json Instructions Integration
@@ -48,10 +48,10 @@ This adds an OpenCARL section with rule precedence documentation. Remove it anyt
 To add OpenCARL docs to your `opencode.json` instructions field:
 
 ```
-/carl setup --integrate-opencode
+/opencarl setup --integrate-opencode
 ```
 
-This merges CARL documentation into the `instructions` array in opencode.json, making it available globally to OpenCode. Run again to update if CARL docs change.
+This merges OpenCARL documentation into the `instructions` array in opencode.json, making it available globally to OpenCode. Run again to update if OpenCARL docs change.
 
 ---
 
@@ -81,9 +81,9 @@ Copy the built plugin to your OpenCode plugins directory:
 
 ```bash
 mkdir -p ~/.opencode/plugins
-cp -r dist ~/.opencode/plugins/carl
-cp -r resources ~/.opencode/plugins/carl/
-cp -r .carl-template ~/.opencode/plugins/carl/
+cp -r dist ~/.opencode/plugins/opencarl
+cp -r resources ~/.opencode/plugins/opencarl/
+cp -r .opencarl-template ~/.opencode/plugins/opencarl/
 ```
 
 ### Step 3: Configure opencode.json
@@ -92,7 +92,7 @@ Edit `~/.opencode/opencode.json` or your project's `opencode.json`:
 
 ```json
 {
-  "plugin": ["./plugins/carl/dist/plugin.js"]
+  "plugin": ["./plugins/opencarl/dist/plugin.js"]
 }
 ```
 
@@ -100,12 +100,12 @@ Edit `~/.opencode/opencode.json` or your project's `opencode.json`:
 
 **Global (all projects):**
 ```bash
-cp -r .carl-template ~/.carl
+cp -r .opencarl-template ~/.opencarl
 ```
 
 **Project-specific:**
 ```bash
-cp -r .carl-template ./.carl
+cp -r .opencarl-template ./.opencarl
 ```
 
 ---
@@ -114,24 +114,24 @@ cp -r .carl-template ./.carl
 
 After installation, verify:
 
-1. `.carl/manifest` exists in your project or home directory
-2. `/carl` command is available in OpenCode
-3. `*carl` triggers help mode
+1. `.opencarl/manifest` exists in your project or home directory
+2. `/opencarl` command is available in OpenCode
+3. `*opencarl` triggers help mode
 
 Test with:
 ```
-/carl list
+/opencarl list
 ```
 
 ---
 
 ## Usage
 
-- `*carl` — Enter OpenCARL help mode
-- `*carl docs` — View full documentation
-- `/carl` — Domain management commands
-- `/carl list` — Show all domains
-- `/carl view DOMAIN` — Show rules in a domain
+- `*opencarl` — Enter OpenCARL help mode
+- `*opencarl docs` — View full documentation
+- `/opencarl` — Domain management commands
+- `/opencarl list` — Show all domains
+- `/opencarl view DOMAIN` — Show rules in a domain
 
 ---
 
@@ -141,9 +141,9 @@ Test with:
 
 | Problem | Fix |
 |---------|-----|
-| Rules not loading | Check `.carl/manifest` has `STATE=active` |
+| Rules not loading | Check `.opencarl/manifest` has `STATE=active` |
 | Plugin not found | Verify opencode.json plugin path |
-| Commands not available | Run `/carl setup` |
+| Commands not available | Run `/opencarl setup` |
 
 ### Debug Mode
 
@@ -165,11 +165,11 @@ See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for comprehensive troubleshooting c
 
 ```
 .opencode/
-├── commands/carl/      # OpenCARL slash commands
-├── skills/carl-*/      # OpenCARL skills
+├── commands/opencarl/  # OpenCARL slash commands
+├── skills/opencarl-*/  # OpenCARL skills
 └── plugins/            # Plugin files (if manual install)
 
-.carl/
+.opencarl/
 ├── manifest            # Domain registry
 ├── global              # Always-loaded rules
 ├── commands            # Star-command definitions
@@ -181,9 +181,9 @@ See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for comprehensive troubleshooting c
 
 ## Next Steps
 
-1. Edit `.carl/manifest` to configure domain recall keywords
-2. Add rules to domain files (e.g., `.carl/development`)
+1. Edit `.opencarl/manifest` to configure domain recall keywords
+2. Add rules to domain files (e.g., `.opencarl/development`)
 3. Test with prompts containing your recall keywords
-4. Run `*carl` for interactive help
+4. Run `*opencarl` for interactive help
 
 For full documentation, see [README-opencode.md](README-opencode.md).
