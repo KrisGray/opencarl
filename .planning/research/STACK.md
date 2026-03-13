@@ -1,177 +1,136 @@
-# Technology Stack
+# Stack Research
 
-**Project:** OpenCARL Rebranding (v1.3)
-**Researched:** 2026-03-05
-**Type:** REFACTORING MILESTONE
+**Domain:** TypeDoc API Documentation with GitHub Pages Deployment
+**Project:** OpenCARL v2.0.2 Documentation Site
+**Researched:** 2026-03-13
+**Confidence:** HIGH
 
-## Recommended Stack Changes
+## Recommended Stack
 
-This milestone is a **refactoring effort** focused on name changes only. No new libraries, frameworks, or build tools are required.
+### Core Technologies
 
-### Package Naming (Already Complete)
+| Technology | Version | Purpose | Why Recommended |
+|------------|---------|---------|-----------------|
+| typedoc | ^0.28.17 | TypeScript API documentation generator | Industry standard for TypeScript docs; native TypeScript 5.9.x support; built-in GitHub Pages compatibility (`githubPages: true` creates `.nojekyll`); HTML output works directly with GitHub Pages |
+| peaceiris/actions-gh-pages | v4.0.0 | GitHub Action for gh-pages deployment | Most popular option (5.2k+ stars); simple configuration; works with `GITHUB_TOKEN` (no secrets management needed); actively maintained |
 
-| Technology | Current | Target | Status | Why |
-|------------|---------|--------|--------|-----|
-| Package name | `@krisgray/opencarl` | `@krisgray/opencarl` | ✓ Complete | NPM naming guidelines require unique, descriptive, lowercase names. Scoped packages (@scope/name) are the recommended pattern. |
-| Binary name | `opencarl` | `opencarl` | ✓ Complete | Already updated in package.json bin field. |
+### Development Tools
 
-**NPM Naming Guidelines Verified** (HIGH confidence):
-- No uppercase letters ✓
-- Unique and descriptive ✓
-- Scoped naming for namespace organization ✓
-- Source: https://docs.npmjs.com/package-name-guidelines/
-
-**"Open" Prefix Convention** (MEDIUM confidence):
-- No official "Open" prefix convention found in npm documentation
-- Common pattern in open-source projects (OpenSSL, OpenSSH, OpenAI, OpenCode)
-- "OpenCARL" follows established naming patterns
-- Source: websearch on "Open prefix naming" + npm guidelines
-
-### Command Triggers (Needs Migration)
-
-| Component | Current | Target | File | Complexity |
-|-----------|---------|--------|------|------------|
-| Star command pattern | `\*([a-zA-Z]+)` | No change | `src/carl/command-parity.ts` | Low - pattern unchanged |
-| Command handler check | `commandName === "carl"` | `commandName === "opencarl"` | `src/integration/plugin-hooks.ts` | Low - string comparison |
-| Star command token | `*carl` → `*opencarl` | `*opencarl` | `src/carl/command-parity.ts` | Low - token name change |
-
-**OpenCode Plugin Registration** (HIGH confidence):
-- Plugins are TypeScript/JavaScript modules exporting hooks
-- No special plugin name registration required
-- Plugin name in package.json does not affect runtime behavior
-- Source: https://opencode.ai/docs/plugins/
-
-### Environment Variables (Needs Migration)
-
-| Variable | Current | Target | Pattern | Status |
-|----------|---------|--------|---------|--------|
-| Debug flag | `CARL_DEBUG` | `OPENCARL_DEBUG` | SCREAMING_SNAKE_CASE | Needs update |
-| Usage | `process.env.CARL_DEBUG === "true"` | `process.env.OPENCARL_DEBUG === "true"` | Module load caching | Good pattern |
-
-**Environment Variable Best Practices** (MEDIUM confidence):
-- Use SCREAMING_SNAKE_CASE (all caps, underscores)
-- Prefix with app name to avoid collisions (OPENCARL_)
-- Cache at module load for zero-overhead when disabled
-- Source: Standard Unix env var conventions
-
-### Configuration Directory (Needs Migration)
-
-| Location | Current | Target | Backwards Compat |
-|----------|---------|--------|------------------|
-| Global rules | `~/.carl/` | `~/.opencarl/` | Optional support for `.carl/` |
-| Project rules | `.carl/` | `.opencarl/` | Optional support for `.carl/` |
-| Template dir | `.carl-template` | `.opencarl-template` | Keep both during migration |
-
-**Directory Naming** (MEDIUM confidence):
-- Dot-prefixed directories for config (`.opencarl/`)
-- OpenCode uses `.opencode/` pattern
-- Backwards compatibility recommended for user migration
-- Source: https://opencode.ai/docs/config/
-
-### Source Code Structure (Needs Migration)
-
-| Path | Current | Target | Impact |
-|------|---------|--------|--------|
-| Source directory | `src/carl/` | `src/opencarl/` | All imports, file paths |
-| Module exports | `createCarlPluginHooks` | `createOpenCarlPluginHooks` | Function names |
-| Type names | `CarlRuleDomainPayload` | `OpenCarlRuleDomainPayload` | Type definitions |
-| Internal references | Multiple | Multiple | Throughout codebase |
-
-## Migration Checklist
-
-### Required Changes
-
-- [ ] **package.json**:
-  - [ ] Keywords: Remove "carl", add "opencarl" (line 32)
-  - [ ] Files array: Update `.carl-template` → `.opencarl-template` (line 14)
-  - [ ] Description: Already mentions "OpenCARL" ✓
-
-- [ ] **Environment Variable**:
-  - [ ] `src/carl/debug.ts`: `CARL_DEBUG` → `OPENCARL_DEBUG` (line 10)
-  - [ ] `src/carl/debug.ts`: Update log prefix `[carl:debug]` → `[opencarl:debug]` (line 38)
-
-- [ ] **Command Handling**:
-  - [ ] `src/integration/plugin-hooks.ts`: `commandName === "carl"` → `"opencarl"` (line 215)
-  - [ ] `src/integration/plugin-hooks.ts`: Update console.log messages `[carl]` → `[opencarl]` (lines 228, 229, 310, 376)
-  - [ ] `src/carl/command-parity.ts`: Token check `token === "CARL"` → `"OPENCARL"` (line 172)
-  - [ ] `src/carl/command-parity.ts`: Docs path `CARL-DOCS.md` → `OPENCARL-DOCS.md` (line 181)
-
-- [ ] **Directory Structure**:
-  - [ ] Rename `src/carl/` → `src/opencarl/`
-  - [ ] Update all import paths
-  - [ ] Update function/type names (Carl → OpenCarl)
-
-- [ ] **Tests and Fixtures**:
-  - [ ] Update test directory names
-  - [ ] Update fixture references
-  - [ ] Update test assertions
-
-### Optional Backwards Compatibility
-
-- [ ] Support reading from `~/.carl/` if `~/.opencarl/` not found
-- [ ] Support `.carl/` in project if `.opencarl/` not found
-- [ ] Add deprecation warning when using old paths
-- [ ] Document migration path in CARL-DOCS.md → OPENCARL-DOCS.md
-
-## No Changes Required
-
-### Core Technology Stack (Preserve Exactly)
-
-| Component | Technology | Version | Why Keep |
-|-----------|-----------|---------|----------|
-| Runtime | Node.js | >=16.7.0 | Engine requirement |
-| Language | TypeScript | 5.9.3 | Plugin types compatibility |
-| Plugin API | @opencode-ai/plugin | ^1.2.0 | OpenCode integration |
-| Testing | Jest | 30.2.0 | Existing test suite |
-| Build | tsc | 5.9.3 | TypeScript compiler |
-| CI/CD | GitHub Actions | - | Existing pipeline |
-
-### Architecture Patterns (Preserve Exactly)
-
-- Zero-overhead debug logging (cached at module load)
-- Rule injection pipeline
-- Star-command handling
-- Context bracket computation
-- Duplicate plugin detection
-- Session overrides
-- Devmode logging
+| Tool | Purpose | Notes |
+|------|---------|-------|
+| typedoc (CLI) | Generate docs from TypeScript source | Runs via `npx typedoc` — no global install needed |
 
 ## Installation
 
-No installation changes required. Build and test scripts remain identical.
-
 ```bash
-# Build
-npm run build
-
-# Test
-npm run test
-
-# Publish (after rebrand)
-npm run publish
+# Dev dependency only
+npm install -D typedoc
 ```
+
+## Alternatives Considered
+
+| Recommended | Alternative | When to Use Alternative |
+|-------------|-------------|-------------------------|
+| peaceiris/actions-gh-pages | JamesIves/github-pages-deploy-action | Both are equally capable; peaceiris has slightly more usage/stars |
+| peaceiris/actions-gh-pages | Official GitHub actions (configure-pages + upload-pages-artifact + deploy-pages) | Official actions required if using GitHub Enterprise or need fine-grained control; peaceiris is simpler for public repos |
+| HTML output | typedoc-plugin-markdown | Use markdown plugin ONLY if integrating with a larger documentation site (Docusaurus, VitePress); adds complexity for standalone API docs |
+
+## What NOT to Use
+
+| Avoid | Why | Use Instead |
+|-------|-----|-------------|
+| typedoc-plugin-markdown (for this project) | Adds unnecessary complexity; HTML output is self-contained and works directly with GitHub Pages | Standard HTML output |
+| typedoc-plugin-coverage | Overkill for a 4K LOC library; useful for large enterprise projects | Basic TypeDoc |
+| typedoc-plugin-missing-exports | Can expose internal implementation details you don't want documented | Export only what's needed, document intentionally |
+| Custom TypeDoc themes | Default theme is clean, functional, and well-maintained | Default theme |
+| JSDoc + TypeScript | TypeDoc parses TypeScript directly and produces better output with less configuration | TypeDoc |
+| Docusaurus/VitePress for API docs alone | Massive over-engineering for a single library's API reference | TypeDoc HTML output |
+
+## Version Compatibility
+
+| Package | Compatible With | Notes |
+|---------|-----------------|-------|
+| typedoc@0.28.x | typescript@5.0.x - 5.9.x | Peer dependency explicitly supports 5.9.x |
+| peaceiris/actions-gh-pages@v4 | All GitHub Actions runners | Linux, macOS, Windows supported |
+
+## Integration with Existing CI
+
+### Existing Setup
+- **Workflow:** `.github/workflows/publish.yml` triggers on release
+- **Node:** 20
+- **Package manager:** npm with `npm ci`
+- **Build command:** `npm run build` (TypeScript compilation)
+
+### Recommended Integration
+
+Add a `docs` job to the existing `publish.yml` workflow (runs after tests pass):
+
+```yaml
+# Add to publish.yml
+docs:
+  needs: [test, e2e]
+  runs-on: ubuntu-latest
+  permissions:
+    contents: write
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Generate API documentation
+      run: npx typedoc --out docs src/plugin.ts
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./docs
+```
+
+### TypeDoc Configuration
+
+Minimal `typedoc.json` in project root:
+
+```json
+{
+  "entryPoints": ["src/plugin.ts"],
+  "out": "docs",
+  "githubPages": true,
+  "hideGenerator": false,
+  "includeVersion": true,
+  "readme": "./README.md"
+}
+```
+
+Key options explained:
+- `githubPages: true` — Creates `.nojekyll` file (required for scoped packages like `@krisgray/opencarl`)
+- `hideGenerator: false` — Keep TypeDoc attribution (good practice)
+- `includeVersion: true` — Shows version number in docs
 
 ## Sources
 
-| Topic | Source | Confidence |
-|-------|--------|------------|
-| NPM package naming | https://docs.npmjs.com/package-name-guidelines/ | HIGH |
-| OpenCode plugin registration | https://opencode.ai/docs/plugins/ | HIGH |
-| Environment variable conventions | websearch + Unix standards | MEDIUM |
-| "Open" prefix patterns | websearch on open source naming | MEDIUM |
-| Directory naming | https://opencode.ai/docs/config/ | HIGH |
+- **TypeDoc 0.28.17** — npm registry (verified 2026-03-13)
+  - Latest release: 2026-02-13
+  - Peer deps: TypeScript 5.0.x through 5.9.x explicitly supported
+- **TypeDoc Output Options** — https://typedoc.org/documents/Options.Output.html
+  - `githubPages` option documented
+  - HTML output is default and self-contained
+- **peaceiris/actions-gh-pages** — https://github.com/peaceiris/actions-gh-pages
+  - v4.0.0 (latest release verified 2026-03-13)
+  - 5.2k+ stars, actively maintained
+  - Works with `GITHUB_TOKEN` (no manual secret setup needed)
+- **typedoc-plugin-markdown** — npm registry
+  - v4.10.0, requires typedoc 0.28.x
+  - Only needed for Docusaurus/VitePress integration — over-engineering for this use case
 
-## Migration Impact Assessment
-
-| Component | Lines to Change | Risk Level | Notes |
-|-----------|-----------------|------------|-------|
-| package.json metadata | ~2 | Low | Keywords, template path |
-| Environment variables | ~2 | Low | Only one var used |
-| Command handling | ~5 | Low | String comparisons, logs |
-| Directory structure | All imports | Medium | Path updates across codebase |
-| Function/type names | ~50+ | Medium | Carl* → OpenCarl* naming |
-| Tests/fixtures | ~100+ | Low | Mostly path renames |
-| Documentation | Multiple | Low | String replacements |
-
-**Total estimated changes:** ~150-200 lines across ~50 files
-**Recommended approach:** Automated find-replace + manual verification
+---
+*Stack research for: TypeDoc API Documentation with GitHub Pages*
+*Researched: 2026-03-13*

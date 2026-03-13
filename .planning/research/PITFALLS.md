@@ -1,262 +1,465 @@
-# Domain Pitfalls
+# Domain Pitfalls: TypeDoc + GitHub Pages for TypeScript npm Packages
 
-**Domain:** CARL → OpenCARL Rebranding Migration
-**Researched:** 2026-03-05
+**Domain:** Adding API documentation site to existing TypeScript npm package
+**Context:** Subsequent milestone — Adding documentation to existing OpenCARL project
+**Researched:** 2026-03-13
+**Confidence:** HIGH (Official TypeDoc docs, GitHub Actions docs, multiple community sources)
+
+---
 
 ## Critical Pitfalls
 
-Mistakes that cause rewrites or major issues.
+Mistakes that cause rewrites, failed deployments, or broken documentation sites.
 
-### Pitfall 1: Missed Environment Variable References
-**What goes wrong:** `CARL_DEBUG` environment variable is referenced in multiple locations (debug code, tests, documentation, CI configs). Missing even one reference causes:
-- Debug mode not working for users
-- Tests failing in CI
-- Documentation being misleading
-- Inconsistent behavior across environments
+### Pitfall 1: Wrong Entry Point Path
 
-**Why it happens:** Environment variables are accessed via `process.env.CARL_DEBUG` in code, referenced in shell commands in CI scripts, and documented in README/TROUBLESHOOTING files. Easy to miss when doing global find-replace.
-
-**Consequences:**
-- Debug logging silently fails (no clear error)
-- Test coverage drops unexpectedly
-- Users frustrated by non-functional debug mode
-- CI/CD pipeline failures
-
-**Prevention:**
-1. Create comprehensive grep pattern: `rg -i "CARL_DEBUG"` before starting
-2. Search in all file types: `--glob '!node_modules/*' --glob '!.git/*'`
-3. Use literal string search (not regex) to catch case variations
-4. After replacement, run tests with `OPENCARL_DEBUG=true` to verify
-5. Check CI logs for environment variable references
-
-**Detection:**
-- Debug logging not appearing when `OPENCARL_DEBUG=true` is set
-- Tests that previously passed now fail mysteriously
-- Search results still showing `CARL_DEBUG` after migration
-
-### Pitfall 2: Directory Renaming Breaks Import Paths
-**What goes wrong:** Renaming `src/carl/` to `src/opencarl/` and `.carl/` to `.opencarl/` without updating all import statements causes TypeScript compilation errors and runtime failures.
+**What goes wrong:**
+TypeDoc fails to generate documentation or generates empty/incomplete docs because the entry point file doesn't exist or doesn't match your package's actual exports.
 
 **Why it happens:**
-- Import statements use relative paths: `from "../carl/types"`
-- Directory references in loader code: checking for `.carl/` existence
-- Path resolution in tests and fixtures
-- Template files that reference directory structure
+- Developers assume `src/index.ts` exists when their project uses `src/plugin.ts` or another entry point
+- TypeDoc's auto-discovery uses `package.json` `exports`/`main` fields, but these may point to compiled JS, not TypeScript source
+- Changing entry points during refactoring breaks documentation without obvious errors
 
 **Consequences:**
-- TypeScript compilation errors (`Module not found`)
-- Runtime failures (cannot resolve imports)
-- Tests failing with file not found errors
-- Plugin not loading at all
+- Empty documentation site
+- "Module not found" errors during doc generation
+- CI/CD pipeline fails silently (docs build with no content)
 
 **Prevention:**
-1. Use TypeScript-aware find-replace tool for imports
-2. Before renaming, identify all import paths: `rg "from.*['\"].*carl['\"]"`
-3. Update import statements BEFORE renaming directories
-4. Verify compilation after each batch of changes
-5. Run full test suite after directory rename
+1. Verify entry point exists: `ls src/plugin.ts` (or your actual entry)
+2. Match entry point to `package.json` main/types fields (but use `.ts` source, not `.js` dist)
+3. Use explicit `entryPoints` in `typedoc.json` rather than relying on auto-discovery
+4. For OpenCARL specifically: entry point is `src/plugin.ts`, NOT `src/index.ts`
 
 **Detection:**
-- `tsc` compilation errors
-- Jest errors about missing modules
-- Tests failing with "Cannot find module"
-- Plugin not loading in OpenCode
+- Run `npx typedoc --showConfig` to verify resolved entry points
+- Check generated docs for "No exports found" or empty modules
+- CI step should fail if docs output directory is empty or missing expected files
 
-### Pitfall 3: Docker Image Name References in CI/CD
-**What goes wrong:** Docker image name `opencode-carl:e2e` is referenced in `.github/workflows/e2e-tests.yml`, test scripts, and Dockerfile. Missing these causes E2E test infrastructure to fail.
+**Phase to address:** Phase 1 (TypeDoc Setup & Configuration)
+
+---
+
+### Pitfall 2: Missing `.nojekyll` File Causes 404s
+
+**What goes wrong:**
+Documentation deploys successfully but users get 404 errors when navigating to certain pages — specifically those with paths starting with underscore (e.g., `_classes/`, `_modules/`).
 
 **Why it happens:**
-- Docker image names are strings that look different from code references
-- CI workflow files are often overlooked in codebase-wide searches
-- E2E test runner script (`.sh`) has hardcoded image name
+- GitHub Pages uses Jekyll by default, which ignores files/folders starting with `_`
+- TypeDoc generates assets with underscore prefixes for internal organization
+- Deployment appears successful but content is inaccessible
 
 **Consequences:**
-- E2E tests fail to build Docker image
-- CI/CD pipeline breaks completely
-- No E2E feedback until deployment
+- Users see 404 errors for API pages
+- Documentation site appears broken
+- Confusing debugging since deployment "succeeded"
 
 **Prevention:**
-1. Search for Docker-specific patterns: `rg "opencode-carl:e2e"` and `rg "docker build"`
-2. Check all workflow files: `.github/workflows/*.yml`
-3. Update Dockerfile and image references together
-4. Run E2E tests locally after changes
-5. Verify CI workflow syntax with `act` or similar tools
+1. Enable TypeDoc's `--githubPages` option (defaults to `true` in v0.23+), which auto-generates `.nojekyll`
+2. OR manually add `.nojekyll` file to your docs output directory before deployment
+3. Verify `.nojekyll` exists in deployed gh-pages branch root
 
 **Detection:**
-- CI workflow fails at Docker build step
-- E2E tests fail locally with Docker errors
-- Image not found in registry
+- Check if URLs with `_` prefix return 404
+- Inspect gh-pages branch root for `.nojekyll` file
+- Local preview works but deployed version has 404s
 
-### Pitfall 4: Package Name Inconsistencies
-**What goes wrong:** Multiple package names exist in codebase:
-- `@krisgray/opencarl` (current package.json)
-- `@krisgray/opencode-carl-plugin` (scripts and documentation)
-- `@krisgray/carl` (historical references)
+**Phase to address:** Phase 1 (TypeDoc Setup & Configuration)
 
-Inconsistencies break installation, publishing, and user onboarding.
+---
+
+### Pitfall 3: Incorrect GITHUB_TOKEN Permissions
+
+**What goes wrong:**
+GitHub Actions workflow fails during deployment with cryptic permission errors (typically HTTP 403 or 422).
 
 **Why it happens:**
-- Package name changed partway through development
-- Dual-package strategy (carl-core + OpenCode plugin) created confusion
-- Install script checks for specific package names
-- Documentation references multiple package variants
+- GitHub Actions changed default permissions model — many repos now default to restricted permissions
+- Deploying to Pages requires both `pages: write` AND `id-token: write`
+- Existing workflows may have `id-token: write` for npm provenance but miss `pages: write`
 
 **Consequences:**
-- Users install wrong package
-- Publishing fails (package already exists with different name)
-- Install script detection logic breaks
-- npm install/deprecate commands target wrong package
+- "Permission denied" errors in CI
+- Deployment fails after successful build
+- Confusing error messages that don't clearly indicate permission issue
 
 **Prevention:**
-1. Establish single source of truth: `package.json` name field
-2. Search all package name references: `rg "@krisgray.*carl"`
-3. Update install script logic to use single canonical name
-4. Update all documentation consistently
-5. Test install script with actual npm commands
+```yaml
+jobs:
+  deploy-docs:
+    permissions:
+      pages: write      # Required for Pages deployment
+      id-token: write   # Required for OIDC token verification
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+```
 
 **Detection:**
-- Install script fails to detect package
-- npm publish reports "package already exists"
-- Users report installation failures
-- grep shows multiple package name variants
+- Check Actions logs for "Permission denied" or HTTP 403/422
+- Verify workflow has explicit `permissions:` block
+- Compare against working `actions/deploy-pages` examples
+
+**Phase to address:** Phase 2 (GitHub Actions Workflow)
+
+---
+
+### Pitfall 4: GitHub Pages Source Configuration Mismatch
+
+**What goes wrong:**
+Documentation builds and uploads successfully in Actions but never appears at the Pages URL, or old content persists.
+
+**Why it happens:**
+- GitHub Pages can be configured to use "Deploy from a branch" OR "GitHub Actions"
+- Using `actions/deploy-pages` requires "GitHub Actions" as the source
+- Using `peaceiris/actions-gh-pages` or `JamesIves/github-pages-deploy-action` pushes to `gh-pages` branch and requires "Deploy from a branch"
+
+**Consequences:**
+- Docs deploy in Actions but never update the live site
+- Confusion about which deployment method to use
+- Two different deployment methods fighting each other
+
+**Prevention:**
+1. For `actions/deploy-pages` + `actions/upload-pages-artifact`: Set Pages source to "GitHub Actions"
+2. For direct branch push actions: Set Pages source to "Deploy from a branch" → "gh-pages"
+3. Document the chosen approach in repo settings
+4. Only use ONE deployment method, not both
+
+**Detection:**
+- Check Settings → Pages → Source in GitHub
+- Compare deployment method in workflow with Pages source setting
+- Look for multiple competing deployments in Actions history
+
+**Phase to address:** Phase 2 (GitHub Actions Workflow)
+
+---
+
+### Pitfall 5: Test Files Included in Documentation Despite Exclusions
+
+**What goes wrong:**
+TypeDoc processes test files and fails with type errors from test utilities (Jest matchers, testing library types), even though tests are "excluded".
+
+**Why it happens:**
+- TypeDoc's `--exclude` only controls what appears in OUTPUT documentation
+- TypeDoc still COMPILES all files referenced by entry points (including imported tests)
+- Test files often import types from `@types/jest` or similar that cause compilation errors
+- TypeDoc uses TypeScript's compiler, which validates all reachable code
+
+**Consequences:**
+- Doc generation fails with Jest/testing type errors
+- Developers confused why "excluded" files cause problems
+- Workaround attempts (adding more exclusions) don't help
+
+**Prevention:**
+1. Use `tsconfig.json` `exclude` to prevent test files from being compiled at all
+2. Ensure `skipLibCheck: true` in tsconfig to avoid errors from `@types/*` packages
+3. Structure code so tests don't need to be imported by production code
+4. For OpenCARL: already has `"exclude": ["node_modules", "dist", "**/*.test.ts", "scripts"]` in tsconfig.build.json
+
+**Detection:**
+- TypeDoc errors mention test files or test utilities
+- Errors reference `@types/jest`, `@testing-library/*`, etc.
+- `tsc` would also fail on the same files
+
+**Phase to address:** Phase 1 (TypeDoc Setup & Configuration)
+
+---
+
+### Pitfall 6: TypeDoc/TypeScript Version Incompatibility
+
+**What goes wrong:**
+TypeDoc fails with cryptic errors about TypeScript types, or produces incorrect documentation.
+
+**Why it happens:**
+- TypeDoc has strict TypeScript version requirements (see compatibility table)
+- Using TypeDoc 0.28 with TypeScript outside 5.0-5.8 range causes issues
+- npm may resolve to incompatible versions if not explicitly pinned
+
+**Consequences:**
+- "TypeScript version not supported" errors
+- Incorrect type rendering in documentation
+- CI fails after dependency updates
+
+**Prevention:**
+1. Check TypeDoc's TypeScript version compatibility matrix before upgrading
+2. Pin compatible versions in `package.json`
+3. Test doc generation after any TypeScript or TypeDoc update
+4. For OpenCARL: TypeScript 5.9.3 is newer than TypeDoc 0.28's officially supported range (5.0-5.8) — verify compatibility or consider updating TypeDoc
+
+**Detection:**
+- TypeDoc errors mention TypeScript version
+- Documentation shows incorrect type signatures
+- Check TypeDoc release notes for TS version changes
+
+**Phase to address:** Phase 1 (TypeDoc Setup & Configuration)
+
+---
 
 ## Moderate Pitfalls
 
-### Pitfall 5: Test Fixture Path Hardcoding
-**What goes wrong:** Test fixtures have hardcoded paths to `.carl/` directories. When directory is renamed to `.opencarl/`, tests fail with file not found errors.
+### Pitfall 7: Artifact Upload/Deploy Race Condition
+
+**What goes wrong:**
+Deploy step fails because artifact isn't ready yet, or uses wrong artifact.
+
+**Why it happens:**
+- `actions/deploy-pages` needs artifact from previous step/job
+- Forgetting `needs: build` in deploy job
+- Wrong artifact name in `artifact_name` input
+
+**Consequences:**
+- "Artifact not found" errors
+- Deployment of empty/wrong content
+- Flaky CI behavior
 
 **Prevention:**
-1. Search all fixture files for `.carl/`: `rg "\.carl/" tests/`
-2. Update fixtures to use new `.opencarl/` paths
-3. Check snapshot files for path references
-4. Run full test suite after fixture updates
-5. Use path constants instead of hardcoded strings where possible
+```yaml
+jobs:
+  build-docs:
+    steps:
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./docs  # TypeDoc output directory
 
-### Pitfall 6: Command Trigger References
-**What goes wrong:** `*carl` and `/carl` command triggers are referenced in:
-- Test fixtures (star-command tests)
-- Help text and documentation
-- Mock OpenCode CLI scripts
-- User guides and tutorials
+  deploy-docs:
+    needs: build-docs  # CRITICAL: wait for build
+    steps:
+      - uses: actions/deploy-pages@v4
+```
 
-Missing these causes command detection to fail.
+**Detection:**
+- CI logs show artifact not found
+- Docs deployment runs before build completes
+- Check for missing `needs:` in workflow
 
-**Prevention:**
-1. Search for command patterns: `rg "\*carl"` and `rg "/carl"`
-2. Update all test expectations for command tokens
-3. Update help text and documentation
-4. Update mock CLI scripts
-5. Test star-command and slash-command detection manually
+**Phase to address:** Phase 2 (GitHub Actions Workflow)
 
-### Pitfall 7: TypeScript Type Names
-**What goes wrong:** TypeScript types like `CarlRuleDomainPayload`, `CarlMatchDomainConfig`, `CarlSessionSignals` are exported and used throughout codebase. Missing these causes type errors and compilation failures.
+---
 
-**Prevention:**
-1. Search for type definitions: `rg "type.*Carl" --glob "*.ts"`
-2. Update all type names systematically
-3. Use TypeScript language server or IDE to find references
-4. Verify compilation after type renames
-5. Check for exported types in `types.ts`
+### Pitfall 8: Clean Output Directory Not Configured
 
-### Pitfall 8: Documentation File Names
-**What goes wrong:** Documentation files have CARL in their names (`CARL-DOCS.md`, `CARL-AGENTS.md`, `CARL-OVERVIEW.md`). These are also referenced in code and other documentation.
+**What goes wrong:**
+Old documentation files persist in output, creating confusion or broken links.
 
-**Prevention:**
-1. Rename files first: `CARL-DOCS.md` → `OPENCARL-DOCS.md`
-2. Update all references to renamed files
-3. Check for references in code (e.g., help text, setup scripts)
-4. Update internal links between documentation files
-5. Verify all documentation builds correctly
+**Why it happens:**
+- TypeDoc doesn't clean output directory by default
+- Incremental builds can leave orphaned files
+- Deleted modules still have HTML files in output
 
-### Pitfall 9: Mock Expectations in Tests
-**What goes wrong:** Test mocks have hardcoded expectations for "CARL" strings, domain names, and error messages. After renaming, these expectations fail.
+**Consequences:**
+- Broken links to removed modules
+- Stale documentation confusing users
+- Larger than necessary deployment artifacts
 
 **Prevention:**
-1. Search for "CARL" in test files: `rg "CARL" tests/ --type ts`
-2. Update mock expectations to use new names
-3. Check snapshot files for string references
-4. Use constants for domain names where possible
-5. Run full test suite and update snapshots
+1. Set `--cleanOutputDir` or `"cleanOutputDir": true` in typedoc.json
+2. OR add explicit `rm -rf docs` step before TypeDoc in CI
 
-### Pitfall 10: Binary Script Name References
-**What goes wrong:** `bin/opencarl` is the entry point, but references in code, documentation, and user guides may still use `carl` or `opencode-carl-plugin`.
+**Detection:**
+- Old modules still appear in docs after removal
+- Links to removed code still work (but 404 in source)
+- Compare docs output with current source structure
+
+**Phase to address:** Phase 1 (TypeDoc Setup & Configuration)
+
+---
+
+### Pitfall 9: Missing Package Version in Documentation
+
+**What goes wrong:**
+Documentation doesn't show which version it corresponds to, causing confusion when multiple versions exist.
+
+**Why it happens:**
+- `--includeVersion` is `false` by default
+- Users can't tell if docs are for installed version or latest
+
+**Consequences:**
+- Users confused about which version docs describe
+- Breaking changes not visible in docs
+- Difficult to debug version-specific issues
 
 **Prevention:**
-1. Check package.json `bin` field
-2. Search for binary references: `rg "opencarl" --glob "*.js"`
-3. Update install script to use correct binary name
-4. Update all user documentation
-5. Test binary execution locally
+```json
+{
+  "includeVersion": true
+}
+```
+
+**Detection:**
+- Version number not visible in docs header
+- No way to identify docs version from URL or page content
+
+**Phase to address:** Phase 1 (TypeDoc Setup & Configuration)
+
+---
 
 ## Minor Pitfalls
 
-### Pitfall 11: Comments and Debug Messages
-**What goes wrong:** Code comments, debug logs, and console messages contain "CARL" references that don't break functionality but create confusion.
+### Pitfall 10: Configuration File Location Confusion
+
+**What goes wrong:**
+TypeDoc doesn't pick up configuration changes, or uses wrong config file.
+
+**Why it happens:**
+- TypeDoc checks multiple config locations: `typedoc.json`, `typedoc.jsonc`, package.json `typedocOptions`, tsconfig.json `typedocOptions`
+- Precedence rules can be confusing
+- Different team members using different approaches
+
+**Consequences:**
+- Config changes don't take effect
+- Different behavior locally vs CI
+- Time wasted debugging config issues
 
 **Prevention:**
-1. Search comments: `rg "//.*CARL"` and `rg "#.*CARL"`
-2. Update debug log prefixes: `[carl]` → `[opencarl]`
-3. Update error messages and console output
-4. Review inline code comments for accuracy
-5. Run application and check all log output
+- Use dedicated `typedoc.json` file (clearest approach)
+- Don't split config between multiple locations
+- Run `npx typedoc --showConfig` to verify which config is used
 
-### Pitfall 12: Domain Names in Manifest Files
-**What goes wrong:** Default domain names in manifest templates (e.g., `CARL` domain) may need updates for consistency.
+**Detection:**
+- Config changes don't affect output
+- `--showConfig` shows unexpected values
+- Different team members see different behavior
+
+**Phase to address:** Phase 1 (TypeDoc Setup & Configuration)
+
+---
+
+### Pitfall 11: Workflow Trigger Timing
+
+**What goes wrong:**
+Documentation deploys on every push instead of only on releases, or vice versa.
+
+**Why it happens:**
+- Trigger configuration (`on: release` vs `on: push`) mismatched with intent
+- Wanting docs to match published npm version but triggering on main push
+
+**Consequences:**
+- Unnecessary CI resource usage
+- Docs out of sync with published package
+- Confusing version history
 
 **Prevention:**
-1. Check manifest template files: `resources/.carl-template/manifest`
-2. Update default domain names if they reference CARL
-3. Ensure domain names align with new branding
-4. Test manifest parsing with updated templates
-5. Document any domain name changes for users
+1. Use `on: release: types: [published]` for production docs
+2. Consider separate workflow for preview docs on PRs
+3. Match trigger to existing publish.yml workflow for consistency
 
-## Phase-Specific Warnings
+**Detection:**
+- Docs update on push instead of release
+- Docs version doesn't match npm package version
+- CI running more often than expected
 
-| Phase Topic | Likely Pitfall | Mitigation |
-|-------------|---------------|------------|
-| Directory renaming | Import path breakage | Update imports BEFORE renaming directories |
-| Test updates | Mock expectation failures | Run test suite after each batch of updates |
-| Documentation | Internal link breakage | Update file names first, then references |
-| CI/CD | Docker image name mismatches | Test E2E workflow locally |
-| Package publishing | Wrong package name targeted | Verify package name in all publish scripts |
-| User migration | Environment variable confusion | Provide clear migration guide |
+**Phase to address:** Phase 2 (GitHub Actions Workflow)
 
-## Migration Checklist
+---
 
-### Before Starting
-- [ ] Run `rg -i "carl" --glob '!node_modules/*' --glob '!.git/*' -c` to count references
-- [ ] Create backup branch: `git checkout -b pre-rebrand-backup`
-- [ ] Document current package name(s) for rollback reference
+## Technical Debt Patterns
 
-### Find-and-Replace Strategy
-- [ ] Replace in this order to minimize breakage:
-  1. TypeScript types and interfaces
-  2. Import statements
-  3. Environment variables
-  4. Test fixtures and mocks
-  5. Documentation strings and comments
-  6. Directory names (LAST)
-  7. File names (LAST)
+Shortcuts that seem reasonable but create long-term problems.
 
-### Verification After Each Batch
-- [ ] Run TypeScript compilation: `npm run build`
-- [ ] Run unit tests: `npm run test:unit`
-- [ ] Run integration tests: `npm run test:integration`
-- [ ] Check test coverage hasn't dropped significantly
+| Shortcut | Immediate Benefit | Long-term Cost | When Acceptable |
+|----------|-------------------|----------------|-----------------|
+| Skip TypeDoc in CI to speed builds | Faster CI runs | Docs get out of sync, broken releases with bad docs | Never |
+| Use global TypeDoc install | Avoid devDependency | Version mismatches between devs, CI failures | Never |
+| Manual doc deployment (not automated) | Simpler initial setup | Forgetting to deploy, docs outdated | Only for personal projects |
+| Skip `--cleanOutputDir` | Slightly faster incremental builds | Orphaned files, broken links, confusion | Never |
+| Skip version in docs | Simpler config | Users can't identify docs version | Never |
 
-### Final Verification
-- [ ] Run full test suite: `npm run test:coverage`
-- [ ] Run E2E tests locally: `npm run test:e2e:local`
-- [ ] Verify debug mode works: `OPENCARL_DEBUG=true npm test`
-- [ ] Check all documentation builds correctly
-- [ ] Verify CI workflow syntax
-- [ ] Test install script: `node bin/install.js`
-- [ ] Verify no remaining CARL references: `rg -i "carl" --glob '!node_modules/*' --glob '!.git/*'`
+---
+
+## Integration Gotchas
+
+Common mistakes when connecting to external services.
+
+| Integration | Common Mistake | Correct Approach |
+|-------------|----------------|------------------|
+| GitHub Pages | Setting source to "gh-pages branch" when using `actions/deploy-pages` | Set source to "GitHub Actions" |
+| GitHub Pages | Forgetting `id-token: write` permission | Include both `pages: write` AND `id-token: write` |
+| GitHub Actions | Running deploy in same job as build without artifact | Use separate jobs with `needs:` and `actions/upload-pages-artifact` |
+| npm provenance | Assuming `id-token: write` is only for npm | Also needed for GitHub Pages OIDC |
+| TypeDoc | Putting config in tsconfig.json when package.json has exports | Use dedicated `typedoc.json` for clarity |
+
+---
+
+## "Looks Done But Isn't" Checklist
+
+Things that appear complete but are missing critical pieces.
+
+- [ ] **Docs generate locally:** Often fails in CI due to different environment — verify in CI before merging
+- [ ] **Workflow completes:** Often deploys wrong artifact or to wrong Pages source — verify live URL works
+- [ ] **All pages load:** Often `.nojekyll` missing causes 404s on `_` prefixed paths — test navigation
+- [ ] **Version shown:** Often `includeVersion` not set — verify version appears in docs header
+- [ ] **Correct entry point:** Often using wrong file — verify exported members match expectations
+- [ ] **Tests still pass:** Often adding TypeDoc config breaks compilation — run full test suite
+- [ ] **Pages URL accessible:** Often permissions correct but URL not accessible — verify site loads
+- [ ] **Docs match published version:** Often docs deploy on wrong trigger — verify version alignment
+
+---
+
+## Recovery Strategies
+
+When pitfalls occur despite prevention, how to recover.
+
+| Pitfall | Recovery Cost | Recovery Steps |
+|---------|---------------|----------------|
+| Wrong entry point | LOW | Fix `entryPoints` in typedoc.json, regenerate |
+| Missing .nojekyll | LOW | Add file, redeploy — immediate fix |
+| Permission errors | LOW | Add missing permissions to workflow, re-run |
+| Source config mismatch | LOW | Change Pages source in Settings, re-run workflow |
+| Test file errors | MEDIUM | Fix tsconfig.json exclude, may need code restructuring |
+| Version incompatibility | MEDIUM | Pin compatible versions, may need TypeDoc upgrade |
+| Artifact race condition | LOW | Add `needs:` to workflow, re-run |
+| Clean output dir | LOW | Enable option and regenerate |
+
+---
+
+## Pitfall-to-Phase Mapping
+
+How roadmap phases should address these pitfalls.
+
+| Pitfall | Prevention Phase | Verification |
+|---------|------------------|--------------|
+| Wrong entry point | Phase 1 (TypeDoc Setup) | `npx typedoc --showConfig` shows correct entry |
+| Missing .nojekyll | Phase 1 (TypeDoc Setup) | Check `githubPages: true` in config or file exists |
+| GITHUB_TOKEN permissions | Phase 2 (GitHub Actions) | Workflow has explicit permissions block |
+| Pages source mismatch | Phase 2 (GitHub Actions) | Settings → Pages → Source matches workflow approach |
+| Test files in docs | Phase 1 (TypeDoc Setup) | TypeDoc runs without Jest/testing type errors |
+| TypeDoc/TS version | Phase 1 (TypeDoc Setup) | Compatibility verified before pinning versions |
+| Artifact race condition | Phase 2 (GitHub Actions) | Deploy job has `needs: build-docs` |
+| Clean output dir | Phase 1 (TypeDoc Setup) | `cleanOutputDir: true` in config |
+| Missing version | Phase 1 (TypeDoc Setup) | `includeVersion: true` in config |
+| Config location | Phase 1 (TypeDoc Setup) | Single typedoc.json file used |
+| Workflow trigger | Phase 2 (GitHub Actions) | Trigger matches publish workflow |
+
+---
+
+## OpenCARL-Specific Notes
+
+Based on project analysis:
+
+1. **Entry point:** `src/plugin.ts` (not `src/index.ts`)
+2. **TypeScript version:** 5.9.3 — newer than TypeDoc 0.28's officially supported range (5.0-5.8), verify compatibility
+3. **Existing tsconfig:** `tsconfig.build.json` already excludes test files
+4. **Existing CI:** `publish.yml` has `id-token: write` but needs `pages: write` added for docs deployment
+5. **Trigger:** Should trigger on release (same as npm publish) to keep docs in sync with published versions
+6. **Existing workflow structure:** `publish.yml` has separate test/e2e/publish jobs — docs can follow same pattern
+
+---
 
 ## Sources
 
-- npm documentation on deprecation: https://docs.npmjs.com/cli/commands/npm-deprecate
-- npm unpublish policy: https://docs.npmjs.com/policies/unpublish
-- Stack Overflow: Renaming a published NPM module (HIGH confidence)
-- GitHub gist: npm package renaming patterns (MEDIUM confidence)
-- Codebase analysis: 1,870 CARL references across 86 files (HIGH confidence)
+- [TypeDoc Official Documentation](https://typedoc.org/documents/Overview.html) - HIGH confidence
+- [TypeDoc Input Options](https://typedoc.org/documents/Options.Input.html) - HIGH confidence
+- [TypeDoc Configuration Options](https://typedoc.org/documents/Options.Configuration.html) - HIGH confidence
+- [actions/deploy-pages GitHub](https://github.com/actions/deploy-pages) - HIGH confidence
+- [GitHub Actions Permissions Documentation](https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/controlling-permissions-for-github_token) - HIGH confidence
+- [Stack Overflow: TypeDoc exclude test files](https://stackoverflow.com/questions/66431304/how-to-properly-exclude-test-files-from-tsdoc-typedoc) - MEDIUM confidence
+- [GitHub Community: .nojekyll 404 issues](https://github.com/orgs/community/discussions/23166) - HIGH confidence
+- [TypeDoc Issue #648: Underscore 404s](https://github.com/TypeStrong/typedoc/issues/648) - HIGH confidence
+- [TypeDoc Issue #1680: Auto .nojekyll](https://github.com/TypeStrong/typedoc/issues/1680) - HIGH confidence
+- [actions/deploy-pages Issue #406: Intermittent failures](https://github.com/actions/deploy-pages/issues/406) - MEDIUM confidence
+
+---
+*Pitfalls research for: TypeDoc + GitHub Pages documentation deployment*
+*Researched: 2026-03-13*

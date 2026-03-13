@@ -1,10 +1,23 @@
-# Architecture Patterns
+# Architecture Research: OpenCARL
 
 **Domain:** OpenCARL Plugin for OpenCode
-**Researched:** 2026-03-05
-**Mode:** Ecosystem (Migration Focus)
+**Researched:** 2026-03-13 (Updated for Documentation Site)
+**Mode:** Ecosystem
 
-## Executive Summary
+## Table of Contents
+
+1. [Rebranding Architecture (v1.3)](#rebranding-architecture-v13) — Completed
+2. [Documentation Site Architecture (v2.0.2)](#documentation-site-architecture-v202) — Current Milestone
+
+---
+
+# Rebranding Architecture (v1.3)
+
+**Focus:** CARL to OpenCARL migration
+**Researched:** 2026-03-05
+**Status:** ✅ Complete
+
+## Executive Summary (v1.3)
 
 **OpenCARL does NOT require any architectural changes beyond renaming.** The OpenCode ecosystem does not have special patterns for "Open" prefixed plugins. This is a pure rebranding exercise.
 
@@ -363,3 +376,425 @@ export function resolveCarlCommandSignals({
 - [OpenCode Ecosystem](https://opencode.ai/docs/ecosystem/) - List of all plugins, naming patterns (HIGH confidence)
 - [opencode-helicone-session package.json](https://raw.githubusercontent.com/H2Shami/opencode-helicone-session/main/package.json) - Example plugin structure (MEDIUM confidence)
 - [OCX Plugin Architecture](https://deepwiki.com/kdcokenny/ocx/6.1-plugin-architecture) - Advanced plugin patterns (MEDIUM confidence)
+
+---
+---
+
+# Documentation Site Architecture (v2.0.2)
+
+**Focus:** TypeDoc API documentation with GitHub Pages deployment  
+**Researched:** 2026-03-13  
+**Confidence:** HIGH
+
+## Executive Summary
+
+Add CI/CD-powered HTML API documentation to OpenCARL. TypeDoc generates docs from TypeScript source, deployed to GitHub Pages via `gh-pages` branch on release events.
+
+**Key decisions:**
+- Use `peaceiris/actions-gh-pages` for deployment (simpler than official `actions/deploy-pages`)
+- Deploy on GitHub release only (docs match npm version)
+- Orphan branch strategy (clean gh-pages history)
+
+## System Overview
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                     TRIGGER: GitHub Release                      │
+│                    (on: release: types: [published])             │
+└─────────────────────────┬───────────────────────────────────────┘
+                          │
+          ┌───────────────┼───────────────┐
+          ▼               ▼               ▼
+    ┌──────────┐    ┌──────────┐    ┌──────────────┐
+    │  test    │    │   e2e    │    │   publish    │
+    │   job    │    │   job    │    │     job      │
+    │(existing)│    │(existing)│    │  (existing)  │
+    └──────────┘    └──────────┘    └──────────────┘
+                          │
+                          │ (all pass)
+                          ▼
+              ┌───────────────────────┐
+              │      docs job         │
+              │  ┌─────────────────┐  │
+              │  │ npm run docs    │  │
+              │  └────────┬────────┘  │
+              │           ▼           │
+              │  ┌─────────────────┐  │
+              │  │   docs/         │  │
+              │  │  (HTML output)  │  │
+              │  └────────┬────────┘  │
+              └───────────┼───────────┘
+                          ▼
+              ┌───────────────────────┐
+              │ peaceiris/actions-    │
+              │ gh-pages@v4           │
+              │                       │
+              │ Push docs/ → gh-pages │
+              │ (orphan commit)       │
+              └───────────────────────┘
+                          │
+                          ▼
+              ┌───────────────────────┐
+              │    GitHub Pages       │
+              │  krisgray.github.io/  │
+              │     opencarl/         │
+              └───────────────────────┘
+```
+
+### Component Responsibilities
+
+| Component | Responsibility | Implementation |
+|-----------|----------------|----------------|
+| TypeDoc | Generate HTML API docs from TypeScript source | `typedoc` npm package |
+| typedoc.json | TypeDoc configuration (entry points, output) | JSON config file |
+| npm script `docs` | Run TypeDoc with project config | `package.json` scripts |
+| docs job | Build docs and deploy to gh-pages | GitHub Actions workflow |
+| gh-pages branch | Host static documentation site | Git branch (orphan) |
+| GitHub Pages | Serve documentation publicly | GitHub infrastructure |
+
+## Recommended Project Structure
+
+```
+opencarl/
+├── .github/
+│   └── workflows/
+│       ├── publish.yml      # MODIFIED: add docs job
+│       ├── test.yml         # UNCHANGED
+│       └── e2e-tests.yml    # UNCHANGED
+├── src/
+│   └── opencarl/            # UNCHANGED: TypeScript source
+│       ├── plugin.ts        # Main entry point
+│       ├── types.ts         # Type definitions
+│       └── ...
+├── docs/                    # NEW: TypeDoc output (gitignored)
+│   ├── index.html
+│   ├── modules/
+│   └── assets/
+├── typedoc.json             # NEW: TypeDoc configuration
+├── package.json             # MODIFIED: add docs script
+├── tsconfig.build.json      # UNCHANGED: build config
+└── .gitignore               # MODIFIED: add docs/
+```
+
+### Structure Rationale
+
+- **docs/ output directory**: Standard TypeDoc output location, gitignored (generated, not source)
+- **typedoc.json**: Dedicated config file for clear separation from build config
+- **Integration in publish.yml**: Docs deploy on release, ensuring docs match published npm version
+
+## Architectural Patterns
+
+### Pattern 1: Release-Triggered Documentation
+
+**What:** Documentation builds and deploys only on GitHub release events.
+**When:** For npm packages where docs should match published versions.
+**Trade-offs:** 
+- (+) Docs always match released code
+- (+) No unnecessary CI runs on every PR
+- (-) No preview docs for unreleased changes
+
+**Implementation:**
+```yaml
+# .github/workflows/publish.yml (docs job addition)
+docs:
+  needs: [test, e2e]
+  runs-on: ubuntu-latest
+  permissions:
+    contents: write
+  steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+    - run: npm ci
+    - run: npm run docs
+    - uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./docs
+        force_orphan: true
+```
+
+### Pattern 2: Orphan Branch Strategy
+
+**What:** gh-pages branch contains only docs output, no history from main.
+**When:** Always for documentation sites.
+**Trade-offs:**
+- (+) Clean gh-pages history (single commit per deploy)
+- (+) Small branch size
+- (-) Cannot see docs history
+
+**Implementation:**
+```yaml
+# In peaceiris/actions-gh-pages
+force_orphan: true  # Creates orphan branch with single commit
+```
+
+### Pattern 3: TypeScript Entry Point Discovery
+
+**What:** TypeDoc discovers exports from package.json `main`/`exports` fields.
+**When:** For npm packages with clear entry points.
+**Trade-offs:**
+- (+) Single source of truth for entry points
+- (+) Docs match what npm publishes
+- (-) Requires proper package.json exports
+
+**Configuration:**
+```json
+// typedoc.json
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["./src/opencarl/plugin.ts"],
+  "out": "docs",
+  "name": "OpenCARL API Documentation",
+  "readme": "./README.md",
+  "githubPages": true,
+  "excludePrivate": true,
+  "excludeInternal": true,
+  "tsconfig": "./tsconfig.build.json"
+}
+```
+
+## Data Flow
+
+### Documentation Build Flow
+
+```
+GitHub Release Event
+        │
+        ▼
+┌───────────────────┐
+│ npm ci            │  Install dependencies
+└─────────┬─────────┘
+          │
+          ▼
+┌───────────────────┐
+│ npm run docs      │  TypeDoc reads:
+│                   │  - typedoc.json
+│                   │  - tsconfig.build.json
+│                   │  - src/opencarl/**/*.ts
+└─────────┬─────────┘
+          │
+          ▼
+┌───────────────────┐
+│ docs/             │  Generated HTML:
+│ ├── index.html    │  - Module list
+│ ├── modules/      │  - API reference
+│ │   └── *.html    │  - Type definitions
+│ └── assets/       │  - Search index
+│     ├── style.css │
+│     └── main.js   │
+└─────────┬─────────┘
+          │
+          ▼
+┌───────────────────┐
+│ peaceiris/        │  Push to gh-pages:
+│ actions-gh-pages  │  - Force orphan commit
+│                   │  - Single commit per deploy
+└─────────┬─────────┘
+          │
+          ▼
+┌───────────────────┐
+│ GitHub Pages      │  Serves at:
+│                   │  https://krisgray.github.io/opencarl/
+└───────────────────┘
+```
+
+### Build Order in CI
+
+```
+1. test job (existing)      ─┐
+2. e2e job (existing)       ─┼─► all must pass
+3. publish job (existing)   ─┤
+4. docs job (NEW)           ─┘
+```
+
+**Important:** The docs job runs in parallel with publish job but depends on test+e2e passing. If docs fails, npm publish still succeeds (non-blocking).
+
+## Integration Points
+
+### With Existing CI
+
+| Integration Point | Current State | Change Required |
+|-------------------|---------------|-----------------|
+| `publish.yml` | Triggers on release | Add `docs` job |
+| `package.json` | Has `build`, `test` scripts | Add `docs` script |
+| `.gitignore` | Ignores `dist/`, `coverage/` | Add `docs/` |
+| `tsconfig.build.json` | TypeScript build config | Reference from typedoc.json |
+
+### External Services
+
+| Service | Integration Pattern | Notes |
+|---------|---------------------|-------|
+| GitHub Pages | `peaceiris/actions-gh-pages` | Requires `contents: write` permission |
+| npm registry | `npm publish` (existing) | Unchanged, independent of docs |
+
+### New Files vs Modified Files
+
+| File | Action | Purpose |
+|------|--------|---------|
+| `typedoc.json` | **NEW** | TypeDoc configuration |
+| `.github/workflows/publish.yml` | **MODIFY** | Add docs job |
+| `package.json` | **MODIFY** | Add `docs` script, typedoc devDependency |
+| `.gitignore` | **MODIFY** | Add `docs/` directory |
+| `docs/` | **NEW (gitignored)** | TypeDoc output |
+
+## Implementation Details
+
+### typedoc.json Configuration
+
+```json
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["./src/opencarl/plugin.ts"],
+  "out": "docs",
+  "name": "OpenCARL API Documentation",
+  "readme": "./README.md",
+  "githubPages": true,
+  "excludePrivate": true,
+  "excludeInternal": true,
+  "excludeNotDocumented": false,
+  "includeVersion": true,
+  "tsconfig": "./tsconfig.build.json",
+  "cleanOutputDir": true,
+  "sort": ["source-order"],
+  "navigation": {
+    "includeCategories": true,
+    "includeGroups": true
+  }
+}
+```
+
+**Key options explained:**
+- `entryPoints`: Single entry at `plugin.ts` (main module exports)
+- `githubPages: true`: Generates `.nojekyll` file for GitHub Pages compatibility
+- `excludePrivate`: Hides `private` members
+- `excludeInternal`: Hides `@internal` tagged members
+- `includeVersion`: Adds package version to header
+- `tsconfig`: Uses same config as build
+
+### package.json Additions
+
+```json
+{
+  "scripts": {
+    "docs": "typedoc",
+    "docs:watch": "typedoc --watch"
+  },
+  "devDependencies": {
+    "typedoc": "^0.28.0"
+  }
+}
+```
+
+### .gitignore Addition
+
+```
+# TypeDoc output
+docs/
+```
+
+### GitHub Actions Workflow Addition
+
+Add to `.github/workflows/publish.yml` after the `publish` job:
+
+```yaml
+  docs:
+    needs: [test, e2e]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate documentation
+        run: npm run docs
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          force_orphan: true
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_message: 'docs: Update API documentation for ${{ github.ref_name }}'
+```
+
+## gh-pages Branch Management
+
+### Branch Strategy
+
+```
+main branch:          gh-pages branch:
+├── src/              └── docs/
+├── package.json          ├── index.html
+├── typedoc.json          ├── modules/
+└── ...                   └── assets/
+
+(Completely separate - no shared history)
+```
+
+### How peaceiris/actions-gh-pages Works
+
+1. Checks out repository
+2. Configures git with provided user
+3. Copies `publish_dir` contents
+4. Creates orphan commit (no parent history)
+5. Force-pushes to `gh-pages` branch
+
+### First-Time Setup (Manual)
+
+After first deployment, configure GitHub Pages in repo settings:
+
+1. Go to Settings → Pages
+2. Source: "Deploy from a branch"
+3. Branch: `gh-pages` / `(root)`
+4. Save
+
+**Note:** The first deployment with `GITHUB_TOKEN` may fail until Pages is configured. After configuration, subsequent deployments work automatically.
+
+## Anti-Patterns to Avoid
+
+### Anti-Pattern 1: Committing docs/ to main
+
+**What people do:** Add docs/ output to git and commit alongside source.
+**Why it's wrong:** Bloats repo, merge conflicts, drifts from source.
+**Do this instead:** Gitignore docs/, generate in CI, deploy to gh-pages.
+
+### Anti-Pattern 2: Running docs job without test dependency
+
+**What people do:** Add docs job without `needs: [test, e2e]`.
+**Why it's wrong:** Docs could publish for broken code.
+**Do this instead:** Always depend on test jobs passing.
+
+### Anti-Pattern 3: Using main branch for GitHub Pages
+
+**What people do:** Configure GitHub Pages to serve from main/docs.
+**Why it's wrong:** Ties docs to main branch, no clean separation.
+**Do this instead:** Use dedicated gh-pages branch with orphan commits.
+
+### Anti-Pattern 4: Different TypeScript configs
+
+**What people do:** Create separate tsconfig.docs.json with different settings.
+**Why it's wrong:** Docs may not match published package behavior.
+**Do this instead:** Use same `tsconfig.build.json` as build.
+
+## Documentation Architecture Sources
+
+- TypeDoc Documentation: https://typedoc.org/ (HIGH confidence)
+- TypeDoc Configuration: https://typedoc.org/documents/Options.Configuration.html (HIGH confidence)
+- peaceiris/actions-gh-pages: https://github.com/peaceiris/actions-gh-pages (HIGH confidence)
+- actions/deploy-pages: https://github.com/actions/deploy-pages (HIGH confidence)
+- GitHub Pages Documentation: https://docs.github.com/en/pages (HIGH confidence)
