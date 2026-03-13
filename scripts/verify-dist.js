@@ -8,7 +8,7 @@ const requiredFiles = [
   "plugin.js",
   "plugin.d.ts",
   "integration/plugin-hooks.js",
-  "carl/setup.js",
+  "opencarl/setup.js",
 ];
 
 const requiredDirs = [".opencarl-template", "resources"];
