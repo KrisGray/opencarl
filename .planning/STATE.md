@@ -7,10 +7,10 @@ See: .planning/PROJECT.md
 ## Position
 
 **Milestone:** v1.3 Branding & Context Migration
-**Current phase:** 16-documentation-rebranding
-**Current Plan:** Not started
-**Total Plans in Phase:** 3
-**Status:** Ready to plan
+**Current phase:** 17-package-metadata-cicd
+**Current Plan:** 04
+**Total Plans in Phase:** 4
+**Status:** Completed
 **Progress:** [██████████] 100%
 
 ## Decisions
@@ -28,6 +28,7 @@ See: .planning/PROJECT.md
 - [Phase 15-env-variable-rebranding]: Expanded documentation updates to INSTALL.md and CARL-DOCS.md to remove remaining CARL_DEBUG references during verification
 - [Phase 15-env-variable-rebranding]: Serialized Jest workers to avoid shared E2E container races.
 - [Phase 15-env-variable-rebranding]: Adjusted coverage thresholds to current baseline to unblock test:coverage.
+- [Phase 17-package-metadata-cicd]: Updated all installer and publish references to @krisgray/opencarl
 
 ## Performance Metrics
 
@@ -54,12 +55,16 @@ See: .planning/PROJECT.md
 | Phase 16-documentation-rebranding P02 | 2 min | 2 tasks | 2 files |
 | Phase 16-documentation-rebranding P03 | 5 min | 3 tasks | 3 files |
 | Phase 16-documentation-rebranding P04 | 0 min | 1 tasks | 1 files |
+| Phase 17-package-metadata-cicd P01 | 2 min | 2 tasks | 2 files |
+| Phase 17-package-metadata-cicd P02 | 1 min | 3 tasks | 3 files |
+| Phase 17-package-metadata-cicd P03 | 2 min | 1 tasks | 1 files |
+| Phase 17-package-metadata-cicd P04 | 1 min | 2 tasks | 1 files |
 
 ## Session Info
 
-**Last session:** 2026-03-13T11:04:11.927Z
-**Stopped At:** Phase 17 context gathered
-**Resume File:** .planning/phases/17-package-metadata-cicd/17-CONTEXT.md
+**Last session:** 2026-03-13T11:52:48Z
+**Stopped At:** Phase 17-package-metadata-cicd completed (all 4 plans)
+**Resume File:** none
 
 ## Session Log
 
@@ -77,3 +82,7 @@ See: .planning/PROJECT.md
 - 2026-03-11: Completed 15-CONTEXT.md (env variable CARL_DEBUG → OPENCARL_DEBUG)
 - 2026-03-12: Completed 15-env-variable-rebranding-03-PLAN.md (test script env var update)
 - 2026-03-12: Completed 15-env-variable-rebranding-04-PLAN.md (documentation env var update)
+- 2026-03-13: Completed 17-package-metadata-cicd-01-PLAN.md (rebrand installer)
+- 2026-03-13: Completed 17-package-metadata-cicd-02-PLAN.md (GitHub Actions workflows)
+- 2026-03-13: Completed 17-package-metadata-cicd-03-PLAN.md (verification)
+- 2026-03-13: Completed 17-package-metadata-cicd-04-PLAN.md (package metadata)

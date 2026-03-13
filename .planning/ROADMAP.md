@@ -5,7 +5,7 @@
 - ✅ **v1.0 MVP** - Phases 1-5 (shipped 2026-03-03)
 - ✅ **v1.1 Polish & Complete Integration** - Phase 6 (shipped 2026-03-03)
 - ✅ **v1.2 Testing & QA** - Phases 7-11 (shipped 2026-03-18)
-- 🚧 **v1.3 Branding & Context Migration** - Phases 12-17 (in progress)
+- ✅ **v1.3 Branding & Context Migration** - Phases 12-17 (shipped 2026-03-13)
 
 ## Phases
 
@@ -337,14 +337,13 @@ Plans:
   3. GitHub Actions workflows use updated package and Docker references
   4. package.json metadata reflects OpenCARL branding
   5. E2E tests pass with updated Docker image
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
-- [ ] 17-01: Verify package name consistency (PKG-01)
-- [ ] 17-02: Update Docker image name (PKG-02)
-- [ ] 17-03: Update GitHub Actions workflows (PKG-03)
-- [ ] 17-04: Update package.json metadata (PKG-04)
-- [ ] 17-05: Verify E2E tests pass (PKG-05)
+- [x] 17-package-metadata-cicd/17-01-PLAN.md — Align installer messaging and publish guard (PKG-01)
+- [x] 17-package-metadata-cicd/17-02-PLAN.md — Rebrand CI workflows and Docker image usage (PKG-02, PKG-03)
+- [x] 17-package-metadata-cicd/17-04-PLAN.md — Align package.json metadata and README links (PKG-04)
+- [x] 17-package-metadata-cicd/17-03-PLAN.md — Verify legacy string sweep + E2E run (PKG-05)
 
 ## Progress
 
@@ -367,7 +366,7 @@ Plans:
 | 14. Command Rebranding | 7/7 | Complete   | 2026-03-11 | - |
 | 15. Environment Variable Rebranding | 8/8 | Complete    | 2026-03-12 | 2026-03-12 | - |
 | 16. Documentation Rebranding | 4/4 | Complete    | 2026-03-13 | - |
-| 17. Package Metadata & CI/CD Finalization | v1.3 | 0/5 | Not started | - |
+| 17. Package Metadata & CI/CD Finalization | v1.3 | 4/4 | Complete | 2026-03-13 |
 
 ---
 

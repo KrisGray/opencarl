@@ -46,11 +46,11 @@ Requirements for OpenCARL rebranding milestone. Each maps to roadmap phases.
 
 ### Package Metadata & CI/CD
 
-- [ ] **PKG-01**: Package name is consistent across all references (`@krisgray/opencarl`)
-- [ ] **PKG-02**: Docker image name `opencode-carl:e2e` is updated to `opencode-opencarl:e2e`
-- [ ] **PKG-03**: GitHub Actions workflows use updated package and Docker references
-- [ ] **PKG-04**: All package.json metadata reflects OpenCARL branding
-- [ ] **PKG-05**: E2E tests pass with updated Docker image
+- [x] **PKG-01**: Package name is consistent across all references (`@krisgray/opencarl`)
+- [x] **PKG-02**: Docker image name `opencode-carl:e2e` is updated to `opencode-opencarl:e2e`
+- [x] **PKG-03**: GitHub Actions workflows use updated package and Docker references
+- [x] **PKG-04**: All package.json metadata reflects OpenCARL branding
+- [x] **PKG-05**: E2E tests pass with updated Docker image
 
 ## v2 Requirements
 
@@ -101,11 +101,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DOCS-03 | Phase 16 | Complete |
 | DOCS-04 | Phase 16 | Complete |
 | DOCS-05 | Phase 16 | Complete |
-| PKG-01 | Phase 17 | Pending |
-| PKG-02 | Phase 17 | Pending |
-| PKG-03 | Phase 17 | Pending |
-| PKG-04 | Phase 17 | Pending |
-| PKG-05 | Phase 17 | Pending |
+| PKG-01 | Phase 17 | Complete |
+| PKG-02 | Phase 17 | Complete |
+| PKG-03 | Phase 17 | Complete |
+| PKG-04 | Phase 17 | Complete |
+| PKG-05 | Phase 17 | Complete |
 
 **Coverage:**
 - v1.3 requirements: 25 total
