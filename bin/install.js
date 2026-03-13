@@ -230,7 +230,7 @@ function checkOpencodeJson(isGlobal, opencodeDir) {
 
     console.log(`  ${yellow}Plugin not found in opencode.json${reset}`);
     console.log(`  ${dim}Add to your opencode.json:${reset}`);
-    console.log(`  ${dim}{\n    "plugin": ["@krisgray/opencode-carl-plugin"]\n  }${reset}`);
+    console.log(`  ${dim}{\n    "plugin": ["@krisgray/opencarl"]\n  }${reset}`);
     return false;
   } catch (e) {
     console.log(`  ${yellow}Could not parse opencode.json${reset}`);
