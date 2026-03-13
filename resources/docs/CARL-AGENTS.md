@@ -9,7 +9,7 @@ OpenCARL is a dynamic rule injection plugin for OpenCode that gives your AI assi
 - 🌐 **Global & project rules** - Share across projects or keep them specific
 - 📝 **AGENTS.md integration** - Optional documentation integration
 
-OpenCARL is an OpenCode adaptation of CARL (Context Augmentation & Reinforcement Layer), originally created by Chris Kahler for Claude Code.
+OpenCARL is an OpenCode adaptation of the Context Augmentation & Reinforcement Layer, originally created by Chris Kahler for Claude Code.
 
 ## How OpenCARL Works with OpenCode
 
@@ -27,23 +27,23 @@ OpenCARL rules are injected alongside OpenCode's built-in rules and instructions
 
 | Integration | Purpose |
 |-------------|---------|
-| `*carl` | Enter OpenCARL help mode |
-| `*carl docs` | View full OpenCARL documentation |
-| `/carl` | Domain management commands |
-| `.carl/` directory | Your rule definitions |
+| `*opencarl` | Enter OpenCARL help mode |
+| `*opencarl docs` | View full OpenCARL documentation |
+| `/opencarl` | Domain management commands |
+| `.opencarl/` directory | Your rule definitions |
 
 ### Best Practices
 
-1. **Keep OpenCARL rules in `.carl/` directory** - Separate from AGENTS.md
+1. **Keep OpenCARL rules in `.opencarl/` directory** - Separate from AGENTS.md
 2. **Use recall keywords** - Let OpenCARL auto-load relevant rules
 3. **Use star-commands** - `*commandname` for explicit rule triggers
-4. **Review `.carl/manifest`** - See active domains and their settings
+4. **Review `.opencarl/manifest`** - See active domains and their settings
 
 ## Quick Reference
 
 ### File Structure
 ```
-.carl/
+.opencarl/
 ├── manifest        # Domain registry (states + recall keywords)
 ├── global          # GLOBAL rules (always loaded)
 ├── commands        # Star-command definitions
@@ -72,21 +72,21 @@ OpenCARL rules are injected alongside OpenCode's built-in rules and instructions
 ### Common Commands
 | Command | Purpose |
 |---------|---------|
-| `*carl` | Enter help mode |
-| `*carl docs` | View documentation |
-| `/carl` | Domain management |
-| `/carl list` | Show all domains |
-| `/carl view DOMAIN` | Show rules in a domain |
-| `/carl toggle DOMAIN active\|inactive` | Enable/disable domain |
+| `*opencarl` | Enter help mode |
+| `*opencarl docs` | View documentation |
+| `/opencarl` | Domain management |
+| `/opencarl list` | Show all domains |
+| `/opencarl view DOMAIN` | Show rules in a domain |
+| `/opencarl toggle DOMAIN active\|inactive` | Enable/disable domain |
 
 ### Quick Example: Add a Rule
-Edit `.carl/development`:
+Edit `.opencarl/development`:
 ```
 DEVELOPMENT_RULE_5=Always use TypeScript strict mode
 ```
 
 ### Quick Example: Create a Star-Command
-Edit `.carl/commands`:
+Edit `.opencarl/commands`:
 ```
 QUICK_RULE_0=*quick - Skip explanations, just show the code
 QUICK_RULE_1=No commentary unless asked
@@ -126,14 +126,14 @@ AGENTS.md:
 Always use TypeScript strict mode. Prefer functional components. Run tests after changes.
 ```
 
-→ `.carl/development`:
+→ `.opencarl/development`:
 ```
 DEVELOPMENT_RULE_0=Always use TypeScript strict mode
 DEVELOPMENT_RULE_1=Prefer functional components
 DEVELOPMENT_RULE_2=Run tests after implementation changes
 ```
 
-→ `.carl/manifest`:
+→ `.opencarl/manifest`:
 ```
 DEVELOPMENT_STATE=active
 DEVELOPMENT_RECALL=write code, fix bug, implement, refactor
@@ -143,4 +143,4 @@ This keeps AGENTS.md focused on project context while OpenCARL handles behaviora
 
 ---
 
-For full documentation, run `*carl docs` or see `.carl/` directory.
+For full documentation, run `*opencarl docs` or see `.opencarl/` directory.
