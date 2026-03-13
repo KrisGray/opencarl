@@ -8,11 +8,14 @@ OpenCARL is a dynamic rule injection plugin for OpenCode that gives your AI assi
 
 Keep OpenCARL's dynamic rule injection working seamlessly inside OpenCode with full parity and minimal user friction.
 
-## Current Milestone: Planning Next Milestone
+## Current Milestone: v1.4 Documentation Site
 
-**Status:** v1.3 shipped (2026-03-13). Ready to plan v2.0.
+**Goal:** Add CI/CD-powered HTML API documentation hosted on GitHub Pages.
 
-**Next milestone:** Define scope and requirements for next iteration.
+**Target features:**
+- TypeDoc-generated API documentation from TypeScript source
+- GitHub Actions workflow triggered on release
+- gh-pages branch deployment for public documentation site
 
 ## Requirements
 
@@ -45,7 +48,9 @@ Keep OpenCARL's dynamic rule injection working seamlessly inside OpenCode with f
 
 ### Active
 
-(No active requirements — milestone complete, ready for next planning phase)
+- [ ] TypeDoc generates API documentation from TypeScript source
+- [ ] GitHub Actions workflow builds and deploys docs on release
+- [ ] Documentation site hosted on GitHub Pages (gh-pages branch)
 
 ### Out of Scope
 
@@ -89,4 +94,4 @@ Keep OpenCARL's dynamic rule injection working seamlessly inside OpenCode with f
 | Complete CARL → OpenCARL rebranding | Brand consistency and broader naming | ✓ Good |
 
 ---
-*Last updated: 2026-03-13 after v1.3 milestone completion*
+*Last updated: 2026-03-13 after starting v1.4 Documentation Site milestone*
