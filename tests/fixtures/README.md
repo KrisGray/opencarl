@@ -5,7 +5,7 @@ This directory contains reusable test data for unit, integration, and e2e tests.
 ## Directory Structure
 
 ### manifests/
-Sample CARL manifest files for testing the manifest parser.
+Sample OpenCARL manifest files for testing the manifest parser.
 
 - Valid single-domain manifests
 - Valid multi-domain manifests
@@ -13,8 +13,8 @@ Sample CARL manifest files for testing the manifest parser.
 - Malformed manifests (syntax errors)
 - STATE/ALWAYS_ON parsing examples
 
-### carl-directories/
-Complete .carl/ directory structures for integration testing.
+### opencarl-directories/
+Complete .opencarl/ directory structures for integration testing.
 
 - Default template structure
 - Multi-domain configurations
