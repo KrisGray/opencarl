@@ -18,8 +18,8 @@ function publishOpenCode(): void {
   const packageJsonPath = path.join(projectRoot, "package.json");
   const pkg = JSON.parse(fs.readFileSync(packageJsonPath, "utf-8"));
   
-  if (pkg.name !== "@krisgray/opencode-carl-plugin") {
-    console.error(`[publish] ERROR: package.json name should be "@krisgray/opencode-carl-plugin", got "${pkg.name}"`);
+  if (pkg.name !== "@krisgray/opencarl") {
+    console.error(`[publish] ERROR: package.json name should be "@krisgray/opencarl", got "${pkg.name}"`);
     process.exit(1);
   }
 
@@ -31,7 +31,7 @@ function publishOpenCode(): void {
   }
 
   // Publish
-  console.log("[publish] Publishing @krisgray/opencode-carl-plugin...");
+  console.log("[publish] Publishing @krisgray/opencarl...");
   run("npm publish --access public");
   console.log("[publish] Published successfully!");
 }

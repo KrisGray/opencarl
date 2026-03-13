@@ -84,34 +84,34 @@ console.log(banner);
 
 // Show help
 if (hasHelp) {
-  console.log(`  ${yellow}Usage:${reset} npx @krisgray/opencode-carl-plugin [options]
+  console.log(`  ${yellow}Usage:${reset} npx @krisgray/opencarl [options]
 
   ${yellow}Options:${reset}
     ${amber}-g, --global${reset}       Install globally (to ~/.opencode and ~/.opencarl)
     ${amber}-l, --local${reset}        Install locally (to ./.opencode and ./.opencarl)
-    ${amber}-i, --integrate${reset}    Add CARL section to AGENTS.md
-    ${amber}-r, --remove${reset}       Remove CARL section from AGENTS.md
+    ${amber}-i, --integrate${reset}    Add OpenCARL section to AGENTS.md
+    ${amber}-r, --remove${reset}       Remove OpenCARL section from AGENTS.md
     ${amber}-h, --help${reset}         Show this help message
 
   ${yellow}Examples:${reset}
     ${dim}# Interactive setup${reset}
-    npx @krisgray/opencode-carl-plugin
+    npx @krisgray/opencarl
 
     ${dim}# Setup globally with AGENTS.md integration${reset}
-    npx @krisgray/opencode-carl-plugin --global --integrate
+    npx @krisgray/opencarl --global --integrate
 
     ${dim}# Setup for current project only${reset}
-    npx @krisgray/opencode-carl-plugin --local
+    npx @krisgray/opencarl --local
 
     ${dim}# Just add/remove AGENTS.md section${reset}
-    npx @krisgray/opencode-carl-plugin --integrate
-    npx @krisgray/opencode-carl-plugin --remove
+    npx @krisgray/opencarl --integrate
+    npx @krisgray/opencarl --remove
 
   ${yellow}What gets installed:${reset}
     .opencode/commands/carl/   - Slash commands (/carl list, /carl view, etc.)
     .opencode/skills/carl-*/   - Domain management helpers
     .opencarl/                 - Your rule configuration (if not exists)
-    AGENTS.md                  - CARL integration section (optional)
+    AGENTS.md                  - OpenCARL integration section (optional)
 `);
   process.exit(0);
 }
@@ -209,7 +209,7 @@ function checkOpencodeJson(isGlobal, opencodeDir) {
   if (!fs.existsSync(opencodeJsonPath)) {
     console.log(`  ${yellow}opencode.json not found at: ${opencodeJsonPath}${reset}`);
     console.log(`  ${dim}Create it with:${reset}`);
-    console.log(`  ${dim}{\n    "plugin": ["@krisgray/opencode-carl-plugin"]\n  }${reset}`);
+    console.log(`  ${dim}{\n    "plugin": ["@krisgray/opencarl"]\n  }${reset}`);
     return false;
   }
 
@@ -218,8 +218,8 @@ function checkOpencodeJson(isGlobal, opencodeDir) {
 
     if (config.plugin && Array.isArray(config.plugin)) {
       const hasCarl = config.plugin.some(p =>
-        p === '@krisgray/opencode-carl-plugin' ||
-        p.includes('opencode-carl-plugin')
+        p === '@krisgray/opencarl' ||
+        p.includes('opencarl')
       );
 
       if (hasCarl) {
@@ -302,20 +302,20 @@ function install(isGlobal, doIntegrate = false) {
   }
 
   console.log(`
-  ${green}Done!${reset} CARL is installed.
+  ${green}Done!${reset} OpenCARL is installed.
 
   ${amber}Next steps:${reset}
-    1. ${dim}Ensure @krisgray/opencode-carl-plugin is in your opencode.json${reset}
+    1. ${dim}Ensure @krisgray/opencarl is in your opencode.json${reset}
     2. ${dim}Restart OpenCode if needed${reset}
-    3. ${dim}Type *carl for interactive help${reset}
+    3. ${dim}Type *opencarl for interactive help${reset}
 
   ${amber}Quick start:${reset}
-    ${dim}*carl${reset}          - Interactive help
+    ${dim}*opencarl${reset}          - Interactive help
     ${dim}/carl list${reset}     - Show all domains
     ${dim}/carl view DOMAIN${reset} - View domain rules
 
   ${amber}Optional:${reset}
-    ${dim}npx @krisgray/opencode-carl-plugin --integrate${reset} - Add CARL to AGENTS.md
+    ${dim}npx @krisgray/opencarl --integrate${reset} - Add OpenCARL to AGENTS.md
 `);
 }
 
