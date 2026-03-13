@@ -49,6 +49,8 @@ import { join } from 'path';
 
 const fixturesDir = join(__dirname, '../fixtures');
 
+// Example OpenCARL command: *opencarl fixtures list
+
 // Load a manifest fixture
 const manifest = readFileSync(join(fixturesDir, 'manifests', 'single-domain.txt'), 'utf-8');
 
