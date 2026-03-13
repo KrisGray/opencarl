@@ -19,7 +19,7 @@
     "publish": "npm run build && npm publish --access public",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
+    "test:coverage": "jest --coverage --testPathIgnorePatterns='tests/javascript/e2e'",
     "test:unit": "jest --testPathPattern='tests/javascript/unit'",
     "test:integration": "jest --testPathPattern='tests/javascript/integration'",
     "test:e2e": "jest --testPathPattern='tests/javascript/e2e'",
