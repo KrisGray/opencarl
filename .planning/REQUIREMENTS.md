@@ -1,4 +1,4 @@
-# Requirements: OpenCARL v2.0.2 Documentation Site
+# Requirements: OpenCARL v2.1 CI Badges & Coverage
 
 **Defined:** 2026-03-13
 **Core Value:** Keep OpenCARL's dynamic rule injection working seamlessly inside OpenCode with full parity and minimal user friction.
@@ -18,6 +18,20 @@ Requirements for v2.0.2 release. Each maps to roadmap phases.
 - [x] **CICD-01**: Docs build and deploy automatically on GitHub release events
 - [x] **CICD-02**: Documentation deployed to gh-pages branch with orphan commits
 - [x] **CICD-03**: Documentation site hosted on GitHub Pages at krisgray.github.io/opencarl
+
+## v2.1 Requirements
+
+Requirements for v2.1 release. Each maps to roadmap phases.
+
+### Codecov Integration
+
+- [ ] **COV-01**: CI workflow uploads test coverage to Codecov on every push/PR
+- [ ] **COV-02**: Coverage reports visible in Codecov dashboard with trend history
+
+### Badges
+
+- [ ] **BADGE-01**: README displays working NPM version badge with current published version
+- [ ] **BADGE-02**: README and TypeDoc index display working Codecov coverage percentage badge
 
 ## v2 Requirements
 
@@ -51,12 +65,16 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CICD-01 | Phase 19 | Complete |
 | CICD-02 | Phase 19 | Complete |
 | CICD-03 | Phase 19 | Complete |
+| COV-01 | Phase 20 | Pending |
+| COV-02 | Phase 20 | Pending |
+| BADGE-01 | Phase 20 | Pending |
+| BADGE-02 | Phase 20 | Pending |
 
 **Coverage:**
-- v1 requirements: 6 total
-- Mapped to phases: 6
+- v1 requirements: 6 total, 6 complete ✓
+- v2.1 requirements: 4 total, 0 complete, 4 pending
 - Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-03-13*
-*Last updated: 2026-03-16 after v2.0.2 completion*
+*Last updated: 2026-03-16 - added v2.1 requirements*

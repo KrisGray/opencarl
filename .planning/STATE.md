@@ -5,38 +5,35 @@
 See: .planning/PROJECT.md (updated 2026-03-13)
 
 **Core value:** Keep OpenCARL's dynamic rule injection working seamlessly inside OpenCode with full parity and minimal user friction.
-**Current focus:** Phase 19 - GitHub Actions Deployment
+**Current focus:** Phase 20 - Codecov Integration & Badges
 
 ## Current Position
 
-Phase: 19 of 19 (GitHub Actions Deployment) — COMPLETE
-Plan: 2 of 2 in current phase
-Status: Complete
-Last activity: 2026-03-16 — Completed 19-02-PLAN.md (GitHub Pages configuration)
+Phase: 20 of 20 (Codecov Integration & Badges) — NOT STARTED
+Plan: 0 of ? in current phase
+Status: Ready to plan
+Last activity: 2026-03-16 — Added Phase 20 to roadmap
 
-Progress: [██████████] 100%
+Progress: [██████████] 0% (v2.1 milestone)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 3 (this milestone)
-- Average duration: 5.3 min
-- Total execution time: 0.3 hours
+- Total plans completed: 0 (this milestone)
+- Average duration: N/A
+- Total execution time: 0 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 18. TypeDoc Setup | 2/2 | 11 min | 5.5 min |
-| 19. GitHub Actions Deployment | 2/2 | 5 min | 2.5 min |
+| 20. Codecov Integration & Badges | 0/? | — | — |
 
 **Recent Trend:**
-- Last 5 plans: 3 min, 8 min, 1 min, 4 min
-- Trend: N/A (insufficient data)
+- No plans completed yet in this milestone
 
 *Updated after each plan completion*
-| Phase 19-01 P01 | 1 min | 1 tasks | 1 files |
-| Phase 19-02 P02 | 4 min | 2 tasks | 0 files |
+(none yet for v2.1)
 
 ## Accumulated Context
 
@@ -59,12 +56,10 @@ None yet.
 
 ### Blockers/Concerns
 
-**Resolved:**
-- ~~Phase 18: TypeDoc 0.28 officially supports TypeScript 5.0-5.8; OpenCARL uses 5.9.3. Verify compatibility during Phase 18 implementation.~~
-  - **Resolution:** TypeDoc 0.28.9+ added TypeScript 5.9 support (PR #2989). Installed typedoc@^0.28.17 which includes this fix.
+None.
 
 ## Session Continuity
 
 Last session: 2026-03-16
-Stopped at: Completed 19-02-PLAN.md (Phase 19 complete)
-Resume file: None - Phase 19 complete, ready for milestone completion
+Stopped at: Phase 20 added to roadmap, ready to plan
+Resume file: .planning/phases/20-codecov-badges/ (ready for planning)
