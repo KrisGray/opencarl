@@ -97,11 +97,11 @@ See [.planning/milestones/v1.3-ROADMAP.md](.planning/milestones/v1.3-ROADMAP.md)
   2. Documentation includes clickable source code links to GitHub
   3. README.md appears as the documentation landing page
   4. All exported TypeScript types and functions appear in the generated docs
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 18-01: Install and configure TypeDoc
-- [ ] 18-02: Add source links and README integration
+- [ ] 18-01-PLAN.md — Install TypeDoc and create configuration with source links and README integration
+- [ ] 18-02-PLAN.md — Add @category JSDoc tags for organized documentation navigation
 
 ### Phase 19: GitHub Actions Deployment
 **Goal**: Documentation publishes automatically on release
