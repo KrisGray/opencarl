@@ -24,7 +24,9 @@
     "test:integration": "jest --testPathPattern='tests/javascript/integration'",
     "test:e2e": "jest --testPathPattern='tests/javascript/e2e'",
     "test:e2e:local": "bash tests/e2e/run-e2e-tests.sh",
-    "test:e2e:ci": "bash tests/e2e/run-e2e-tests.sh"
+    "test:e2e:ci": "bash tests/e2e/run-e2e-tests.sh",
+    "docs": "typedoc",
+    "docs:ci": "typedoc --gitRevision $(git rev-parse HEAD)"
   },
   "keywords": [
     "opencode",
@@ -59,6 +61,7 @@
     "jest": "^30.2.0",
     "ts-jest": "^29.4.6",
     "ts-node": "^10.9.2",
+    "typedoc": "^0.28.17",
     "typescript": "^5.9.3"
   }
 }

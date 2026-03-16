@@ -50,6 +50,9 @@ __pycache__/
 coverage/
 .nyc_output/
 
+# Generated documentation
+docs/
+
 # Temporary files
 *.tmp
 *.temp

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "tsconfig": "tsconfig.build.json",
+  "entryPoints": ["src/opencarl/"],
+  "entryPointStrategy": "expand",
+  "out": "docs",
+  "readme": "./README.md",
+  "gitRemote": "origin",
+  "gitRevision": "main",
+  "sourceLinkExternal": true,
+  "categorizeByGroup": false,
+  "defaultCategory": "Other",
+  "categoryOrder": ["Configuration", "Loading", "Matching", "Injection", "Signals", "Errors", "*"],
+  "navigation": {
+    "includeCategories": true
+  },
+  "excludePrivate": true,
+  "excludeProtected": false,
+  "excludeInternal": true,
+  "hideGenerator": false,
+  "githubPages": true
+}
