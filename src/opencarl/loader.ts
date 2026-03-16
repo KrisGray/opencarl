@@ -32,16 +32,29 @@ import {
 } from "./errors";
 import { debugFileLoad } from "./debug";
 
+/**
+ * Overrides for OpenCARL rule discovery paths.
+ * Used for testing or custom directory configurations.
+ * @category Loading
+ */
 export interface OpencarlRuleDiscoveryOverrides {
   projectOpencarlDir?: string;
   globalOpencarlDir?: string;
   fallbackOpencarlDir?: string;
 }
 
+/**
+ * Options for discovering and loading OpenCARL rules.
+ * @category Loading
+ */
 export interface OpencarlRuleDiscoveryOptions {
+  /** Current working directory for project detection */
   cwd?: string;
+  /** Home directory for global rules */
   homeDir?: string;
+  /** Project root for fallback rules */
   projectRoot?: string;
+  /** Custom paths for rule sources */
   overrides?: OpencarlRuleDiscoveryOverrides;
   /** When false, project rules are skipped even if .opencarl/ exists */
   projectOptIn?: boolean;
@@ -265,6 +278,19 @@ function loadProjectRules(
   };
 }
 
+/**
+ * Load OpenCARL rules from project, global, and fallback sources.
+ *
+ * This is the main entry point for discovering and loading OpenCARL domain rules.
+ * It searches for rules in the following priority order:
+ * 1. Project rules (from .opencarl/ in the current project)
+ * 2. Global rules (from ~/.config/opencarl/)
+ * 3. Fallback rules (from opencarl/fallback/ in the repository)
+ *
+ * @category Loading
+ * @param options - Discovery options including paths and session configuration
+ * @returns Discovery result containing sources, domains, payloads, and any warnings
+ */
 export function loadOpencarlRules(
   options: OpencarlRuleDiscoveryOptions = {}
 ): OpencarlRuleDiscoveryResult {
