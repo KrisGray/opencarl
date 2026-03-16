@@ -1,9 +1,9 @@
 ---
-status: complete
+status: diagnosed
 phase: 18-typedoc-setup
 source: [18-01-SUMMARY.md, 18-02-SUMMARY.md]
 started: 2026-03-16T15:00:00Z
-updated: 2026-03-16T15:10:00Z
+updated: 2026-03-16T15:15:00Z
 ---
 
 ## Current Test
@@ -56,9 +56,16 @@ skipped: 0
   reason: "User reported: No I see a list of clickable Modules such as command-parity, context-brackets, debug etc"
   severity: major
   test: 5
-  root_cause: ""
-  artifacts: []
-  missing: []
+  root_cause: "entryPointStrategy: 'expand' creates module-per-file, categories only organize within modules not at navigation level. Need barrel file to consolidate exports."
+  artifacts:
+    - path: "typedoc.json"
+      issue: "entryPointStrategy: expand creates file-based modules"
+    - path: "src/opencarl/"
+      issue: "No index.ts barrel file exists"
+  missing:
+    - "Create src/opencarl/index.ts barrel file re-exporting all modules"
+    - "Update typedoc.json entryPoints to use index.ts"
+    - "Change entryPointStrategy to 'resolve'"
   debug_session: ""
 
 - truth: "No significant number of exports appear in 'Other' category - all are properly categorized"
@@ -66,7 +73,12 @@ skipped: 0
   reason: "User reported: No other category present - sidebar shows modules (command-parity, context-brackets, debug) not categories"
   severity: major
   test: 6
-  root_cause: ""
-  artifacts: []
-  missing: []
+  root_cause: "Same as above - categories work inside modules but navigation shows file structure"
+  artifacts:
+    - path: "typedoc.json"
+      issue: "entryPointStrategy: expand creates file-based modules"
+    - path: "src/opencarl/"
+      issue: "No index.ts barrel file exists"
+  missing:
+    - "Same fix as gap 1"
   debug_session: ""
