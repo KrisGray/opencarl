@@ -112,11 +112,11 @@ Plans:
   2. gh-pages branch contains only the generated documentation (orphan commits)
   3. Documentation is publicly accessible at krisgray.github.io/opencarl
   4. Docs deployment integrates cleanly with existing publish.yml workflow
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 19-01: Add docs job to publish.yml workflow
-- [ ] 19-02: Configure GitHub Pages deployment
+- [ ] 19-01-PLAN.md — Add docs job to publish.yml with peaceiris deployment
+- [ ] 19-02-PLAN.md — Configure GitHub Pages and verify deployment
 
 ## Progress
 
