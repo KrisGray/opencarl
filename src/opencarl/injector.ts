@@ -2,6 +2,10 @@ import type { OpencarlRuleDomainPayload } from "./types";
 import type { ContextBracket, ContextBracketData } from "./context-brackets";
 import { getRulesBracket, selectBracketRules, formatCriticalWarning } from "./context-brackets";
 
+/**
+ * Input for building OpenCARL injection content.
+ * @category Injection
+ */
 export interface OpencarlInjectionInput {
   domainPayloads: Record<string, OpencarlRuleDomainPayload>;
   matchedDomains?: string[];
@@ -81,6 +85,17 @@ function renderContextRules(
   return lines;
 }
 
+/**
+ * Build the OpenCARL injection content for system prompt integration.
+ *
+ * Combines domain rules from matched domains, always-on domains, and command domains
+ * into a structured XML block that can be injected into the system prompt.
+ * Handles special rendering for the CONTEXT domain with bracket-based filtering.
+ *
+ * @category Injection
+ * @param input - Injection input containing domain payloads and matched/command domains
+ * @returns Formatted injection string, or null if no rules to inject
+ */
 export function buildOpencarlInjection(
   input: OpencarlInjectionInput
 ): string | null {

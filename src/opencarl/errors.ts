@@ -5,6 +5,7 @@
 
 /**
  * Categories of errors that can occur in the OpenCARL plugin.
+ * @category Errors
  */
 export type OpencarlErrorCategory = "config" | "manifest" | "runtime" | "permission";
 
@@ -16,6 +17,7 @@ const DOCS_BASE_URL = "https://github.com/KrisGray/opencarl/blob/main/docs";
 /**
  * Structured error class for OpenCARL-specific errors.
  * Provides rich context to help users understand and fix issues.
+ * @category Errors
  */
 export class OpencarlError extends Error {
   public readonly category: OpencarlErrorCategory;
@@ -51,6 +53,7 @@ export class OpencarlError extends Error {
  * Format an error for display to the user via console.error.
  * Handles both OpencarlError instances and generic errors.
  *
+ * @category Errors
  * @param error - The error to format (can be OpencarlError or any other error type)
  * @returns A formatted string suitable for console.error output
  */
@@ -98,6 +101,7 @@ const DOCS_LINKS: Record<OpencarlErrorCategory, string> = {
 /**
  * Create an error for manifest file parsing failures.
  *
+ * @category Errors
  * @param path - Path to the manifest file that failed to parse
  * @param details - Specific details about what went wrong
  * @returns A OpencarlError with actionable fix suggestions
@@ -116,6 +120,7 @@ export function manifestParseError(path: string, details: string): OpencarlError
 /**
  * Create an error for domain rule loading failures.
  *
+ * @category Errors
  * @param domain - The domain name that failed to load
  * @param path - Path to the domain file
  * @param details - Specific details about what went wrong
@@ -139,6 +144,7 @@ export function domainLoadError(
 /**
  * Create an error for file permission issues.
  *
+ * @category Errors
  * @param path - Path to the file with permission issues
  * @param operation - The operation that was attempted (read, write, etc.)
  * @returns A OpencarlError with actionable fix suggestions
@@ -157,6 +163,7 @@ export function permissionError(path: string, operation: string): OpencarlError 
 /**
  * Create an error for configuration file read failures.
  *
+ * @category Errors
  * @param path - Path to the config file that couldn't be read
  * @param details - Specific details about what went wrong
  * @returns A OpencarlError with actionable fix suggestions
@@ -175,6 +182,7 @@ export function configReadError(path: string, details: string): OpencarlError {
 /**
  * Create an error for setup failures.
  *
+ * @category Errors
  * @param details - Specific details about what went wrong during setup
  * @returns A OpencarlError with actionable fix suggestions
  */
@@ -192,6 +200,7 @@ export function setupError(details: string): OpencarlError {
 /**
  * Create an error for integration failures.
  *
+ * @category Errors
  * @param targetFile - The file being integrated with (e.g., AGENTS.md)
  * @param details - Specific details about what went wrong
  * @returns A OpencarlError with actionable fix suggestions
