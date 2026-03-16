@@ -48,6 +48,16 @@ function getDomainEntries(domains: Record<string, OpencarlMatchDomainConfig>) {
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
+/**
+ * Match domains against current turn signals.
+ *
+ * Evaluates each domain's recall and exclude patterns against the current
+ * prompt text and session signals to determine which domains should be activated.
+ *
+ * @category Matching
+ * @param request - The match request containing prompt text, signals, and domain configs
+ * @returns Match result with activated and excluded domains
+ */
 export function matchDomainsForTurn(request: OpencarlMatchRequest): OpencarlMatchResult {
   const haystack = collectSignalHaystack(request);
   const globalExcludeMatches = request.globalExclude

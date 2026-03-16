@@ -110,6 +110,13 @@ function uniqTokens(entries: string[][]): string[] {
   return Array.from(tokens);
 }
 
+/**
+ * Record prompt signals for the current turn.
+ * Tokenizes the prompt text and stores it for domain matching.
+ * @category Signals
+ * @param sessionId - The session identifier
+ * @param promptText - The raw prompt text to tokenize and store
+ */
 export function recordPromptSignals(sessionId: string, promptText: string): void {
   if (!sessionId) {
     return;
@@ -121,6 +128,12 @@ export function recordPromptSignals(sessionId: string, promptText: string): void
   pushBounded(store.promptEntries, tokens);
 }
 
+/**
+ * Get the most recent prompt text for a session.
+ * @category Signals
+ * @param sessionId - The session identifier
+ * @returns The last recorded prompt text, or empty string if none
+ */
 export function getSessionPromptText(sessionId: string): string {
   if (!sessionId) {
     return "";
@@ -130,6 +143,12 @@ export function getSessionPromptText(sessionId: string): string {
   return store.lastPromptText ?? "";
 }
 
+/**
+ * Record command signals for domain activation tracking.
+ * @category Signals
+ * @param sessionId - The session identifier
+ * @param commands - Array of command names to record
+ */
 export function recordCommandSignals(sessionId: string, commands: string[]): void {
   if (!sessionId) {
     return;
@@ -139,6 +158,13 @@ export function recordCommandSignals(sessionId: string, commands: string[]): voi
   pushBounded(store.commandEntries, commands);
 }
 
+/**
+ * Consume and return the most recent command signals.
+ * Removes the consumed entry from the store (LIFO order).
+ * @category Signals
+ * @param sessionId - The session identifier
+ * @returns Array of command names, or empty array if none available
+ */
 export function consumeCommandSignals(sessionId: string): string[] {
   if (!sessionId) {
     return [];
@@ -149,6 +175,14 @@ export function consumeCommandSignals(sessionId: string): string[] {
   return entry ?? [];
 }
 
+/**
+ * Record signals from tool usage for domain matching.
+ * Extracts tool name tokens and path tokens from tool arguments.
+ * @category Signals
+ * @param sessionId - The session identifier
+ * @param toolName - Name of the tool being used
+ * @param toolArgs - Tool arguments (will be searched for path-like strings)
+ */
 export function recordToolSignals(
   sessionId: string,
   toolName: string,
@@ -174,6 +208,13 @@ export function recordToolSignals(
   pushBounded(store.pathEntries, Array.from(pathTokens));
 }
 
+/**
+ * Get all accumulated signals for a session.
+ * Returns prompt tokens, history, tool tokens, and path tokens for domain matching.
+ * @category Signals
+ * @param sessionId - The session identifier
+ * @returns Complete session signals object
+ */
 export function getSessionSignals(sessionId: string): OpencarlSessionSignals {
   if (!sessionId) {
     return {
