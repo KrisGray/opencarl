@@ -9,9 +9,9 @@ Requirements for v2.0.2 release. Each maps to roadmap phases.
 
 ### Documentation Generation
 
-- [ ] **DOCS-01**: TypeDoc generates HTML API documentation from TypeScript source
-- [ ] **DOCS-02**: Source code links allow click-through to GitHub
-- [ ] **DOCS-03**: README.md serves as documentation landing page
+- [x] **DOCS-01**: TypeDoc generates HTML API documentation from TypeScript source
+- [x] **DOCS-02**: Source code links allow click-through to GitHub
+- [x] **DOCS-03**: README.md serves as documentation landing page
 
 ### CI/CD Deployment
 
@@ -45,9 +45,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DOCS-01 | Phase 18 | Pending |
-| DOCS-02 | Phase 18 | Pending |
-| DOCS-03 | Phase 18 | Pending |
+| DOCS-01 | Phase 18 | Complete |
+| DOCS-02 | Phase 18 | Complete |
+| DOCS-03 | Phase 18 | Complete |
 | CICD-01 | Phase 19 | Pending |
 | CICD-02 | Phase 19 | Pending |
 | CICD-03 | Phase 19 | Pending |
