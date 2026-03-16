@@ -83,7 +83,7 @@ See [.planning/milestones/v1.3-ROADMAP.md](.planning/milestones/v1.3-ROADMAP.md)
 
 **Milestone Goal:** Add CI/CD-powered HTML API documentation hosted on GitHub Pages.
 
-- [ ] **Phase 18: TypeDoc Setup** - Configure TypeDoc for local HTML documentation generation
+- [x] **Phase 18: TypeDoc Setup** - Configure TypeDoc for local HTML documentation generation (completed 2026-03-16)
 - [ ] **Phase 19: GitHub Actions Deployment** - Automate docs deployment on release
 
 ## Phase Details
@@ -140,7 +140,7 @@ Plans:
 | 15. Environment Variable Rebranding | v1.3 | 8/8 | Complete | 2026-03-12 |
 | 16. Documentation Rebranding | v1.3 | 4/4 | Complete | 2026-03-13 |
 | 17. Package Metadata & CI/CD Finalization | v1.3 | 4/4 | Complete | 2026-03-13 |
-| 18. TypeDoc Setup | 1/2 | In Progress|  | - |
+| 18. TypeDoc Setup | 2/2 | Complete   | 2026-03-16 | - |
 | 19. GitHub Actions Deployment | v2.0.2 | 0/2 | Not started | - |
 
 ---
