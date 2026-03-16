@@ -17,7 +17,7 @@ Requirements for v2.0.2 release. Each maps to roadmap phases.
 
 - [x] **CICD-01**: Docs build and deploy automatically on GitHub release events
 - [x] **CICD-02**: Documentation deployed to gh-pages branch with orphan commits
-- [ ] **CICD-03**: Documentation site hosted on GitHub Pages at krisgray.github.io/opencarl
+- [x] **CICD-03**: Documentation site hosted on GitHub Pages at krisgray.github.io/opencarl
 
 ## v2 Requirements
 
@@ -50,7 +50,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DOCS-03 | Phase 18 | Complete |
 | CICD-01 | Phase 19 | Complete |
 | CICD-02 | Phase 19 | Complete |
-| CICD-03 | Phase 19 | Pending |
+| CICD-03 | Phase 19 | Complete |
 
 **Coverage:**
 - v1 requirements: 6 total
@@ -59,4 +59,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-03-13*
-*Last updated: 2026-03-13 after roadmap creation*
+*Last updated: 2026-03-16 after v2.0.2 completion*
