@@ -6,7 +6,7 @@
 - ✅ **v1.1 Polish & Complete Integration** - Phase 6 (shipped 2026-03-03)
 - ✅ **v1.2 Testing & QA** - Phases 7-11 (shipped 2026-03-18)
 - ✅ **v1.3 Branding & Context Migration** - Phases 12-17 (shipped 2026-03-13)
-- 🚧 **v2.0.2 Documentation Site** - Phases 18-19 (in progress)
+- ✅ **v2.0.2 Documentation Site** - Phases 18-19 (shipped 2026-03-16)
 
 ## Phases
 
@@ -79,12 +79,12 @@ See [.planning/milestones/v1.3-ROADMAP.md](.planning/milestones/v1.3-ROADMAP.md)
 
 </details>
 
-### 🚧 v2.0.2 Documentation Site (In Progress)
+### ✅ v2.0.2 Documentation Site (Complete)
 
 **Milestone Goal:** Add CI/CD-powered HTML API documentation hosted on GitHub Pages.
 
 - [x] **Phase 18: TypeDoc Setup** - Configure TypeDoc for local HTML documentation generation (completed 2026-03-16)
-- [ ] **Phase 19: GitHub Actions Deployment** - Automate docs deployment on release
+- [x] **Phase 19: GitHub Actions Deployment** - Automate docs deployment on release (completed 2026-03-16)
 
 ## Phase Details
 
@@ -100,8 +100,8 @@ See [.planning/milestones/v1.3-ROADMAP.md](.planning/milestones/v1.3-ROADMAP.md)
 **Plans**: 2 plans
 
 Plans:
-- [ ] 18-01-PLAN.md — Install TypeDoc and create configuration with source links and README integration
-- [ ] 18-02-PLAN.md — Add @category JSDoc tags for organized documentation navigation
+- [x] 18-01-PLAN.md — Install TypeDoc and create configuration with source links and README integration
+- [x] 18-02-PLAN.md — Add @category JSDoc tags for organized documentation navigation
 
 ### Phase 19: GitHub Actions Deployment
 **Goal**: Documentation publishes automatically on release
@@ -115,8 +115,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 19-01-PLAN.md — Add docs job to publish.yml with peaceiris deployment
-- [ ] 19-02-PLAN.md — Configure GitHub Pages and verify deployment
+- [x] 19-01-PLAN.md — Add docs job to publish.yml with peaceiris deployment
+- [x] 19-02-PLAN.md — Configure GitHub Pages and verify deployment
 
 ## Progress
 
@@ -140,8 +140,8 @@ Plans:
 | 15. Environment Variable Rebranding | v1.3 | 8/8 | Complete | 2026-03-12 |
 | 16. Documentation Rebranding | v1.3 | 4/4 | Complete | 2026-03-13 |
 | 17. Package Metadata & CI/CD Finalization | v1.3 | 4/4 | Complete | 2026-03-13 |
-| 18. TypeDoc Setup | 2/2 | Complete    | 2026-03-16 | - |
-| 19. GitHub Actions Deployment | 1/2 | In Progress|  | - |
+| 18. TypeDoc Setup | v2.0.2 | 2/2 | Complete | 2026-03-16 |
+| 19. GitHub Actions Deployment | v2.0.2 | 2/2 | Complete | 2026-03-16 |
 
 ---
 
@@ -161,9 +161,9 @@ v1.0 Phases 1-5 ✓
 v1.1 Phase 6 ✓
 v1.2 Phases 7-11 ✓
 v1.3 Phases 12-17 ✓
-v2.0.2 Phases 18-19 (in progress)
+v2.0.2 Phases 18-19 ✓
 ```
 
 ---
 *Roadmap created: 2026-02-25*
-*Last updated: 2026-03-13 after v2.0.2 roadmap creation*
+*Last updated: 2026-03-16 after v2.0.2 completion*
