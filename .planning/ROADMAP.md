@@ -134,7 +134,10 @@ Plans:
   2. README displays working NPM version badge
   3. README displays working Codecov coverage badge
   4. TypeDoc index page includes working badges
-**Plans**: To be planned
+**Plans**: 1 plan
+
+Plans:
+- [ ] 20-01-PLAN.md — Verify badge URLs and Codecov configuration
 
 ## Progress
 
@@ -160,7 +163,7 @@ Plans:
 | 17. Package Metadata & CI/CD Finalization | v1.3 | 4/4 | Complete | 2026-03-13 |
 | 18. TypeDoc Setup | v2.0.2 | 2/2 | Complete | 2026-03-16 |
 | 19. GitHub Actions Deployment | v2.0.2 | 2/2 | Complete | 2026-03-16 |
-| 20. Codecov Integration & Badges | v2.1 | 0/? | In Progress | — |
+| 20. Codecov Integration & Badges | v2.1 | 0/1 | In Progress | — |
 
 ---
 
