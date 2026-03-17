@@ -3,7 +3,7 @@
 ## Quick Install
 
 ```bash
-npm install @krisgray/opencarl
+npm install opencarl
 ```
 
 ### Configure opencode.json
@@ -12,7 +12,7 @@ Add OpenCARL to your `opencode.json` plugin list:
 
 ```json
 {
-  "plugin": ["@krisgray/opencarl"]
+  "plugin": ["opencarl"]
 }
 ```
 

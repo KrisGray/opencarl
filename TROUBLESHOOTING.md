@@ -91,7 +91,7 @@ If plugin path is missing, add it to `.opencode/opencode.json`:
 If plugin file doesn't exist, reinstall:
 ```bash
 # Reinstall from npm
-npm install -D @krisgray/opencarl
+npm install opencarl
 
 # Or reinstall from local
 npx opencarl-setup
@@ -114,7 +114,7 @@ chmod -R 755 .opencode/plugins/opencarl-plugin/
 **Diagnosis:**
 ```bash
 # Check if package is installed
-npm list @krisgray/opencarl
+npm list opencarl
 
 # Check if binary exists
 ls node_modules/.bin/opencarl-setup
@@ -124,7 +124,7 @@ ls node_modules/.bin/opencarl-setup
 
 If package not installed:
 ```bash
-npm install -D @krisgray/opencarl
+npm install opencarl
 ```
 
 If binary missing but package installed:
@@ -136,7 +136,7 @@ npm install
 
 If using global install:
 ```bash
-npm install -g @krisgray/opencarl
+npm install -g opencarl
 opencarl-setup
 ```
 
