@@ -25,13 +25,13 @@ Requirements for v2.1 release. Each maps to roadmap phases.
 
 ### Codecov Integration
 
-- [ ] **COV-01**: CI workflow uploads test coverage to Codecov on every push/PR
-- [ ] **COV-02**: Coverage reports visible in Codecov dashboard with trend history
+- [x] **COV-01**: CI workflow uploads test coverage to Codecov on every push/PR
+- [x] **COV-02**: Coverage reports visible in Codecov dashboard with trend history
 
 ### Badges
 
-- [ ] **BADGE-01**: README displays working NPM version badge with current published version
-- [ ] **BADGE-02**: README and TypeDoc index display working Codecov coverage percentage badge
+- [x] **BADGE-01**: README displays working NPM version badge with current published version
+- [x] **BADGE-02**: README and TypeDoc index display working Codecov coverage percentage badge
 
 ## v2 Requirements
 
@@ -65,16 +65,16 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CICD-01 | Phase 19 | Complete |
 | CICD-02 | Phase 19 | Complete |
 | CICD-03 | Phase 19 | Complete |
-| COV-01 | Phase 20 | Pending |
-| COV-02 | Phase 20 | Pending |
-| BADGE-01 | Phase 20 | Pending |
-| BADGE-02 | Phase 20 | Pending |
+| COV-01 | Phase 20 | Complete |
+| COV-02 | Phase 20 | Complete |
+| BADGE-01 | Phase 20 | Complete |
+| BADGE-02 | Phase 20 | Complete |
 
 **Coverage:**
 - v1 requirements: 6 total, 6 complete ✓
-- v2.1 requirements: 4 total, 0 complete, 4 pending
+- v2.1 requirements: 4 total, 4 complete ✓
 - Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-03-13*
-*Last updated: 2026-03-16 - added v2.1 requirements*
+*Last updated: 2026-03-17 - v2.1 requirements complete*

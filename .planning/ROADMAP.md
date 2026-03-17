@@ -7,7 +7,7 @@
 - ✅ **v1.2 Testing & QA** - Phases 7-11 (shipped 2026-03-18)
 - ✅ **v1.3 Branding & Context Migration** - Phases 12-17 (shipped 2026-03-13)
 - ✅ **v2.0.2 Documentation Site** - Phases 18-19 (shipped 2026-03-16)
-- ◆ **v2.1 CI Badges & Coverage** - Phase 20 (in progress)
+- ✅ **v2.1 CI Badges & Coverage** - Phase 20 (shipped 2026-03-17)
 
 ## Phases
 
@@ -119,11 +119,11 @@ Plans:
 - [x] 19-01-PLAN.md — Add docs job to publish.yml with peaceiris deployment
 - [x] 19-02-PLAN.md — Configure GitHub Pages and verify deployment
 
-### ◆ v2.1 CI Badges & Coverage (In Progress)
+### ✅ v2.1 CI Badges & Coverage (Complete)
 
 **Milestone Goal:** Add Codecov coverage reporting and populate NPM/Codecov badges in README and docs.
 
-- [ ] **Phase 20: Codecov Integration & Badges** - Upload coverage to Codecov and fix empty badges in README/docs
+- [x] **Phase 20: Codecov Integration & Badges** - Upload coverage to Codecov and fix empty badges in README/docs (completed 2026-03-17)
 
 ### Phase 20: Codecov Integration & Badges
 **Goal**: Test coverage reports to Codecov and visible NPM/Codecov badges
@@ -137,7 +137,7 @@ Plans:
 **Plans**: 1 plan
 
 Plans:
-- [ ] 20-01-PLAN.md — Verify badge URLs and Codecov configuration
+- [x] 20-01-PLAN.md — Verify badge URLs and Codecov configuration
 
 ## Progress
 
@@ -163,7 +163,7 @@ Plans:
 | 17. Package Metadata & CI/CD Finalization | v1.3 | 4/4 | Complete | 2026-03-13 |
 | 18. TypeDoc Setup | v2.0.2 | 2/2 | Complete | 2026-03-16 |
 | 19. GitHub Actions Deployment | v2.0.2 | 2/2 | Complete | 2026-03-16 |
-| 20. Codecov Integration & Badges | v2.1 | 0/1 | In Progress | — |
+| 20. Codecov Integration & Badges | v2.1 | 1/1 | Complete | 2026-03-17 |
 
 ---
 
@@ -184,9 +184,9 @@ v1.1 Phase 6 ✓
 v1.2 Phases 7-11 ✓
 v1.3 Phases 12-17 ✓
 v2.0.2 Phases 18-19 ✓
-v2.1 Phase 20 ◆
+v2.1 Phase 20 ✓
 ```
 
 ---
 *Roadmap created: 2026-02-25*
-*Last updated: 2026-03-16 - added v2.1 milestone with Phase 20*
+*Last updated: 2026-03-17 - v2.1 milestone complete*
