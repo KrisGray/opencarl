@@ -96,7 +96,7 @@ If you find yourself repeating instructions, OpenCARL is for you.
 ### Installation
 
 ```bash
-npm install @krisgray/opencarl
+npm install opencarl
 ```
 
 ### Configure opencode.json
@@ -105,7 +105,7 @@ Add OpenCARL to your `opencode.json` plugin list
 
 ```json
 {
-  "plugin": ["@krisgray/opencarl"]
+  "plugin": ["opencarl"]
 }
 ```
 
@@ -231,11 +231,11 @@ This triggers your custom `*review` command that injects:
 
 ```bash
 # 1. Install
-npm install @krisgray/opencarl
+npm install opencarl
 
 # 2. Configure opencode.json
-echo '{"plugin": ["@krisgray/opencarl"]}' > opencode.json
-
+echo '{"plugin": ["opencarl"]}' > opencode.json
+```
 # 3. Initialize (in OpenCode)
 /opencarl setup
 
@@ -269,14 +269,14 @@ You're now set up with:
 
 ```bash
 # Install both packages
-npm install @krisgray/opencarl @krisgray/openpaul
+npm install opencarl @krisgray/openpaul
 ```
 
 ```json
 // opencode.json
 {
   "plugin": [
-    "@krisgray/opencarl",
+    "opencarl",
     "@krisgray/openpaul"
   ]
 }
@@ -605,10 +605,10 @@ OpenCARL provides structure, not opinions. The default domains are examples — 
 ---
 
 ## What's Included
-
 ```
-@krisgray/opencarl/
+opencarl/
 ├── dist/plugin.js          # Plugin entrypoint
+```
 ├── .opencarl-template/     # Default configuration
 │   ├── manifest            # Domain registry
 │   ├── global              # Universal rules
