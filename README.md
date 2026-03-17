@@ -6,7 +6,7 @@
 
 **Context Augmentation & Reinforcement Layer** — Dynamic rules for OpenCode.
 
-[![npm version](https://img.shields.io/npm/v/@krisgray/opencarl?style=for-the-badge&logo=npm&logoColor=white&color=CB3837)](https://www.npmjs.com/package/@krisgray/opencarl)
+[![npm version](https://img.shields.io/npm/v/opencarl?style=for-the-badge&logo=npm&logoColor=white&color=CB3837)](https://www.npmjs.com/package/opencarl)
 [![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/KrisGray/opencarl?style=for-the-badge&logo=github&color=181717)](https://github.com/KrisGray/opencarl)
 
