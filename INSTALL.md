@@ -8,13 +8,23 @@ npm install opencarl
 
 ### Configure opencode.json
 
-Add OpenCARL to your `opencode.json` plugin list:
+Add OpenCARL as an npm plugin in your OpenCode config.
+
+**Global (all projects):** `~/.config/opencode/opencode.json`
+
+**Project-local:** `opencode.json` in your project root
 
 ```json
 {
-  "plugin": ["opencarl"]
+  "plugins": {
+    "npm": [
+      "opencarl"
+    ]
+  }
 }
 ```
+
+Restart OpenCode. It will install npm plugins with Bun into `~/.cache/opencode/node_modules/` and load them.
 
 ### Run Setup
 
