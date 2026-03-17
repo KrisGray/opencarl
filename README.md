@@ -9,6 +9,7 @@
 [![npm version](https://img.shields.io/npm/v/opencarl?style=for-the-badge&logo=npm&logoColor=white&color=CB3837)](https://www.npmjs.com/package/opencarl)
 [![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/KrisGray/opencarl?style=for-the-badge&logo=github&color=181717)](https://github.com/KrisGray/opencarl)
+[![Docs](https://img.shields.io/badge/docs-live-brightgreen?style=for-the-badge)](https://krisgray.github.io/opencarl/)
 
 <br>
 
@@ -16,7 +17,7 @@
 
 <br>
 
-[Why OpenCARL](#why-opencarl) · [Getting Started](#getting-started) · [Quick Start](#quick-start) · [How It Works](#how-it-works) · [Core Concepts](#core-concepts)
+[Docs](https://krisgray.github.io/opencarl/) · [Why OpenCARL](#why-opencarl) · [Getting Started](#getting-started) · [Quick Start](#quick-start) · [How It Works](#how-it-works) · [Core Concepts](#core-concepts)
 
 </div>
 
