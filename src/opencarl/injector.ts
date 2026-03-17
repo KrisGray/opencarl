@@ -137,7 +137,7 @@ export function buildOpencarlInjection(
   // Check if CONTEXT domain has bracket-filtered rules
   const contextPayload = payloadMap["CONTEXT"];
   const hasContextRules = contextPayload && contextPayload.state && (
-    contextPayload.bracketRules
+    contextPayload.bracketRules && contextBracket
       ? selectBracketRules(
           contextPayload.bracketRules ?? {},
           contextPayload.bracketFlags ?? {},
