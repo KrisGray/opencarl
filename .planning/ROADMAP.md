@@ -33,23 +33,6 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 6: Integration & Developer Experience** - Complete opencode.json integration and troubleshooting/diagnostic tools.
 
-**Phase 6: Integration & Developer Experience**
-**Goal**: Users have complete OpenCode configuration integration and can troubleshoot plugin issues independently
-**Depends on**: Phase 5
-**Requirements**: INTE-02, DX-01, DX-02, DX-03
-**Success Criteria** (what must be TRUE):
-  1. User can add CARL docs to their opencode.json instructions via setup command
-  2. User sees clear, actionable error messages when the plugin fails to load
-  3. User can enable debug logging to understand CARL's rule matching decisions
-  4. User can reference a troubleshooting guide for common issues
-**Plans**: 8 plans (gap closure)
-
-Plans:
-- [x] 06-integration-developer-experience/06-01-PLAN.md — opencode.json instructions integration (INTE-02)
-- [x] 06-integration-developer-experience/06-02-PLAN.md — Actionable error messages (DX-01)
-- [x] 06-integration-developer-experience/06-03-PLAN.md — Debug logging system (DX-02)
-- [x] 06-integration-developer-experience/06-04-PLAN.md — Troubleshooting guide (DX-03)
-
 </details>
 
 <details>
@@ -80,64 +63,24 @@ See [.planning/milestones/v1.3-ROADMAP.md](.planning/milestones/v1.3-ROADMAP.md)
 
 </details>
 
-### ✅ v2.0.2 Documentation Site (Complete)
+<details>
+<summary>✅ v2.0.2 Documentation Site (Phases 18-19) - SHIPPED 2026-03-16</summary>
 
-**Milestone Goal:** Add CI/CD-powered HTML API documentation hosted on GitHub Pages.
+See [.planning/milestones/v2.0.2-ROADMAP.md](.planning/milestones/v2.0.2-ROADMAP.md) for full details.
 
-- [x] **Phase 18: TypeDoc Setup** - Configure TypeDoc for local HTML documentation generation (completed 2026-03-16)
-- [x] **Phase 19: GitHub Actions Deployment** - Automate docs deployment on release (completed 2026-03-16)
+- [x] **Phase 18: TypeDoc Setup** - Configure TypeDoc for local HTML documentation generation
+- [x] **Phase 19: GitHub Actions Deployment** - Automate docs deployment on release
 
-## Phase Details
+</details>
 
-### Phase 18: TypeDoc Setup
-**Goal**: Developers can generate complete API documentation locally
-**Depends on**: Phase 17 (rebranding complete)
-**Requirements**: DOCS-01, DOCS-02, DOCS-03
-**Success Criteria** (what must be TRUE):
-  1. Running `npm run docs` generates HTML documentation in docs/ directory
-  2. Documentation includes clickable source code links to GitHub
-  3. README.md appears as the documentation landing page
-  4. All exported TypeScript types and functions appear in the generated docs
-**Plans**: 2 plans
+<details>
+<summary>✅ v2.1 CI Badges & Coverage (Phase 20) - SHIPPED 2026-03-17</summary>
 
-Plans:
-- [x] 18-01-PLAN.md — Install TypeDoc and create configuration with source links and README integration
-- [x] 18-02-PLAN.md — Add @category JSDoc tags for organized documentation navigation
+See [.planning/milestones/v2.1-ROADMAP.md](.planning/milestones/v2.1-ROADMAP.md) for full details.
 
-### Phase 19: GitHub Actions Deployment
-**Goal**: Documentation publishes automatically on release
-**Depends on**: Phase 18
-**Requirements**: CICD-01, CICD-02, CICD-03
-**Success Criteria** (what must be TRUE):
-  1. Publishing a GitHub release triggers docs build and deployment
-  2. gh-pages branch contains only the generated documentation (orphan commits)
-  3. Documentation is publicly accessible at krisgray.github.io/opencarl
-  4. Docs deployment integrates cleanly with existing publish.yml workflow
-**Plans**: 2 plans
+- [x] **Phase 20: Codecov Integration & Badges** - Upload coverage to Codecov and display NPM/Codecov badges
 
-Plans:
-- [x] 19-01-PLAN.md — Add docs job to publish.yml with peaceiris deployment
-- [x] 19-02-PLAN.md — Configure GitHub Pages and verify deployment
-
-### ✅ v2.1 CI Badges & Coverage (Complete)
-
-**Milestone Goal:** Add Codecov coverage reporting and populate NPM/Codecov badges in README and docs.
-
-- [x] **Phase 20: Codecov Integration & Badges** - Upload coverage to Codecov and fix empty badges in README/docs (completed 2026-03-17)
-
-### Phase 20: Codecov Integration & Badges
-**Goal**: Test coverage reports to Codecov and visible NPM/Codecov badges
-**Depends on**: Phase 19
-**Requirements**: COV-01, COV-02, BADGE-01, BADGE-02
-**Success Criteria** (what must be TRUE):
-  1. CI workflow uploads test coverage to Codecov on every push/PR
-  2. README displays working NPM version badge
-  3. README displays working Codecov coverage badge
-  4. TypeDoc index page includes working badges
-**Plans**: 1 plan
-
-Plans:
-- [x] 20-01-PLAN.md — Verify badge URLs and Codecov configuration
+</details>
 
 ## Progress
 
@@ -170,9 +113,10 @@ Plans:
 ## Coverage Validation
 
 Coverage validation has been archived with each milestone. See:
-- [v1.3 Coverage](.planning/milestones/v1.3-REQUIREMENTS.md)
 - [v1.2 Coverage](.planning/milestones/v1.2-REQUIREMENTS.md)
-- [v2.0.2 Coverage](.planning/REQUIREMENTS.md)
+- [v1.3 Coverage](.planning/milestones/v1.3-REQUIREMENTS.md)
+- [v2.0.2 Coverage](.planning/milestones/v2.0.2-REQUIREMENTS.md)
+- [v2.1 Coverage](.planning/milestones/v2.1-REQUIREMENTS.md)
 
 ---
 
@@ -189,4 +133,4 @@ v2.1 Phase 20 ✓
 
 ---
 *Roadmap created: 2026-02-25*
-*Last updated: 2026-03-17 - v2.1 milestone complete*
+*Last updated: 2026-03-17 - v2.0.2 and v2.1 milestones archived*
