@@ -114,6 +114,11 @@ jobs:
       - name: Build documentation
         run: npm run docs:ci
 
+      - name: Copy tutorials to docs
+        run: |
+          mkdir -p docs/tutorials/python-api
+          cp tutorials/python-api-tutorial.md docs/tutorials/python-api/index.md
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
