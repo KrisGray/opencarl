@@ -264,10 +264,25 @@ function install(isGlobal, doIntegrate = false) {
   // 1. Copy commands
   const commandsDir = path.join(opencodeDir, 'commands');
   fs.mkdirSync(commandsDir, { recursive: true });
-  const commandsSrc = path.join(src, 'resources', 'commands', 'carl');
-  const commandsDest = path.join(commandsDir, 'carl');
+  
+  // Copy opencarl subdirectory commands
+  const commandsSrc = path.join(src, 'resources', 'commands', 'opencarl');
+  const commandsDest = path.join(commandsDir, 'opencarl');
   copyDir(commandsSrc, commandsDest);
-  console.log(`  ${green}✓${reset} Installed commands/carl`);
+  console.log(`  ${green}✓${reset} Installed commands/opencarl`);
+  
+  // Copy top-level command files (e.g., opencarl-setup.md)
+  const commandsRoot = path.join(src, 'resources', 'commands');
+  const topLevelCommands = fs.readdirSync(commandsRoot, { withFileTypes: true })
+    .filter(e => e.isFile() && e.name.endsWith('.md'));
+  for (const cmd of topLevelCommands) {
+    const cmdSrc = path.join(commandsRoot, cmd.name);
+    const cmdDest = path.join(commandsDir, cmd.name);
+    fs.copyFileSync(cmdSrc, cmdDest);
+  }
+  if (topLevelCommands.length > 0) {
+    console.log(`  ${green}✓${reset} Installed ${topLevelCommands.length} top-level command(s)`);
+  }
 
   // 2. Copy skills
   const skillsDir = path.join(opencodeDir, 'skills');
