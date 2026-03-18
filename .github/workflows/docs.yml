@@ -27,10 +27,10 @@ jobs:
       - name: Build documentation
         run: npm run docs:ci
 
-      - name: Copy tutorials to docs
+      - name: Convert tutorial to HTML
         run: |
           mkdir -p docs/tutorials/python-api
-          cp tutorials/python-api-tutorial.md docs/tutorials/python-api/index.md
+          npx marked tutorials/python-api-tutorial.md > docs/tutorials/python-api/index.html
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
