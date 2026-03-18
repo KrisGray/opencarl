@@ -3,6 +3,7 @@ import {
   seedOpencarlTemplates,
   runSetup,
   buildSetupPrompt,
+  copyResourcesToOpencode,
 } from '../../../src/opencarl/setup';
 import * as path from 'path';
 import * as fs from 'fs';
@@ -154,6 +155,57 @@ describe('setup.ts', () => {
       expect(result.needed).toBe(true);
       expect(result.targetDir).toBe(path.join(testHomeDir, '.opencarl'));
       expect(result.reason).toContain('global ~/.opencarl/');
+    });
+  });
+
+  describe('copyResourcesToOpencode', () => {
+    const testHomeDir = '/home/user';
+
+    it('should return results object with copied, skipped, failed arrays', async () => {
+      mockReaddir.mockResolvedValue([]);
+      mockAccess.mockRejectedValue(new Error('ENOENT'));
+
+      const result = await copyResourcesToOpencode(testHomeDir);
+
+      expect(result).toHaveProperty('copied');
+      expect(result).toHaveProperty('skipped');
+      expect(result).toHaveProperty('failed');
+      expect(Array.isArray(result.copied)).toBe(true);
+      expect(Array.isArray(result.skipped)).toBe(true);
+      expect(Array.isArray(result.failed)).toBe(true);
+    });
+
+    it('should skip items when source directory does not exist', async () => {
+      mockAccess.mockRejectedValue(new Error('ENOENT'));
+      mockReaddir.mockResolvedValue([]);
+
+      const result = await copyResourcesToOpencode(testHomeDir);
+
+      expect(result.copied.length).toBe(0);
+      expect(result.skipped.length).toBe(0);
+      expect(result.failed.length).toBe(0);
+    });
+
+    it('should handle mkdir errors gracefully', async () => {
+      mockAccess.mockResolvedValue(undefined);
+      mockMkdir.mockRejectedValue(new Error('EACCES'));
+      mockReaddir.mockResolvedValue([
+        createMockDirent('commands', true),
+      ]);
+
+      const result = await copyResourcesToOpencode(testHomeDir);
+
+      expect(result.failed.length).toBeGreaterThan(0);
+    });
+
+    it('should handle readdir errors gracefully', async () => {
+      mockAccess.mockResolvedValue(undefined);
+      mockMkdir.mockResolvedValue(undefined);
+      mockReaddir.mockRejectedValue(new Error('ENOENT'));
+
+      const result = await copyResourcesToOpencode(testHomeDir);
+
+      expect(result.failed.length).toBeGreaterThan(0);
     });
   });
 });
