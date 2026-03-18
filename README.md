@@ -116,6 +116,51 @@ Add OpenCARL as an npm plugin in your OpenCode config.
 
 Restart OpenCode. It will install npm plugins with Bun into `~/.cache/opencode/node_modules/` and load them.
 
+### Run Setup
+
+From your terminal:
+
+```bash
+npx opencarl --local
+```
+
+This will:
+1. Seed `.opencarl/` templates in your project (if missing)
+2. Copy skills to your `.opencode/` directory
+3. Prepare OpenCARL for use
+
+### Optional: AGENTS.md Integration
+
+To add OpenCARL documentation to your project's `AGENTS.md`:
+
+```bash
+npx opencarl --integrate
+```
+
+### Optional: opencode.json Instructions Integration
+
+To add OpenCARL docs to your `opencode.json` instructions field:
+
+```bash
+npx opencarl --integrate-opencode
+```
+
+### Configure opencode.json
+
+Add OpenCARL as an npm plugin in your OpenCode config.
+
+**Global (all projects):** `~/.config/opencode/opencode.json`
+
+**Project-local:** `opencode.json` in your project root
+
+```json
+{
+  "plugin": ["opencarl"]
+}
+```
+
+Restart OpenCode. It will install npm plugins with Bun into `~/.cache/opencode/node_modules/` and load them.
+
 ### Initialize
 
 In OpenCode, run

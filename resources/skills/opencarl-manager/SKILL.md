@@ -1,46 +1,6 @@
 ---
 name: opencarl-manager
-description: Manage OpenCARL domains and rules. Auto-activates when user says "make this a rule", "add this to OpenCARL", "create a domain for X", or asks which domain something belongs in. Does NOT handle setup - use /opencarl-setup command instead.
----
-
-# OpenCARL Rules Manager
-
-Help users create and manage OpenCARL domains and rules through natural conversation.
-
-## SETUP COMMANDS - STOP HERE
-
-If the user's message contains "setup", "initialize", or mentions creating .opencarl directory:
-
-1. **DO NOT** read any files
-2. **DO NOT** create any files manually
-3. **TELL THE USER** to run the `/opencarl-setup` command
-4. Return immediately
-
-The `/opencarl-setup` command handles all setup operations. Do nothing else.
-
-## Router (For Non-Setup Requests)
-
-**Parse user intent first:**
-
-| User says | Action |
-|-----------|--------|
-| "make this a rule" | Suggest domain -> add rule |
-| "add rule to X" | Add rule to domain X |
-| "create domain" | Create domain + manifest |
-| "what domain for X" | Read SUGGEST-DOMAIN.md |
-| "edit rule" | Find and edit rule |
-| "toggle X" | Update manifest state |
-| "add a star-command" | Add to COMMANDS domain |
-
-## Quick Reference
-
-### Paths
-- Project: `./.opencarl/` (current workspace)
-- Global: `~/.opencarl/` (user home)
-- Manifest: `.opencarl/manifest`
-
-### Domain File Format
-```
+description: Manage OpenCARL domains and rules. Auto-activates when user says "make this a rule", "add this to OpenCARL", "create a domain for X", or asks which domain something belongs in. Does NOT handle setup - use CLI instead: say `npx opencarl --local`.
 # {DOMAIN} Domain Rules
 {DOMAIN}_RULE_0=First rule
 {DOMAIN}_RULE_1=Second rule

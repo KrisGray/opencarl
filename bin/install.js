@@ -88,31 +88,33 @@ if (hasHelp) {
   console.log(`  ${yellow}Usage:${reset} npx opencarl [options]
 
   ${yellow}Options:${reset}
-    ${amber}-g, --global${reset}       Install globally (to ~/.opencode and ~/.opencarl)
-    ${amber}-l, --local${reset}        Install locally (to ./.opencode and ./.opencarl)
-    ${amber}-i, --integrate${reset}    Add OpenCARL section to AGENTS.md
-    ${amber}-r, --remove${reset}       Remove OpenCARL section from AGENTS.md
-    ${amber}-h, --help${reset}         Show this help message
+    ${amber}-g, --global${reset}            Install globally (to ~/.opencode and ~/.opencarl)
+    ${amber}-l, --local${reset}             Install locally (to ./.opencode and ./.opencarl)
+    ${amber}-i, --integrate${reset}         Add OpenCARL section to AGENTS.md
+    ${amber}--integrate-opencode${reset}    Add OpenCARL docs to opencode.json instructions
+    ${amber}-r, --remove${reset}            Remove OpenCARL section from AGENTS.md
+    ${amber}-h, --help${reset}              Show this help message
 
   ${yellow}Examples:${reset}
     ${dim}# Interactive setup${reset}
     npx opencarl
 
-    ${dim}# Setup globally with AGENTS.md integration${reset}
-    npx opencarl --global --integrate
+    ${dim}# Setup globally${reset}
+    npx opencarl --global
 
     ${dim}# Setup for current project only${reset}
     npx opencarl --local
 
-    ${dim}# Just add/remove AGENTS.md section${reset}
+    ${dim}# Add OpenCARL section to AGENTS.md${reset}
     npx opencarl --integrate
+
+    ${dim}# Remove OpenCARL section from AGENTS.md${reset}
     npx opencarl --remove
 
   ${yellow}What gets installed:${reset}
-    .opencode/commands/opencarl/ - Slash commands (/opencarl list, /opencarl view, etc.)
     .opencode/skills/opencarl-*/ - Domain management helpers
-    .opencarl/                    - Your rule configuration (if not exists)
-    AGENTS.md                     - OpenCARL integration section (optional)
+    .opencarl/                   - Your rule configuration (if not exists)
+    AGENTS.md                    - OpenCARL integration section (optional)
 `);
   process.exit(0);
 }
@@ -312,30 +314,7 @@ function install(isGlobal, doIntegrate = false) {
 
   console.log(`  Installing to ${amber}${opencodeLabel}${reset} and ${amber}${opencarlLabel}${reset}\n`);
 
-  // 1. Copy commands
-  const commandsDir = path.join(opencodeDir, 'commands');
-  fs.mkdirSync(commandsDir, { recursive: true });
-  
-  // Copy opencarl subdirectory commands
-  const commandsSrc = path.join(src, 'resources', 'commands', 'opencarl');
-  const commandsDest = path.join(commandsDir, 'opencarl');
-  copyDir(commandsSrc, commandsDest);
-  console.log(`  ${green}✓${reset} Installed commands/opencarl`);
-  
-  // Copy top-level command files (e.g., opencarl-setup.md)
-  const commandsRoot = path.join(src, 'resources', 'commands');
-  const topLevelCommands = fs.readdirSync(commandsRoot, { withFileTypes: true })
-    .filter(e => e.isFile() && e.name.endsWith('.md'));
-  for (const cmd of topLevelCommands) {
-    const cmdSrc = path.join(commandsRoot, cmd.name);
-    const cmdDest = path.join(commandsDir, cmd.name);
-    fs.copyFileSync(cmdSrc, cmdDest);
-  }
-  if (topLevelCommands.length > 0) {
-    console.log(`  ${green}✓${reset} Installed ${topLevelCommands.length} top-level command(s)`);
-  }
-
-  // 2. Copy skills
+  // 1. Copy skills
   const skillsDir = path.join(opencodeDir, 'skills');
   fs.mkdirSync(skillsDir, { recursive: true });
   const skillsSrc = path.join(src, 'resources', 'skills');
