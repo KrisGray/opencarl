@@ -92,7 +92,7 @@ If plugin file doesn't exist, reinstall:
 npm install opencarl
 
 # Or reinstall from local
-npx opencarl-setup
+npx opencarl --local
 ```
 
 **Still failing?** Check file permissions:
