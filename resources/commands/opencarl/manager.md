@@ -22,14 +22,14 @@ argument-hint: "[list|add|create|edit|toggle|view]"
 
 | Command | Usage | Description | Task File |
 |---------|-------|-------------|-----------|
-| list | `*list [domains\|commands\|rules DOMAIN]` | List domains, star-commands, or rules in a domain | - |
-| add | `*add [rule\|command] DOMAIN 'rule text'` | Add rule to domain or command to COMMANDS | `./tasks/add-rule.md` |
-| create | `*create DOMAIN --recall 'keywords'` | Create new domain with manifest entries | `./tasks/create-domain.md` |
-| edit | `*edit DOMAIN RULE_INDEX 'new text'` | Edit existing rule | `./tasks/edit-rule.md` |
-| toggle | `*toggle DOMAIN [active\|inactive]` | Toggle domain state in manifest | `./tasks/toggle-domain.md` |
-| view | `*view DOMAIN` | Show all rules in a domain | - |
-| suggest | `*suggest 'rule text'` | Suggest which domain a rule belongs in | - |
-| help | `*help` | Show this command reference | - |
+| list | `/opencarl list [domains\|commands\|rules DOMAIN]` | List domains, star-commands, or rules in a domain | - |
+| add | `/opencarl add [rule\|command] DOMAIN 'rule text'` | Add rule to domain or command to COMMANDS | `./tasks/add-rule.md` |
+| create | `/opencarl create DOMAIN --recall 'keywords'` | Create new domain with manifest entries | `./tasks/create-domain.md` |
+| edit | `/opencarl edit DOMAIN RULE_INDEX 'new text'` | Edit existing rule | `./tasks/edit-rule.md` |
+| toggle | `/opencarl toggle DOMAIN [active\|inactive]` | Toggle domain state in manifest | `./tasks/toggle-domain.md` |
+| view | `/opencarl view DOMAIN` | Show all rules in a domain | - |
+| suggest | `/opencarl suggest 'rule text'` | Suggest which domain a rule belongs in | - |
+| help | `/opencarl help` | Show this command reference | - |
 
 ## Paths
 - **Project OpenCARL:** `./.opencarl/`

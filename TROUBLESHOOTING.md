@@ -79,12 +79,10 @@ Expected: All domain files are lowercase with NO extension (e.g., `development` 
 
 **Solution:**
 
-If plugin path is missing, add it to `.opencode/opencode.json`:
+If plugin path is missing, add it to `~/.config/opencode/opencode.json`:
 ```json
 {
-  "plugins": [
-    ".opencode/plugins/opencarl-plugin"
-  ]
+  "plugin": ["opencarl"]
 }
 ```
 

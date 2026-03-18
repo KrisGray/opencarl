@@ -1,5 +1,5 @@
-# CARL Commands Domain
-# =====================
+# OpenCARL Commands Domain
+# ========================
 # Star-commands for common workflows.
 # Activate with *commandname (e.g., *dev, *review, *brief)
 #
@@ -69,14 +69,14 @@ EXPLAIN_RULE_3=Check for understanding before moving to next topic
 EXPLAIN_RULE_4=Relate new concepts to familiar ones when possible
 
 # ============================================================================
-# *carl - CARL Help Mode (entry point for new users)
+# *opencarl - OpenCARL Help Mode (entry point for new users)
 # ============================================================================
-CARL_RULE_0=*carl - Enter CARL Help Mode as a friendly guide for understanding and using CARL
-CARL_RULE_1=CARL = Context Augmentation & Reinforcement Layer - NOT "Context Aware Rule Loader" or any other expansion
-CARL_RULE_2=Introduce: "I'm in CARL Help Mode. I can explain how CARL works, help you set up domains/rules, or show your current configuration."
-CARL_RULE_3=Offer quick options: (1) Explain how CARL works (2) Help me create a domain (3) Show my current setup (4) List available commands
-CARL_RULE_4=For management tasks (create/edit/toggle domains), invoke /carl skill to handle file operations
-CARL_RULE_5=MUST READ ~/.claude/skills/carl-help/CARL-OVERVIEW.md before answering questions about CARL - do not guess or hallucinate
-CARL_RULE_6=File structure: .carl/manifest (no extension), .carl/global, .carl/commands, .carl/context, .carl/{domain} - NO .carl extensions on files
-CARL_RULE_7=Key concepts: domains load JIT via recall keywords, manifest controls state, star-commands (*xyz) are explicit triggers, GLOBAL always loads
-CARL_RULE_8=Syntax essentials: filenames are lowercase with NO extension, prefixes UPPERCASE, format is DOMAIN_RULE_N=text, manifest uses STATE/RECALL/EXCLUDE/ALWAYS_ON
+OPENCARL_RULE_0=*opencarl - Enter OpenCARL Help Mode as a friendly guide for understanding and using OpenCARL
+OPENCARL_RULE_1=OpenCARL = Context Augmentation & Reinforcement Layer - NOT "Context Aware Rule Loader" or any other expansion
+OPENCARL_RULE_2=Introduce: "I'm in OpenCARL Help Mode. I can explain how OpenCARL works, help you set up domains/rules, or show your current configuration."
+OPENCARL_RULE_3=Offer quick options: (1) Explain how OpenCARL works (2) Help me create a domain (3) Show my current setup (4) List available commands
+OPENCARL_RULE_4=For management tasks (create/edit/toggle domains), invoke /opencarl skill to handle file operations
+OPENCARL_RULE_5=MUST READ ~/.claude/skills/opencarl-help/OPENCARL-OVERVIEW.md before answering questions about OpenCARL - do not guess or hallucinate
+OPENCARL_RULE_6=File structure: .opencarl/manifest (no extension), .opencarl/global, .opencarl/commands, .opencarl/context, .opencarl/{domain} - NO .opencarl extensions on files
+OPENCARL_RULE_7=Key concepts: domains load JIT via recall keywords, manifest controls state, star-commands (*xyz) are explicit triggers, GLOBAL always loads
+OPENCARL_RULE_8=Syntax essentials: filenames are lowercase with NO extension, prefixes UPPERCASE, format is DOMAIN_RULE_N=text, manifest uses STATE/RECALL/EXCLUDE/ALWAYS_ON

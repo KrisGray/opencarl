@@ -16,11 +16,7 @@ Add OpenCARL as an npm plugin in your OpenCode config.
 
 ```json
 {
-  "plugins": {
-    "npm": [
-      "opencarl"
-    ]
-  }
+  "plugin": ["opencarl"]
 }
 ```
 

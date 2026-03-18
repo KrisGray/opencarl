@@ -48,7 +48,7 @@ Done. Domain ready for use. Inject via recall keywords: keyword1, keyword2
 **Domain exists:**
 ```
 Error: Domain MYDOMAIN already exists at .opencarl/mydomain
-Use *edit or *add to modify existing domain.
+Use /opencarl edit or /opencarl add to modify existing domain.
 ```
 
 **Invalid name:**

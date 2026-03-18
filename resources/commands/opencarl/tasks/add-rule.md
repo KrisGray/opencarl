@@ -35,17 +35,17 @@ Done. Rule added at index 5.
 **Domain doesn't exist:**
 ```
 Error: Domain MYDOMAIN not found at .opencarl/mydomain
-Use *create MYDOMAIN to create it first.
+Use /opencarl create MYDOMAIN to create it first.
 ```
 
 **Empty rule text:**
 ```
 Error: Rule text cannot be empty.
-Usage: *add rule DOMAIN 'rule text here'
+Usage: /opencarl add rule DOMAIN 'rule text here'
 ```
 
 ## Notes
 
 - Rules are always appended (never inserted)
-- To change rule order, use *edit to modify individual rules
+- To change rule order, use /opencarl edit to modify individual rules
 - Rule text should be a complete instruction (no need for quotes in final output)

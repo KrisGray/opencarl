@@ -110,11 +110,7 @@ Add OpenCARL as an npm plugin in your OpenCode config.
 
 ```json
 {
-  "plugins": {
-    "npm": [
-      "opencarl"
-    ]
-  }
+  "plugin": ["opencarl"]
 }
 ```
 
@@ -245,7 +241,7 @@ This triggers your custom `*review` command that injects:
 npm install opencarl
 
 # 2. Configure opencode.json (project-local)
-echo '{"plugins":{"npm":["opencarl"]}}' > opencode.json
+echo '{"plugin":["opencarl"]}' > opencode.json
 ```
 # 3. Initialize (in OpenCode)
 /opencarl setup
@@ -280,18 +276,16 @@ You're now set up with:
 
 ```bash
 # Install both packages
-npm install opencarl @krisgray/openpaul
+npm install opencarl openpaul
 ```
 
 ```json
 // opencode.json
 {
-  "plugins": {
-    "npm": [
-      "opencarl",
-      "@krisgray/openpaul"
-    ]
-  }
+  "plugin": [
+    "opencarl",
+    "openpaul"
+  ]
 }
 ```
 
