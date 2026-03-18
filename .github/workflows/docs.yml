@@ -27,11 +27,8 @@ jobs:
       - name: Build documentation
         run: npm run docs:ci
 
-      - name: Convert tutorial to HTML
-        run: |
-          mkdir -p docs/tutorials/python-api
-          # Strip YAML front matter and convert to HTML
-          sed '1,4d' tutorials/python-api-tutorial.md | npx marked > docs/tutorials/python-api/index.html
+      - name: Build tutorial
+        run: node scripts/build-tutorial.js
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
