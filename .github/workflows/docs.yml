@@ -27,8 +27,8 @@ jobs:
       - name: Build documentation
         run: npm run docs:ci
 
-      - name: Install marked
-        run: npm install marked
+      - name: Build tutorial
+        run: node scripts/build-tutorial.js
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
