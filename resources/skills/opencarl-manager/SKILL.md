@@ -1,11 +1,21 @@
 ---
 name: opencarl-manager
-description: Manage OpenCARL domains and rules. Auto-activates when user says "make this a rule", "add this to OpenCARL", "create a domain for X", mentions modifying .opencarl files, or asks which domain something belongs in.
+description: Manage OpenCARL domains and rules. Auto-activates when user says "make this a rule", "add this to OpenCARL", "create a domain for X", mentions modifying .opencarl files, or asks which domain something belongs in. Does NOT handle setup commands.
 ---
 
 # OpenCARL Rules Manager
 
 Help users create and manage OpenCARL domains and rules through natural conversation.
+
+## IMPORTANT: Setup Commands Are Handled By Plugin
+
+The following commands are handled by the OpenCARL plugin - do not manually execute them:
+- `/opencarl setup` - Seeds .opencarl/ templates (handled by plugin)
+- `/opencarl setup --integrate` - AGENTS.md integration (handled by plugin)
+- `/opencarl setup --remove` - Remove AGENTS.md integration (handled by plugin)
+- `/opencarl setup --integrate-opencode` - opencode.json integration (handled by plugin)
+
+If user asks for setup, simply acknowledge that the plugin handles it automatically.
 
 ## Router
 
