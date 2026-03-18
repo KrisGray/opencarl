@@ -79,6 +79,7 @@ const hasLocal = args.includes('--local') || args.includes('-l');
 const hasHelp = args.includes('--help') || args.includes('-h');
 const hasIntegrate = args.includes('--integrate') || args.includes('-i');
 const hasRemove = args.includes('--remove') || args.includes('-r');
+const hasIntegrateOpencode = args.includes('--integrate-opencode');
 
 console.log(banner);
 
@@ -234,6 +235,56 @@ function checkOpencodeJson(isGlobal, opencodeDir) {
     return false;
   } catch (e) {
     console.log(`  ${yellow}Could not parse opencode.json${reset}`);
+    return false;
+  }
+}
+
+/**
+ * Add OpenCARL docs reference to opencode.json instructions
+ */
+function integrateOpencodeJson(isGlobal) {
+  const opencodeJsonPath = isGlobal
+    ? path.join(os.homedir(), '.opencode', 'opencode.json')
+    : path.join(process.cwd(), 'opencode.json');
+
+  console.log(`\n  ${cyan}Integrating OpenCARL docs into opencode.json...${reset}`);
+
+  if (!fs.existsSync(opencodeJsonPath)) {
+    console.log(`  ${yellow}opencode.json not found at: ${opencodeJsonPath}${reset}`);
+    console.log(`  ${dim}Create it first, then run --integrate-opencode again${reset}`);
+    return false;
+  }
+
+  try {
+    let config = JSON.parse(fs.readFileSync(opencodeJsonPath, 'utf8'));
+    const opencarlRef = './resources/docs/OpenCARL-DOCS.md';
+
+    // Normalize instructions to array
+    let instructions = [];
+    if (config.instructions) {
+      if (typeof config.instructions === 'string') {
+        instructions = [config.instructions];
+      } else if (Array.isArray(config.instructions)) {
+        instructions = [...config.instructions];
+      }
+    }
+
+    // Check if already exists
+    if (instructions.some(i => i.includes('OpenCARL-DOCS.md') || i.includes('opencarl'))) {
+      console.log(`  ${yellow}OpenCARL docs already in opencode.json instructions${reset}`);
+      return false;
+    }
+
+    // Add OpenCARL docs reference
+    instructions.push(opencarlRef);
+    config.instructions = instructions;
+
+    // Write back
+    fs.writeFileSync(opencodeJsonPath, JSON.stringify(config, null, 2));
+    console.log(`  ${green}✓${reset} Added OpenCARL docs to opencode.json instructions`);
+    return true;
+  } catch (e) {
+    console.log(`  ${yellow}Failed to update opencode.json: ${e.message}${reset}`);
     return false;
   }
 }
@@ -414,6 +465,12 @@ const isGlobal = hasGlobal || (!hasLocal);
 // Handle --remove flag
 if (hasRemove) {
   removeOnly(isGlobal);
+  process.exit(0);
+}
+
+// Handle --integrate-opencode flag
+if (hasIntegrateOpencode) {
+  integrateOpencodeJson(isGlobal);
   process.exit(0);
 }
 
