@@ -1,7 +1,9 @@
 ---
 name: opencarl-setup
-description: Initialize OpenCARL in the project
+description: Initialize OpenCARL in the project (use --global for global install)
 ---
 
-OpenCARL setup is running. Check the console output for results.
+Running OpenCARL setup...
+
+!`npx opencarl-core --local $ARGUMENTS`
 
