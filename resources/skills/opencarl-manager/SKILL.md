@@ -1,6 +1,6 @@
 ---
 name: opencarl-manager
-description: Manage OpenCARL domains and rules. Auto-activates when user says "make this a rule", "add this to OpenCARL", "create a domain for X", or asks which domain something belongs in. Does NOT handle setup - use opencarl_setup tool instead.
+description: Manage OpenCARL domains and rules. Auto-activates when user says "make this a rule", "add this to OpenCARL", "create a domain for X", or asks which domain something belongs in. Does NOT handle setup - use /opencarl-setup command instead.
 ---
 
 # OpenCARL Rules Manager
@@ -13,10 +13,10 @@ If the user's message contains "setup", "initialize", or mentions creating .open
 
 1. **DO NOT** read any files
 2. **DO NOT** create any files manually
-3. **IMMEDIATELY** call the `opencarl_setup` tool with empty args `{}`
-4. Return the tool's output to the user
+3. **TELL THE USER** to run the `/opencarl-setup` command
+4. Return immediately
 
-The `opencarl_setup` tool handles all setup operations. Do nothing else.
+The `/opencarl-setup` command handles all setup operations. Do nothing else.
 
 ## Router (For Non-Setup Requests)
 

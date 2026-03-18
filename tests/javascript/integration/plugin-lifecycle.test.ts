@@ -234,10 +234,10 @@ describe('plugin-hooks.ts - integration', () => {
       expect(signalStore.getSessionPromptText('test-session-3')).toBe('');
     });
 
-    it('should handle /opencarl setup command without error', async () => {
+    it('should handle /opencarl-setup command without error', async () => {
       const input = createMockHooksInput({
         sessionID: 'test-session-4',
-        command: '/opencarl setup',
+        command: '/opencarl-setup',
       });
 
       const output = createMockHooksOutput();
@@ -248,10 +248,10 @@ describe('plugin-hooks.ts - integration', () => {
       }
     });
 
-    it('should handle /opencarl setup --integrate command without error', async () => {
+    it('should handle /opencarl-setup --integrate command without error', async () => {
       const input = createMockHooksInput({
         sessionID: 'test-session-5',
-        command: '/opencarl setup --integrate',
+        command: '/opencarl-setup --integrate',
       });
 
       const output = createMockHooksOutput();
@@ -262,10 +262,10 @@ describe('plugin-hooks.ts - integration', () => {
       }
     });
 
-    it('should handle /opencarl setup --integrate-opencode command without error', async () => {
+    it('should handle /opencarl-setup --integrate-opencode command without error', async () => {
       const input = createMockHooksInput({
         sessionID: 'test-session-6',
-        command: '/opencarl setup --integrate-opencode',
+        command: '/opencarl-setup --integrate-opencode',
       });
 
       const output = createMockHooksOutput();

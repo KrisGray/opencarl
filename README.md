@@ -121,7 +121,7 @@ Restart OpenCode. It will install npm plugins with Bun into `~/.cache/opencode/n
 In OpenCode, run
 
 ```
-/opencarl setup
+/opencarl-setup
 ```
 
 This seeds your project with the `.opencarl/` directory structure and default templates.
@@ -131,7 +131,7 @@ This seeds your project with the `.opencarl/` directory structure and default te
 To add OpenCARL documentation to your project's `AGENTS.md`
 
 ```
-/opencarl setup --integrate
+/opencarl-setup --integrate
 ```
 
 ### Optional: opencode.json Instructions Integration
@@ -139,7 +139,7 @@ To add OpenCARL documentation to your project's `AGENTS.md`
 To add OpenCARL docs to your `opencode.json` instructions field (for global OpenCode context)
 
 ```
-/opencarl setup --integrate-opencode
+/opencarl-setup --integrate-opencode
 ```
 
 This merges OpenCARL documentation into your opencode.json, making it available to OpenCode in every session.
@@ -244,7 +244,7 @@ npm install opencarl
 echo '{"plugin":["opencarl"]}' > opencode.json
 ```
 # 3. Initialize (in OpenCode)
-/opencarl setup
+/opencarl-setup
 
 # 4. Verify
 *opencarl
@@ -296,7 +296,7 @@ Here's how the two extensions work together in a typical development session:
 ```
 # 1. Initialize both systems
 /openpaul:init
-/opencarl setup
+/opencarl-setup
 
 # 2. OpenCARL detects .openpaul/ directory
 #    → Automatically loads OpenPAUL-specific rules:
@@ -537,9 +537,9 @@ Or use `*opencarl` and say "help me create a domain" for guided setup.
 | `/opencarl list` | Show all domains |
 | `/opencarl view DOMAIN` | Show rules in a domain |
 | `/opencarl toggle DOMAIN active\|inactive` | Enable/disable domain |
-| `/opencarl setup` | Seed .opencarl/ templates to project |
-| `/opencarl setup --integrate` | Add OpenCARL docs to AGENTS.md |
-| `/opencarl setup --integrate-opencode` | Add OpenCARL docs to opencode.json |
+| `/opencarl-setup` | Seed .opencarl/ templates to project |
+| `/opencarl-setup --integrate` | Add OpenCARL docs to AGENTS.md |
+| `/opencarl-setup --integrate-opencode` | Add OpenCARL docs to opencode.json |
 
 ---
 
@@ -558,7 +558,7 @@ OpenCARL rules inject alongside your OpenCode AGENTS.md rules. Both apply, with 
 | Rules not loading | Check `STATE=active` in manifest |
 | Wrong rules loading | Make recall keywords more specific |
 | Plugin not found | Verify opencode.json plugin path |
-| Commands not available | Run `/opencarl setup` |
+| Commands not available | Run `/opencarl-setup` |
 
 ### Debug Mode
 

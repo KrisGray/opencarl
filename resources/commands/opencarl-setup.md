@@ -1,5 +1,5 @@
 ---
-name: setup
+name: opencarl-setup
 description: Initialize OpenCARL in the project
 ---
 

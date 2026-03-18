@@ -192,7 +192,7 @@ export function setupError(details: string): OpencarlError {
     "config",
     "Running OpenCARL setup",
     "setup",
-    `Try running setup again: /opencarl setup\nIf this persists, check:\n  - You have write permissions in the target directory\n  - The .opencarl/ directory isn't corrupted (try removing and re-running setup)`,
+    `Try running setup again: /opencarl-setup\nIf this persists, check:\n  - You have write permissions in the target directory\n  - The .opencarl/ directory isn't corrupted (try removing and re-running setup)`,
     DOCS_LINKS.config
   );
 }
@@ -211,7 +211,7 @@ export function integrationError(targetFile: string, details: string): OpencarlE
     "config",
     `Integrating with ${targetFile}`,
     targetFile,
-    `Check target file: cat ${targetFile}\nIf file has OpenCARL markers, verify they're properly formatted:\n  - <!-- OPENCARL:START -->\n  - <!-- OPENCARL:END -->\nTo remove integration and start fresh: /opencarl setup --remove`,
+    `Check target file: cat ${targetFile}\nIf file has OpenCARL markers, verify they're properly formatted:\n  - <!-- OPENCARL:START -->\n  - <!-- OPENCARL:END -->\nTo remove integration and start fresh: /opencarl-setup --remove`,
     DOCS_LINKS.config
   );
 }

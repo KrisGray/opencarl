@@ -213,9 +213,9 @@ export function createOpencarlPluginHooks(): Hooks {
         .replace(/^\//, "")
         .toLowerCase();
       const isSetupCommand =
+        commandName === "opencarl-setup" ||
         commandName === "setup" ||
         commandName === "opencarl setup" ||
-        commandName === "opencarl-setup" ||
         commandName.endsWith("/setup");
       
       if (commandName === "opencarl") {
@@ -236,7 +236,7 @@ export function createOpencarlPluginHooks(): Hooks {
           console.error(formatError(error));
         }
       }
-      if (commandName === "setup --integrate" || commandName === "opencarl setup --integrate") {
+      if (commandName === "opencarl-setup --integrate" || commandName === "setup --integrate" || commandName === "opencarl setup --integrate") {
         try {
           const result = await runIntegration({
             cwd: process.cwd(),
@@ -247,7 +247,7 @@ export function createOpencarlPluginHooks(): Hooks {
           console.error(formatError(error));
         }
       }
-      if (commandName === "setup --remove" || commandName === "opencarl setup --remove") {
+      if (commandName === "opencarl-setup --remove" || commandName === "setup --remove" || commandName === "opencarl setup --remove") {
         try {
           const result = await runIntegration({
             cwd: process.cwd(),
@@ -258,7 +258,7 @@ export function createOpencarlPluginHooks(): Hooks {
           console.error(formatError(error));
         }
       }
-      if (commandName === "setup --integrate-opencode" || commandName === "opencarl setup --integrate-opencode") {
+      if (commandName === "opencarl-setup --integrate-opencode" || commandName === "setup --integrate-opencode" || commandName === "opencarl setup --integrate-opencode") {
         try {
           const result = await integrateOpencarl({
             cwd: process.cwd(),
@@ -397,7 +397,7 @@ export function createOpencarlPluginHooks(): Hooks {
     },
     tool: {
       opencarl_setup: {
-        description: "Initialize OpenCARL in the project. Seeds .opencarl/ templates from .opencarl-template/ and copies commands/skills to ~/.opencode/. This tool is called automatically by the /opencarl setup command.",
+        description: "Initialize OpenCARL in the project. Seeds .opencarl/ templates from .opencarl-template/ and copies commands/skills to ~/.opencode/. This tool is called automatically by the /opencarl-setup command.",
         args: {},
         execute: async () => {
           try {

@@ -252,7 +252,7 @@ export function buildSetupPrompt(): string {
 
 No .opencarl/ configuration found. To use OpenCARL:
 
-1. Type: /opencarl setup
+1. Type: /opencarl-setup
 2. Or run: npx opencarl-core
 
 This seeds starter templates to your project or home directory.`;

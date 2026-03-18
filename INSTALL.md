@@ -27,7 +27,7 @@ Restart OpenCode. It will install npm plugins with Bun into `~/.cache/opencode/n
 In OpenCode, run:
 
 ```
-/opencarl setup
+/opencarl-setup
 ```
 
 This will:
@@ -40,13 +40,13 @@ This will:
 To add OpenCARL documentation to your project's `AGENTS.md`:
 
 ```
-/opencarl setup --integrate
+/opencarl-setup --integrate
 ```
 
 This adds an OpenCARL section with rule precedence documentation. Remove it anytime with:
 
 ```
-/opencarl setup --remove
+/opencarl-setup --remove
 ```
 
 ### Optional: opencode.json Instructions Integration
@@ -54,7 +54,7 @@ This adds an OpenCARL section with rule precedence documentation. Remove it anyt
 To add OpenCARL docs to your `opencode.json` instructions field:
 
 ```
-/opencarl setup --integrate-opencode
+/opencarl-setup --integrate-opencode
 ```
 
 This merges OpenCARL documentation into the `instructions` array in opencode.json, making it available globally to OpenCode. Run again to update if OpenCARL docs change.
@@ -149,7 +149,7 @@ Test with:
 |---------|-----|
 | Rules not loading | Check `.opencarl/manifest` has `STATE=active` |
 | Plugin not found | Verify opencode.json plugin path |
-| Commands not available | Run `/opencarl setup` |
+| Commands not available | Run `/opencarl-setup` |
 
 ### Debug Mode
 

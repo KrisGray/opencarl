@@ -38,9 +38,9 @@
 | `/opencarl list` | Show all domains |
 | `/opencarl view DOMAIN` | Show rules in a domain |
 | `/opencarl toggle DOMAIN active\|inactive` | Enable/disable domain |
-| `/opencarl setup` | Seed .opencarl/ templates to project |
-| `/opencarl setup --integrate` | Add OpenCARL docs to AGENTS.md |
-| `/opencarl setup --integrate-opencode` | Add OpenCARL docs to opencode.json |
+| `/opencarl-setup` | Seed .opencarl/ templates to project |
+| `/opencarl-setup --integrate` | Add OpenCARL docs to AGENTS.md |
+| `/opencarl-setup --integrate-opencode` | Add OpenCARL docs to opencode.json |
 
 ### Quick Example: Add a Rule
 Edit `.opencarl/development`:
