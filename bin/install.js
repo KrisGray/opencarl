@@ -39,7 +39,7 @@ ${orange}    ██████╗ ██████╗ ███████�
 `;
 
 // OpenCARL section for AGENTS.md
-const CARL_AGENTS_SECTION = `<!-- CARL-START - DO NOT EDIT -->
+const OPENCARL_AGENTS_SECTION = `<!-- OPENCARL-START - DO NOT EDIT -->
 ## OpenCARL Integration
 
 OpenCARL provides dynamic rule injection for this project. Rules load automatically when relevant to your current task.
@@ -54,9 +54,9 @@ OpenCARL provides dynamic rule injection for this project. Rules load automatica
 
 | Integration | Purpose |
 |-------------|---------|
-| \`*carl\` | Enter CARL help mode |
-| \`*carl docs\` | View full CARL documentation |
-| \`/carl\` | Domain management commands |
+| \`*opencarl\` | Enter OpenCARL help mode |
+| \`*opencarl docs\` | View full OpenCARL documentation |
+| \`/opencarl\` | Domain management commands |
 | \`.opencarl/\` directory | Your rule definitions |
 
 ### Quick Reference
@@ -69,8 +69,8 @@ OpenCARL provides dynamic rule injection for this project. Rules load automatica
 └── {domain}        # Custom domain files
 \`\`\`
 
-For full documentation, run \`*carl docs\` in OpenCode.
-<!-- CARL-END - DO NOT EDIT -->`;
+For full documentation, run \`*opencarl docs\` in OpenCode.
+<!-- OPENCARL-END - DO NOT EDIT -->`;
 
 // Parse args
 const args = process.argv.slice(2);
@@ -109,10 +109,10 @@ if (hasHelp) {
     npx opencarl --remove
 
   ${yellow}What gets installed:${reset}
-    .opencode/commands/carl/   - Slash commands (/carl list, /carl view, etc.)
-    .opencode/skills/carl-*/   - Domain management helpers
-    .opencarl/                 - Your rule configuration (if not exists)
-    AGENTS.md                  - OpenCARL integration section (optional)
+    .opencode/commands/opencarl/ - Slash commands (/opencarl list, /opencarl view, etc.)
+    .opencode/skills/opencarl-*/ - Domain management helpers
+    .opencarl/                    - Your rule configuration (if not exists)
+    AGENTS.md                     - OpenCARL integration section (optional)
 `);
   process.exit(0);
 }
@@ -138,7 +138,7 @@ function copyDir(srcDir, destDir) {
 }
 
 /**
- * Add CARL section to AGENTS.md
+ * Add OpenCARL section to AGENTS.md
  */
 function integrateAgentsMd(agentsPath) {
   console.log(`\n  ${cyan}Integrating with AGENTS.md...${reset}`);
@@ -150,8 +150,8 @@ function integrateAgentsMd(agentsPath) {
   if (fileExists) {
     content = fs.readFileSync(agentsPath, 'utf8');
 
-    // Check if CARL section already exists
-    if (content.includes('<!-- CARL-START')) {
+    // Check if OpenCARL section already exists
+    if (content.includes('<!-- OPENCARL-START')) {
       console.log(`  ${yellow}OpenCARL section already exists in AGENTS.md${reset}`);
       return false;
     }
@@ -162,15 +162,15 @@ function integrateAgentsMd(agentsPath) {
     fs.writeFileSync(agentsPath, content);
   }
 
-  // Append CARL section
-  const updatedContent = content.trimEnd() + '\n\n' + CARL_AGENTS_SECTION + '\n';
+  // Append OPENCARL section
+  const updatedContent = content.trimEnd() + '\n\n' + OPENCARL_AGENTS_SECTION + '\n';
   fs.writeFileSync(agentsPath, updatedContent);
 
   return true;
 }
 
 /**
- * Remove CARL section from AGENTS.md
+ * Remove OpenCARL section from AGENTS.md
  */
 function removeAgentsIntegration(agentsPath) {
   console.log(`\n  ${cyan}Removing OpenCARL integration from AGENTS.md...${reset}`);
@@ -182,14 +182,14 @@ function removeAgentsIntegration(agentsPath) {
 
   let content = fs.readFileSync(agentsPath, 'utf8');
 
-  // Check if CARL section exists
-  if (!content.includes('<!-- CARL-START')) {
+  // Check if OPENCARL section exists
+  if (!content.includes('<!-- OPENCARL-START')) {
     console.log(`  ${yellow}No OpenCARL section found in AGENTS.md${reset}`);
     return false;
   }
 
-  // Remove CARL section (including markers and content between them)
-  const pattern = /<!-- CARL-START - DO NOT EDIT -->[\s\S]*?<!-- CARL-END - DO NOT EDIT -->/;
+  // Remove OPENCARL section (including markers and content between them)
+  const pattern = /<!-- OPENCARL-START - DO NOT EDIT -->[\s\S]*?<!-- OPENCARL-END - DO NOT EDIT -->/;
   const updatedContent = content.replace(pattern, '').replace(/\n{3,}/g, '\n\n').trimEnd() + '\n';
 
   fs.writeFileSync(agentsPath, updatedContent);
@@ -218,12 +218,12 @@ function checkOpencodeJson(isGlobal, opencodeDir) {
     const config = JSON.parse(fs.readFileSync(opencodeJsonPath, 'utf8'));
 
     if (config.plugin && Array.isArray(config.plugin)) {
-      const hasCarl = config.plugin.some(p =>
+      const hasOpencarl = config.plugin.some(p =>
         p === 'opencarl' ||
         p.includes('opencarl')
       );
 
-      if (hasCarl) {
+      if (hasOpencarl) {
         console.log(`  ${green}✓${reset} Plugin found in opencode.json`);
         return true;
       }
@@ -363,7 +363,7 @@ function install(isGlobal, doIntegrate = false) {
   // 5. Integrate with AGENTS.md (if requested)
   if (doIntegrate) {
     if (integrateAgentsMd(agentsPath)) {
-      console.log(`  ${green}✓${reset} Added CARL section to AGENTS.md`);
+      console.log(`  ${green}✓${reset} Added OpenCARL section to AGENTS.md`);
     }
   }
 
@@ -377,8 +377,8 @@ function install(isGlobal, doIntegrate = false) {
 
   ${amber}Quick start:${reset}
     ${dim}*opencarl${reset}          - Interactive help
-    ${dim}/carl list${reset}     - Show all domains
-    ${dim}/carl view DOMAIN${reset} - View domain rules
+    ${dim}/opencarl list${reset}     - Show all domains
+    ${dim}/opencarl view DOMAIN${reset} - View domain rules
 
   ${amber}Optional:${reset}
     ${dim}npx opencarl --integrate${reset} - Add OpenCARL to AGENTS.md
@@ -394,7 +394,7 @@ function integrateOnly(isGlobal) {
     : path.join(process.cwd(), 'AGENTS.md');
 
   if (integrateAgentsMd(agentsPath)) {
-    console.log(`  ${green}✓${reset} Added CARL section to AGENTS.md\n`);
+    console.log(`  ${green}✓${reset} Added OpenCARL section to AGENTS.md\n`);
   }
 }
 
@@ -439,8 +439,8 @@ function promptLocation() {
     });
 
     console.log(`
-  ${yellow}Add CARL section to AGENTS.md?${reset}
-  ${dim}This documents how CARL works with OpenCode.${reset}
+  ${yellow}Add OpenCARL section to AGENTS.md?${reset}
+  ${dim}This documents how OpenCARL works with OpenCode.${reset}
 
   ${amber}1${reset}) Yes ${dim}(recommended)${reset}
   ${amber}2${reset}) No, skip for now
