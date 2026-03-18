@@ -158,6 +158,91 @@ export async function seedOpencarlTemplates(
   return results;
 }
 
+export interface CopyResourcesResult {
+  copied: string[];
+  skipped: string[];
+  failed: Array<{ file: string; error: string }>;
+}
+
+/**
+ * Copy plugin resources (commands, skills) to ~/.opencode/ directory.
+ * This makes OpenCARL commands and skills discoverable by OpenCode.
+ */
+export async function copyResourcesToOpencode(
+  homeDir: string,
+): Promise<CopyResourcesResult> {
+  const results: CopyResourcesResult = {
+    copied: [],
+    skipped: [],
+    failed: [],
+  };
+
+  const resourcesDir = path.resolve(
+    path.dirname(require.main?.filename || __dirname),
+    "..",
+    "resources"
+  );
+
+  const opencodeDir = path.join(homeDir, ".opencode");
+
+  const itemsToCopy = [
+    { src: "commands", dest: "commands" },
+    { src: "skills", dest: "skills" },
+  ];
+
+  for (const item of itemsToCopy) {
+    const srcPath = path.join(resourcesDir, item.src);
+    const destPath = path.join(opencodeDir, item.dest);
+
+    try {
+      await fs.promises.access(srcPath);
+    } catch {
+      continue;
+    }
+
+    try {
+      await copyDirRecursive(srcPath, destPath, results);
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : String(err);
+      results.failed.push({ file: item.src, error: errorMsg });
+    }
+  }
+
+  return results;
+}
+
+async function copyDirRecursive(
+  src: string,
+  dest: string,
+  results: CopyResourcesResult,
+): Promise<void> {
+  await fs.promises.mkdir(dest, { recursive: true });
+
+  const entries = await fs.promises.readdir(src, { withFileTypes: true });
+
+  for (const entry of entries) {
+    const srcPath = path.join(src, entry.name);
+    const destPath = path.join(dest, entry.name);
+
+    if (entry.isDirectory()) {
+      await copyDirRecursive(srcPath, destPath, results);
+    } else {
+      try {
+        await fs.promises.access(destPath);
+        results.skipped.push(path.relative(process.cwd(), destPath));
+      } catch {
+        try {
+          await fs.promises.copyFile(srcPath, destPath);
+          results.copied.push(path.relative(process.cwd(), destPath));
+        } catch (err) {
+          const errorMsg = err instanceof Error ? err.message : String(err);
+          results.failed.push({ file: destPath, error: errorMsg });
+        }
+      }
+    }
+  }
+}
+
 /**
  * Build the setup prompt message shown when .opencarl/ is missing.
  * Keep under 500 chars for visibility.
@@ -240,9 +325,23 @@ export async function runSetup(options: {
     console.log(`  ✗ ${failure.file}: ${failure.error}`);
   }
 
+  // Copy commands and skills to ~/.opencode/
+  console.log("[opencarl] Copying commands and skills to ~/.opencode/...");
+  const resourcesResult = await copyResourcesToOpencode(homeDir);
+
+  for (const file of resourcesResult.copied) {
+    console.log(`  ✓ ${file}`);
+  }
+  for (const file of resourcesResult.skipped) {
+    console.log(`  - ${file} (skipped, exists)`);
+  }
+  for (const failure of resourcesResult.failed) {
+    console.log(`  ✗ ${failure.file}: ${failure.error}`);
+  }
+
   // Determine overall success
-  const hasPartialSuccess = seedResult.copied.length > 0;
-  const hasFailures = seedResult.failed.length > 0;
+  const hasPartialSuccess = seedResult.copied.length > 0 || resourcesResult.copied.length > 0;
+  const hasFailures = seedResult.failed.length > 0 || resourcesResult.failed.length > 0;
 
   if (hasFailures && !hasPartialSuccess) {
     return {
