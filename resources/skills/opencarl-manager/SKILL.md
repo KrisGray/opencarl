@@ -1,26 +1,24 @@
 ---
 name: opencarl-manager
-description: Manage OpenCARL domains and rules. Auto-activates when user says "make this a rule", "add this to OpenCARL", "create a domain for X", mentions modifying .opencarl files, or asks which domain something belongs in. Does NOT handle setup commands.
+description: Manage OpenCARL domains and rules. Auto-activates when user says "make this a rule", "add this to OpenCARL", "create a domain for X", or asks which domain something belongs in. Does NOT handle setup - use opencarl_setup tool instead.
 ---
 
 # OpenCARL Rules Manager
 
 Help users create and manage OpenCARL domains and rules through natural conversation.
 
-## CRITICAL: Setup Commands Are Handled By Plugin
+## SETUP COMMANDS - STOP HERE
 
-The following commands are handled by the OpenCARL plugin hook - **DO NOT** manually execute them or load this skill:
+If the user's message contains "setup", "initialize", or mentions creating .opencarl directory:
 
-- `/opencarl setup`
-- `/opencarl setup --integrate`
-- `/opencarl setup --remove`
-- `/opencarl setup --integrate-opencode`
+1. **DO NOT** read any files
+2. **DO NOT** create any files manually
+3. **IMMEDIATELY** call the `opencarl_setup` tool with empty args `{}`
+4. Return the tool's output to the user
 
-If the user asks for setup, say: "The OpenCARL plugin handles setup automatically. Check the console for output."
+The `opencarl_setup` tool handles all setup operations. Do nothing else.
 
-**DO NOT read reference files or create files for setup commands.**
-
-## Router
+## Router (For Non-Setup Requests)
 
 **Parse user intent first:**
 
@@ -111,9 +109,8 @@ Done. Rule added at index 5.
 - User says "make this a rule" or "add this as a rule"
 - User asks "what domain should this be in?"
 - User wants to "create a domain for X"
-- User mentions modifying `.opencarl` files
 - User wants to add a star-command (*brief, *discuss, etc.)
-- User asks about OpenCARL structure or configuration
+- User asks about OpenCARL structure or configuration (but NOT setup)
 
 ## Important Notes
 
