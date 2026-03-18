@@ -7,15 +7,18 @@ description: Manage OpenCARL domains and rules. Auto-activates when user says "m
 
 Help users create and manage OpenCARL domains and rules through natural conversation.
 
-## IMPORTANT: Setup Commands Are Handled By Plugin
+## CRITICAL: Setup Commands Are Handled By Plugin
 
-The following commands are handled by the OpenCARL plugin - do not manually execute them:
-- `/opencarl setup` - Seeds .opencarl/ templates (handled by plugin)
-- `/opencarl setup --integrate` - AGENTS.md integration (handled by plugin)
-- `/opencarl setup --remove` - Remove AGENTS.md integration (handled by plugin)
-- `/opencarl setup --integrate-opencode` - opencode.json integration (handled by plugin)
+The following commands are handled by the OpenCARL plugin hook - **DO NOT** manually execute them or load this skill:
 
-If user asks for setup, simply acknowledge that the plugin handles it automatically.
+- `/opencarl setup`
+- `/opencarl setup --integrate`
+- `/opencarl setup --remove`
+- `/opencarl setup --integrate-opencode`
+
+If the user asks for setup, say: "The OpenCARL plugin handles setup automatically. Check the console for output."
+
+**DO NOT read reference files or create files for setup commands.**
 
 ## Router
 
