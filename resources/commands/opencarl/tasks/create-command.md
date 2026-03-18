@@ -46,7 +46,7 @@ Done. User can now type *checklist to activate.
 **Command exists:**
 ```
 Error: Command *checklist already exists.
-Use *edit COMMANDS CHECKLIST_RULE_N to modify.
+Use /opencarl edit COMMANDS CHECKLIST_RULE_N to modify.
 ```
 
 **Invalid name:**

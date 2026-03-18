@@ -43,7 +43,7 @@ Done. Rule removed. Remaining rules unchanged (index gap allowed).
 Error: DEVELOPMENT_RULE_7 not found in .opencarl/development
 Existing rules: RULE_0, RULE_1, RULE_2
 
-Use *view DEVELOPMENT to see all rules.
+Use /opencarl view DEVELOPMENT to see all rules.
 ```
 
 **Domain doesn't exist:**
@@ -55,4 +55,4 @@ Error: Domain MYDOMAIN not found at .opencarl/mydomain
 
 - Deleting a rule leaves a gap in indices (RULE_2 deleted, RULE_3 remains RULE_3)
 - This is intentional - renumbering could break references
-- To renumber, manually edit the file or use *view then recreate
+- To renumber, manually edit the file or use /opencarl view then recreate
