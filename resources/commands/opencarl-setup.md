@@ -3,4 +3,5 @@ name: opencarl-setup
 description: Initialize OpenCARL in the project
 ---
 
-Call the `opencarl_setup` tool to initialize OpenCARL. Do not manually create any files.
+OpenCARL setup is running. Check the console output for results.
+
