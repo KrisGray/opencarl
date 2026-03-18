@@ -212,12 +212,16 @@ export function createOpencarlPluginHooks(): Hooks {
       const commandName = (input.command ?? "")
         .replace(/^\//, "")
         .toLowerCase();
+      const isSetupCommand =
+        commandName === "setup" ||
+        commandName === "opencarl setup" ||
+        commandName === "opencarl-setup" ||
+        commandName.endsWith("/setup");
+      
       if (commandName === "opencarl") {
-        // /opencarl fallback should mirror *opencarl command-mode guidance
         recordCommandSignals(input.sessionID, ["opencarl"]);
       }
-      // Handle /opencarl setup command
-      if (commandName === "opencarl setup" || commandName === "opencarl-setup") {
+      if (isSetupCommand) {
         try {
           const result = await runSetup({
             cwd: process.cwd(),
@@ -232,8 +236,7 @@ export function createOpencarlPluginHooks(): Hooks {
           console.error(formatError(error));
         }
       }
-      // Handle /opencarl setup --integrate
-      if (commandName === "opencarl setup --integrate") {
+      if (commandName === "setup --integrate" || commandName === "opencarl setup --integrate") {
         try {
           const result = await runIntegration({
             cwd: process.cwd(),
@@ -244,8 +247,7 @@ export function createOpencarlPluginHooks(): Hooks {
           console.error(formatError(error));
         }
       }
-      // Handle /opencarl setup --remove
-      if (commandName === "opencarl setup --remove") {
+      if (commandName === "setup --remove" || commandName === "opencarl setup --remove") {
         try {
           const result = await runIntegration({
             cwd: process.cwd(),
@@ -256,8 +258,7 @@ export function createOpencarlPluginHooks(): Hooks {
           console.error(formatError(error));
         }
       }
-      // Handle /opencarl setup --integrate-opencode
-      if (commandName === "opencarl setup --integrate-opencode") {
+      if (commandName === "setup --integrate-opencode" || commandName === "opencarl setup --integrate-opencode") {
         try {
           const result = await integrateOpencarl({
             cwd: process.cwd(),
