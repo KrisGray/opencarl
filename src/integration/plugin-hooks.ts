@@ -395,5 +395,26 @@ export function createOpencarlPluginHooks(): Hooks {
         console.error(formatError(error));
       }
     },
+    tool: {
+      opencarl_setup: {
+        description: "Initialize OpenCARL in the project. Seeds .opencarl/ templates from .opencarl-template/ and copies commands/skills to ~/.opencode/. This tool is called automatically by the /opencarl setup command.",
+        args: {},
+        execute: async () => {
+          try {
+            const result = await runSetup({
+              cwd: process.cwd(),
+              homeDir: os.homedir(),
+            });
+            if (result.success) {
+              return `[opencarl] Setup complete at ${result.targetDir}`;
+            } else {
+              return `[opencarl] Setup failed: ${result.error}`;
+            }
+          } catch (error) {
+            return formatError(error);
+          }
+        },
+      },
+    },
   };
 }
