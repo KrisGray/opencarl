@@ -80,6 +80,14 @@ buildFile(
   '..'
 );
 
+// Build TROUBLESHOOTING.md
+buildFile(
+  path.join(rootDir, 'TROUBLESHOOTING.md'),
+  path.join(docsDir, 'troubleshooting', 'index.html'),
+  'Troubleshooting',
+  '..'
+);
+
 // Build tutorials
 const tutorialsDir = path.join(rootDir, 'tutorials');
 if (fs.existsSync(tutorialsDir)) {

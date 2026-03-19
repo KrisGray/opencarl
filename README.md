@@ -47,7 +47,7 @@ OpenCARL is a dynamic rule injection plugin for OpenCode. Define your preference
 **Tutorials:**
 - [Python API Tutorial](https://krisgray.github.io/opencarl/tutorials/python-api/) — Test-driven development with pytest, mocks, and external APIs
 
-**Troubleshooting:** [TROUBLESHOOTING.md](TROUBLESHOOTING.md)
+**Troubleshooting:** [Troubleshooting Guide](https://krisgray.github.io/opencarl/troubleshooting/)
 
 ---
 
@@ -115,7 +115,7 @@ npx opencarl --help               # Show all options
 
 **Debug mode:** `OPENCARL_DEBUG=true`
 
-Full guide: [TROUBLESHOOTING.md](TROUBLESHOOTING.md)
+Full guide: [Troubleshooting Guide](https://krisgray.github.io/opencarl/troubleshooting/)
 
 ---
 
