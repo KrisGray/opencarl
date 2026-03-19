@@ -31,6 +31,26 @@ OpenCARL is a dynamic rule injection plugin for OpenCode. Define your preference
 
 ---
 
+## Documentation
+
+**Full documentation:** [krisgray.github.io/opencarl](https://krisgray.github.io/opencarl/)
+
+**Guides:**
+- [Installation Guide](https://krisgray.github.io/opencarl/install/)
+- [OpenCARL Overview](https://krisgray.github.io/opencarl/guides/opencarl-overview/)
+- [Domain Guide](https://krisgray.github.io/opencarl/guides/domain-guide/)
+- [Commands Guide](https://krisgray.github.io/opencarl/guides/commands-guide/)
+- [Manifest Reference](https://krisgray.github.io/opencarl/guides/manifest-reference/)
+- [Context Rules](https://krisgray.github.io/opencarl/guides/context-rules/)
+- [Suggest Domain](https://krisgray.github.io/opencarl/guides/suggest-domain/)
+
+**Tutorials:**
+- [Python API Tutorial](https://krisgray.github.io/opencarl/tutorials/python-api/) — Test-driven development with pytest, mocks, and external APIs
+
+**Troubleshooting:** [TROUBLESHOOTING.md](TROUBLESHOOTING.md)
+
+---
+
 ## Quick Start
 
 ```bash
@@ -45,15 +65,6 @@ npx opencarl --local
 ```
 
 Restart OpenCode. Type `*opencarl` for interactive help.
-
----
-
-## Documentation
-
-**Full documentation:** [krisgray.github.io/opencarl](https://krisgray.github.io/opencarl/)
-
-**Tutorials:**
-- [Python Project Tutorial](https://krisgray.github.io/opencarl/tutorials/python-api/) — Test-driven development with pytest, mocks, and external APIs
 
 ---
 
