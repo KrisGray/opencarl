@@ -27,8 +27,8 @@ jobs:
       - name: Build documentation
         run: npm run docs:ci
 
-      - name: Build tutorial
-        run: node scripts/build-tutorial.js
+      - name: Build guides and tutorials
+        run: node scripts/build-docs.js
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4

@@ -49,38 +49,6 @@ To add OpenCARL docs to your `opencode.json` instructions field:
 
 ```bash
 npx opencarl --integrate-opencode
-```
-/opencarl-setup
-```
-
-This will:
-1. Seed `.opencarl/` templates in your project (if missing)
-2. Copy commands and skills to your `.opencode/` directory
-3. Prepare OpenCARL for use
-
-### Optional: AGENTS.md Integration
-
-To add OpenCARL documentation to your project's `AGENTS.md`:
-
-```
-/opencarl-setup --integrate
-```
-
-This adds an OpenCARL section with rule precedence documentation. Remove it anytime with:
-
-```
-/opencarl-setup --remove
-```
-
-### Optional: opencode.json Instructions Integration
-
-To add OpenCARL docs to your `opencode.json` instructions field:
-
-```
-/opencarl-setup --integrate-opencode
-```
-
-This merges OpenCARL documentation into the `instructions` array in opencode.json, making it available globally to OpenCode. Run again to update if OpenCARL docs change.
 
 ---
 
@@ -210,9 +178,19 @@ See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for comprehensive troubleshooting c
 
 ## Next Steps
 
-1. Edit `.opencarl/manifest` to configure domain recall keywords
-2. Add rules to domain files (e.g., `.opencarl/development`)
-3. Test with prompts containing your recall keywords
-4. Run `*opencarl` for interactive help
+Use `/opencarl` commands to configure your domains:
 
-For full documentation, see [README-opencode.md](README-opencode.md).
+```
+# Create a domain
+/opencarl create DEVELOPMENT --recall 'write code, implement, test'
+
+# Add rules
+/opencarl add rule DEVELOPMENT 'Always write tests first'
+/opencarl add rule DEVELOPMENT 'Use type hints for all functions'
+
+# View your configuration
+/opencarl list domains
+/opencarl view DEVELOPMENT
+```
+
+For full documentation, see [krisgray.github.io/opencarl](https://krisgray.github.io/opencarl/).

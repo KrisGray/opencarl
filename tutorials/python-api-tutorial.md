@@ -50,20 +50,35 @@ npx opencarl --local
 
 OpenCARL will automatically inject your development preferences when you mention keywords like "write code", "implement", or "test".
 
-Edit `.opencarl/development`:
+Use the `/opencarl` commands to create and populate the domain:
 
 ```
+# Create the domain with recall keywords
+/opencarl create DEVELOPMENT --recall 'write code, implement, test, fix bug, refactor, function, class'
+
+# Add your development rules
+/opencarl add rule DEVELOPMENT 'Always write tests first (TDD)'
+/opencarl add rule DEVELOPMENT 'Use pytest with mocks for external APIs'
+/opencarl add rule DEVELOPMENT 'Never make real API calls in tests'
+/opencarl add rule DEVELOPMENT 'Keep functions small and focused'
+/opencarl add rule DEVELOPMENT 'Use type hints for all function signatures'
+/opencarl add rule DEVELOPMENT 'Handle errors explicitly with try/except'
+```
+
+This creates `.opencarl/development` and configures the manifest automatically.
+
+**What's happening behind the scenes:**
+
+```
+# .opencarl/development
 DEVELOPMENT_RULE_0=Always write tests first (TDD)
 DEVELOPMENT_RULE_1=Use pytest with mocks for external APIs
 DEVELOPMENT_RULE_2=Never make real API calls in tests
 DEVELOPMENT_RULE_3=Keep functions small and focused
 DEVELOPMENT_RULE_4=Use type hints for all function signatures
 DEVELOPMENT_RULE_5=Handle errors explicitly with try/except
-```
 
-Add to `.opencarl/manifest`:
-
-```
+# .opencarl/manifest (auto-configured)
 DEVELOPMENT_STATE=active
 DEVELOPMENT_RECALL=write code, implement, test, fix bug, refactor, function, class
 DEVELOPMENT_EXCLUDE=
@@ -296,9 +311,37 @@ No need to repeat these preferences every session. They're automatically injecte
 
 ## Next Steps
 
-- Create a `TESTING` domain for pytest-specific rules
-- Add a `PYTHON` domain for Python conventions
-- Create star-commands like `*tdd` for test-first workflow
-- Add `*review` for code review checklist
+Use `/opencarl` commands to extend your setup:
+
+```bash
+# Create a TESTING domain for pytest-specific rules
+/opencarl create TESTING --recall 'pytest, assert, mock, fixture'
+/opencarl add rule TESTING 'Use descriptive test names that explain the behavior'
+/opencarl add rule TESTING 'One assertion per test when possible'
+
+# Create a PYTHON domain for Python conventions
+/opencarl create PYTHON --recall 'python, py, pip, import'
+/opencarl add rule PYTHON 'Follow PEP 8 style guidelines'
+/opencarl add rule PYTHON 'Use f-strings for string formatting'
+
+# Create star-commands for common workflows
+/opencarl add command tdd '*tdd - Test-driven development workflow'
+/opencarl add command tdd 'Write the test first, then implement'
+/opencarl add command tdd 'Run tests after each change'
+
+/opencarl add command review '*review - Code review checklist'
+/opencarl add command review 'Check for edge cases'
+/opencarl add command review 'Verify error handling'
+```
+
+**Other useful commands:**
+
+| Command | Description |
+|---------|-------------|
+| `/opencarl list domains` | See all configured domains |
+| `/opencarl view DEVELOPMENT` | View rules in a domain |
+| `/opencarl edit DEVELOPMENT 2 'New rule text'` | Edit a specific rule |
+| `/opencarl toggle TESTING inactive` | Temporarily disable a domain |
+| `/opencarl suggest 'Use dataclasses for data containers'` | Get domain suggestions |
 
 See the [full documentation](https://krisgray.github.io/opencarl/) for more on creating custom domains and star-commands.

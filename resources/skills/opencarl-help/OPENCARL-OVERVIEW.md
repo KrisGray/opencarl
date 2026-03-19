@@ -95,32 +95,22 @@ DEVELOPMENT_ALWAYS_ON=false
 ## Quick Examples
 
 ### Add a Rule
-Edit `.opencarl/development`:
 ```
-DEVELOPMENT_RULE_5=Always use TypeScript strict mode
+/opencarl add rule DEVELOPMENT 'Always use TypeScript strict mode'
 ```
 
 ### Create a Domain
-1. Create file `.opencarl/testing`
-2. Add rules:
-   ```
-   TESTING_RULE_0=Run full test suite before committing
-   TESTING_RULE_1=Include edge case tests
-   ```
-3. Add to manifest:
-   ```
-   TESTING_STATE=active
-   TESTING_RECALL=test, testing, run tests
-   TESTING_EXCLUDE=
-   TESTING_ALWAYS_ON=false
-   ```
+```
+/opencarl create TESTING --recall 'test, testing, run tests'
+/opencarl add rule TESTING 'Run full test suite before committing'
+/opencarl add rule TESTING 'Include edge case tests'
+```
 
 ### Create a Star-Command
-Edit `.opencarl/commands`:
 ```
-MYCOMMAND_RULE_0=*mycommand - Brief description
-MYCOMMAND_RULE_1=First instruction
-MYCOMMAND_RULE_2=Second instruction
+/opencarl add command mycommand '*mycommand - Brief description'
+/opencarl add command mycommand 'First instruction'
+/opencarl add command mycommand 'Second instruction'
 ```
 
 Invoke with `*mycommand` in any prompt.
@@ -139,7 +129,9 @@ Invoke with `*mycommand` in any prompt.
 Put `.opencarl/` in your project root for repo-specific rules. They override global `~/.opencarl/` rules.
 
 ### Temporary Disable
-Set `DOMAIN_STATE=inactive` in manifest to disable without deleting.
+```
+/opencarl toggle TESTING inactive
+```
 
 ### Star-Command for Common Tasks
 If you frequently want specific behavior, make it a star-command:
