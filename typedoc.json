@@ -4,8 +4,7 @@
   "entryPoints": ["src/opencarl/index.ts"],
   "entryPointStrategy": "resolve",
   "categorizeByGroup": true,
-  "out": "docs",
-  "readme": "./README.md",
+  "out": "docs/api",
   "gitRemote": "origin",
   "gitRevision": "main",
   "sourceLinkExternal": true,
@@ -18,5 +17,5 @@
   "excludeProtected": false,
   "excludeInternal": true,
   "hideGenerator": false,
-  "githubPages": true
+  "githubPages": false
 }

@@ -50,8 +50,21 @@ __pycache__/
 coverage/
 .nyc_output/
 
-# Generated documentation
-docs/
+# Generated documentation (keep hand-crafted docs/index.html and docs/.nojekyll)
+docs/api/
+docs/guides/
+docs/install/
+docs/troubleshooting/
+docs/tutorials/
+docs/assets/
+docs/classes/
+docs/functions/
+docs/interfaces/
+docs/media/
+docs/types/
+docs/*.html
+!docs/index.html
+!docs/.nojekyll
 
 # Temporary files
 *.tmp
