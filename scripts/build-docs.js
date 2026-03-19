@@ -90,6 +90,24 @@ buildFile(
   '../api/assets'
 );
 
+// Build guides index (docs/guides/index.html)
+buildFile(
+  path.join(docsDir, 'guides.md'),
+  path.join(docsDir, 'guides', 'index.html'),
+  'Guides',
+  '..',
+  '../api/assets'
+);
+
+// Build tutorials index (docs/tutorials/index.html)
+buildFile(
+  path.join(docsDir, 'tutorials.md'),
+  path.join(docsDir, 'tutorials', 'index.html'),
+  'Tutorials',
+  '..',
+  '../api/assets'
+);
+
 // Build tutorials (two levels deep: docs/tutorials/name/)
 const tutorialsDir = path.join(rootDir, 'tutorials');
 if (fs.existsSync(tutorialsDir)) {
