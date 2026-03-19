@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenCARL - Context Augmentation & Reinforcement Layer</title>
+  <meta name="description" content="Dynamic rule injection for OpenCode. Rules that load when relevant, disappear when not.">
+  <link rel="canonical" href="https://krisgray.github.io/opencarl/">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #1f2328;
+      --muted: #656d76;
+      --accent: #0969da;
+      --accent-hover: #0550ae;
+      --border: #d0d7de;
+      --code-bg: #f6f8fa;
+      --card-bg: #f6f8fa;
+      --success: #1a7f37;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0d1117;
+        --fg: #e6edf3;
+        --muted: #8b949e;
+        --accent: #58a6ff;
+        --accent-hover: #79c0ff;
+        --border: #30363d;
+        --code-bg: #161b22;
+        --card-bg: #161b22;
+        --success: #3fb950;
+      }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif;
+      line-height: 1.6;
+      color: var(--fg);
+      background: var(--bg);
+    }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+    
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      z-index: 100;
+    }
+    header .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo { font-size: 1.5rem; font-weight: 700; }
+    .logo a { color: var(--fg); text-decoration: none; }
+    nav { display: flex; gap: 1.5rem; align-items: center; }
+    nav a { color: var(--muted); text-decoration: none; font-size: 0.95rem; }
+    nav a:hover { color: var(--accent); }
+    
+    .hero {
+      padding: 4rem 0;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+    .hero .tagline {
+      font-size: 1.25rem;
+      color: var(--muted);
+      margin-bottom: 2rem;
+    }
+    .hero .cta {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.15s;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+    .btn-primary:hover {
+      background: var(--accent-hover);
+    }
+    .btn-secondary {
+      background: var(--card-bg);
+      color: var(--fg);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover {
+      border-color: var(--accent);
+    }
+    
+    .badges {
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .badges img { height: 28px; }
+    
+    main { padding: 3rem 0; }
+    
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .feature {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+    }
+    .feature h3 { margin-bottom: 0.5rem; font-size: 1.1rem; }
+    .feature p { color: var(--muted); font-size: 0.95rem; margin: 0; }
+    
+    section { margin-bottom: 3rem; }
+    section h2 {
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      overflow-x: auto;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+    }
+    pre code { background: none; padding: 0; }
+    .code-comment { color: var(--muted); }
+    .code-cmd { color: var(--accent); font-weight: 500; }
+    .code-output { color: var(--success); }
+    
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .docs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .doc-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      text-decoration: none;
+      color: var(--fg);
+      transition: border-color 0.15s;
+    }
+    .doc-card:hover {
+      border-color: var(--accent);
+    }
+    .doc-card h4 { margin-bottom: 0.25rem; font-size: 1rem; }
+    .doc-card p { color: var(--muted); font-size: 0.85rem; margin: 0; }
+    
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 0;
+      text-align: center;
+      color: var(--muted);
+    }
+    footer a { color: var(--accent); }
+    
+    .pill {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="logo"><a href="/">OpenCARL</a></div>
+      <nav>
+        <a href="#quick-start">Quick Start</a>
+        <a href="guides/">Guides</a>
+        <a href="tutorials/">Tutorials</a>
+        <a href="api/">API</a>
+        <a href="https://github.com/KrisGray/opencarl">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <h1>OpenCARL</h1>
+      <p class="tagline">Context Augmentation & Reinforcement Layer — Dynamic rules for OpenCode</p>
+      <div class="cta">
+        <a href="#quick-start" class="btn btn-primary">Get Started</a>
+        <a href="https://github.com/KrisGray/opencarl" class="btn btn-secondary">View on GitHub</a>
+      </div>
+      <div class="badges">
+        <a href="https://www.npmjs.com/package/opencarl"><img src="https://img.shields.io/npm/v/opencarl?style=flat-square&logo=npm&color=CB3837" alt="npm version"></a>
+        <a href="https://github.com/KrisGray/opencarl/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License"></a>
+        <a href="https://github.com/KrisGray/opencarl"><img src="https://img.shields.io/github/stars/KrisGray/opencarl?style=flat-square&logo=github&color=181717" alt="GitHub stars"></a>
+      </div>
+    </div>
+  </section>
+
+  <main class="container">
+    <section id="why">
+      <h2>What is OpenCARL?</h2>
+      <p style="margin-bottom: 1.5rem;">
+        OpenCARL is a dynamic rule injection plugin for OpenCode. Define your preferences once, and they load automatically when relevant to your current task.
+      </p>
+      <div class="features">
+        <div class="feature">
+          <h3>🎯 Keyword-Based Loading</h3>
+          <p>Rules load automatically when your prompt matches domain keywords. No manual activation needed.</p>
+        </div>
+        <div class="feature">
+          <h3>⭐ Star-Commands</h3>
+          <p>Explicit triggers like <code>*brief</code> or <code>*deep</code> for on-demand behavior changes.</p>
+        </div>
+        <div class="feature">
+          <h3>📊 Context-Aware</h3>
+          <p>Rules adapt based on context window usage — thorough when fresh, concise when depleted.</p>
+        </div>
+        <div class="feature">
+          <h3>🔄 Global & Project Rules</h3>
+          <p>Universal preferences in global config, project-specific rules in each repo.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="quick-start">
+      <h2>Quick Start</h2>
+      
+      <h3 style="margin: 1.5rem 0 0.75rem;">Installation</h3>
+      <pre><code><span class="code-comment"># Install OpenCARL</span>
+npm install opencarl
+
+<span class="code-comment"># Add to opencode.json</span>
+echo '{"plugin": ["opencarl"]}' > opencode.json
+
+<span class="code-comment"># Run setup</span>
+npx opencarl --local</code></pre>
+
+      <h3 style="margin: 1.5rem 0 0.75rem;">Basic Usage</h3>
+      <pre><code><span class="code-comment"># Interactive help</span>
+<span class="code-cmd">*opencarl</span>
+
+<span class="code-comment"># View documentation</span>
+<span class="code-cmd">*opencarl docs</span>
+
+<span class="code-comment"># Create a domain</span>
+<span class="code-cmd">/opencarl create DEVELOPMENT --recall 'write code, implement, test'</code></pre>
+
+      <p style="margin-top: 1rem;">
+        Rules load automatically when your prompt matches domain keywords (e.g., "fix bug" loads development rules).
+      </p>
+    </section>
+
+    <section id="documentation">
+      <h2>Documentation</h2>
+      <p>Explore guides, tutorials, and API reference:</p>
+      
+      <div class="docs-grid">
+        <a href="install/" class="doc-card">
+          <h4>📥 Installation</h4>
+          <p>Detailed setup instructions and configuration</p>
+        </a>
+        <a href="guides/opencarl-overview/" class="doc-card">
+          <h4>📖 OpenCARL Overview</h4>
+          <p>Core concepts and how it works</p>
+        </a>
+        <a href="guides/domain-guide/" class="doc-card">
+          <h4>🏗️ Domain Guide</h4>
+          <p>Create and manage custom domains</p>
+        </a>
+        <a href="guides/commands-guide/" class="doc-card">
+          <h4>⭐ Commands Guide</h4>
+          <p>Create star-commands for common workflows</p>
+        </a>
+        <a href="guides/manifest-reference/" class="doc-card">
+          <h4>📋 Manifest Reference</h4>
+          <p>Complete manifest configuration options</p>
+        </a>
+        <a href="guides/context-rules/" class="doc-card">
+          <h4>📊 Context Rules</h4>
+          <p>Context-aware bracket system</p>
+        </a>
+        <a href="tutorials/python-api/" class="doc-card">
+          <h4>🐍 Python API Tutorial</h4>
+          <p>TDD with pytest, mocks, and external APIs</p>
+        </a>
+        <a href="troubleshooting/" class="doc-card">
+          <h4>🔧 Troubleshooting</h4>
+          <p>Common problems and solutions</p>
+        </a>
+        <a href="api/" class="doc-card">
+          <h4>📚 API Reference</h4>
+          <p>TypeScript API documentation</p>
+        </a>
+      </div>
+    </section>
+
+    <section id="cli">
+      <h2>CLI Commands</h2>
+      <div class="grid-2">
+        <div>
+          <h4 style="margin-bottom: 0.5rem;">Setup</h4>
+          <ul style="padding-left: 1.25rem; color: var(--muted);">
+            <li><code class="pill">npx opencarl --local</code> — Install for project</li>
+            <li><code class="pill">npx opencarl --global</code> — Install globally</li>
+            <li><code class="pill">npx opencarl --integrate</code> — Add to AGENTS.md</li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="margin-bottom: 0.5rem;">Management</h4>
+          <ul style="padding-left: 1.25rem; color: var(--muted);">
+            <li><code class="pill">/opencarl create DOMAIN</code> — Create domain</li>
+            <li><code class="pill">/opencarl add rule</code> — Add rule</li>
+            <li><code class="pill">/opencarl list</code> — List domains</li>
+            <li><code class="pill">/opencarl view DOMAIN</code> — View rules</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="structure">
+      <h2>File Structure</h2>
+      <pre><code>.opencarl/
+├── manifest        # Domain registry (states + keywords)
+├── global          # Always-loaded rules
+├── commands        # Star-command definitions
+├── context         # Context bracket rules
+└── {domain}        # Custom domains (lowercase, no extension)</code></pre>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>
+        <a href="https://github.com/KrisGray/opencarl">OpenCARL</a> — 
+        Rules that load when relevant, disappear when not.
+      </p>
+      <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+        Created by <a href="https://github.com/KrisGray">Kris Gray</a>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>
