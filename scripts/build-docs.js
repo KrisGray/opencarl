@@ -2,7 +2,17 @@
 
 const fs = require('fs');
 const path = require('path');
-const { marked } = require('marked');
+let marked;
+
+async function loadMarked() {
+  try {
+    const mod = await import('marked');
+    marked = mod.marked ?? mod.default ?? mod;
+  } catch (error) {
+    const mod = require('marked');
+    marked = mod.marked ?? mod;
+  }
+}
 
 const CSS = `
 :root {
@@ -206,82 +216,94 @@ function buildFile(inputPath, outputPath, title, basePath, activeNav) {
   console.log(`Generated: ${outputPath}`);
 }
 
-const rootDir = path.join(__dirname, '..');
-const docsDir = path.join(rootDir, 'docs');
+async function main() {
+  await loadMarked();
+  if (!marked) {
+    throw new Error('Failed to load marked for docs build');
+  }
 
-// Build guides index
-buildFile(
-  path.join(docsDir, 'guides.md'),
-  path.join(docsDir, 'guides', 'index.html'),
-  'Guides',
-  '..',
-  'guides'
-);
+  const rootDir = path.join(__dirname, '..');
+  const docsDir = path.join(rootDir, 'docs');
 
-// Build tutorials index
-buildFile(
-  path.join(docsDir, 'tutorials.md'),
-  path.join(docsDir, 'tutorials', 'index.html'),
-  'Tutorials',
-  '..',
-  'tutorials'
-);
+  // Build guides index
+  buildFile(
+    path.join(docsDir, 'guides.md'),
+    path.join(docsDir, 'guides', 'index.html'),
+    'Guides',
+    '..',
+    'guides'
+  );
 
-// Build INSTALL.md
-buildFile(
-  path.join(rootDir, 'INSTALL.md'),
-  path.join(docsDir, 'install', 'index.html'),
-  'Installation Guide',
-  '..',
-  null
-);
+  // Build tutorials index
+  buildFile(
+    path.join(docsDir, 'tutorials.md'),
+    path.join(docsDir, 'tutorials', 'index.html'),
+    'Tutorials',
+    '..',
+    'tutorials'
+  );
 
-// Build TROUBLESHOOTING.md
-buildFile(
-  path.join(rootDir, 'TROUBLESHOOTING.md'),
-  path.join(docsDir, 'troubleshooting', 'index.html'),
-  'Troubleshooting',
-  '..',
-  null
-);
+  // Build INSTALL.md
+  buildFile(
+    path.join(rootDir, 'INSTALL.md'),
+    path.join(docsDir, 'install', 'index.html'),
+    'Installation Guide',
+    '..',
+    null
+  );
 
-// Build tutorials
-const tutorialsDir = path.join(rootDir, 'tutorials');
-if (fs.existsSync(tutorialsDir)) {
-  const tutorials = fs.readdirSync(tutorialsDir).filter(f => f.endsWith('.md'));
-  tutorials.forEach(file => {
-    const name = file.replace('-tutorial.md', '').replace('.md', '');
-    buildFile(
-      path.join(tutorialsDir, file),
-      path.join(docsDir, 'tutorials', name, 'index.html'),
-      file.replace('-tutorial.md', '').replace('.md', '').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) + ' Tutorial',
-      '../..',
-      'tutorials'
-    );
-  });
+  // Build TROUBLESHOOTING.md
+  buildFile(
+    path.join(rootDir, 'TROUBLESHOOTING.md'),
+    path.join(docsDir, 'troubleshooting', 'index.html'),
+    'Troubleshooting',
+    '..',
+    null
+  );
+
+  // Build tutorials
+  const tutorialsDir = path.join(rootDir, 'tutorials');
+  if (fs.existsSync(tutorialsDir)) {
+    const tutorials = fs.readdirSync(tutorialsDir).filter(f => f.endsWith('.md'));
+    tutorials.forEach(file => {
+      const name = file.replace('-tutorial.md', '').replace('.md', '');
+      buildFile(
+        path.join(tutorialsDir, file),
+        path.join(docsDir, 'tutorials', name, 'index.html'),
+        file.replace('-tutorial.md', '').replace('.md', '').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) + ' Tutorial',
+        '../..',
+        'tutorials'
+      );
+    });
+  }
+
+  // Build skills/guides
+  const skillsDir = path.join(rootDir, 'resources', 'skills');
+  if (fs.existsSync(skillsDir)) {
+    const skills = fs.readdirSync(skillsDir);
+    skills.forEach(skillName => {
+      const skillPath = path.join(skillsDir, skillName);
+      if (fs.statSync(skillPath).isDirectory()) {
+        const mdFiles = fs.readdirSync(skillPath).filter(f => f.endsWith('.md'));
+        mdFiles.forEach(file => {
+          const name = file.replace('.md', '').toLowerCase();
+          const title = file.replace('.md', '').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+          buildFile(
+            path.join(skillPath, file),
+            path.join(docsDir, 'guides', name, 'index.html'),
+            title,
+            '../..',
+            'guides'
+          );
+        });
+      }
+    });
+  }
+
+  console.log('\nDocs build complete!');
 }
 
-// Build skills/guides
-const skillsDir = path.join(rootDir, 'resources', 'skills');
-if (fs.existsSync(skillsDir)) {
-  const skills = fs.readdirSync(skillsDir);
-  skills.forEach(skillName => {
-    const skillPath = path.join(skillsDir, skillName);
-    if (fs.statSync(skillPath).isDirectory()) {
-      const mdFiles = fs.readdirSync(skillPath).filter(f => f.endsWith('.md'));
-      mdFiles.forEach(file => {
-        const name = file.replace('.md', '').toLowerCase();
-        const title = file.replace('.md', '').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-        buildFile(
-          path.join(skillPath, file),
-          path.join(docsDir, 'guides', name, 'index.html'),
-          title,
-          '../..',
-          'guides'
-        );
-      });
-    }
-  });
-}
-
-console.log('\nDocs build complete!');
+main().catch(error => {
+  console.error(error);
+  process.exit(1);
+});
