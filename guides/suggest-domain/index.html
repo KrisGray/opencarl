@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SUGGEST DOMAIN | OpenCARL</title>
+  <meta name="description" content="OpenCARL - Dynamic rule injection for OpenCode">
+  <style>
+:root {
+  --bg: #ffffff;
+  --fg: #1f2328;
+  --muted: #656d76;
+  --accent: #0969da;
+  --accent-hover: #0550ae;
+  --border: #d0d7de;
+  --code-bg: #f6f8fa;
+  --card-bg: #f6f8fa;
+  --success: #1a7f37;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d1117;
+    --fg: #e6edf3;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --accent-hover: #79c0ff;
+    --border: #30363d;
+    --code-bg: #161b22;
+    --card-bg: #161b22;
+    --success: #3fb950;
+  }
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif;
+  line-height: 1.6;
+  color: var(--fg);
+  background: var(--bg);
+}
+.container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+header {
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 100;
+}
+header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo { font-size: 1.5rem; font-weight: 700; }
+.logo a { color: var(--fg); text-decoration: none; }
+nav { display: flex; gap: 1.5rem; align-items: center; }
+nav a { color: var(--muted); text-decoration: none; font-size: 0.95rem; }
+nav a:hover, nav a.active { color: var(--accent); }
+
+main { padding: 3rem 0; }
+
+.page-title {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.page-title h1 { font-size: 2rem; }
+
+.content h2 { font-size: 1.5rem; margin: 2rem 0 1rem; }
+.content h3 { font-size: 1.25rem; margin: 1.5rem 0 0.75rem; }
+.content h4 { font-size: 1.1rem; margin: 1.25rem 0 0.5rem; }
+.content p { margin-bottom: 1rem; }
+.content ul, .content ol { margin-bottom: 1rem; padding-left: 1.5rem; }
+.content li { margin-bottom: 0.5rem; }
+.content a { color: var(--accent); }
+
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+code {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: 0.9em;
+}
+pre code { background: none; padding: 0; font-size: inherit; }
+:not(pre) > code {
+  background: var(--code-bg);
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+th, td {
+  border: 1px solid var(--border);
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+th { background: var(--card-bg); font-weight: 600; }
+
+blockquote {
+  border-left: 4px solid var(--accent);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: var(--muted);
+}
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem 0;
+  text-align: center;
+  color: var(--muted);
+}
+footer a { color: var(--accent); }
+
+.pill {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+}
+</style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="logo"><a href="../../">OpenCARL</a></div>
+      <nav>
+        <a href="../../#quick-start">Quick Start</a>
+        <a href="../../guides/" class="active">Guides</a>
+        <a href="../../tutorials/">Tutorials</a>
+        <a href="../../api/">API</a>
+        <a href="https://github.com/KrisGray/opencarl">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="page-title">
+      <h1>SUGGEST DOMAIN</h1>
+    </div>
+    <div class="content">
+      <h1>Domain Suggestion Logic</h1>
+<p>When user says &quot;make this a rule&quot; or asks what domain, use this guide.</p>
+<h2>Core Domains (Special Purpose)</h2>
+<table>
+<thead>
+<tr>
+<th>Domain</th>
+<th>Use When Rule Is About</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GLOBAL</td>
+<td>Universal behaviors that ALWAYS apply</td>
+</tr>
+<tr>
+<td>CONTEXT</td>
+<td>Adapting behavior based on context remaining</td>
+</tr>
+<tr>
+<td>COMMANDS</td>
+<td>Creating a star-command (*brief, *deep, etc.)</td>
+</tr>
+</tbody></table>
+<h2>Common Custom Domains</h2>
+<table>
+<thead>
+<tr>
+<th>Domain</th>
+<th>Typical Rules</th>
+<th>Keywords in Rule Text</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DEVELOPMENT</td>
+<td>Coding practices, security, testing</td>
+<td>code, function, API, bug, implement, TypeScript</td>
+</tr>
+<tr>
+<td>PROJECTS</td>
+<td>ACTIVE.md workflows, deadlines, status</td>
+<td>project, deadline, status, blocked, ACTIVE.md</td>
+</tr>
+<tr>
+<td>BACKLOG</td>
+<td>Future work, idea capture</td>
+<td>backlog, idea, future, someday</td>
+</tr>
+<tr>
+<td>DECISIONS</td>
+<td>Decision logging</td>
+<td>decision, rationale, chose, decided</td>
+</tr>
+<tr>
+<td>CLIENTS</td>
+<td>Client work, deliverables</td>
+<td>client, deliverable, brand, customer</td>
+</tr>
+<tr>
+<td>CONTENT</td>
+<td>Content creation, publishing</td>
+<td>content, video, script, post, publish</td>
+</tr>
+<tr>
+<td>OBSIDIAN</td>
+<td>Knowledge graph management</td>
+<td>note, link, vault, knowledge</td>
+</tr>
+<tr>
+<td>TESTING</td>
+<td>Test-driven development</td>
+<td>test, TDD, coverage, assert</td>
+</tr>
+<tr>
+<td>SECURITY</td>
+<td>Security practices</td>
+<td>security, auth, credentials, vulnerability</td>
+</tr>
+</tbody></table>
+<h2>Suggestion Algorithm</h2>
+<h3>Step 1: Check for Keywords</h3>
+<p>Scan rule text for domain-specific keywords:</p>
+<pre><code>Rule: &quot;Always validate user input before processing&quot;
+Keywords found: validate, input, processing
+Matches: SECURITY (validate, input), DEVELOPMENT (processing)
+</code></pre>
+<h3>Step 2: If Multiple Matches</h3>
+<p>Ask user:</p>
+<pre><code>This rule could fit in multiple domains:
+1. SECURITY - Focus on security validation
+2. DEVELOPMENT - General coding practice
+
+Which domain should I add it to?
+</code></pre>
+<h3>Step 3: If No Match</h3>
+<p>Suggest options:</p>
+<pre><code>This rule doesn&#39;t match existing domains:
+1. GLOBAL - Apply universally
+2. Create new domain - Describe what it&#39;s for
+
+Your choice?
+</code></pre>
+<h2>Domain Selection Questions</h2>
+<p>When uncertain, ask:</p>
+<ol>
+<li><p><strong>Scope</strong>: &quot;Should this apply to all projects or just specific ones?&quot;</p>
+<ul>
+<li>All projects → GLOBAL or DEVELOPMENT</li>
+<li>Specific → Create project-specific domain</li>
+</ul>
+</li>
+<li><p><strong>Trigger</strong>: &quot;When should this rule activate?&quot;</p>
+<ul>
+<li>Always → GLOBAL with ALWAYS_ON=true</li>
+<li>Specific keywords → Custom domain with RECALL</li>
+<li>On command → COMMANDS domain</li>
+</ul>
+</li>
+<li><p><strong>Category</strong>: &quot;Is this about code, workflow, or communication?&quot;</p>
+<ul>
+<li>Code → DEVELOPMENT</li>
+<li>Workflow → PROJECTS or BACKLOG</li>
+<li>Communication → Consider custom domain</li>
+</ul>
+</li>
+</ol>
+<h2>New Domain Checklist</h2>
+<p>If suggesting a new domain:</p>
+<ol>
+<li>Propose name (e.g., TESTING, FRONTEND, CLIENTNAME)</li>
+<li>Suggest recall keywords</li>
+<li>Estimate if ALWAYS_ON needed</li>
+<li>Check for overlap with existing domains</li>
+</ol>
+<h2>Examples</h2>
+<h3>&quot;Always use TypeScript strict mode&quot;</h3>
+<ul>
+<li><strong>Keywords</strong>: TypeScript, strict, mode</li>
+<li><strong>Match</strong>: DEVELOPMENT</li>
+<li><strong>Suggestion</strong>: Add to DEVELOPMENT domain</li>
+</ul>
+<h3>&quot;Update ACTIVE.md after completing tasks&quot;</h3>
+<ul>
+<li><strong>Keywords</strong>: ACTIVE.md, tasks, completing</li>
+<li><strong>Match</strong>: PROJECTS</li>
+<li><strong>Suggestion</strong>: Add to PROJECTS domain</li>
+</ul>
+<h3>&quot;Never store passwords in plain text&quot;</h3>
+<ul>
+<li><strong>Keywords</strong>: passwords, plain text, store</li>
+<li><strong>Match</strong>: SECURITY</li>
+<li><strong>Suggestion</strong>: Add to SECURITY domain (or create if doesn&#39;t exist)</li>
+</ul>
+<h3>&quot;For Acme Corp, always use their brand colors&quot;</h3>
+<ul>
+<li><strong>Keywords</strong>: Acme Corp, brand colors</li>
+<li><strong>Match</strong>: None (client-specific)</li>
+<li><strong>Suggestion</strong>: Create ACMECORP domain or add to CLIENTS</li>
+</ul>
+<h3>&quot;Respond briefly when context is low&quot;</h3>
+<ul>
+<li><strong>Keywords</strong>: context, briefly</li>
+<li><strong>Match</strong>: CONTEXT (bracket system)</li>
+<li><strong>Suggestion</strong>: Add to DEPLETED bracket in CONTEXT domain</li>
+</ul>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>
+        <a href="https://github.com/KrisGray/opencarl">OpenCARL</a> — 
+        Rules that load when relevant, disappear when not.
+      </p>
+      <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+        Created by <a href="https://github.com/KrisGray">Kris Gray</a>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

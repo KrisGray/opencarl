@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DOMAIN GUIDE | OpenCARL</title>
+  <meta name="description" content="OpenCARL - Dynamic rule injection for OpenCode">
+  <style>
+:root {
+  --bg: #ffffff;
+  --fg: #1f2328;
+  --muted: #656d76;
+  --accent: #0969da;
+  --accent-hover: #0550ae;
+  --border: #d0d7de;
+  --code-bg: #f6f8fa;
+  --card-bg: #f6f8fa;
+  --success: #1a7f37;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d1117;
+    --fg: #e6edf3;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --accent-hover: #79c0ff;
+    --border: #30363d;
+    --code-bg: #161b22;
+    --card-bg: #161b22;
+    --success: #3fb950;
+  }
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif;
+  line-height: 1.6;
+  color: var(--fg);
+  background: var(--bg);
+}
+.container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+header {
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 100;
+}
+header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo { font-size: 1.5rem; font-weight: 700; }
+.logo a { color: var(--fg); text-decoration: none; }
+nav { display: flex; gap: 1.5rem; align-items: center; }
+nav a { color: var(--muted); text-decoration: none; font-size: 0.95rem; }
+nav a:hover, nav a.active { color: var(--accent); }
+
+main { padding: 3rem 0; }
+
+.page-title {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.page-title h1 { font-size: 2rem; }
+
+.content h2 { font-size: 1.5rem; margin: 2rem 0 1rem; }
+.content h3 { font-size: 1.25rem; margin: 1.5rem 0 0.75rem; }
+.content h4 { font-size: 1.1rem; margin: 1.25rem 0 0.5rem; }
+.content p { margin-bottom: 1rem; }
+.content ul, .content ol { margin-bottom: 1rem; padding-left: 1.5rem; }
+.content li { margin-bottom: 0.5rem; }
+.content a { color: var(--accent); }
+
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+code {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: 0.9em;
+}
+pre code { background: none; padding: 0; font-size: inherit; }
+:not(pre) > code {
+  background: var(--code-bg);
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+th, td {
+  border: 1px solid var(--border);
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+th { background: var(--card-bg); font-weight: 600; }
+
+blockquote {
+  border-left: 4px solid var(--accent);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: var(--muted);
+}
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem 0;
+  text-align: center;
+  color: var(--muted);
+}
+footer a { color: var(--accent); }
+
+.pill {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+}
+</style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="logo"><a href="../../">OpenCARL</a></div>
+      <nav>
+        <a href="../../#quick-start">Quick Start</a>
+        <a href="../../guides/" class="active">Guides</a>
+        <a href="../../tutorials/">Tutorials</a>
+        <a href="../../api/">API</a>
+        <a href="https://github.com/KrisGray/opencarl">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="page-title">
+      <h1>DOMAIN GUIDE</h1>
+    </div>
+    <div class="content">
+      <h1>Domain Structure Guide</h1>
+<h2>Naming Conventions</h2>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Format</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Filename</td>
+<td>lowercase, no extension</td>
+<td><code>.opencarl/development</code></td>
+</tr>
+<tr>
+<td>Alternative</td>
+<td>lowercase with .env</td>
+<td><code>.opencarl/development.env</code></td>
+</tr>
+<tr>
+<td>Rule prefix</td>
+<td>UPPERCASE</td>
+<td><code>DEVELOPMENT_RULE_0</code></td>
+</tr>
+<tr>
+<td>Index</td>
+<td>Sequential from 0</td>
+<td><code>_RULE_0</code>, <code>_RULE_1</code>, <code>_RULE_2</code></td>
+</tr>
+</tbody></table>
+<h2>Domain File Structure</h2>
+<pre><code># {DOMAIN} Domain Rules
+# =====================
+# Optional description comment
+# Recall: keywords (for reference, not parsed)
+
+{DOMAIN}_RULE_0=First rule
+{DOMAIN}_RULE_1=Second rule
+{DOMAIN}_RULE_2=Third rule
+</code></pre>
+<h2>Special Domains</h2>
+<h3>GLOBAL</h3>
+<ul>
+<li><strong>Purpose:</strong> Always-on universal rules</li>
+<li><strong>Filename:</strong> <code>.opencarl/global</code></li>
+<li><strong>Behavior:</strong> Injected first, before all other domains</li>
+<li><strong>Manifest:</strong> <code>GLOBAL_ALWAYS_ON=true</code></li>
+<li><strong>No recall keywords needed</strong></li>
+</ul>
+<p>Example:</p>
+<pre><code># GLOBAL Domain Rules
+GLOBAL_RULE_0=Use absolute paths in programming
+GLOBAL_RULE_1=Batch tool calls when possible
+GLOBAL_RULE_2=Never mark tasks complete without validation
+</code></pre>
+<h3>CONTEXT</h3>
+<ul>
+<li><strong>Purpose:</strong> Context-aware bracket injection</li>
+<li><strong>Filename:</strong> <code>.opencarl/context</code></li>
+<li><strong>Behavior:</strong> Rules injected based on context % remaining</li>
+<li><strong>Brackets:</strong> FRESH (&gt;75%), MODERATE (40-75%), DEPLETED (&lt;40%)</li>
+</ul>
+<p>Example:</p>
+<pre><code># CONTEXT Bracket Rules
+FRESH_ENABLED=true
+FRESH_RULE_0=Context is fresh, be thorough
+FRESH_RULE_1=Include full explanations
+
+MODERATE_ENABLED=true
+MODERATE_RULE_0=Balance thoroughness with brevity
+
+DEPLETED_ENABLED=true
+DEPLETED_RULE_0=Context low, be concise
+DEPLETED_RULE_1=Prepare handoff summary
+</code></pre>
+<h3>COMMANDS</h3>
+<ul>
+<li><strong>Purpose:</strong> Star-command definitions</li>
+<li><strong>Filename:</strong> <code>.opencarl/commands</code></li>
+<li><strong>Behavior:</strong> User invokes with <code>*commandname</code></li>
+<li><strong>Format:</strong> Each command is a group of rules</li>
+</ul>
+<p>Example:</p>
+<pre><code># OpenCARL Commands
+BRIEF_RULE_0=*brief - Respond with maximum brevity
+BRIEF_RULE_1=Use bullet points only
+
+DEEP_RULE_0=*deep - Provide comprehensive analysis
+DEEP_RULE_1=Consider all edge cases
+</code></pre>
+<h2>Custom Domains</h2>
+<p>Create for project-specific, client-specific, or workflow rules.</p>
+<h3>Creating a Custom Domain</h3>
+<ol>
+<li><strong>Create file:</strong> <code>.opencarl/{domainname}</code> (lowercase)</li>
+<li><strong>Add rules:</strong> Use UPPERCASE prefix</li>
+<li><strong>Add manifest entries:</strong> STATE, RECALL, EXCLUDE, ALWAYS_ON</li>
+<li><strong>Optional:</strong> Add to DOMAIN_ORDER</li>
+</ol>
+<p>Example for a TESTING domain:</p>
+<pre><code># TESTING Domain Rules
+TESTING_RULE_0=Write tests before implementation
+TESTING_RULE_1=Each test should test one behavior
+TESTING_RULE_2=Use descriptive test names
+</code></pre>
+<p>Manifest entries:</p>
+<pre><code>TESTING_STATE=active
+TESTING_RECALL=test, testing, TDD, unit test
+TESTING_EXCLUDE=
+TESTING_ALWAYS_ON=false
+</code></pre>
+<h2>Best Practices</h2>
+<ol>
+<li><strong>Be specific</strong> - Rules should be actionable</li>
+<li><strong>Keep it short</strong> - One clear instruction per rule</li>
+<li><strong>Use active voice</strong> - &quot;Do X&quot; not &quot;X should be done&quot;</li>
+<li><strong>Group logically</strong> - Related rules in same domain</li>
+<li><strong>Meaningful recalls</strong> - Use keywords users naturally type</li>
+</ol>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>
+        <a href="https://github.com/KrisGray/opencarl">OpenCARL</a> — 
+        Rules that load when relevant, disappear when not.
+      </p>
+      <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+        Created by <a href="https://github.com/KrisGray">Kris Gray</a>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

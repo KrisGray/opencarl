@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CONTEXT RULES | OpenCARL</title>
+  <meta name="description" content="OpenCARL - Dynamic rule injection for OpenCode">
+  <style>
+:root {
+  --bg: #ffffff;
+  --fg: #1f2328;
+  --muted: #656d76;
+  --accent: #0969da;
+  --accent-hover: #0550ae;
+  --border: #d0d7de;
+  --code-bg: #f6f8fa;
+  --card-bg: #f6f8fa;
+  --success: #1a7f37;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d1117;
+    --fg: #e6edf3;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --accent-hover: #79c0ff;
+    --border: #30363d;
+    --code-bg: #161b22;
+    --card-bg: #161b22;
+    --success: #3fb950;
+  }
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif;
+  line-height: 1.6;
+  color: var(--fg);
+  background: var(--bg);
+}
+.container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+header {
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 100;
+}
+header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo { font-size: 1.5rem; font-weight: 700; }
+.logo a { color: var(--fg); text-decoration: none; }
+nav { display: flex; gap: 1.5rem; align-items: center; }
+nav a { color: var(--muted); text-decoration: none; font-size: 0.95rem; }
+nav a:hover, nav a.active { color: var(--accent); }
+
+main { padding: 3rem 0; }
+
+.page-title {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.page-title h1 { font-size: 2rem; }
+
+.content h2 { font-size: 1.5rem; margin: 2rem 0 1rem; }
+.content h3 { font-size: 1.25rem; margin: 1.5rem 0 0.75rem; }
+.content h4 { font-size: 1.1rem; margin: 1.25rem 0 0.5rem; }
+.content p { margin-bottom: 1rem; }
+.content ul, .content ol { margin-bottom: 1rem; padding-left: 1.5rem; }
+.content li { margin-bottom: 0.5rem; }
+.content a { color: var(--accent); }
+
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+code {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: 0.9em;
+}
+pre code { background: none; padding: 0; font-size: inherit; }
+:not(pre) > code {
+  background: var(--code-bg);
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+th, td {
+  border: 1px solid var(--border);
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+th { background: var(--card-bg); font-weight: 600; }
+
+blockquote {
+  border-left: 4px solid var(--accent);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: var(--muted);
+}
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem 0;
+  text-align: center;
+  color: var(--muted);
+}
+footer a { color: var(--accent); }
+
+.pill {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+}
+</style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="logo"><a href="../../">OpenCARL</a></div>
+      <nav>
+        <a href="../../#quick-start">Quick Start</a>
+        <a href="../../guides/" class="active">Guides</a>
+        <a href="../../tutorials/">Tutorials</a>
+        <a href="../../api/">API</a>
+        <a href="https://github.com/KrisGray/opencarl">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="page-title">
+      <h1>CONTEXT RULES</h1>
+    </div>
+    <div class="content">
+      <h1>CONTEXT Domain (Bracket System)</h1>
+<h2>Overview</h2>
+<p>The CONTEXT domain provides rules that adapt based on how much conversation context remains. This helps adjust behavior as context depletes.</p>
+<h2>Brackets</h2>
+<table>
+<thead>
+<tr>
+<th>Bracket</th>
+<th>Threshold</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FRESH</td>
+<td>&gt;75% remaining</td>
+<td>Full detail, thorough explanations</td>
+</tr>
+<tr>
+<td>MODERATE</td>
+<td>40-75% remaining</td>
+<td>Balanced approach</td>
+</tr>
+<tr>
+<td>DEPLETED</td>
+<td>&lt;40% remaining</td>
+<td>Maximum efficiency, prepare handoff</td>
+</tr>
+</tbody></table>
+<h2>File Format</h2>
+<p><code>.opencarl/context</code>:</p>
+<pre><code># CONTEXT Bracket Rules
+# =====================
+
+# Fresh context (&gt;75% remaining)
+FRESH_ENABLED=true
+FRESH_RULE_0=Context is fresh, be thorough with explanations
+FRESH_RULE_1=Include full code examples and reasoning
+FRESH_RULE_2=Explore edge cases proactively
+
+# Moderate context (40-75% remaining)
+MODERATE_ENABLED=true
+MODERATE_RULE_0=Balance thoroughness with brevity
+MODERATE_RULE_1=Summarize where possible, detail on request
+
+# Depleted context (&lt;40% remaining)
+DEPLETED_ENABLED=true
+DEPLETED_RULE_0=Context is low, maximize efficiency
+DEPLETED_RULE_1=Prepare handoff summary if task incomplete
+DEPLETED_RULE_2=Prioritize completing current task
+DEPLETED_RULE_3=Use bullet points, avoid lengthy explanations
+</code></pre>
+<h2>Bracket Fields</h2>
+<h3>{BRACKET}_ENABLED</h3>
+<ul>
+<li><code>true</code> - Rules for this bracket are active</li>
+<li><code>false</code> - Skip this bracket&#39;s rules</li>
+</ul>
+<h3>{BRACKET}_RULE_N</h3>
+<p>Sequential rules for the bracket, starting at 0.</p>
+<h2>How Injection Works</h2>
+<ol>
+<li>OpenCARL calculates context % remaining</li>
+<li>Determines which bracket applies</li>
+<li>Checks if bracket is enabled</li>
+<li>Injects all <code>{BRACKET}_RULE_N</code> entries for that bracket</li>
+</ol>
+<p>Only ONE bracket&#39;s rules are injected per prompt (based on current context %).</p>
+<h2>Example Rules by Bracket</h2>
+<h3>FRESH (&gt;75%)</h3>
+<pre><code>FRESH_RULE_0=Context is fresh, be thorough
+FRESH_RULE_1=Include full explanations with examples
+FRESH_RULE_2=Proactively consider edge cases
+FRESH_RULE_3=Don&#39;t hesitate to explore related topics
+</code></pre>
+<h3>MODERATE (40-75%)</h3>
+<pre><code>MODERATE_RULE_0=Balance detail with efficiency
+MODERATE_RULE_1=Summarize context when helpful
+MODERATE_RULE_2=Focus on user&#39;s explicit request
+</code></pre>
+<h3>DEPLETED (&lt;40%)</h3>
+<pre><code>DEPLETED_RULE_0=Context is limited, be concise
+DEPLETED_RULE_1=Use bullet points over paragraphs
+DEPLETED_RULE_2=If task may not complete, prepare handoff notes
+DEPLETED_RULE_3=Avoid introducing new complex topics
+DEPLETED_RULE_4=Prioritize actionable outputs
+</code></pre>
+<h2>Manifest Entry</h2>
+<p>CONTEXT domain in manifest:</p>
+<pre><code>CONTEXT_STATE=active
+CONTEXT_RECALL=
+CONTEXT_EXCLUDE=
+CONTEXT_ALWAYS_ON=true
+</code></pre>
+<ul>
+<li>No recall keywords needed (always injected)</li>
+<li><code>ALWAYS_ON=true</code> ensures injection regardless of prompt content</li>
+<li>STATE can be set to <code>inactive</code> to disable entirely</li>
+</ul>
+<h2>Best Practices</h2>
+<ol>
+<li><strong>FRESH rules</strong> - Enable thorough exploration</li>
+<li><strong>MODERATE rules</strong> - Maintain quality while conserving</li>
+<li><strong>DEPLETED rules</strong> - Focus on completion and handoff</li>
+<li><strong>Test thresholds</strong> - Verify bracket transitions work</li>
+<li><strong>Don&#39;t overload</strong> - Keep rules actionable and specific</li>
+</ol>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>
+        <a href="https://github.com/KrisGray/opencarl">OpenCARL</a> — 
+        Rules that load when relevant, disappear when not.
+      </p>
+      <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+        Created by <a href="https://github.com/KrisGray">Kris Gray</a>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

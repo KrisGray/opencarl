@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Installation Guide | OpenCARL</title>
+  <meta name="description" content="OpenCARL - Dynamic rule injection for OpenCode">
+  <style>
+:root {
+  --bg: #ffffff;
+  --fg: #1f2328;
+  --muted: #656d76;
+  --accent: #0969da;
+  --accent-hover: #0550ae;
+  --border: #d0d7de;
+  --code-bg: #f6f8fa;
+  --card-bg: #f6f8fa;
+  --success: #1a7f37;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d1117;
+    --fg: #e6edf3;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --accent-hover: #79c0ff;
+    --border: #30363d;
+    --code-bg: #161b22;
+    --card-bg: #161b22;
+    --success: #3fb950;
+  }
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif;
+  line-height: 1.6;
+  color: var(--fg);
+  background: var(--bg);
+}
+.container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+header {
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 100;
+}
+header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo { font-size: 1.5rem; font-weight: 700; }
+.logo a { color: var(--fg); text-decoration: none; }
+nav { display: flex; gap: 1.5rem; align-items: center; }
+nav a { color: var(--muted); text-decoration: none; font-size: 0.95rem; }
+nav a:hover, nav a.active { color: var(--accent); }
+
+main { padding: 3rem 0; }
+
+.page-title {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.page-title h1 { font-size: 2rem; }
+
+.content h2 { font-size: 1.5rem; margin: 2rem 0 1rem; }
+.content h3 { font-size: 1.25rem; margin: 1.5rem 0 0.75rem; }
+.content h4 { font-size: 1.1rem; margin: 1.25rem 0 0.5rem; }
+.content p { margin-bottom: 1rem; }
+.content ul, .content ol { margin-bottom: 1rem; padding-left: 1.5rem; }
+.content li { margin-bottom: 0.5rem; }
+.content a { color: var(--accent); }
+
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+code {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: 0.9em;
+}
+pre code { background: none; padding: 0; font-size: inherit; }
+:not(pre) > code {
+  background: var(--code-bg);
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+th, td {
+  border: 1px solid var(--border);
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+th { background: var(--card-bg); font-weight: 600; }
+
+blockquote {
+  border-left: 4px solid var(--accent);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: var(--muted);
+}
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem 0;
+  text-align: center;
+  color: var(--muted);
+}
+footer a { color: var(--accent); }
+
+.pill {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+}
+</style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="logo"><a href="../">OpenCARL</a></div>
+      <nav>
+        <a href="../#quick-start">Quick Start</a>
+        <a href="../guides/">Guides</a>
+        <a href="../tutorials/">Tutorials</a>
+        <a href="../api/">API</a>
+        <a href="https://github.com/KrisGray/opencarl">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="page-title">
+      <h1>Installation Guide</h1>
+    </div>
+    <div class="content">
+      <h1>OpenCARL Installation Guide</h1>
+<h2>Quick Install</h2>
+<pre><code class="language-bash">npm install opencarl
+</code></pre>
+<h3>Configure opencode.json</h3>
+<p>Add OpenCARL as an npm plugin in your OpenCode config.</p>
+<p><strong>Global (all projects):</strong> <code>~/.config/opencode/opencode.json</code></p>
+<p><strong>Project-local:</strong> <code>opencode.json</code> in your project root</p>
+<pre><code class="language-json">{
+  &quot;plugin&quot;: [&quot;opencarl&quot;]
+}
+</code></pre>
+<p>Restart OpenCode. It will install npm plugins with Bun into <code>~/.cache/opencode/node_modules/</code> and load them.</p>
+<h3>Run Setup</h3>
+<p>From your terminal:</p>
+<pre><code class="language-bash">npx opencarl --local
+</code></pre>
+<p>This will:</p>
+<ol>
+<li>Seed <code>.opencarl/</code> templates in your project (if missing)</li>
+<li>Copy skills to your <code>.opencode/</code> directory</li>
+<li>Prepare OpenCARL for use</li>
+</ol>
+<h3>Optional: AGENTS.md Integration</h3>
+<p>To add OpenCARL documentation to your project&#39;s <code>AGENTS.md</code>:</p>
+<pre><code class="language-bash">npx opencarl --integrate
+</code></pre>
+<h3>Optional: opencode.json Instructions Integration</h3>
+<p>To add OpenCARL docs to your <code>opencode.json</code> instructions field:</p>
+<pre><code class="language-bash">npx opencarl --integrate-opencode
+
+---
+
+## Prerequisites
+
+- OpenCode installed
+- Node.js 16.7+
+- npm
+
+---
+
+## Manual Installation
+
+If you prefer manual setup:
+
+### Step 1: Clone and Build
+
+```bash
+git clone https://github.com/KrisGray/opencarl.git
+cd opencarl
+npm run build
+</code></pre>
+<h3>Step 2: Copy Plugin Files</h3>
+<p>Copy the built plugin to your OpenCode plugins directory:</p>
+<pre><code class="language-bash">mkdir -p ~/.opencode/plugins
+cp -r dist ~/.opencode/plugins/opencarl
+cp -r resources ~/.opencode/plugins/opencarl/
+cp -r .opencarl-template ~/.opencode/plugins/opencarl/
+</code></pre>
+<h3>Step 3: Configure opencode.json</h3>
+<p>Edit <code>~/.opencode/opencode.json</code> or your project&#39;s <code>opencode.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;plugin&quot;: [&quot;./plugins/opencarl/dist/plugin.js&quot;]
+}
+</code></pre>
+<h3>Step 4: Copy OpenCARL Config</h3>
+<p><strong>Global (all projects):</strong></p>
+<pre><code class="language-bash">cp -r .opencarl-template ~/.opencarl
+</code></pre>
+<p><strong>Project-specific:</strong></p>
+<pre><code class="language-bash">cp -r .opencarl-template ./.opencarl
+</code></pre>
+<hr>
+<h2>Verify Installation</h2>
+<p>After installation, verify:</p>
+<ol>
+<li><code>.opencarl/manifest</code> exists in your project or home directory</li>
+<li><code>/opencarl</code> command is available in OpenCode</li>
+<li><code>*opencarl</code> triggers help mode</li>
+</ol>
+<p>Test with:</p>
+<pre><code>/opencarl list
+</code></pre>
+<hr>
+<h2>Usage</h2>
+<ul>
+<li><code>*opencarl</code> — Enter OpenCARL help mode</li>
+<li><code>*opencarl docs</code> — View full documentation</li>
+<li><code>/opencarl</code> — Domain management commands</li>
+<li><code>/opencarl list</code> — Show all domains</li>
+<li><code>/opencarl view DOMAIN</code> — Show rules in a domain</li>
+</ul>
+<hr>
+<h2>Troubleshooting</h2>
+<h3>Quick Fixes</h3>
+<table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Rules not loading</td>
+<td>Check <code>.opencarl/manifest</code> has <code>STATE=active</code></td>
+</tr>
+<tr>
+<td>Plugin not found</td>
+<td>Verify opencode.json plugin path</td>
+</tr>
+<tr>
+<td>Commands not available</td>
+<td>Run <code>/opencarl-setup</code></td>
+</tr>
+</tbody></table>
+<h3>Debug Mode</h3>
+<p>Enable detailed logging:</p>
+<pre><code class="language-bash">OPENCARL_DEBUG=true
+</code></pre>
+<p>This shows rule matching decisions and injection events.</p>
+<h3>Full Troubleshooting Guide</h3>
+<p>See <a href="TROUBLESHOOTING.md">TROUBLESHOOTING.md</a> for comprehensive troubleshooting covering installation, loading, matching, and integration issues.</p>
+<hr>
+<h2>File Structure After Install</h2>
+<pre><code>.opencode/
+├── commands/opencarl/  # OpenCARL slash commands
+├── skills/opencarl-*/  # OpenCARL skills
+└── plugins/            # Plugin files (if manual install)
+
+.opencarl/
+├── manifest            # Domain registry
+├── global              # Always-loaded rules
+├── commands            # Star-command definitions
+├── context             # Context bracket rules
+└── {domain}            # Your custom domains
+</code></pre>
+<hr>
+<h2>Next Steps</h2>
+<p>Use <code>/opencarl</code> commands to configure your domains:</p>
+<pre><code># Create a domain
+/opencarl create DEVELOPMENT --recall &#39;write code, implement, test&#39;
+
+# Add rules
+/opencarl add rule DEVELOPMENT &#39;Always write tests first&#39;
+/opencarl add rule DEVELOPMENT &#39;Use type hints for all functions&#39;
+
+# View your configuration
+/opencarl list domains
+/opencarl view DEVELOPMENT
+</code></pre>
+<p>For full documentation, see <a href="https://krisgray.github.io/opencarl/">krisgray.github.io/opencarl</a>.</p>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>
+        <a href="https://github.com/KrisGray/opencarl">OpenCARL</a> — 
+        Rules that load when relevant, disappear when not.
+      </p>
+      <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+        Created by <a href="https://github.com/KrisGray">Kris Gray</a>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

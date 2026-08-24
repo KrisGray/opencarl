@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python Api Tutorial | OpenCARL</title>
+  <meta name="description" content="OpenCARL - Dynamic rule injection for OpenCode">
+  <style>
+:root {
+  --bg: #ffffff;
+  --fg: #1f2328;
+  --muted: #656d76;
+  --accent: #0969da;
+  --accent-hover: #0550ae;
+  --border: #d0d7de;
+  --code-bg: #f6f8fa;
+  --card-bg: #f6f8fa;
+  --success: #1a7f37;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d1117;
+    --fg: #e6edf3;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --accent-hover: #79c0ff;
+    --border: #30363d;
+    --code-bg: #161b22;
+    --card-bg: #161b22;
+    --success: #3fb950;
+  }
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif;
+  line-height: 1.6;
+  color: var(--fg);
+  background: var(--bg);
+}
+.container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+header {
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 100;
+}
+header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo { font-size: 1.5rem; font-weight: 700; }
+.logo a { color: var(--fg); text-decoration: none; }
+nav { display: flex; gap: 1.5rem; align-items: center; }
+nav a { color: var(--muted); text-decoration: none; font-size: 0.95rem; }
+nav a:hover, nav a.active { color: var(--accent); }
+
+main { padding: 3rem 0; }
+
+.page-title {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.page-title h1 { font-size: 2rem; }
+
+.content h2 { font-size: 1.5rem; margin: 2rem 0 1rem; }
+.content h3 { font-size: 1.25rem; margin: 1.5rem 0 0.75rem; }
+.content h4 { font-size: 1.1rem; margin: 1.25rem 0 0.5rem; }
+.content p { margin-bottom: 1rem; }
+.content ul, .content ol { margin-bottom: 1rem; padding-left: 1.5rem; }
+.content li { margin-bottom: 0.5rem; }
+.content a { color: var(--accent); }
+
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+code {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: 0.9em;
+}
+pre code { background: none; padding: 0; font-size: inherit; }
+:not(pre) > code {
+  background: var(--code-bg);
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+th, td {
+  border: 1px solid var(--border);
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+th { background: var(--card-bg); font-weight: 600; }
+
+blockquote {
+  border-left: 4px solid var(--accent);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: var(--muted);
+}
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem 0;
+  text-align: center;
+  color: var(--muted);
+}
+footer a { color: var(--accent); }
+
+.pill {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+}
+</style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="logo"><a href="../../">OpenCARL</a></div>
+      <nav>
+        <a href="../../#quick-start">Quick Start</a>
+        <a href="../../guides/">Guides</a>
+        <a href="../../tutorials/" class="active">Tutorials</a>
+        <a href="../../api/">API</a>
+        <a href="https://github.com/KrisGray/opencarl">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="page-title">
+      <h1>Python Api Tutorial</h1>
+    </div>
+    <div class="content">
+      <h1>Python API Project Tutorial</h1>
+<p>Learn OpenCARL by building a real project: a Python client that fetches gene information from the HGNC and NCBI Gene APIs using test-driven development.</p>
+<p><strong>What you&#39;ll build:</strong></p>
+<ul>
+<li>Python client for HGNC REST API (<code>rest.genenames.org</code>)</li>
+<li>NCBI Gene API integration</li>
+<li>Full pytest test suite with mocks</li>
+<li>Test-driven development workflow</li>
+</ul>
+<p><strong>Prerequisites:</strong></p>
+<ul>
+<li>Python 3.10+</li>
+<li>pytest installed</li>
+<li>Basic understanding of REST APIs</li>
+</ul>
+<hr>
+<h2>Step 1: Install OpenCARL</h2>
+<pre><code class="language-bash"># Create project directory
+mkdir gene-api-client
+cd gene-api-client
+
+# Initialize Python project
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# Install dependencies
+pip install pytest pytest-mock requests
+
+# Install OpenCARL
+npm install opencarl
+
+# Configure opencode.json
+echo &#39;{&quot;plugin&quot;: [&quot;opencarl&quot;]}&#39; &gt; opencode.json
+
+# Run OpenCARL setup
+npx opencarl --local
+</code></pre>
+<hr>
+<h2>Step 2: Create the DEVELOPMENT Domain</h2>
+<p>OpenCARL will automatically inject your development preferences when you mention keywords like &quot;write code&quot;, &quot;implement&quot;, or &quot;test&quot;.</p>
+<p>Use the <code>/opencarl</code> commands to create and populate the domain:</p>
+<pre><code># Create the domain with recall keywords
+/opencarl create DEVELOPMENT --recall &#39;write code, implement, test, fix bug, refactor, function, class&#39;
+
+# Add your development rules
+/opencarl add rule DEVELOPMENT &#39;Always write tests first (TDD)&#39;
+/opencarl add rule DEVELOPMENT &#39;Use pytest with mocks for external APIs&#39;
+/opencarl add rule DEVELOPMENT &#39;Never make real API calls in tests&#39;
+/opencarl add rule DEVELOPMENT &#39;Keep functions small and focused&#39;
+/opencarl add rule DEVELOPMENT &#39;Use type hints for all function signatures&#39;
+/opencarl add rule DEVELOPMENT &#39;Handle errors explicitly with try/except&#39;
+</code></pre>
+<p>This creates <code>.opencarl/development</code> and configures the manifest automatically.</p>
+<p><strong>What&#39;s happening behind the scenes:</strong></p>
+<pre><code># .opencarl/development
+DEVELOPMENT_RULE_0=Always write tests first (TDD)
+DEVELOPMENT_RULE_1=Use pytest with mocks for external APIs
+DEVELOPMENT_RULE_2=Never make real API calls in tests
+DEVELOPMENT_RULE_3=Keep functions small and focused
+DEVELOPMENT_RULE_4=Use type hints for all function signatures
+DEVELOPMENT_RULE_5=Handle errors explicitly with try/except
+
+# .opencarl/manifest (auto-configured)
+DEVELOPMENT_STATE=active
+DEVELOPMENT_RECALL=write code, implement, test, fix bug, refactor, function, class
+DEVELOPMENT_EXCLUDE=
+DEVELOPMENT_ALWAYS_ON=false
+</code></pre>
+<hr>
+<h2>Step 3: Test-Driven Development</h2>
+<p>Now when you work on this project, just mention relevant keywords and OpenCARL will load your rules:</p>
+<pre><code>You: help me implement a function to fetch gene data from HGNC API
+
+OpenCARL: [Loads DEVELOPMENT rules]
+  - Always write tests first (TDD)
+  - Use pytest with mocks for external APIs
+  - Never make real API calls in tests
+  - ...
+</code></pre>
+<h3>Example: Writing the First Test</h3>
+<p><strong>You:</strong> &quot;Write a test for fetching HGNC gene data by ID&quot;</p>
+<p>OpenCARL will guide you toward TDD with mocks:</p>
+<pre><code class="language-python"># tests/test_hgnc_client.py
+import pytest
+from unittest.mock import Mock, patch
+from hgnc_client import HGNCClient
+
+class TestHGNCClient:
+    def test_fetch_gene_by_id_success(self):
+        &quot;&quot;&quot;Test successful gene fetch by HGNC ID.&quot;&quot;&quot;
+        mock_response = {
+            &quot;responseHeader&quot;: {&quot;status&quot;: 0},
+            &quot;response&quot;: {
+                &quot;docs&quot;: [{
+                    &quot;hgnc_id&quot;: &quot;HGNC:5&quot;,
+                    &quot;symbol&quot;: &quot;A1BG&quot;,
+                    &quot;name&quot;: &quot;alpha-1-B glycoprotein&quot;,
+                    &quot;entrez_id&quot;: &quot;1&quot;
+                }]
+            }
+        }
+        
+        with patch(&#39;requests.get&#39;) as mock_get:
+            mock_get.return_value = Mock(
+                status_code=200,
+                json=lambda: mock_response
+            )
+            
+            client = HGNCClient()
+            result = client.fetch_by_hgnc_id(&quot;HGNC:5&quot;)
+            
+            assert result[&quot;symbol&quot;] == &quot;A1BG&quot;
+            assert result[&quot;entrez_id&quot;] == &quot;1&quot;
+            mock_get.assert_called_once_with(
+                &quot;https://rest.genenames.org/fetch/hgnc_id/HGNC:5&quot;,
+                headers={&quot;Accept&quot;: &quot;application/json&quot;}
+            )
+</code></pre>
+<h3>Then Implement</h3>
+<p><strong>You:</strong> &quot;Now implement the HGNC client to pass this test&quot;</p>
+<pre><code class="language-python"># src/hgnc_client.py
+import requests
+from typing import Optional, Dict, Any
+
+class HGNCClient:
+    BASE_URL = &quot;https://rest.genenames.org&quot;
+    
+    def __init__(self, timeout: int = 30):
+        self.timeout = timeout
+        self.headers = {&quot;Accept&quot;: &quot;application/json&quot;}
+    
+    def fetch_by_hgnc_id(self, hgnc_id: str) -&gt; Optional[Dict[str, Any]]:
+        &quot;&quot;&quot;Fetch gene data by HGNC ID.
+        
+        Args:
+            hgnc_id: HGNC identifier (e.g., &quot;HGNC:5&quot;)
+            
+        Returns:
+            Gene data dictionary or None if not found
+            
+        Raises:
+            requests.RequestException: On network errors
+        &quot;&quot;&quot;
+        url = f&quot;{self.BASE_URL}/fetch/hgnc_id/{hgnc_id}&quot;
+        
+        try:
+            response = requests.get(url, headers=self.headers, timeout=self.timeout)
+            response.raise_for_status()
+            
+            data = response.json()
+            docs = data.get(&quot;response&quot;, {}).get(&quot;docs&quot;, [])
+            
+            if docs:
+                return docs[0]
+            return None
+            
+        except requests.RequestException as e:
+            raise requests.RequestException(f&quot;Failed to fetch {hgnc_id}: {e}&quot;)
+</code></pre>
+<hr>
+<h2>Step 4: NCBI Gene Integration</h2>
+<p><strong>You:</strong> &quot;Write a test for fetching NCBI gene data using the entrez_id from HGNC&quot;</p>
+<pre><code class="language-python"># tests/test_ncbi_client.py
+import pytest
+from unittest.mock import Mock, patch
+from ncbi_client import NBIClient
+
+class TestNBIClient:
+    def test_fetch_gene_by_entrez_id_success(self):
+        &quot;&quot;&quot;Test successful gene fetch by NCBI Entrez ID.&quot;&quot;&quot;
+        mock_xml_response = &quot;&quot;&quot;&lt;?xml version=&quot;1.0&quot;?&gt;
+        &lt;Entrezgene-Set&gt;
+            &lt;Entrezgene&gt;
+                &lt;Entrezgene_gene-source&gt;
+                    &lt;Gene-source&gt;
+                        &lt;Gene-source_src-int&gt;1&lt;/Gene-source_src-int&gt;
+                    &lt;/Gene-source&gt;
+                &lt;/Entrezgene_gene-source&gt;
+                &lt;Entrezgene_summary&gt;Alpha-1-B glycoprotein&lt;/Entrezgene_summary&gt;
+            &lt;/Entrezgene&gt;
+        &lt;/Entrezgene-Set&gt;
+        &quot;&quot;&quot;
+        
+        with patch(&#39;requests.get&#39;) as mock_get:
+            mock_get.return_value = Mock(
+                status_code=200,
+                text=mock_xml_response
+            )
+            
+            client = NBIClient()
+            result = client.fetch_by_entrez_id(&quot;1&quot;)
+            
+            assert result is not None
+            mock_get.assert_called_once()
+</code></pre>
+<hr>
+<h2>Step 5: Integration Test</h2>
+<p><strong>You:</strong> &quot;Write an integration test that chains HGNC and NCBI calls (still mocked)&quot;</p>
+<pre><code class="language-python"># tests/test_integration.py
+import pytest
+from unittest.mock import Mock, patch
+from gene_service import GeneService
+
+class TestGeneService:
+    @patch(&#39;requests.get&#39;)
+    def test_fetch_complete_gene_report(self, mock_get):
+        &quot;&quot;&quot;Test fetching complete gene report from both APIs.&quot;&quot;&quot;
+        # Mock HGNC response
+        hgnc_response = Mock(
+            status_code=200,
+            json=lambda: {
+                &quot;response&quot;: {
+                    &quot;docs&quot;: [{
+                        &quot;hgnc_id&quot;: &quot;HGNC:5&quot;,
+                        &quot;symbol&quot;: &quot;A1BG&quot;,
+                        &quot;entrez_id&quot;: &quot;1&quot;
+                    }]
+                }
+            }
+        )
+        
+        # Mock NCBI response
+        ncbi_response = Mock(
+            status_code=200,
+            text=&quot;&lt;Entrezgene-Set&gt;&lt;Entrezgene&gt;&lt;Entrezgene_summary&gt;Test&lt;/Entrezgene_summary&gt;&lt;/Entrezgene&gt;&lt;/Entrezgene-Set&gt;&quot;
+        )
+        
+        mock_get.side_effect = [hgnc_response, ncbi_response]
+        
+        service = GeneService()
+        report = service.fetch_complete_report(&quot;HGNC:5&quot;)
+        
+        assert report[&quot;hgnc&quot;][&quot;symbol&quot;] == &quot;A1BG&quot;
+        assert report[&quot;ncbi&quot;][&quot;entrez_id&quot;] == &quot;1&quot;
+        assert mock_get.call_count == 2
+</code></pre>
+<hr>
+<h2>Step 6: Running Tests</h2>
+<pre><code class="language-bash"># Run all tests
+pytest tests/ -v
+
+# Run with coverage
+pytest tests/ --cov=src --cov-report=html
+
+# Run specific test file
+pytest tests/test_hgnc_client.py -v
+
+# Run tests matching pattern
+pytest tests/ -k &quot;hgnc&quot; -v
+</code></pre>
+<hr>
+<h2>Summary</h2>
+<p>With OpenCARL, your development preferences are always present:</p>
+<ol>
+<li><strong>Mention &quot;test&quot;</strong> → TDD rules load</li>
+<li><strong>Mention &quot;implement&quot;</strong> → Code quality rules load  </li>
+<li><strong>Mention &quot;api&quot;</strong> → Error handling rules load</li>
+</ol>
+<p>No need to repeat these preferences every session. They&#39;re automatically injected when relevant.</p>
+<hr>
+<h2>Next Steps</h2>
+<p>Use <code>/opencarl</code> commands to extend your setup:</p>
+<pre><code class="language-bash"># Create a TESTING domain for pytest-specific rules
+/opencarl create TESTING --recall &#39;pytest, assert, mock, fixture&#39;
+/opencarl add rule TESTING &#39;Use descriptive test names that explain the behavior&#39;
+/opencarl add rule TESTING &#39;One assertion per test when possible&#39;
+
+# Create a PYTHON domain for Python conventions
+/opencarl create PYTHON --recall &#39;python, py, pip, import&#39;
+/opencarl add rule PYTHON &#39;Follow PEP 8 style guidelines&#39;
+/opencarl add rule PYTHON &#39;Use f-strings for string formatting&#39;
+
+# Create star-commands for common workflows
+/opencarl add command tdd &#39;*tdd - Test-driven development workflow&#39;
+/opencarl add command tdd &#39;Write the test first, then implement&#39;
+/opencarl add command tdd &#39;Run tests after each change&#39;
+
+/opencarl add command review &#39;*review - Code review checklist&#39;
+/opencarl add command review &#39;Check for edge cases&#39;
+/opencarl add command review &#39;Verify error handling&#39;
+</code></pre>
+<p><strong>Other useful commands:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/opencarl list domains</code></td>
+<td>See all configured domains</td>
+</tr>
+<tr>
+<td><code>/opencarl view DEVELOPMENT</code></td>
+<td>View rules in a domain</td>
+</tr>
+<tr>
+<td><code>/opencarl edit DEVELOPMENT 2 &#39;New rule text&#39;</code></td>
+<td>Edit a specific rule</td>
+</tr>
+<tr>
+<td><code>/opencarl toggle TESTING inactive</code></td>
+<td>Temporarily disable a domain</td>
+</tr>
+<tr>
+<td><code>/opencarl suggest &#39;Use dataclasses for data containers&#39;</code></td>
+<td>Get domain suggestions</td>
+</tr>
+</tbody></table>
+<p>See the <a href="https://krisgray.github.io/opencarl/">full documentation</a> for more on creating custom domains and star-commands.</p>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>
+        <a href="https://github.com/KrisGray/opencarl">OpenCARL</a> — 
+        Rules that load when relevant, disappear when not.
+      </p>
+      <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+        Created by <a href="https://github.com/KrisGray">Kris Gray</a>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

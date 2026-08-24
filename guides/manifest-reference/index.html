@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MANIFEST REFERENCE | OpenCARL</title>
+  <meta name="description" content="OpenCARL - Dynamic rule injection for OpenCode">
+  <style>
+:root {
+  --bg: #ffffff;
+  --fg: #1f2328;
+  --muted: #656d76;
+  --accent: #0969da;
+  --accent-hover: #0550ae;
+  --border: #d0d7de;
+  --code-bg: #f6f8fa;
+  --card-bg: #f6f8fa;
+  --success: #1a7f37;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d1117;
+    --fg: #e6edf3;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --accent-hover: #79c0ff;
+    --border: #30363d;
+    --code-bg: #161b22;
+    --card-bg: #161b22;
+    --success: #3fb950;
+  }
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif;
+  line-height: 1.6;
+  color: var(--fg);
+  background: var(--bg);
+}
+.container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+header {
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 100;
+}
+header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo { font-size: 1.5rem; font-weight: 700; }
+.logo a { color: var(--fg); text-decoration: none; }
+nav { display: flex; gap: 1.5rem; align-items: center; }
+nav a { color: var(--muted); text-decoration: none; font-size: 0.95rem; }
+nav a:hover, nav a.active { color: var(--accent); }
+
+main { padding: 3rem 0; }
+
+.page-title {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.page-title h1 { font-size: 2rem; }
+
+.content h2 { font-size: 1.5rem; margin: 2rem 0 1rem; }
+.content h3 { font-size: 1.25rem; margin: 1.5rem 0 0.75rem; }
+.content h4 { font-size: 1.1rem; margin: 1.25rem 0 0.5rem; }
+.content p { margin-bottom: 1rem; }
+.content ul, .content ol { margin-bottom: 1rem; padding-left: 1.5rem; }
+.content li { margin-bottom: 0.5rem; }
+.content a { color: var(--accent); }
+
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+code {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: 0.9em;
+}
+pre code { background: none; padding: 0; font-size: inherit; }
+:not(pre) > code {
+  background: var(--code-bg);
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+th, td {
+  border: 1px solid var(--border);
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+th { background: var(--card-bg); font-weight: 600; }
+
+blockquote {
+  border-left: 4px solid var(--accent);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: var(--muted);
+}
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem 0;
+  text-align: center;
+  color: var(--muted);
+}
+footer a { color: var(--accent); }
+
+.pill {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+}
+</style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="logo"><a href="../../">OpenCARL</a></div>
+      <nav>
+        <a href="../../#quick-start">Quick Start</a>
+        <a href="../../guides/" class="active">Guides</a>
+        <a href="../../tutorials/">Tutorials</a>
+        <a href="../../api/">API</a>
+        <a href="https://github.com/KrisGray/opencarl">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="page-title">
+      <h1>MANIFEST REFERENCE</h1>
+    </div>
+    <div class="content">
+      <h1>Manifest Reference</h1>
+<h2>Location</h2>
+<p><code>.opencarl/manifest</code> (no extension)</p>
+<h2>Format</h2>
+<pre><code>KEY=VALUE
+</code></pre>
+<ul>
+<li>No spaces around <code>=</code></li>
+<li>One entry per line</li>
+<li>Lines starting with <code>#</code> are comments</li>
+<li>Empty lines allowed</li>
+</ul>
+<h2>Domain Entries</h2>
+<p>Each domain has four manifest entries:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Values</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>{DOMAIN}_STATE</code></td>
+<td><code>active</code> / <code>inactive</code></td>
+<td>Enable/disable domain</td>
+</tr>
+<tr>
+<td><code>{DOMAIN}_RECALL</code></td>
+<td>comma-separated</td>
+<td>Keywords that trigger injection</td>
+</tr>
+<tr>
+<td><code>{DOMAIN}_EXCLUDE</code></td>
+<td>comma-separated</td>
+<td>Keywords that prevent injection</td>
+</tr>
+<tr>
+<td><code>{DOMAIN}_ALWAYS_ON</code></td>
+<td><code>true</code> / <code>false</code></td>
+<td>Always inject regardless of recall</td>
+</tr>
+</tbody></table>
+<h3>STATE</h3>
+<p>Controls whether domain is enabled.</p>
+<ul>
+<li><code>active</code> - Domain can be injected (if conditions met)</li>
+<li><code>inactive</code> - Domain never injected</li>
+</ul>
+<h3>RECALL</h3>
+<p>Comma-separated keywords that trigger injection.</p>
+<ul>
+<li>Matched against user&#39;s prompt</li>
+<li>Case-insensitive matching</li>
+<li>Partial word matches (e.g., &quot;test&quot; matches &quot;testing&quot;)</li>
+</ul>
+<p>Example:</p>
+<pre><code>DEVELOPMENT_RECALL=*dev, write code, fix bug, programming
+</code></pre>
+<h3>EXCLUDE</h3>
+<p>Comma-separated keywords that prevent injection.</p>
+<ul>
+<li>Checked after recall matches</li>
+<li>If exclude keyword found, domain skipped</li>
+<li>Useful for edge cases</li>
+</ul>
+<p>Example:</p>
+<pre><code>DEVELOPMENT_EXCLUDE=documentation only, no code
+</code></pre>
+<h3>ALWAYS_ON</h3>
+<p>When <code>true</code>, domain injects regardless of recall keywords.</p>
+<ul>
+<li>Typically used for GLOBAL and CONTEXT</li>
+<li>STATE still respected (inactive = no injection)</li>
+</ul>
+<h2>Global Settings</h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Values</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>DOMAIN_ORDER</code></td>
+<td>comma-separated</td>
+<td>Injection sequence</td>
+</tr>
+<tr>
+<td><code>DEVMODE</code></td>
+<td><code>true</code> / <code>false</code></td>
+<td>Show debug output</td>
+</tr>
+</tbody></table>
+<h3>DOMAIN_ORDER</h3>
+<p>Controls order domains are injected:</p>
+<pre><code>DOMAIN_ORDER=GLOBAL,CONTEXT,DEVELOPMENT,PROJECTS,COMMANDS
+</code></pre>
+<ul>
+<li>Domains not in list injected after (alphabetically)</li>
+<li>GLOBAL typically first</li>
+<li>COMMANDS typically last</li>
+</ul>
+<h3>DEVMODE</h3>
+<p>When <code>true</code>, adds debug block to responses:</p>
+<pre><code>DEVMODE=true
+</code></pre>
+<p>Debug output shows:</p>
+<ul>
+<li>Domains loaded</li>
+<li>Rules applied</li>
+<li>Decision reasoning</li>
+</ul>
+<h2>Complete Example</h2>
+<pre><code># OpenCARL Manifest
+# ==================
+
+# Global Settings
+DOMAIN_ORDER=GLOBAL,CONTEXT,DEVELOPMENT,PROJECTS,COMMANDS
+DEVMODE=false
+
+# Core Domains
+GLOBAL_STATE=active
+GLOBAL_RECALL=
+GLOBAL_EXCLUDE=
+GLOBAL_ALWAYS_ON=true
+
+CONTEXT_STATE=active
+CONTEXT_RECALL=
+CONTEXT_EXCLUDE=
+CONTEXT_ALWAYS_ON=true
+
+COMMANDS_STATE=active
+COMMANDS_RECALL=
+COMMANDS_EXCLUDE=
+COMMANDS_ALWAYS_ON=false
+
+# Custom Domains
+DEVELOPMENT_STATE=active
+DEVELOPMENT_RECALL=*dev, write code, fix bug, implement feature
+DEVELOPMENT_EXCLUDE=documentation only
+DEVELOPMENT_ALWAYS_ON=false
+
+PROJECTS_STATE=active
+PROJECTS_RECALL=project status, ACTIVE.md, deadline, target date
+PROJECTS_EXCLUDE=
+PROJECTS_ALWAYS_ON=false
+
+TESTING_STATE=active
+TESTING_RECALL=test, testing, TDD, unit test
+TESTING_EXCLUDE=
+TESTING_ALWAYS_ON=false
+</code></pre>
+<h2>Validation Checklist</h2>
+<p>When editing manifest:</p>
+<ul>
+<li><input disabled="" type="checkbox"> All keys use <code>=</code> delimiter</li>
+<li><input disabled="" type="checkbox"> No trailing whitespace</li>
+<li><input disabled="" type="checkbox"> STATE values are <code>active</code> or <code>inactive</code></li>
+<li><input disabled="" type="checkbox"> ALWAYS_ON values are <code>true</code> or <code>false</code></li>
+<li><input disabled="" type="checkbox"> RECALL keywords are comma-separated</li>
+<li><input disabled="" type="checkbox"> Each domain has all four entries</li>
+</ul>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>
+        <a href="https://github.com/KrisGray/opencarl">OpenCARL</a> — 
+        Rules that load when relevant, disappear when not.
+      </p>
+      <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+        Created by <a href="https://github.com/KrisGray">Kris Gray</a>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Troubleshooting | OpenCARL</title>
+  <meta name="description" content="OpenCARL - Dynamic rule injection for OpenCode">
+  <style>
+:root {
+  --bg: #ffffff;
+  --fg: #1f2328;
+  --muted: #656d76;
+  --accent: #0969da;
+  --accent-hover: #0550ae;
+  --border: #d0d7de;
+  --code-bg: #f6f8fa;
+  --card-bg: #f6f8fa;
+  --success: #1a7f37;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d1117;
+    --fg: #e6edf3;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --accent-hover: #79c0ff;
+    --border: #30363d;
+    --code-bg: #161b22;
+    --card-bg: #161b22;
+    --success: #3fb950;
+  }
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif;
+  line-height: 1.6;
+  color: var(--fg);
+  background: var(--bg);
+}
+.container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+header {
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 100;
+}
+header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo { font-size: 1.5rem; font-weight: 700; }
+.logo a { color: var(--fg); text-decoration: none; }
+nav { display: flex; gap: 1.5rem; align-items: center; }
+nav a { color: var(--muted); text-decoration: none; font-size: 0.95rem; }
+nav a:hover, nav a.active { color: var(--accent); }
+
+main { padding: 3rem 0; }
+
+.page-title {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.page-title h1 { font-size: 2rem; }
+
+.content h2 { font-size: 1.5rem; margin: 2rem 0 1rem; }
+.content h3 { font-size: 1.25rem; margin: 1.5rem 0 0.75rem; }
+.content h4 { font-size: 1.1rem; margin: 1.25rem 0 0.5rem; }
+.content p { margin-bottom: 1rem; }
+.content ul, .content ol { margin-bottom: 1rem; padding-left: 1.5rem; }
+.content li { margin-bottom: 0.5rem; }
+.content a { color: var(--accent); }
+
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+code {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: 0.9em;
+}
+pre code { background: none; padding: 0; font-size: inherit; }
+:not(pre) > code {
+  background: var(--code-bg);
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+th, td {
+  border: 1px solid var(--border);
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+th { background: var(--card-bg); font-weight: 600; }
+
+blockquote {
+  border-left: 4px solid var(--accent);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: var(--muted);
+}
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem 0;
+  text-align: center;
+  color: var(--muted);
+}
+footer a { color: var(--accent); }
+
+.pill {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+}
+</style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="logo"><a href="../">OpenCARL</a></div>
+      <nav>
+        <a href="../#quick-start">Quick Start</a>
+        <a href="../guides/">Guides</a>
+        <a href="../tutorials/">Tutorials</a>
+        <a href="../api/">API</a>
+        <a href="https://github.com/KrisGray/opencarl">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="page-title">
+      <h1>Troubleshooting</h1>
+    </div>
+    <div class="content">
+      <h1>OpenCARL Troubleshooting Guide</h1>
+<p>This guide helps you solve common OpenCARL problems without external support. Each problem includes diagnosis steps and copy-pasteable solutions.</p>
+<hr>
+<h2>Quick Diagnosis Checklist</h2>
+<p>Run these 5 checks first to identify most issues:</p>
+<p><strong>1. Check plugin is loaded</strong></p>
+<pre><code class="language-bash"># Look for OpenCARL in your OpenCode config
+cat .opencode/opencode.json | grep -i opencarl
+</code></pre>
+<p>Expected: <code>&quot;plugins&quot;</code> array contains OpenCARL plugin path</p>
+<p><strong>2. Check .opencarl/ directory exists</strong></p>
+<pre><code class="language-bash"># Global rules
+ls -la ~/.opencarl/manifest
+
+# Project rules (if using)
+ls -la .opencarl/manifest
+</code></pre>
+<p>Expected: Manifest file exists and is readable</p>
+<p><strong>3. Check domain state</strong></p>
+<pre><code class="language-bash"># View manifest
+cat ~/.opencarl/manifest | grep STATE
+</code></pre>
+<p>Expected: At least one domain has <code>STATE=active</code></p>
+<p><strong>4. Test keyword matching</strong></p>
+<pre><code class="language-bash"># Enable debug mode
+export OPENCARL_DEBUG=true
+# Then trigger OpenCode with a recall keyword like &quot;fix bug&quot;
+</code></pre>
+<p>Expected: Debug output shows domain matching</p>
+<p><strong>5. Verify domain file names</strong></p>
+<pre><code class="language-bash"># List domain files
+ls ~/.opencarl/ | grep -v manifest | grep -v global | grep -v commands | grep -v context
+</code></pre>
+<p>Expected: All domain files are lowercase with NO extension (e.g., <code>development</code> not <code>Development.txt</code>)</p>
+<hr>
+<h2>Common Problems</h2>
+<h3>Installation Issues</h3>
+<h4>Problem: Plugin not loading after install</h4>
+<p><strong>Symptoms:</strong></p>
+<ul>
+<li>Rules don&#39;t appear in context</li>
+<li><code>*opencarl</code> command doesn&#39;t work</li>
+<li>No OpenCARL-related output when starting OpenCode</li>
+</ul>
+<p><strong>Diagnosis:</strong></p>
+<ol>
+<li><p>Check if plugin path is correct in <code>opencode.json</code>:</p>
+<pre><code class="language-bash">cat .opencode/opencode.json | grep -A 10 plugins
+</code></pre>
+</li>
+<li><p>Verify plugin file exists:</p>
+<pre><code class="language-bash">ls -la .opencode/plugins/opencarl-plugin/index.js
+</code></pre>
+</li>
+<li><p>Check for JavaScript errors:</p>
+<pre><code class="language-bash">export OPENCARL_DEBUG=true
+# Restart OpenCode and check for error messages
+</code></pre>
+</li>
+</ol>
+<p><strong>Solution:</strong></p>
+<p>If plugin path is missing, add it to <code>~/.config/opencode/opencode.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;plugin&quot;: [&quot;opencarl&quot;]
+}
+</code></pre>
+<p>If plugin file doesn&#39;t exist, reinstall:</p>
+<pre><code class="language-bash"># Reinstall from npm
+npm install opencarl
+
+# Or reinstall from local
+npx opencarl --local
+</code></pre>
+<p><strong>Still failing?</strong> Check file permissions:</p>
+<pre><code class="language-bash">chmod +x .opencode/plugins/opencarl-plugin/index.js
+chmod -R 755 .opencode/plugins/opencarl-plugin/
+</code></pre>
+<hr>
+<h4>Problem: Setup command not found</h4>
+<p><strong>Symptoms:</strong></p>
+<ul>
+<li><code>npx opencarl-setup</code> returns &quot;command not found&quot;</li>
+<li>Package appears installed but CLI isn&#39;t accessible</li>
+</ul>
+<p><strong>Diagnosis:</strong></p>
+<pre><code class="language-bash"># Check if package is installed
+npm list opencarl
+
+# Check if binary exists
+ls node_modules/.bin/opencarl-setup
+</code></pre>
+<p><strong>Solution:</strong></p>
+<p>If package not installed:</p>
+<pre><code class="language-bash">npm install opencarl
+</code></pre>
+<p>If binary missing but package installed:</p>
+<pre><code class="language-bash"># Clear npm cache and reinstall
+rm -rf node_modules
+npm install
+</code></pre>
+<p>If using global install:</p>
+<pre><code class="language-bash">npm install -g opencarl
+opencarl-setup
+</code></pre>
+<hr>
+<h3>Rule Loading Issues</h3>
+<h4>Problem: Rules not appearing in context</h4>
+<p><strong>Symptoms:</strong></p>
+<ul>
+<li>OpenCARL is loaded but rules don&#39;t inject</li>
+<li>Specific domains not loading when expected</li>
+<li>Debug mode shows domain matching but no rules</li>
+</ul>
+<p><strong>Diagnosis:</strong></p>
+<ol>
+<li><p>Check manifest STATE:</p>
+<pre><code class="language-bash">cat ~/.opencarl/manifest | grep STATE
+</code></pre>
+<p>Expected: At least one domain shows <code>DOMAIN_STATE=active</code></p>
+</li>
+<li><p>Verify recall keywords match your prompt:</p>
+<pre><code class="language-bash">cat ~/.opencarl/manifest | grep RECALL
+</code></pre>
+<p>Example: <code>DEVELOPMENT_RECALL=fix bug, write code, implement</code></p>
+</li>
+<li><p>Test with debug mode:</p>
+<pre><code class="language-bash">export OPENCARL_DEBUG=true
+# Trigger OpenCode with a recall keyword
+</code></pre>
+</li>
+</ol>
+<p><strong>Solution:</strong></p>
+<p>If STATE is inactive, enable the domain:</p>
+<pre><code class="language-bash"># Edit manifest
+nano ~/.opencarl/manifest
+
+# Change:
+DEVELOPMENT_STATE=inactive
+# To:
+DEVELOPMENT_STATE=active
+</code></pre>
+<p>If recall keywords don&#39;t match, update them:</p>
+<pre><code class="language-bash"># Add more keywords
+DEVELOPMENT_RECALL=fix bug, write code, implement, refactor, debug
+</code></pre>
+<p>If domain file is missing, create it:</p>
+<pre><code class="language-bash"># Create domain file (lowercase, no extension)
+cat &gt; ~/.opencarl/development &lt;&lt; &#39;EOF&#39;
+DEVELOPMENT_RULE_0=Code over explanation - show, don&#39;t tell
+DEVELOPMENT_RULE_1=Prefer editing existing files over creating new
+EOF
+</code></pre>
+<p><strong>Still not loading?</strong> Check for manifest syntax errors:</p>
+<pre><code class="language-bash"># Look for malformed lines
+cat ~/.opencarl/manifest | grep -v &quot;^#&quot; | grep -v &quot;=&quot;
+# Should return nothing (all non-comment lines should have &quot;=&quot;)
+</code></pre>
+<hr>
+<h4>Problem: Project rules not loading</h4>
+<p><strong>Symptoms:</strong></p>
+<ul>
+<li>Global rules work but <code>.opencarl/</code> in project is ignored</li>
+<li>Debug shows &quot;project&quot; status as &quot;none&quot; or &quot;invalid&quot;</li>
+</ul>
+<p><strong>Diagnosis:</strong></p>
+<pre><code class="language-bash"># Check if project .opencarl/ exists
+ls -la .opencarl/manifest
+
+# Enable debug to see project status
+export OPENCARL_DEBUG=true
+</code></pre>
+<p><strong>Solution:</strong></p>
+<p>Project rules require explicit opt-in. If using the loader directly, ensure <code>projectOptIn: true</code>:</p>
+<pre><code class="language-typescript">// In your plugin or loader call
+loadOpencarlRules({ projectOptIn: true })
+</code></pre>
+<p>If manifest is invalid, check for syntax errors:</p>
+<pre><code class="language-bash"># Validate manifest
+cat .opencarl/manifest | grep &quot;=&quot; | wc -l
+# Should match number of non-comment lines
+
+# Check for common issues:
+# - Missing &quot;=&quot; in line
+# - Invalid STATE values (must be &quot;active&quot; or &quot;inactive&quot;)
+# - Typos in domain names (must be UPPERCASE)
+</code></pre>
+<p>If manifest is valid but rules still don&#39;t load:</p>
+<pre><code class="language-bash"># Check domain file names
+ls .opencarl/ | grep -v manifest
+
+# Names must be lowercase with NO extension:
+# ✓ development
+# ✓ commands
+# ✗ Development.txt
+# ✗ development.rules
+</code></pre>
+<hr>
+<h4>Problem: Domain file ignored</h4>
+<p><strong>Symptoms:</strong></p>
+<ul>
+<li>Domain appears in manifest but rules never load</li>
+<li>Debug output shows &quot;Missing domain file&quot; warning</li>
+</ul>
+<p><strong>Diagnosis:</strong></p>
+<pre><code class="language-bash"># Check domain file location
+ls -la ~/.opencarl/ | grep -i development
+
+# Check manifest domain name
+cat ~/.opencarl/manifest | grep DEVELOPMENT_STATE
+</code></pre>
+<p><strong>Solution:</strong></p>
+<p>Domain filenames must be lowercase with NO file extension:</p>
+<pre><code class="language-bash"># Wrong:
+~/.opencarl/Development.txt
+~/.opencarl/development.rules
+
+# Right:
+~/.opencarl/development
+
+# Rename if needed:
+mv ~/.opencarl/Development.txt ~/.opencarl/development
+</code></pre>
+<p>The domain name in manifest must be UPPERCASE:</p>
+<pre><code class="language-bash"># Wrong:
+development_STATE=active
+
+# Right:
+DEVELOPMENT_STATE=active
+</code></pre>
+<hr>
+<h3>Matching Issues</h3>
+<h4>Problem: Wrong rules loading</h4>
+<p><strong>Symptoms:</strong></p>
+<ul>
+<li>Rules from wrong domain appear in context</li>
+<li>Too many rules loading at once</li>
+<li>Irrelevant rules injected for simple tasks</li>
+</ul>
+<p><strong>Diagnosis:</strong></p>
+<pre><code class="language-bash"># Check recall keywords for all domains
+cat ~/.opencarl/manifest | grep RECALL
+</code></pre>
+<p><strong>Solution:</strong></p>
+<p>Make recall keywords more specific. Avoid overly broad terms:</p>
+<p><strong>Before (too broad):</strong></p>
+<pre><code>DEVELOPMENT_RECALL=code, test, build
+</code></pre>
+<p><strong>After (specific):</strong></p>
+<pre><code>DEVELOPMENT_RECALL=fix bug, implement feature, refactor code
+</code></pre>
+<p>Use EXCLUDE to prevent unwanted matches:</p>
+<pre><code class="language-bash"># Prevent DEVELOPMENT from loading during docs work
+DEVELOPMENT_EXCLUDE=documentation, readme, docs
+</code></pre>
+<p><strong>Example: Separating domains</strong></p>
+<pre><code class="language-bash"># In manifest:
+DEVELOPMENT_RECALL=fix bug, implement feature, refactor
+TESTING_RECALL=write test, unit test, integration test
+DOCUMENTATION_RECALL=write docs, update readme
+
+# Each domain has specific, non-overlapping keywords
+</code></pre>
+<hr>
+<h4>Problem: Rules loading when they shouldn&#39;t</h4>
+<p><strong>Symptoms:</strong></p>
+<ul>
+<li>Domain loads even when you&#39;re doing unrelated work</li>
+<li>Can&#39;t prevent domain from loading with certain keywords</li>
+</ul>
+<p><strong>Diagnosis:</strong></p>
+<pre><code class="language-bash"># Check for ALWAYS_ON setting
+cat ~/.opencarl/manifest | grep ALWAYS_ON
+
+# Check EXCLUDE patterns
+cat ~/.opencarl/manifest | grep EXCLUDE
+</code></pre>
+<p><strong>Solution:</strong></p>
+<p>If domain has <code>ALWAYS_ON=true</code>, it loads every session:</p>
+<pre><code class="language-bash"># Disable ALWAYS_ON
+MYDOMAIN_ALWAYS_ON=false
+</code></pre>
+<p>Add EXCLUDE keywords to prevent loading in specific contexts:</p>
+<pre><code class="language-bash"># Don&#39;t load DEVELOPMENT during documentation
+DEVELOPMENT_EXCLUDE=documentation, readme, docs
+
+# Don&#39;t load TESTING during deployment
+TESTING_EXCLUDE=deploy, production, release
+</code></pre>
+<hr>
+<h3>Integration Issues</h3>
+<h4>Problem: AGENTS.md integration fails</h4>
+<p><strong>Symptoms:</strong></p>
+<ul>
+<li>OpenCARL guidance doesn&#39;t appear in AGENTS.md</li>
+<li>&quot;OpenCARL markers not found&quot; error</li>
+<li>Duplicate OpenCARL sections in AGENTS.md</li>
+</ul>
+<p><strong>Diagnosis:</strong></p>
+<pre><code class="language-bash"># Check if AGENTS.md exists
+ls -la AGENTS.md
+
+# Check for OpenCARL markers
+grep &quot;&lt;!-- OPENCARL:&quot; AGENTS.md
+</code></pre>
+<p><strong>Solution:</strong></p>
+<p>OpenCARL uses HTML comment markers for reversible integration:</p>
+<pre><code class="language-markdown">&lt;!-- OPENCARL:START --&gt;
+OpenCARL usage guidance here
+&lt;!-- OPENCARL:END --&gt;
+</code></pre>
+<p>If markers are missing, add them manually:</p>
+<pre><code class="language-bash">cat &gt;&gt; AGENTS.md &lt;&lt; &#39;EOF&#39;
+
+&lt;!-- OPENCARL:START --&gt;
+## OpenCARL Integration
+
+This project uses OpenCARL for dynamic rule injection.
+
+- `*opencarl` - Enter help mode
+- `/opencarl list` - Show all domains
+- `/opencarl view DOMAIN` - Show rules in a domain
+
+See `~/.opencarl/manifest` for domain configuration.
+&lt;!-- OPENCARL:END --&gt;
+EOF
+</code></pre>
+<p>If duplicate sections exist, remove the duplicates:</p>
+<pre><code class="language-bash"># Find duplicates
+grep -n &quot;OPENCARL:START&quot; AGENTS.md
+
+# Manually edit to remove duplicates
+nano AGENTS.md
+</code></pre>
+<p>Check file permissions:</p>
+<pre><code class="language-bash"># Ensure AGENTS.md is writable
+chmod 644 AGENTS.md
+</code></pre>
+<hr>
+<h4>Problem: opencode.json integration fails</h4>
+<p><strong>Symptoms:</strong></p>
+<ul>
+<li>OpenCARL docs not appearing in <code>instructions</code></li>
+<li>JSON parsing errors</li>
+<li>Plugin not loading after config change</li>
+</ul>
+<p><strong>Diagnosis:</strong></p>
+<pre><code class="language-bash"># Validate JSON syntax
+node -e &quot;console.log(JSON.parse(require(&#39;fs&#39;).readFileSync(&#39;.opencode/opencode.json&#39;, &#39;utf8&#39;)))&quot;
+
+# Check current instructions
+cat .opencode/opencode.json | grep -A 10 instructions
+</code></pre>
+<p><strong>Solution:</strong></p>
+<p>If JSON is invalid, fix syntax:</p>
+<pre><code class="language-bash"># Common issues:
+# - Trailing comma in last array element
+# - Missing closing brace
+# - Unclosed string literal
+
+# Validate with jq (if installed)
+jq . .opencode/opencode.json
+</code></pre>
+<p>Add OpenCARL docs to instructions:</p>
+<pre><code class="language-json">{
+  &quot;instructions&quot;: [
+    &quot;Existing instruction&quot;,
+    &quot;Include OpenCARL documentation when user asks about rules or domains&quot;
+  ]
+}
+</code></pre>
+<p>If permissions are wrong:</p>
+<pre><code class="language-bash">chmod 644 .opencode/opencode.json
+</code></pre>
+<hr>
+<h2>Debug Mode</h2>
+<p>Breaking change: the debug environment variable is now OPENCARL_DEBUG. See README.md for the breaking change notice and migration details.</p>
+<p>OpenCARL includes a debug mode for troubleshooting rule loading and matching.</p>
+<h3>Enable Debug Mode</h3>
+<p><strong>Option 1: Environment variable</strong></p>
+<pre><code class="language-bash">export OPENCARL_DEBUG=true
+# Restart OpenCode
+</code></pre>
+<p><strong>Option 2: In manifest</strong></p>
+<pre><code class="language-bash"># Add to ~/.opencarl/manifest
+DEVMODE=true
+</code></pre>
+<h3>What Debug Mode Shows</h3>
+<p>When enabled, OpenCARL logs:</p>
+<ul>
+<li>Which domains are active</li>
+<li>Keyword matching results</li>
+<li>Which rules are injected</li>
+<li>Manifest parsing warnings</li>
+<li>Domain file loading errors</li>
+</ul>
+<h3>Example Debug Output</h3>
+<pre><code>[OpenCARL Debug] Loading rules from: /Users/you/.opencarl/
+[OpenCARL Debug] Active domains: DEVELOPMENT, TESTING, GLOBAL
+[OpenCARL Debug] Prompt keywords: [fix, bug, in, auth]
+[OpenCARL Debug] Matched domain: DEVELOPMENT (keyword: &quot;fix bug&quot;)
+[OpenCARL Debug] Injected 3 rules from DEVELOPMENT
+[OpenCARL Debug] Warning: Missing domain file for TESTING at /Users/you/.opencarl/testing
+</code></pre>
+<h3>Disable Debug Mode</h3>
+<pre><code class="language-bash">export OPENCARL_DEBUG=false
+# Or remove from manifest
+DEVMODE=false
+</code></pre>
+<hr>
+<h2>Getting Help</h2>
+<h3>When to File an Issue</h3>
+<p>File a GitHub issue if:</p>
+<ul>
+<li>Debug mode doesn&#39;t reveal the problem</li>
+<li>You&#39;ve tried all solutions in this guide</li>
+<li>You suspect a bug in OpenCARL itself</li>
+<li>Documentation is unclear or missing</li>
+</ul>
+<h3>Before Filing an Issue</h3>
+<ol>
+<li><p><strong>Enable debug mode and capture output:</strong></p>
+<pre><code class="language-bash">export OPENCARL_DEBUG=true
+# Reproduce the issue
+# Copy debug output
+</code></pre>
+</li>
+<li><p><strong>Check your configuration:</strong></p>
+<pre><code class="language-bash"># Gather info
+echo &quot;=== Manifest ===&quot; &amp;&amp; cat ~/.opencarl/manifest
+echo &quot;=== Domain files ===&quot; &amp;&amp; ls -la ~/.opencarl/
+echo &quot;=== OpenCode config ===&quot; &amp;&amp; cat .opencode/opencode.json
+</code></pre>
+</li>
+<li><p><strong>Test with minimal config:</strong></p>
+<pre><code class="language-bash"># Backup existing config
+</code></pre>
+</li>
+</ol>
+<p>mv ~/.opencarl ~/.opencarl.backup</p>
+<h1>Create minimal test config</h1>
+<p>mkdir ~/.opencarl
+cat &gt; ~/.opencarl/manifest &lt;&lt; &#39;EOF&#39;
+   GLOBAL_STATE=active
+   GLOBAL_RECALL=test
+   GLOBAL_EXCLUDE=
+   GLOBAL_ALWAYS_ON=false
+   EOF</p>
+<p>cat &gt; ~/.opencarl/global &lt;&lt; &#39;EOF&#39;
+   GLOBAL_RULE_0=Test rule
+   EOF</p>
+<h1>Test if issue persists</h1>
+<pre><code>
+### What to Include in Your Issue
+
+1. **Debug output** (with OPENCARL_DEBUG=true)
+2. **Manifest contents** (`cat ~/.opencarl/manifest`)
+3. **Domain file list** (`ls -la ~/.opencarl/`)
+4. **OpenCode version** (if relevant)
+5. **Steps to reproduce**
+6. **Expected behavior**
+7. **Actual behavior**
+
+### Issue Template
+
+```markdown
+**Description:**
+[Clear description of the problem]
+
+**Steps to reproduce:**
+1. Step 1
+2. Step 2
+3. ...
+
+**Expected behavior:**
+[What should happen]
+
+**Actual behavior:**
+[What actually happens]
+
+**Debug output:**
+</code></pre>
+<p>[Paste debug output here]</p>
+<pre><code>
+**Configuration:**
+- Manifest: [paste `cat ~/.opencarl/manifest`]
+- Domain files: [paste `ls -la ~/.opencarl/`]
+- OpenCode version: [version]
+
+**Additional context:**
+[Any other relevant information]
+</code></pre>
+<hr>
+<h2>Quick Reference</h2>
+<table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>Quick Fix</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Plugin not loading</td>
+<td>Check <code>.opencode/opencode.json</code> plugins array</td>
+</tr>
+<tr>
+<td>Rules not appearing</td>
+<td>Check <code>STATE=active</code> in manifest</td>
+</tr>
+<tr>
+<td>Wrong rules loading</td>
+<td>Make recall keywords more specific</td>
+</tr>
+<tr>
+<td>Domain file ignored</td>
+<td>Filename must be lowercase, no extension</td>
+</tr>
+<tr>
+<td>Star-command not working</td>
+<td>Ensure <code>COMMANDS_STATE=active</code> in manifest</td>
+</tr>
+<tr>
+<td>Debug mode</td>
+<td><code>export OPENCARL_DEBUG=true</code></td>
+</tr>
+<tr>
+<td>View all domains</td>
+<td><code>/opencarl list</code></td>
+</tr>
+<tr>
+<td>View domain rules</td>
+<td><code>/opencarl view DOMAIN</code></td>
+</tr>
+<tr>
+<td>Enable debug in manifest</td>
+<td><code>DEVMODE=true</code></td>
+</tr>
+</tbody></table>
+<hr>
+<p><em>For more information, see the <a href="resources/docs/OPENCARL-DOCS.md">OpenCARL Documentation</a> or visit <a href="https://github.com/KrisGray/opencarl">GitHub</a></em></p>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>
+        <a href="https://github.com/KrisGray/opencarl">OpenCARL</a> — 
+        Rules that load when relevant, disappear when not.
+      </p>
+      <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+        Created by <a href="https://github.com/KrisGray">Kris Gray</a>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>
